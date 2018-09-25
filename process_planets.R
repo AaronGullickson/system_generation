@@ -1,5 +1,5 @@
 library(xml2)
-planets <- read_xml("planets.xml")
+planets <- read_xml("data/planets.xml")
 
 planet.table <- NULL
 target.year <- 3067
