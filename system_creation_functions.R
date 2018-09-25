@@ -1,4 +1,4 @@
-#This script contains functions for creating planets
+#This script contains functions for creating systems and planets
 
 roll_d6 <- function(n) {
   return(sum(sample(1:6, n, replace=FALSE)))
@@ -135,19 +135,19 @@ generate_planet <- function(radius, habitable_system, system_data) {
     density <- 2+roll_d6(1)
     day <- roll_d6(4)
     pressure <- "Very High"
-    atmosphere <- "Unbreathable"
+    atmosphere <- "Toxic (Poisonous)"
   } else if(type=="Gas Giant") {
     diameter <- 50000+10000*roll_d6(2)
     density <- 0.5+roll_d6(2)/10
     day <- roll_d6(4)
     pressure <- "Very High"
-    atmosphere <- "Unbreathable"
+    atmosphere <-  "Toxic (Poisonous)"
   } else if(type=="Ice Giant") {
     diameter <- 25000+5000*roll_d6(1)
     density <- 1+roll_d6(2)/10
     day <- roll_d6(4)
     pressure <- "Very High"
-    atmosphere <- "Unbreathable"
+    atmosphere <-  "Toxic (Poisonous)"
   } else if(type=="Asteroid Belt") {
     #TODO
   }
@@ -170,23 +170,23 @@ generate_planet <- function(radius, habitable_system, system_data) {
         habitable_roll <- habitable_roll+2
       }
       if(pressure=="Vacuum" | pressure=="Trace" | pressure=="Very High" | habitable_roll<9) {
-        atmosphere <- "Unbreathable"
+        atmosphere <-  "Toxic (Poisonous)"
       } else {
         atmo_roll <- roll_d6(2)
         if(type=="Giant Terrestrial") {
           atmo_roll <- atmo_roll-2
         }
         if(atmo_roll<2) {
-          atmosphere <- "Toxic"
+          atmosphere <-  "Toxic (Poisonous)"
         } else if(atmo_roll<7) {
-          atmosphere <- "Tainted"
+          atmosphere <- "Tainted (Poisonous)"
         } else {
           atmosphere <- "Breathable"
           
         }
       }
     } else {
-      atmosphere <- "Toxic"
+      atmosphere <- "Toxic (Poisonous)"
     }
   }
   
@@ -210,11 +210,7 @@ generate_planet <- function(radius, habitable_system, system_data) {
 }
 
 is_habitable <- function(planet) {
-  return(!is.na(planet$atmosphere) & 
-           !is.na(planet$pressure) &
-           planet$atmosphere!="Unbreathable" & 
-           planet$atmosphere!="None" & 
-           planet$pressure!="Very High" & 
-           planet$pressure!="Vacuum" &
-           planet$pressure!="Trace")
+  return(!is.na(planet$atmosphere) & !is.na(planet$pressure) &
+           (planet$atmosphere=="Breathable" | planet$atmosphere=="Tainted") & 
+           (planet$pressure=="High" | planet$pressure=="Normal" | planet$pressure=="Low"))
 }
