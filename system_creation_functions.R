@@ -89,7 +89,7 @@ generate_system <- function(habitable=TRUE) {
   planets$continents <- as.numeric(planets$continents)
   planets$water <- as.numeric(planets$water)
   planets$life <- factor(planets$life,
-                         levels=c("Microbe","Plants","Insects","Fish","Amphibians","Reptiles","Birds","Mammals"))
+                         levels=c("Microbes","Plants","Insects","Fish","Amphibians","Reptiles","Birds","Mammals"))
   
   return(list(star=list(type=stype, charge=stype_data$charge),planets=planets,
               iterations=i))
