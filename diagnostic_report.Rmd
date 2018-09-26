@@ -292,7 +292,7 @@ ggplot(habitable_planets_all, aes(x=diameter, group=force, fill=force))+
 ```{r fig_density_compare, echo=FALSE, fig.cap="Distribution of density on habitable planets by type of generation"}
 ggplot(habitable_planets_all, aes(x=density, group=force, fill=force))+
   geom_density(alpha=0.2, adjust=2)+
-  xlab("diameter (km))")+
+  xlab("planetary density")+
   ylab("statistical density")+
   theme_bw()
 ```
