@@ -140,7 +140,7 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
     #to use formulas that produce earth means for diameter and density with
     #less variation in diameter.
     if(habitable_system) {
-      diameter <- 9000+500*roll_d6(2)
+      diameter <- 9000+300*roll_d6(3)
       density <- 3+roll_d6(1)^(0.75)
     } else {
       diameter <- 2500+1000*roll_d6(2)
