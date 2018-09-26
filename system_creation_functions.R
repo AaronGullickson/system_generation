@@ -217,6 +217,12 @@ generate_planet <- function(radius, habitable_system, system_data) {
         if(type=="Giant Terrestrial") {
           atmo_roll <- atmo_roll-2
         }
+        ## Another tweak here. The proportion of tainted atmospheres is quite high.
+        ## presumably settlers would have selected on non-tainted worlds so add a bonus here
+        ## if this needs to be a habitable system
+        if(habitable_system) {
+          atmo_roll <- atmo_roll + 3
+        }
         if(atmo_roll<2) {
           atmosphere <-  "Toxic (Poisonous)"
         } else if(atmo_roll<7) {
