@@ -88,6 +88,7 @@ generate_system <- function(habitable=TRUE) {
   planets$year_length <- as.numeric(planets$year_length)
   planets$continents <- as.numeric(planets$continents)
   planets$water <- as.numeric(planets$water)
+  planets$temperature <- as.numeric(planets$temperature)
   planets$life <- factor(planets$life,
                          levels=c("Microbes","Plants","Insects","Fish","Amphibians","Reptiles","Birds","Mammals"))
   
