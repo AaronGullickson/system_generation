@@ -48,7 +48,7 @@ stargazer(subset(habitable_planets,
                  keep=c("gravity", "temperature", "transit_time", "water", 
                         "continents", "diameter", "escape_velocity","orbital_velocity",
                         "day_length","year_length")),
-          title = "Summary measures for all quantitative variables")
+          title = "Summary measures for all quantitative variables for habitable worlds when forced inhabitation used")
 ```
 
 ```{r fig_n_habit, echo=FALSE, fig.cap="Distribution of the number of habitable planets generated within each system, based on 5000 draws of system generation with forced inhabitation"}
@@ -165,5 +165,149 @@ ggplot(habitable_planets, aes(x=water, y=continents))+
   geom_smooth()+
   xlab("percent water")+
   ylab("number of continents")+
+  theme_bw()
+```
+
+Lets compare these results to a sample of all the inhabited planets we get when we don't enforce habitation. This will give us a sense of how selective colonists were in choosing planets based on certain characteristics. We will need many more draws here because of the lower likelihood of getting inhabitable planets. Preliminary tests suggested about a 2% chance, so if we want at least 1000 inhabited systems, we will need 50,000 draws.
+
+```{r monte_carlo_uninhabited, echo=FALSE} 
+#Run generate_system() 5000 times and pull out all habitable planets
+#create the first one to add on to. We will remove this case later since it forced
+#habitation.
+system <- generate_system()
+#easiest way to identify habitable is life
+habitable_planets_noforce <- subset(system$planets, !is.na(life) & life!="None")
+n_habitable_noforce <- NULL
+for(i in 1:50000) {
+  system <- generate_system(FALSE)
+  #easiest way to identify habitable is life
+  temp <- subset(system$planets, !is.na(life) & life!="None")
+  n_habitable_noforce <- c(n_habitable_noforce, nrow(temp))
+  habitable_planets_noforce <- rbind(habitable_planets_noforce, temp)
+}
+habitable_planets_noforce <- habitable_planets_noforce[-1,]
+```
+
+```{r fig_n_nohabit, echo=FALSE, fig.cap="Distribution of the number of habitable planets generated within each system, based on 5000 draws of system generation without forced inhabitation"}
+temp <- as.data.frame(n_habitable_noforce)
+temp$n_habitable <- factor(temp$n_habitable)
+ggplot(temp, aes(x=n_habitable))+
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill="grey", color="black")+
+  xlab("number of habitable planets in system")+
+  ylab("proportion")+
+  theme_bw()
+```
+
+```{r table_noforce, echo=FALSE, results="asis"}
+stargazer(subset(habitable_planets_noforce,
+                 keep=c("gravity", "temperature", "transit_time", "water", 
+                        "continents", "diameter", "escape_velocity","orbital_velocity",
+                        "day_length","year_length")),
+          title = "Summary measures for all quantitative variables for habitable worlds when forced inhabitation used")
+```
+
+```{r combine, echo=FALSE}
+habitable_planets$force <- TRUE
+habitable_planets_noforce$force <- FALSE
+habitable_planets_all <- rbind(habitable_planets, habitable_planets_noforce)
+```
+
+```{r fig_type_compare, echo=FALSE, fig.cap="Distribution of planet type on habitable planets by type of generation"}
+temp <- table(habitable_planets_all$type, habitable_planets_all$force)
+temp <- as.data.frame.table(prop.table(temp[margin.table(temp,1)>0,],2))
+ggplot(temp, aes(x=Var1, y=Freq, group=Var2, fill=Var2))+
+  geom_col(color="black", position="dodge")+
+  ylab("proportion")+
+  xlab("planet type")+
+  scale_fill_discrete(name="force")+
+  theme_bw()
+```
+
+```{r fig_atmo_compare, echo=FALSE, fig.cap="Distribution of atmospheric composition on habitable planets by type of generation"}
+temp <- table(habitable_planets_all$atmosphere, habitable_planets_all$force)
+temp <- as.data.frame.table(prop.table(temp[margin.table(temp,1)>0,],2))
+ggplot(temp, aes(x=Var1, y=Freq, group=Var2, fill=Var2))+
+  geom_col(color="black", position="dodge")+
+  ylab("proportion")+
+  xlab("atmospheric composition")+
+  scale_fill_discrete(name="force")+
+  theme_bw()
+```
+
+```{r fig_pressure_compare, echo=FALSE, fig.cap="Distribution of atmospheric pressure on habitable planets by type of generation"}
+temp <- table(habitable_planets_all$pressure, habitable_planets_all$force)
+temp <- as.data.frame.table(prop.table(temp[margin.table(temp,1)>0,],2))
+ggplot(temp, aes(x=Var1, y=Freq, group=Var2, fill=Var2))+
+  geom_col(color="black", position="dodge")+
+  ylab("proportion")+
+  xlab("atmospheric pressure")+
+  scale_fill_discrete(name="force")+
+  theme_bw()
+```
+
+```{r fig_life_compare, echo=FALSE, fig.cap="Distribution of highest life form on habitable planets by type of generation"}
+temp <- table(habitable_planets_all$life, habitable_planets_all$force)
+temp <- as.data.frame.table(prop.table(temp[margin.table(temp,1)>0,],2))
+ggplot(temp, aes(x=Var1, y=Freq, group=Var2, fill=Var2))+
+  geom_col(color="black", position="dodge")+
+  ylab("proportion")+
+  xlab("highest life form")+
+  scale_fill_discrete(name="force")+
+  theme_bw()
+```
+
+```{r fig_gravity_compare, echo=FALSE, fig.cap="Distribution of gravity on habitable planets by type of generation"}
+ggplot(habitable_planets_all, aes(x=gravity, group=force, fill=force))+
+  geom_density(alpha=0.2)+
+  xlab("gravity (1.0 = earth standard)")+
+  ylab("statistical density")+
+  theme_bw()
+```
+
+```{r fig_water_compare, echo=FALSE, fig.cap="Distribution of surface water coverage on habitable planets by type of generation"}
+ggplot(habitable_planets_all, aes(x=water, group=force, fill=force))+
+  geom_density(alpha=0.2)+
+  xlab("percent water")+
+  ylab("statistical density")+
+  theme_bw()
+```
+
+```{r fig_temperature_compare, echo=FALSE, fig.cap="Distribution of temperature on habitable planets by type of generation"}
+ggplot(habitable_planets_all, aes(x=temperature, group=force, fill=force))+
+  geom_density(alpha=0.2)+
+  xlab("equitorial average temperature (Celsius)")+
+  ylab("statistical density")+
+  theme_bw()
+```
+
+```{r fig_diameter_compare, echo=FALSE, fig.cap="Distribution of diameter on habitable planets by type of generation"}
+ggplot(habitable_planets_all, aes(x=diameter, group=force, fill=force))+
+  geom_density(alpha=0.2, adjust=1.5)+
+  xlab("diameter (km))")+
+  ylab("statistical density")+
+  theme_bw()
+```
+
+```{r fig_density_compare, echo=FALSE, fig.cap="Distribution of density on habitable planets by type of generation"}
+ggplot(habitable_planets_all, aes(x=density, group=force, fill=force))+
+  geom_density(alpha=0.2, adjust=2)+
+  xlab("diameter (km))")+
+  ylab("statistical density")+
+  theme_bw()
+```
+
+```{r fig_day_compare, echo=FALSE, fig.cap="Distribution of day length on habitable planets by type of generation"}
+ggplot(habitable_planets_all, aes(x=day_length, group=force, fill=force))+
+  geom_density(alpha=0.2, adjust=2)+
+  xlab("length of day (hours)")+
+  ylab("statistical density")+
+  theme_bw()
+```
+
+```{r fig_year_compare, echo=FALSE, fig.cap="Distribution of year length on habitable planets by type of generation"}
+ggplot(habitable_planets_all, aes(x=year_length, group=force, fill=force))+
+  geom_density(alpha=0.2, adjust=2)+
+  xlab("length of year (relative to Terran standard)")+
+  ylab("statistical density")+
   theme_bw()
 ```
