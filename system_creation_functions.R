@@ -45,25 +45,29 @@ generate_system <- function(habitable=TRUE) {
                            2458)
   orbital_placement <- stype_data$radius*placement_constants[1:orbital_slots]
 
-  life_zone <- orbital_placement>=stype_data$distance_inner_au & 
-    orbital_placement<=stype_data$distance_outer_au
+  
   
   planets <- NULL
-  terrestrial_found <- FALSE
-  
+
+  #if the system needs to be habitable, then randomly pick one of the habitable slots
+  #and force it to produce a habitable planet
+  life_zone <- orbital_placement>=stype_data$distance_inner_au & 
+    orbital_placement<=stype_data$distance_outer_au
+  habitable_slot <- -1
+  if(habitable) {
+    habitable_slot <- sample(which(life_zone),1)
+  }
+
   for(slot in 1:orbital_slots) {
     planet <- generate_planet(orbital_placement[slot],habitable,stype_data)
     #another tweak - if habitable is true, then we need to ensure
     #that at least on habitable slot in the life zone is occupied by terrestrial 
     #planet FIXME - not working but it was before
-    if(!terrestrial_found & life_zone[slot] & 
-       ((slot == orbital_slots) | !any(life_zone[(slot+1):orbital_slots]))) {
+    if(slot==habitable_slot) {
       while(!is_habitable(planet)) {
         planet <- generate_planet(orbital_placement[slot],habitable,stype_data)
-        terrestrial_found = TRUE
       }
     }
-    
     planets <- rbind(planets, unlist(planet))
   }
   
