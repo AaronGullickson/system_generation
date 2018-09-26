@@ -141,8 +141,18 @@ generate_planet <- function(radius, habitable_system, system_data) {
     pressure <- "Vacuum"
     atmosphere <- "None"
   } else if(type=="Terrestrial") {
-    diameter <- 2500+1000*roll_d6(2)
-    density <- 2.5+roll_d6(1)^(0.75)
+    #Another tweak here. The diameter and density numbers for terrestrials
+    #are producing average gravities well below 1.0 and too variable. Its 
+    #likely inhabited worlds will be closer to earth gravity, so we are going 
+    #to use formulas that produce earth means for diameter and density with
+    #less variation in diameter.
+    if(habitable) {
+      diameter <- 9000+500*roll_d6(2)
+      density <- 3+roll_d6(1)^(0.75)
+    } else {
+      diameter <- 2500+1000*roll_d6(2)
+      density <- 2.5+roll_d6(1)^(0.75)
+    }
     day <- roll_d6(3)+12
   } else if(type=="Giant Terrestrial") {
     diameter <- 12500+1000*roll_d6(1)
