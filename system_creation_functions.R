@@ -14,36 +14,22 @@ generate_system <- function(habitable=TRUE) {
 
   spectral_class <- star_type[roll_d6(2)-1]
   subtype <- sample(0:9,1)
-  ##A tweak here. Classes M2 or greater have no habitable zones so
-  ##only allow 0 ad 1 subtypes if that class and habitable==true
+  ##A tweak here. Classes M6V and M9V have no planets in habitable zone, so 
+  ##leave them out of substype sample if habitable==TRUE
   if(habitable & spectral_class=="M") {
-    subtype <- sample(0:1,1)
+    subtype <- sample(c(0,1,2,3,4,5,7,8),1)
   }
   
   stype <- paste(spectral_class,subtype,"V",sep="")
   stype_data <- read.csv("data/solar_type.csv", row.names=1)[stype,]
   
   ##### Orbital Slots #####
-  
-  #another tweak here. B8 through B0 have a habitable zone past the 
-  #fifth position so its possible to get something out of the habitable
-  #zone on a low roll. So set a minimum value based on star type
-  minimum_slots <- 5
-  if(habitable & spectral_class == "B") {
-    if(subtype<9 & subtype>6) {
-      minimum_slots <- 6
-    } else if(subtype<=6 & subtype>2) {
-      mimimum_slots <- 7
-    } else {
-      minimum_slots <- 8
-    }
-  }
-  orbital_slots <- max(minimum_slots, roll_d6(2)+3)
+  orbital_slots <- 3+roll_d6(2)
   
   placement_constants <- c(0.4,0.7,1.0,1.6,2.8,5.2,10,19.6,
                            38.8,77.2,154,307.6,614.8,1229.2,
                            2458)
-  orbital_placement <- stype_data$radius*placement_constants[1:orbital_slots]
+  orbital_placement <- stype_data$mass*placement_constants[1:orbital_slots]
 
   planets <- NULL
   #if the system needs to be habitable, then randomly pick one of the habitable slots
@@ -59,12 +45,11 @@ generate_system <- function(habitable=TRUE) {
     } 
   }
   i <- 1
-  
   for(slot in 1:orbital_slots) {
     planet <- generate_planet(orbital_placement[slot],habitable,stype_data)
     #another tweak - if habitable is true, then we need to ensure
     #that at least on habitable slot in the life zone is occupied by terrestrial 
-    #planet FIXME - not working but it was before
+    #planet 
     if(slot==habitable_slot) {
       while(!is_habitable(planet) & i<5000) {
         planet <- generate_planet(orbital_placement[slot],habitable,stype_data)
