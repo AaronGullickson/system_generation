@@ -57,12 +57,14 @@ generate_system <- function(habitable=TRUE) {
     #that at least on habitable slot in the life zone is occupied by terrestrial 
     #planet 
     if(slot==habitable_slot) {
-      while(!is_habitable(planet) & i<5000) {
+      while(!planet$inhabitable & i<5000) {
         planet <- generate_planet(orbital_placement[slot],habitable,stype_data)
         i <- i + 1
       }
     }
-    planets <- rbind(planets, unlist(planet))
+    if(planet$type!="Empty") {
+      planets <- rbind(planets, unlist(planet))
+    }
   }
   
   planets <- data.frame(planets, stringsAsFactors = FALSE)
@@ -83,11 +85,16 @@ generate_system <- function(habitable=TRUE) {
   planets$orbital_dist <- as.numeric(planets$orbital_dist)
   planets$life <- factor(planets$life,
                          levels=c("Microbes","Plants","Insects","Fish","Amphibians","Reptiles","Birds","Mammals"))
+  planets$life_zone <- planets$life_zone=="TRUE"
+  planets$inhabitable <- planets$inhabitable=="TRUE"
   
-  return(list(star=list(type=stype, charge=stype_data$charge),planets=planets,
-              iterations=i))
+  return(list(star=stype, planets=planets, iterations=i))
 }
 
+#TODO: generate moons and rings
+#TODO: generate uinhabitable atmospheres, mostly to determine if atmo is caustic
+#TODO: asteroid belt characteristics
+#TODO: allow for some toxic habitable worlds besides Giant Terrestrials
 generate_planet <- function(radius, habitable_system, system_data, more_gradation=TRUE) {
  
   life_zone <- radius>=system_data$distance_inner_au & radius<=system_data$distance_outer_au
@@ -126,6 +133,7 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
   water <- NA
   continents <- NA
   temperature <- NA
+  inhabitable <- FALSE
   
   if(type=="Dwarf Terrestrial") {
     diameter <- 400+100*roll_d6(3)
@@ -166,7 +174,7 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
     pressure <- "Very High"
     atmosphere <-  "Toxic (Poisonous)"
   } else if(type=="Asteroid Belt") {
-    #TODO
+
   }
   
   #derived stats
@@ -200,10 +208,10 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
         habitable_roll <- habitable_roll+2
       }
       if(pressure=="Vacuum" | pressure=="Trace" | pressure=="Very High" | habitable_roll<9) {
-        #TODO: uninhabitable atmospheric composition 
         atmosphere <-  "Toxic (Poisonous)"
       } else {
         ## We have a habitable planet, although it could still be toxic if Giant Terrestrial
+        inhabitable <- TRUE
         
         ## Atmospheic composition roll
         atmo_roll <- roll_d6(2)
@@ -334,7 +342,6 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
         
       }
     } else {
-      #TODO: uninhabitable atmospheric composition 
       atmosphere <- "Toxic (Poisonous)"
     }
   }
@@ -360,7 +367,8 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
     temperature <- 277*system_data$luminosity^(0.25)*sqrt(1/(pressure_multiplier*radius))
   }
   
-  return(list(type=type, orbital_dist=radius, life_zone=life_zone,
+  return(list(type=type, orbital_dist=radius, 
+              inhabitable=inhabitable, life_zone=life_zone,
               pressure=pressure, atmosphere=atmosphere, 
               gravity=round(gravity,2), temperature=round(temperature-273.15), 
               transit_time=round(transit_time,2),
@@ -370,12 +378,6 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
               orbital_velocity=round(orbital_velocity), 
               day_length=day, year_length=round(year_length,1)))
   
-}
-
-is_habitable <- function(planet) {
-  return(!is.na(planet$atmosphere) & !is.na(planet$pressure) &
-           (planet$atmosphere=="Breathable" | planet$atmosphere=="Tainted (Poisonous)") & 
-           (planet$pressure=="High" | planet$pressure=="Normal" | planet$pressure=="Low"))
 }
 
 plot_system <- function(system) {

@@ -31,12 +31,12 @@ We also make one other tweak. Since we are using a computer, there is no need fo
 #create the first one to add on to
 system <- generate_system()
 #easiest way to identify habitable is life
-habitable_planets <- subset(system$planets, !is.na(life))
+habitable_planets <- subset(system$planets, inhabitable)
 n_habitable <- nrow(habitable_planets)
 for(i in 1:4999) {
   system <- generate_system()
   #easiest way to identify habitable is life
-  temp <- subset(system$planets, !is.na(life))
+  temp <- subset(system$planets, inhabitable)
   n_habitable <- c(n_habitable, nrow(temp))
   habitable_planets <- rbind(habitable_planets, temp)
 }
@@ -177,12 +177,12 @@ Lets compare these results to a sample of all the inhabited planets we get when 
 #habitation.
 system <- generate_system()
 #easiest way to identify habitable is life
-habitable_planets_noforce <- subset(system$planets, !is.na(life))
+habitable_planets_noforce <- subset(system$planets, inhabitable)
 n_habitable_noforce <- NULL
 for(i in 1:50000) {
   system <- generate_system(FALSE)
   #easiest way to identify habitable is life
-  temp <- subset(system$planets, !is.na(life))
+  temp <- subset(system$planets, inhabitable)
   n_habitable_noforce <- c(n_habitable_noforce, nrow(temp))
   habitable_planets_noforce <- rbind(habitable_planets_noforce, temp)
 }
