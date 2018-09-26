@@ -29,7 +29,7 @@ generate_system <- function(habitable=TRUE) {
   #fifth position so its possible to get something out of the habitable
   #zone on a low roll. So set a minimum value based on star type
   minimum_slots <- 5
-  if(spectral_class == "B") {
+  if(habitable & spectral_class == "B") {
     if(subtype<9 & subtype>6) {
       minimum_slots <- 6
     } else if(subtype<=6 & subtype>2) {
