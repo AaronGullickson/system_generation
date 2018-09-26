@@ -35,14 +35,37 @@ hist(habitable_planets$year_length)
 barplot(table(habitable_planets$pressure))
 barplot(table(habitable_planets$atmosphere))
 barplot(table(habitable_planets$type))
-barplot(table(habitable_planets$temperature))
+hist(habitable_planets$temperature)
 hist(habitable_planets$continents)
 
-# Some problems here.
+library(ggplot2)
 
-# why are we still getting a small number of cases with no habitable planets
+ggplot(habitable_planets, aes(x=gravity))+
+  geom_histogram(binwidth=0.1, color="grey")+
+  theme_bw()
 
-# water coverage seems lowish to me even after diameter adjustments
+ggplot(habitable_planets, aes(x=water))+
+  geom_histogram(binwidth=5, color="grey")+
+  theme_bw()
 
-# why are we getting so few microbes. It seems like the habitability mods
-# should have pushed more lower here
+ggplot(habitable_planets, aes(x=temperature))+
+  geom_histogram(binwidth=1, color="grey")+
+  theme_bw()
+
+ggplot(habitable_planets, aes(x=continents))+
+  geom_histogram(binwidth=1, color="grey")+
+  theme_bw()
+  
+ggplot(habitable_planets, aes(x=water, y=continents))+
+  geom_jitter(alpha=0.2)+
+  geom_smooth()
+  theme_bw()
+
+ggplot(habitable_planets, aes(x=life))+
+  geom_bar()+
+  theme_bw()
+
+ggplot(habitable_planets, aes(x=atmosphere))+
+  geom_bar()+
+  theme_bw()
+
