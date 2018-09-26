@@ -95,7 +95,7 @@ generate_system <- function(habitable=TRUE) {
               iterations=i))
 }
 
-generate_planet <- function(radius, habitable_system, system_data, more_variability=TRUE) {
+generate_planet <- function(radius, habitable_system, system_data, more_gradation=TRUE) {
  
   life_zone <- radius>=system_data$distance_inner_au & radius<=system_data$distance_outer_au
   outer <- radius > system_data$distance_outer_au
@@ -263,7 +263,7 @@ generate_planet <- function(radius, habitable_system, system_data, more_variabil
           water <- 100
         }
         
-        if(more_variability) {
+        if(more_gradation) {
           #since we do not need things to be in 10 point increments, lets add single
           #digit variation fot water amount
           if(water>=5 & water<=95) {
