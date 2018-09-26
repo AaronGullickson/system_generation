@@ -79,6 +79,10 @@ generate_system <- function(habitable=TRUE) {
   planets$orbital_velocity <- as.numeric(planets$orbital_velocity)
   planets$day_length <- as.numeric(planets$day_length)
   planets$year_length <- as.numeric(planets$year_length)
+  planets$continents <- as.numeric(planets$continents)
+  planets$water <- as.numeric(planets$water)
+  planets$life <- factor(planets$life,
+                         levels=c("Microbe","Plants","Insects","Fish","Amphibians","Reptiles","Birds","Mammals"))
   
   #show work for now
   return(list(star=list(type=stype, charge=stype_data$charge),planets=planets))
@@ -116,9 +120,11 @@ generate_planet <- function(radius, habitable_system, system_data) {
   diameter <- NA
   density <- NA
   day <- NA
-  year <- NA
   pressure <- NA
   atmosphere <- NA
+  life <- "None"
+  water <- NA
+  continents <- NA
   
   if(type=="Dwarf Terrestrial") {
     diameter <- 400+100*roll_d6(3)
@@ -152,7 +158,20 @@ generate_planet <- function(radius, habitable_system, system_data) {
     #TODO
   }
   
-  #determine atmosphere for terrestrial
+  #derived stats
+  gravity <- (diameter/12742)*(density/5.5153)
+  escape_velocity <- 11186*(diameter/12742)*sqrt(density/5.5153)
+  orbital_velocity <- escape_velocity/sqrt(2)
+  year_length <- sqrt(radius^3+system_data$mass)
+  
+  transit_distance <- sqrt((system_data$safe_jump*1000)^2+
+                             (radius*149597871000)^2)
+  transit_time <- (2 * sqrt(transit_distance/9.8))/(24*60*60)
+  
+  #determine habitability for terrestrial
+  
+  #life zone position modifier
+  life_mod <- (radius-system_data$distance_inner_au)/(system_data$distance_outer_au-system_data$distance_inner_au)
   if(type=="Terrestrial" | (type=="Giant Terrestrial" & roll_d6(1)==6)) {
     pressure <- c(rep("Vacuum",2),"Trace",rep("Low",2),rep("Normal",2),
                   rep("High",2),rep("Very High",2))[roll_d6(2)-1]
@@ -170,8 +189,12 @@ generate_planet <- function(radius, habitable_system, system_data) {
         habitable_roll <- habitable_roll+2
       }
       if(pressure=="Vacuum" | pressure=="Trace" | pressure=="Very High" | habitable_roll<9) {
+        #TODO: uninhabitable atmospheric composition 
         atmosphere <-  "Toxic (Poisonous)"
       } else {
+        ## We have a habitable planet, although it could still be toxic if Giant Terrestrial
+        
+        ## Atmospheic composition roll
         atmo_roll <- roll_d6(2)
         if(type=="Giant Terrestrial") {
           atmo_roll <- atmo_roll-2
@@ -182,26 +205,103 @@ generate_planet <- function(radius, habitable_system, system_data) {
           atmosphere <- "Tainted (Poisonous)"
         } else {
           atmosphere <- "Breathable"
-          
         }
+        
+        ##Surface water roll
+        escape_velocity_mod <- escape_velocity/11186
+        water_roll <- round(roll_d6(2)*life_mod*escape_velocity_mod)
+        if(type=="Giant Terrestrial") {
+          water_roll <- water_roll+3
+        }
+        if(water_roll<0) {
+          water <- 0
+        } else if(water_roll==0) {
+          water <- 5
+        } else if(water_roll==1) {
+          water <- 10
+        } else if(water_roll==2) {
+          water <- 20
+        } else if(water_roll==3) {
+          water <- 30
+        } else if(water_roll<6) {
+          water <- 40
+        } else if(water_roll<8) {
+          water <- 50
+        } else if(water_roll<9) {
+          water <- 60
+        } else if(water_roll<10) {
+          water <- 70
+        } else if(water_roll<11) {
+          water <- 80
+        } else if(water_roll<12) {
+          water <- 90
+        } else {
+          water <- 100
+        }
+         
+        #continents
+        if(water==0) {
+          continents <- 1
+        } else if(water==100) {
+          continents <- 0
+        } else {
+          continents <- roll_d6(1)
+          if(diameter<9000) {
+            continents <- continents/2
+          }
+          if(water<30) {
+            continents <- continents/2
+          }
+          if(diameter>15000) {
+            continents <- continents*1.5
+          }
+          if(water>60) {
+            continents <- continents*1.5
+          }
+          continents <- round(continents)
+        }
+        
+        #temperature
+        temp_roll <- round(roll_d6(2)*life_mod)
+        if(pressure=="Low") {
+          temp_roll <- temp_roll+1
+        }
+        if(pressure=="High") {
+          temp_roll <- temp_roll-1
+        }
+        
+        
+        ## Highest life form roll
+        life_roll <- roll_d6(2)+system_data$habitability
+        if(life_roll<=0) {
+          life <- "Microbes"
+        } else if(life_roll==1) {
+          life <- "Plants"
+        } else if(life_roll==2) {
+          life <- "Insects"
+        } else if(life_roll<5) {
+          life <- "Fish"
+        } else if(life_roll<7) {
+          life <- "Amphibians"
+        } else if(life_roll<9) {
+          life <- "Reptiles"
+        } else if(life_roll<11) {
+          life <- "Birds"
+        } else {
+          life <- "Mammals"
+        }
+        
       }
     } else {
+      #TODO: uninhabitable atmospheric composition 
       atmosphere <- "Toxic (Poisonous)"
     }
   }
   
-  gravity <- (diameter/12742)*(density/5.5153)
-  escape_velocity <- 11186*(diameter/12742)*sqrt(density/5.5153)*3.6
-  orbital_velocity <- escape_velocity/sqrt(2)
-  year_length <- sqrt(radius^3+system_data$mass)
-  
-  transit_distance <- sqrt((system_data$safe_jump*1000)^2+
-                             (radius*149597871000)^2)
-  transit_time <- (2 * sqrt(transit_distance/9.8))/(24*60*60)
-  
   return(list(type=type, orbital_dist=radius, life_zone=life_zone,
               pressure=pressure, atmosphere=atmosphere, 
               gravity=round(gravity,2), transit_time=round(transit_time,2),
+              water=water, life=life, continents=continents,
               diameter=diameter, density=round(density,4), 
               escape_velocity=round(escape_velocity),
               orbital_velocity=round(orbital_velocity), 
