@@ -1,18 +1,24 @@
 #This script contains functions for creating systems and planets
 
 roll_d6 <- function(n) {
-  return(sum(sample(1:6, n, replace=FALSE)))
+  return(sum(sample(1:6, n, replace=TRUE)))
 }
 
 generate_system <- function(habitable=TRUE) {
+  
+  star_roll <- roll_d6(2)
   
   ##### Star Type #####
   star_type <- c("F","M","G","K",rep("M",6),"F")
   if(habitable) {
     star_type <- c(rep("M",3),"K","K","G","G",rep("F",4))
+  } else if(star_roll==12) {
+    #hot stars!
+    star_type <- c(rep("B",2),rep("A",7),"B","F")
+    star_roll <- roll_d6(2)
   }
 
-  spectral_class <- star_type[roll_d6(2)-1]
+  spectral_class <- star_type[star_roll-1]
   subtype <- sample(0:9,1)
   ##A tweak here. Classes M6V and M9V have no planets in habitable zone, so 
   ##leave them out of substype sample if habitable==TRUE
