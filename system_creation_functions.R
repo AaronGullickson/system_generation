@@ -80,6 +80,7 @@ generate_system <- function(habitable=TRUE) {
   planets$continents <- as.numeric(planets$continents)
   planets$water <- as.numeric(planets$water)
   planets$temperature <- as.numeric(planets$temperature)
+  planets$orbital_dist <- as.numeric(planets$orbital_dist)
   planets$life <- factor(planets$life,
                          levels=c("Microbes","Plants","Insects","Fish","Amphibians","Reptiles","Birds","Mammals"))
   
@@ -376,3 +377,65 @@ is_habitable <- function(planet) {
            (planet$atmosphere=="Breathable" | planet$atmosphere=="Tainted (Poisonous)") & 
            (planet$pressure=="High" | planet$pressure=="Normal" | planet$pressure=="Low"))
 }
+
+plot_system <- function(system) {
+  
+  system_data <- read.csv("data/solar_type.csv", row.names=1)[system$star$type,]
+  
+  par(mar=c(0,0,0,0), bg="black")
+  plot(-10,-10,
+       ylim=c(2.4,2.6), 
+       xlim=c(0,1.1*(system_data$radius+sqrt(max(system$planets$orbital_dist, na.rm=TRUE)))))
+  
+  library(plotrix)
+  
+  #remove empties
+  system$planets <- subset(system$planets, type!="Empty")
+  
+  #draw green zone
+  draw.circle(0,2.5,radius=system_data$radius+system_data$distance_outer_au, col="green", border="green")
+  draw.circle(0,2.5,radius=system_data$radius+system_data$distance_inner_au, col="white", border="black")
+  
+  #draw orbit lines for slots
+  for(slot in nrow(system$planets):1) {
+    planet <- system$planets[slot,]
+    draw.circle(0,2.5,radius=system_data$radius+sqrt(planet$orbital_dist),col="black",border="grey80")
+  }
+ 
+  #draw sun
+  draw.circle(0,2.5,radius=system_data$radius, col="yellow", border="orange")
+  
+  for(slot in 1:nrow(system$planets)) {
+    planet <- system$planets[slot,]
+    if(planet$type=="Empty") {
+      next
+    }
+    bg.choice <- "grey"
+    col.choice <- "black"
+    if(planet$type=="Terrestrial" | planet$type=="Giant Terrestrial") {
+      if(is.na(planet$life)) {
+        bg.choice <- "brown"
+        col.choice <- "red"
+      } else {
+        bg.choice <- "darkgreen"
+        col.choice <- "blue"
+      }
+    }
+    if(planet$type=="Dwarf Terrestrial") {
+      bg.choice <- "brown"
+      col.choice <- "red"
+    }
+    if(planet$type=="Gas Giant") {
+      bg.choice <- "purple"
+      col.choice <- "violet"
+    }
+    if(planet$type=="Ice Giant") {
+      bg.choice <- "skyblue"
+      col.choice <- "blue"
+    }
+    points(sqrt(planet$orbital_dist)+system_data$radius, 2.5, pch=21, bg=bg.choice, col=col.choice,
+           cex=log(planet$diameter)/log(12000))
+  }
+  
+}
+
