@@ -147,7 +147,7 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
     #likely inhabited worlds will be closer to earth gravity, so we are going 
     #to use formulas that produce earth means for diameter and density with
     #less variation in diameter.
-    if(habitable) {
+    if(habitable_system) {
       diameter <- 9000+500*roll_d6(2)
       density <- 3+roll_d6(1)^(0.75)
     } else {
