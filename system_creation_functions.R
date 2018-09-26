@@ -45,27 +45,30 @@ generate_system <- function(habitable=TRUE) {
                            2458)
   orbital_placement <- stype_data$radius*placement_constants[1:orbital_slots]
 
-  
-  
   planets <- NULL
-
   #if the system needs to be habitable, then randomly pick one of the habitable slots
   #and force it to produce a habitable planet
   life_zone <- orbital_placement>=stype_data$distance_inner_au & 
     orbital_placement<=stype_data$distance_outer_au
   habitable_slot <- -1
   if(habitable) {
-    habitable_slot <- sample(which(life_zone),1)
+    habitable_slot <- which(life_zone)
+    if(length(habitable_slot)>1) {
+      #if more than one slot in habitable zone then choose randomly
+      habitable_slot <- sample(habitable_slot,1)
+    } 
   }
-
+  i <- 1
+  
   for(slot in 1:orbital_slots) {
     planet <- generate_planet(orbital_placement[slot],habitable,stype_data)
     #another tweak - if habitable is true, then we need to ensure
     #that at least on habitable slot in the life zone is occupied by terrestrial 
     #planet FIXME - not working but it was before
     if(slot==habitable_slot) {
-      while(!is_habitable(planet)) {
+      while(!is_habitable(planet) & i<5000) {
         planet <- generate_planet(orbital_placement[slot],habitable,stype_data)
+        i <- i + 1
       }
     }
     planets <- rbind(planets, unlist(planet))
@@ -88,8 +91,8 @@ generate_system <- function(habitable=TRUE) {
   planets$life <- factor(planets$life,
                          levels=c("Microbe","Plants","Insects","Fish","Amphibians","Reptiles","Birds","Mammals"))
   
-  #show work for now
-  return(list(star=list(type=stype, charge=stype_data$charge),planets=planets))
+  return(list(star=list(type=stype, charge=stype_data$charge),planets=planets,
+              iterations=i))
 }
 
 generate_planet <- function(radius, habitable_system, system_data) {
@@ -346,6 +349,6 @@ generate_planet <- function(radius, habitable_system, system_data) {
 
 is_habitable <- function(planet) {
   return(!is.na(planet$atmosphere) & !is.na(planet$pressure) &
-           (planet$atmosphere=="Breathable" | planet$atmosphere=="Tainted") & 
+           (planet$atmosphere=="Breathable" | planet$atmosphere=="Tainted (Poisonous)") & 
            (planet$pressure=="High" | planet$pressure=="Normal" | planet$pressure=="Low"))
 }
