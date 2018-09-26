@@ -129,6 +129,7 @@ generate_planet <- function(radius, habitable_system, system_data) {
   life <- "None"
   water <- NA
   continents <- NA
+  temperature <- NA
   
   if(type=="Dwarf Terrestrial") {
     diameter <- 400+100*roll_d6(3)
@@ -273,7 +274,15 @@ generate_planet <- function(radius, habitable_system, system_data) {
         if(pressure=="High") {
           temp_roll <- temp_roll-1
         }
-        
+        if(temp_roll<=0) {
+          temperature <- 317
+        } else if(temp_roll<5) {
+          temperature <- 307
+        } else if(temp_roll<10) {
+          temperature <- 297
+        } else {
+          temperature <- 287
+        }
         
         ## Highest life form roll
         life_roll <- roll_d6(2)+system_data$habitability
@@ -302,9 +311,31 @@ generate_planet <- function(radius, habitable_system, system_data) {
     }
   }
   
+  #base temperature if not created above
+  if(is.na(temperature) & 
+     !((type=="Giant Terrestrial" & pressure=="Very High") | 
+       type=="Gas Giant" |
+       type=="Ice Giant" |
+       type=="Empty")) {
+    pressure_multiplier <- 1
+    if(!is.na(pressure)) {
+      if(pressure=="Low") {
+        pressure_multiplier <- 0.95
+      } else if(pressure=="Normal") {
+        pressure_multiplier <- 0.9
+      } else if(pressure=="High") {
+        pressure_multiplier <- 0.8
+      } else if(pressure=="Very High") {
+        pressure_multiplier <- 0.5
+      }
+    }
+    temperature <- 277*system_data$luminosity^(0.25)*sqrt(1/(pressure_multiplier*radius))
+  }
+  
   return(list(type=type, orbital_dist=radius, life_zone=life_zone,
               pressure=pressure, atmosphere=atmosphere, 
-              gravity=round(gravity,2), transit_time=round(transit_time,2),
+              gravity=round(gravity,2), temperature=round(temperature-273.15), 
+              transit_time=round(transit_time,2),
               water=water, life=life, continents=continents,
               diameter=diameter, density=round(density,4), 
               escape_velocity=round(escape_velocity),
