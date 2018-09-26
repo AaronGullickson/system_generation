@@ -312,6 +312,10 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
           temperature <- 287
         }
         
+        if(more_gradation) {
+          temperature <- (temperature - 5)+sample(0:9,1)
+        }
+        
         ## Highest life form roll
         life_roll <- roll_d6(2)+system_data$habitability
         if(life_roll<=0) {
