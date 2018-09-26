@@ -121,7 +121,7 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
   day <- NA
   pressure <- NA
   atmosphere <- NA
-  life <- "None"
+  life <- NA
   water <- NA
   continents <- NA
   temperature <- NA
