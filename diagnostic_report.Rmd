@@ -4,10 +4,26 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, fig.height=3.5)
 library(ggplot2)
+library(stargazer)
 source("system_creation_functions.R")
 ```
+
+
+This document contains diagnostic checks of the `generate_system` function based on 5000 draws. We first run this for 5000 draws with the habitable option turned on, which means that we force one planet in the system to be habitable. In general, our system generations follows the rule in *Campaign Operations* exactly. However when the habitability option is turned on, we do use several tweaks to ensure that we get a habitable planet. Currently, these tweaks are the following:
+
+- We roll on the life friendly column for star type.
+- When rolling star subtypes, we disallow M6 and M9 subtypes because these stars have no orbital slots within the life zone, according to the tables provided in *Campaign Operations* (see the file `habit_zones.pdf` for details). 
+- We randomly pick one slot within the life zone and continue to run the `generate_planet` function until we produce a habitable planet.
+- Within the `generate_planet` function called by `generate_system`, we also add the following tweaks:
+     - We add two to the habitability check roll to make habitable planets more likely.
+     - We add three to the atmospheric conditions roll to eliminate toxic atmospheres and reduce the frequency of tainted atmospheres (which are otherwise more than 40% of the cases).
+     - We use different functions to determine diameter and density of terrestrials that will have averages closer to Earth and less variance in order to get gravities that are closer to Earth and less variable. These functions are:
+          - diameter = $9000+500*2d6$
+          - density = $3+1d6^{0.75}$
+     
+We also make one other tweak. Since we are using a computer, there is no need for the discrete changes in temperature and water coverage by units of 10. So we allow these values to vary by single digits by subtracting five and then drawing a number randomly between 0 and 9 (i.e. a d10 roll). This slightly changes the mean values because the mean of that random draw is 4.5 and not 5, but we preferred the aesthetics of whole numbers. 
 
 ```{r monte_carlo_inhabited, echo=FALSE} 
 #Run generate_system() 5000 times and pull out all habitable planets
@@ -25,16 +41,27 @@ for(i in 1:4999) {
 }
 ```
 
-```{r fig_n_habit, echo=FALSE}
+The figures and tables below show the distribution of key characteristics across all of the habitable planets found in the 5000 draws to `generate_system`. For quantitative variables, we show both histograms and kernel density smoothers and the blue dotted line gives the mean.
+
+```{r table, echo=FALSE, results="asis"}
+stargazer(subset(habitable_planets,
+                 keep=c("gravity", "temperature", "transit_time", "water", 
+                        "continents", "diameter", "escape_velocity","orbital_velocity",
+                        "day_length","year_length")),
+          title = "Summary measures for all quantitative variables")
+```
+
+```{r fig_n_habit, echo=FALSE, fig.cap="Distribution of the number of habitable planets generated within each system, based on 5000 draws of system generation with forced inhabitation"}
 temp <- as.data.frame(n_habitable)
 temp$n_habitable <- factor(temp$n_habitable)
 ggplot(temp, aes(x=n_habitable))+
   geom_bar(aes(y = (..count..)/sum(..count..)), fill="grey", color="black")+
   xlab("number of habitable planets in system")+
-  ylab("proportion")
+  ylab("proportion")+
+  theme_bw()
 ```
 
-```{r fig_type_habit, echo=FALSE}
+```{r fig_type_habit, echo=FALSE, fig.cap="Distribution of planet type on habitable planets from 5000 draws of system generation with forced inhabitation"}
 ggplot(habitable_planets, aes(x=type))+
   geom_bar(aes(y = (..count..)/sum(..count..)), fill="grey", color="black")+
   ylab("proportion")+
@@ -42,7 +69,7 @@ ggplot(habitable_planets, aes(x=type))+
   theme_bw()
 ```
 
-```{r fig_atmo_habit, echo=FALSE}
+```{r fig_atmo_habit, echo=FALSE, fig.cap="Distribution of atmospheric composition on habitable planets from 5000 draws of system generation with forced inhabitation"}
 ggplot(habitable_planets, aes(x=atmosphere))+
   geom_bar(aes(y = (..count..)/sum(..count..)), fill="grey", color="black")+
   ylab("proportion")+
@@ -50,11 +77,19 @@ ggplot(habitable_planets, aes(x=atmosphere))+
   theme_bw()
 ```
 
-```{r fig_pressure_habit, echo=FALSE}
+```{r fig_pressure_habit, echo=FALSE, fig.cap="Distribution of atmospheric pressure on habitable planets from 5000 draws of system generation with forced inhabitation"}
 ggplot(habitable_planets, aes(x=pressure))+
   geom_bar(aes(y = (..count..)/sum(..count..)), fill="grey", color="black")+
   ylab("proportion")+
   xlab("atmospheric pressure")+
+  theme_bw()
+```
+
+```{r fig_life_habit, echo=FALSE, fig.cap="Distribution of highest native life form on habitable planets from 5000 draws of system generation with forced inhabitation"}
+ggplot(habitable_planets, aes(x=life))+
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill="grey", color="black")+
+  xlab("highest form of native life")+
+  ylab("proportion")+
   theme_bw()
 ```
 
@@ -69,62 +104,66 @@ ggplot(habitable_planets, aes(x=gravity))+
   theme_bw()
 ```
 
-```{r fig_water_habit, echo=FALSE}
+```{r fig_water_habit, echo=FALSE, fig.cap="Distribution of surface water coverage on habitable planets from 5000 draws of system generation with forced inhabitation"}
 ggplot(habitable_planets, aes(x=water))+
   geom_histogram(aes(y=..density..), binwidth=5, color="black", fill="grey")+
   geom_density(alpha=0.2, fill="red")+
   geom_vline(aes(xintercept=mean(water)),
              color="blue", linetype="dashed", size=1)+
+  xlab("percent water")+
+  ylab("statistical density")+
   theme_bw()
 ```
 
-```{r fig_temp_habit, echo=FALSE}
+```{r fig_temp_habit, echo=FALSE, fig.cap="Distribution of equitorial temperature (Celsius) on habitable planets from 5000 draws of system generation with forced inhabitation"}
 ggplot(habitable_planets, aes(x=temperature))+
   geom_histogram(aes(y=..density..), binwidth=1, color="black", fill="grey")+
   geom_density(alpha=0.2, fill="red", adjust=1)+
   geom_vline(aes(xintercept=mean(temperature)),
              color="blue", linetype="dashed", size=1)+
+  xlab("equitorial average temperature (Celsius)")+
+  ylab("statistical density")+
   theme_bw()
 ```
 
-```{r fig_continents_habit, echo=FALSE}
+```{r fig_continents_habit, echo=FALSE, fig.cap="Distribution of continents on habitable planets from 5000 draws of system generation with forced inhabitation"}
 ggplot(habitable_planets, aes(x=continents))+
   geom_histogram(aes(y=..density..), binwidth=1, color="black", fill="grey")+
   geom_density(alpha=0.2, fill="red", adjust=2)+
   geom_vline(aes(xintercept=mean(continents)),
              color="blue", linetype="dashed", size=1)+
+  xlab("number of continents")+
+  ylab("statistical density")+
   theme_bw()
 ```
   
-```{r fig_day_habit, echo=FALSE}
+```{r fig_day_habit, echo=FALSE, fig.cap="Distribution of day length on habitable planets from 5000 draws of system generation with forced inhabitation"}
 ggplot(habitable_planets, aes(x=day_length))+
   geom_histogram(aes(y=..density..), binwidth=1, color="black", fill="grey")+
   geom_density(alpha=0.2, fill="red", adjust=1.5)+
   geom_vline(aes(xintercept=mean(day_length)),
              color="blue", linetype="dashed", size=1)+
+  xlab("length of day (hours)")+
+  ylab("statistical density")+
   theme_bw()
 ```
 
-```{r fig_year_habit, echo=FALSE}
+```{r fig_year_habit, echo=FALSE, fig.cap="Distribution of year length on habitable planets from 5000 draws of system generation with forced inhabitation"}
 ggplot(habitable_planets, aes(x=year_length))+
   geom_histogram(aes(y=..density..), binwidth=1, color="black", fill="grey")+
   geom_density(alpha=0.2, fill="red", adjust=1.5)+
   geom_vline(aes(xintercept=mean(year_length)),
              color="blue", linetype="dashed", size=1)+
+  xlab("length of year relative to Terran standard")+
+  ylab("statistical density")+
   theme_bw()
 ```
 
-```{r fig_life_habit, echo=FALSE}
-ggplot(habitable_planets, aes(x=life))+
-  geom_bar(aes(y = (..count..)/sum(..count..)), fill="grey", color="black")+
-  xlab("highest form of native life")+
-  ylab("proportion")+
-  theme_bw()
-```
-
-```{r fig_water_continents, echo=FALSE}
+```{r fig_water_continents, echo=FALSE, fig.cap="Relationship between water coverage and number of continents on habitable planets from 5000 draws of system generation with forced inhabitation"}
 ggplot(habitable_planets, aes(x=water, y=continents))+
   geom_jitter(alpha=0.2)+
   geom_smooth()+
+  xlab("percent water")+
+  ylab("number of continents")+
   theme_bw()
 ```
