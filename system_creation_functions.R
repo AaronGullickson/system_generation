@@ -223,6 +223,10 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
         if(type=="Giant Terrestrial") {
           water_roll <- water_roll+3
         }
+        #another tweak to allow for more water on inhabited planets
+        if(habitable_system) {
+          water_roll <- water_roll+2
+        }
         if(water_roll<0) {
           water <- 0
         } else if(water_roll==0) {
