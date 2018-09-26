@@ -1,0 +1,41 @@
+---
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(reshape2)
+```
+
+```{r calculate_zones, echo=FALSE, fig.cap="Indicator of whether a given orbital slot is within the life zone by star type", fig.height=7.5}
+star_data <- read.csv("data/solar_type.csv", row.names=1)
+
+placement_constants <- c(0.4,0.7,1.0,1.6,2.8,5.2,10,19.6,
+                         38.8,77.2,154,307.6,614.8,1229.2,
+                         2458)
+
+pos <- NULL
+for(i in 1:15) {
+  pos <- cbind(pos, star_data$mass*placement_constants[i])
+}
+
+colnames(pos) <- paste("pos", 1:15, sep="")
+star_data <- cbind(star_data, pos)
+
+habitable_zone <- pos>=star_data$distance_inner_au & pos<=star_data$distance_outer_au
+
+habitable_zone <- data.frame(habitable_zone)
+rownames(habitable_zone) <- rownames(star_data)
+
+melted <- melt(as.matrix(habitable_zone))
+ggplot(melted, aes(x = Var2, y = Var1, fill = value)) + geom_tile() +
+  scale_fill_manual(values = c("grey", "darkgreen"), name="Life Zone")+
+  geom_vline(xintercept = seq(from=1.5,to=14.5), linetype="dashed", color="grey40")+
+  geom_hline(yintercept = seq(from=1.5,to=(nrow(habitable_zone)+0.5)), linetype="dashed", 
+             color="grey40")+
+  ylab("Star Type")+
+  xlab("Orbital Slot")+
+  theme_bw()+
+  theme(legend.position = "bottom")
+```
