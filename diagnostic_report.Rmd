@@ -1,0 +1,130 @@
+---
+title: "Diagnostic Tests"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+source("system_creation_functions.R")
+```
+
+```{r monte_carlo_inhabited, echo=FALSE} 
+#Run generate_system() 5000 times and pull out all habitable planets
+#create the first one to add on to
+system <- generate_system()
+#easiest way to identify habitable is life
+habitable_planets <- subset(system$planets, !is.na(life) & life!="None")
+n_habitable <- nrow(habitable_planets)
+for(i in 1:4999) {
+  system <- generate_system()
+  #easiest way to identify habitable is life
+  temp <- subset(system$planets, !is.na(life) & life!="None")
+  n_habitable <- c(n_habitable, nrow(temp))
+  habitable_planets <- rbind(habitable_planets, temp)
+}
+```
+
+```{r fig_n_habit, echo=FALSE}
+temp <- as.data.frame(n_habitable)
+temp$n_habitable <- factor(temp$n_habitable)
+ggplot(temp, aes(x=n_habitable))+
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill="grey", color="black")+
+  xlab("number of habitable planets in system")+
+  ylab("proportion")
+```
+
+```{r fig_type_habit, echo=FALSE}
+ggplot(habitable_planets, aes(x=type))+
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill="grey", color="black")+
+  ylab("proportion")+
+  xlab("planet type")+
+  theme_bw()
+```
+
+```{r fig_atmo_habit, echo=FALSE}
+ggplot(habitable_planets, aes(x=atmosphere))+
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill="grey", color="black")+
+  ylab("proportion")+
+  xlab("atmospheric composition")+
+  theme_bw()
+```
+
+```{r fig_pressure_habit, echo=FALSE}
+ggplot(habitable_planets, aes(x=pressure))+
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill="grey", color="black")+
+  ylab("proportion")+
+  xlab("atmospheric pressure")+
+  theme_bw()
+```
+
+```{r fig_gravity_habit, echo=FALSE, fig.cap="Distribution of gravity on habitable planets from 5000 draws of system generation with forced inhabitation"}
+ggplot(habitable_planets, aes(x=gravity))+
+  geom_histogram(aes(y=..density..), binwidth=0.1, color="black", fill="grey")+
+  geom_density(alpha=0.2, fill="red")+
+  geom_vline(aes(xintercept=mean(gravity)),
+             color="blue", linetype="dashed", size=1)+
+  xlab("gravity (1.0 = earth standard)")+
+  ylab("statistical density")+
+  theme_bw()
+```
+
+```{r fig_water_habit, echo=FALSE}
+ggplot(habitable_planets, aes(x=water))+
+  geom_histogram(aes(y=..density..), binwidth=5, color="black", fill="grey")+
+  geom_density(alpha=0.2, fill="red")+
+  geom_vline(aes(xintercept=mean(water)),
+             color="blue", linetype="dashed", size=1)+
+  theme_bw()
+```
+
+```{r fig_temp_habit, echo=FALSE}
+ggplot(habitable_planets, aes(x=temperature))+
+  geom_histogram(aes(y=..density..), binwidth=1, color="black", fill="grey")+
+  geom_density(alpha=0.2, fill="red", adjust=1)+
+  geom_vline(aes(xintercept=mean(temperature)),
+             color="blue", linetype="dashed", size=1)+
+  theme_bw()
+```
+
+```{r fig_continents_habit, echo=FALSE}
+ggplot(habitable_planets, aes(x=continents))+
+  geom_histogram(aes(y=..density..), binwidth=1, color="black", fill="grey")+
+  geom_density(alpha=0.2, fill="red", adjust=2)+
+  geom_vline(aes(xintercept=mean(continents)),
+             color="blue", linetype="dashed", size=1)+
+  theme_bw()
+```
+  
+```{r fig_day_habit, echo=FALSE}
+ggplot(habitable_planets, aes(x=day_length))+
+  geom_histogram(aes(y=..density..), binwidth=1, color="black", fill="grey")+
+  geom_density(alpha=0.2, fill="red", adjust=1.5)+
+  geom_vline(aes(xintercept=mean(day_length)),
+             color="blue", linetype="dashed", size=1)+
+  theme_bw()
+```
+
+```{r fig_year_habit, echo=FALSE}
+ggplot(habitable_planets, aes(x=year_length))+
+  geom_histogram(aes(y=..density..), binwidth=1, color="black", fill="grey")+
+  geom_density(alpha=0.2, fill="red", adjust=1.5)+
+  geom_vline(aes(xintercept=mean(year_length)),
+             color="blue", linetype="dashed", size=1)+
+  theme_bw()
+```
+
+```{r fig_life_habit, echo=FALSE}
+ggplot(habitable_planets, aes(x=life))+
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill="grey", color="black")+
+  xlab("highest form of native life")+
+  ylab("proportion")+
+  theme_bw()
+```
+
+```{r fig_water_continents, echo=FALSE}
+ggplot(habitable_planets, aes(x=water, y=continents))+
+  geom_jitter(alpha=0.2)+
+  geom_smooth()+
+  theme_bw()
+```
