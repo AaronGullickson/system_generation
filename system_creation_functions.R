@@ -441,3 +441,115 @@ plot_system <- function(system) {
   
 }
 
+add_colonization <- function(system, distance_terra, founding_sleague, founding_clan) {
+  
+  system$planets$population <- NA
+  system$planets$usilr <- NA
+  system$planets$hpg <- NA
+  system$planets$recharge_nadir <- NA
+  system$planets$recharge_zenith <- NA
+  
+  pop_table <- cbind(c(50000000,
+                       10000000,
+                        2500000,
+                         500000,
+                         100000,
+                          10000,
+                           2500),
+                     c(   10000,
+                        2000000,
+                          50000,
+                          20000,
+                           5000,
+                            500,
+                            100))
+  
+  pop_table_high <- cbind(c(500000000,
+                            100000000,
+                             25000000,
+                              5000000,
+                              1000000,
+                               200000,
+                                50000),
+                          c(   100000,
+                             20000000,
+                              1000000,
+                               200000,
+                                50000,
+                                10000,
+                                 2500))
+  
+  for(slot in which(system$planets$inhabitable)) {
+    
+    planet <- system$planets[slot,]
+    
+    ##### Population #####
+    high_roll <- roll_d6(1)
+    
+    as.numeric(cut(distance_terra,
+                   breaks=c(0,500,600,750,1000,
+                            1250,2000,Inf)))
+    
+    if(founding_clan) {
+      if(high_roll>=5) {
+       population <- 50000*roll_d6(3)
+      } else {
+        population <- 1000*roll_d6(3)
+      }
+    } else {
+      base_roll <- roll_d6(2)
+      if(founding_sleague) {
+        base_roll <- base_roll+roll_d6(2)
+      }
+      if(high_roll==6) {
+        base_size <- pop_table_high[as.numeric(cut(distance_terra,
+                                                   breaks=c(0,500,600,750,1000,
+                                                            1250,2000,Inf))),
+                                    (!founding_sleague)+1]
+      } else {
+        base_size <- pop_table[as.numeric(cut(distance_terra,
+                                              breaks=c(0,500,600,750,1000,
+                                                       1250,2000,Inf))),
+                               (!founding_sleague)+1]
+      }
+       population <- base_size*base_roll
+    }
+    
+    #check for modifiers
+    modifier <- 1
+    #uninhabitable
+    if(grepl("Toxic", planet$atmosphere) | 
+       planet$pressure=="Very High" |
+       planet$pressure=="Vacuum" |
+       planet$pressure=="Trace" | 
+       planet$gravity>1.5) { 
+      modifier <- modifier * 0.05
+    }
+    if(grepl("Tainted", planet$atmospher)) {
+      modifier <- modifier * 0.8
+    }
+    if(planet$temperature>=38.85) {
+      modifier <- modifier * 0.8
+    }
+    if(planet$gravity<0.8 | planet$gravity>1.2) {
+      modifier <- modifier * 0.8
+    }
+    if(planet$water<40) {
+      modifier <- modifier * 0.8
+    }
+    
+    planet$population <- modifier*population
+    
+    ##### USILR #####
+      
+    ##### HPG Status #####
+    
+    ##### Recharge Stations #####
+    
+    system$planets[slot,] <- planet
+    
+  }
+  
+  return(system)
+}
+
