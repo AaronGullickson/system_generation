@@ -488,8 +488,7 @@ add_colonization <- function(system, distance_terra, current_year,
                                labels=c("None","D","C","B","A"), 
                                ordered=TRUE)
   
-  system$planets$recharge_nadir <- NA
-  system$planets$recharge_zenith <- NA
+  system$recharge <- list(nadir=FALSE, zenith=FALSE)
   
   pop_table <- cbind(c(50000000,
                        10000000,
@@ -714,7 +713,14 @@ add_colonization <- function(system, distance_terra, current_year,
                                  ordered=TRUE)
 
     ##### HPG Status #####
-    hpg_roll <- roll_d6(2)-floor(distance_terra/100)
+    #Tweak: the -1 per 100 LY from Terra was very harsh and 
+    #produced distributions that did not match at all what the 
+    #text of CamOps on pg. 132-133. We found that reducing
+    #this penalty to -1 per 250LY produced much more reasonable
+    #results. However, its worth noting that almost any LY penalty
+    #will result in minor periphery powers having no HPG exclusively
+    
+    hpg_roll <- roll_d6(2)-floor(distance_terra/250)
     if(planet$population<(1*10^9)) {
       hpg_roll <- hpg_roll-1
     } else if(hpg_roll>(2*10^9)) {
@@ -729,19 +735,20 @@ add_colonization <- function(system, distance_terra, current_year,
     if(current_year<2800) {
       hpg_roll <- hpg_roll+2
     }
+    hpg_roll <- max(min(hpg_roll,12),1)
     
     hpg_table_is <- c(3,rep(4,9),rep(5,2))
     hpg_table_periphery <- c(2,3,rep(4,9),5)
     hpg_table_minor <- c(rep(1,10),3,4)
     
-    hpg <- hpg_table_is[max(min(hpg_roll,12),1)] 
+    hpg <- hpg_table_is[hpg_roll] 
     if(faction_type=="Clan") {
       #clan worlds are always A rated (pg. 133 CamOps)
       hpg <- 5
     } else if(faction_type=="Major Periphery") {
-      hpg <- hpg_table_periphery[max(min(hpg_roll,12),1)] 
+      hpg <- hpg_table_periphery[hpg_roll] 
     } else if(faction_type=="Minor Periphery") {
-      hpg <- hpg_table_minor[max(min(hpg_roll,12),1)] 
+      hpg <- hpg_table_minor[hpg_roll] 
     } 
     
     planet$hpg <- factor(hpg,
@@ -749,13 +756,54 @@ add_colonization <- function(system, distance_terra, current_year,
                          labels=c("None","D","C","B","A"), 
                          ordered=TRUE)
     
-    ##### Recharge Stations #####
-    
     #ok, ready to update the planet
     system$planets[slot,] <- planet
     
   }
   
+  ##### Recharge Stations #####
+  recharge_roll <- roll_d6(2)
+  if(max(system$planets$population,na.rm=TRUE)<(1*10^9)) {
+    recharge_roll <- recharge_roll-1
+  } else if(max(system$planets$population,na.rm=TRUE)<(2*10^9)) {
+    recharge_roll <- recharge_roll+1
+  }
+  if(max(system$planets$tech, na.rm=TRUE)<="D") {
+    recharge_roll <- recharge_roll-1
+  }
+  if(max(system$planets$industry, na.rm=TRUE)<="D") {
+    recharge_roll <- recharge_roll-1
+  }
+  if(current_year<2800) {
+    recharge_roll <- recharge_roll+2
+  }
+  
+  recharge_roll <- max(min(recharge_roll-1,11),1)
+  
+  recharge_is <- c(rep(0,8),rep(1,2),1)
+  recharge_clan <- c(0,rep(1,7),rep(2,3))
+  recharge_periphery <- c(rep(0,8),rep(1,3))
+  recharge_minor <- c(rep(0,10),1)
+  
+  recharge_n <- recharge_is[recharge_roll] 
+  if(faction_type=="Clan") {
+    recharge_n <- recharge_clan[recharge_roll] 
+  } else if(faction_type=="Major Periphery") {
+    recharge_n <- recharge_periphery[recharge_roll] 
+  } else if(faction_type=="Minor Periphery") {
+    recharge_n <- recharge_minor[recharge_roll] 
+  } 
+  
+  if(recharge_n>1) {
+    system$recharge$nadir <- system$recharge$zenith <- TRUE
+  } else if(recharge_n==1) {
+    if(sample(1:2,1)==2) {
+      system$recharge$nadir <- TRUE
+    } else {
+      system$recharge$zenith <- TRUE
+    }
+  }
+
   return(system)
 }
 
