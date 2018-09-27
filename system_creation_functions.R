@@ -734,12 +734,15 @@ add_colonization <- function(system, distance_terra, current_year,
     hpg_table_periphery <- c(2,3,rep(4,9),5)
     hpg_table_minor <- c(rep(1,10),3,4)
     
-    hpg <- hpg_table_is[min(max(hpg_roll,12),1)] 
-    if(faction_type=="Major Periphery") {
-      hpg <- hpg_table_periphery[min(max(hpg_roll,12),1)] 
-    } else {
-      hpg <- hpg_table_minor[min(max(hpg_roll,12),1)] 
-    }
+    hpg <- hpg_table_is[max(min(hpg_roll,12),1)] 
+    if(faction_type=="Clan") {
+      #clan worlds are always A rated (pg. 133 CamOps)
+      hpg <- 5
+    } else if(faction_type=="Major Periphery") {
+      hpg <- hpg_table_periphery[max(min(hpg_roll,12),1)] 
+    } else if(faction_type=="Minor Periphery") {
+      hpg <- hpg_table_minor[max(min(hpg_roll,12),1)] 
+    } 
     
     planet$hpg <- factor(hpg,
                          levels=1:5,
