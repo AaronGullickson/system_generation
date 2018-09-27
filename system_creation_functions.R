@@ -441,10 +441,36 @@ plot_system <- function(system) {
   
 }
 
-add_colonization <- function(system, distance_terra, founding_sleague, founding_clan) {
+add_colonization <- function(system, distance_terra, current_year,
+                             founding_year, founding_clan, 
+                             minor_periphery) {
+  
+  years_since_founding <- current_year-founding_year
+  #CGL dates the end of SL era as 2764
+  founding_sleague <- founding_year <= 2764
   
   system$planets$population <- NA
-  system$planets$usilr <- NA
+  system$planets$tech <- factor(NA,
+                                levels=1:6,
+                                labels=c("X","F","D","C","B","A"), 
+                                ordered=TRUE)
+  system$planets$output <- factor(NA,
+                                  levels=1:5,
+                                  labels=c("F","D","C","B","A"), 
+                                  ordered=TRUE)
+  system$planets$industry <- factor(NA,
+                                    levels=1:5,
+                                    labels=c("F","D","C","B","A"), 
+                                    ordered=TRUE)
+  system$planets$raw <- factor(NA,
+                               levels=1:5,
+                               labels=c("F","D","C","B","A"), 
+                               ordered=TRUE)
+  system$planets$agriculture <- factor(NA,
+                                       levels=1:5,
+                                       labels=c("F","D","C","B","A"), 
+                                       ordered=TRUE)
+  
   system$planets$hpg <- NA
   system$planets$recharge_nadir <- NA
   system$planets$recharge_zenith <- NA
@@ -485,10 +511,6 @@ add_colonization <- function(system, distance_terra, founding_sleague, founding_
     
     ##### Population #####
     high_roll <- roll_d6(1)
-    
-    as.numeric(cut(distance_terra,
-                   breaks=c(0,500,600,750,1000,
-                            1250,2000,Inf)))
     
     if(founding_clan) {
       if(high_roll>=5) {
@@ -541,11 +563,140 @@ add_colonization <- function(system, distance_terra, founding_sleague, founding_
     planet$population <- modifier*population
     
     ##### USILR #####
-      
+    #we will use numbers until done (also reverse the coding for christ sakes) 
+    #watch out for tech. This one has two additional levels at either end
+    #that the others dont have so the numbers dont line up.
+    
+    ##Tech
+    tech <- 4
+    if(founding_sleague | founding_clan) {
+      tech <- tech+1
+    }
+    if(planet$population>(1*10^9)) {
+      tech <- tech+1
+    } else if(planet$population<(1*10^8)) {
+      tech <- tech-1
+      if(planet$population<(1*10^6)) {
+        tech <- tech-1
+      }
+    }
+    if(minor_periphery) {
+      tech <- tech-1
+    }
+    planet$tech <- factor(max(min(7,tech),1),
+                                  levels=1:7,
+                                  labels=c("X","F","D","C","B","A","A+"), 
+                                  ordered=TRUE)
+    
+    
+    #industry
+    industry <- 3
+    if(planet$tech>="B") {
+      industry <- industry+1
+    } else if(planet$tech<="F") {
+      industry <- industry-1
+    }
+    if(planet$population>(1*10^9)) {
+      industry <- industry+1
+      if(planet$population>(4*10^9)) {
+        industry <- industry+1
+      }
+    } else if(planet$population<(1*10^8)) {
+      industry <- industry-1
+      if(planet$population<(1*10^6)) {
+        industry <- industry-1
+      }
+    }
+    planet$industry <- factor(max(min(5,industry),1),
+                              levels=1:5,
+                              labels=c("F","D","C","B","A"), 
+                              ordered=TRUE)
+    
+    #output
+    output <- 3
+    if(planet$population>(1*10^9)) {
+      output <- output+1
+    }
+    if(planet$tech>="A") {
+      output <- output+1
+    } else if(planet$tech<="D") {
+      output <- output-1
+      if(planet$tech=="X") {
+        output <- output-1
+      }
+    }
+    if(planet$industry>="B") {
+      output <- output+1
+    } else if(planet$industry<="D") {
+      output <- output-1
+    }
+    planet$output <- factor(max(min(5,output),1),
+                            levels=1:5,
+                            labels=c("F","D","C","B","A"), 
+                            ordered=TRUE)
+    
+    #raw materials
+    raw <- 3
+    if(planet$tech>="C") {
+      raw <- raw+1
+      if(planet$tech=="A+") {
+        raw <- raw+1
+      }
+    }
+    if(planet$density>5.5) {
+      raw <- raw+1
+    } else if(planet$density<4) {
+      raw <- raw-1
+    }
+    if(planet$population>(3*10^9)) {
+      raw <- raw-1
+    }
+    if(planet$output>="B") {
+      raw <- raw-1
+    }
+    if(years_since_founding>250) {
+      raw <- raw-1
+    }
+    planet$raw <- factor(max(min(5,raw),1),
+                         levels=1:5,
+                         labels=c("F","D","C","B","A"), 
+                         ordered=TRUE)
+    
+    #agriculture
+    agriculture <- 3
+    if(planet$tech>="B") {
+      agriculture <- agriculture+1
+    } else if(planet$tech<="F") {
+      agriculture <- agriculture-1
+    }
+    if(planet$industry>="C") {
+      agriculture <- agriculture+1
+    }
+    if(planet$population>(1*10^9)) {
+      agriculture <- agriculture-1
+      if(planet$population>(5*10^9)) {
+        agriculture <- agriculture-1
+      }
+    }
+    if(planet$water<50) {
+      agriculture <- agriculture-1
+    }
+    if(grepl("Tainted", planet$atmosphere)) {
+      agriculture <- agriculture-1
+    }
+    if(grepl("Toxic", planet$atmosphere)) {
+      agriculture <- agriculture-2
+    }
+    planet$agriculture <- factor(max(min(5,agriculture),1),
+                                 levels=1:5,
+                                 labels=c("F","D","C","B","A"), 
+                                 ordered=TRUE)
+
     ##### HPG Status #####
     
     ##### Recharge Stations #####
     
+    #ok, ready to update the planet
     system$planets[slot,] <- planet
     
   }
