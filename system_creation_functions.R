@@ -528,11 +528,16 @@ add_colonization <- function(system, distance_terra, current_year,
     ##### Population #####
     high_roll <- roll_d6(1)
     
+    ##Tweaks: the clan numbers are super low and produce populations of 
+    ## around 245,000 on average. Based on existing numbers this is low
+    ## by an order of magnitude of 100, so we add two zeros to the base
+    ## number here to get reasonable numbers. It shouldn't matter for existing
+    ## worlds because we have population numbers for all clan homeworlds
     if(faction_type=="Clan") {
       if(high_roll>=5) {
-       population <- 50000*roll_d6(3)
+        population <- 5000000*roll_d6(3)
       } else {
-        population <- 1000*roll_d6(3)
+        population <- 1000000*roll_d6(3)
       }
     } else {
       base_roll <- roll_d6(2)
@@ -588,9 +593,9 @@ add_colonization <- function(system, distance_terra, current_year,
     if(founding_sleague | faction_type=="Clan") {
       tech <- tech+1
     }
-    if(planet$population>(1*10^9)) {
+    if(faction_type!="Clan" & planet$population>(1*10^9)) {
       tech <- tech+1
-    } else if(planet$population<(1*10^8)) {
+    } else if(faction_type!="Clan" & planet$population<(1*10^8)) {
       tech <- tech-1
       if(planet$population<(1*10^6)) {
         tech <- tech-1
@@ -612,12 +617,12 @@ add_colonization <- function(system, distance_terra, current_year,
     } else if(planet$tech<="F") {
       industry <- industry-1
     }
-    if(planet$population>(1*10^9)) {
+    if(faction_type!="Clan" & planet$population>(1*10^9)) {
       industry <- industry+1
       if(planet$population>(4*10^9)) {
         industry <- industry+1
       }
-    } else if(planet$population<(1*10^8)) {
+    } else if(faction_type!="Clan" & planet$population<(1*10^8)) {
       industry <- industry-1
       if(planet$population<(1*10^6)) {
         industry <- industry-1
@@ -630,7 +635,7 @@ add_colonization <- function(system, distance_terra, current_year,
     
     #output
     output <- 3
-    if(planet$population>(1*10^9)) {
+    if(faction_type!="Clan" & planet$population>(1*10^9)) {
       output <- output+1
     }
     if(planet$tech>="A") {
@@ -664,7 +669,7 @@ add_colonization <- function(system, distance_terra, current_year,
     } else if(planet$density<4) {
       raw <- raw-1
     }
-    if(planet$population>(3*10^9)) {
+    if(faction_type!="Clan" & planet$population>(3*10^9)) {
       raw <- raw-1
     }
     if(planet$output>="B") {
@@ -688,7 +693,7 @@ add_colonization <- function(system, distance_terra, current_year,
     if(planet$industry>="C") {
       agriculture <- agriculture+1
     }
-    if(planet$population>(1*10^9)) {
+    if(faction_type!="Clan" & planet$population>(1*10^9)) {
       agriculture <- agriculture-1
       if(planet$population>(5*10^9)) {
         agriculture <- agriculture-1
