@@ -441,9 +441,21 @@ plot_system <- function(system) {
   
 }
 
+#faction type should be either "Clan", "IS", "Periphery", "Minor"
 add_colonization <- function(system, distance_terra, current_year,
-                             founding_year, founding_clan, 
-                             minor_periphery) {
+                             founding_year, faction_type) {
+  
+  faction_type <- factor(faction_type,
+                         levels=c("IS","Clan","Periphery","Minor"),
+                         labels=c("Inner Sphere","Clan",
+                                  "Major Periphery","Minor Periphery"))
+  if(is.na(faction_type)) {
+    warning("Incorrect faction type. Must be \"Clan\", \"IS\", \"Periphery\", or \"Minor\". Assuming Inner Sphere.")
+    faction_type <- factor("IS",
+                           levels=c("IS","Clan","Periphery","Minor"),
+                           labels=c("Inner Sphere","Clan",
+                                    "Major Periphery","Minor Periphery"))
+  }
   
   years_since_founding <- current_year-founding_year
   #CGL dates the end of SL era as 2764
@@ -471,7 +483,11 @@ add_colonization <- function(system, distance_terra, current_year,
                                        labels=c("F","D","C","B","A"), 
                                        ordered=TRUE)
   
-  system$planets$hpg <- NA
+  system$planets$hpg <- factor(NA,
+                               levels=1:5,
+                               labels=c("None","D","C","B","A"), 
+                               ordered=TRUE)
+  
   system$planets$recharge_nadir <- NA
   system$planets$recharge_zenith <- NA
   
@@ -512,7 +528,7 @@ add_colonization <- function(system, distance_terra, current_year,
     ##### Population #####
     high_roll <- roll_d6(1)
     
-    if(founding_clan) {
+    if(faction_type=="Clan") {
       if(high_roll>=5) {
        population <- 50000*roll_d6(3)
       } else {
@@ -569,7 +585,7 @@ add_colonization <- function(system, distance_terra, current_year,
     
     ##Tech
     tech <- 4
-    if(founding_sleague | founding_clan) {
+    if(founding_sleague | faction_type=="Clan") {
       tech <- tech+1
     }
     if(planet$population>(1*10^9)) {
@@ -580,7 +596,7 @@ add_colonization <- function(system, distance_terra, current_year,
         tech <- tech-1
       }
     }
-    if(minor_periphery) {
+    if(faction_type=="Minor Periphery") {
       tech <- tech-1
     }
     planet$tech <- factor(max(min(7,tech),1),
@@ -693,6 +709,37 @@ add_colonization <- function(system, distance_terra, current_year,
                                  ordered=TRUE)
 
     ##### HPG Status #####
+    hpg_roll <- roll_d6(2)-floor(distance_terra/100)
+    if(planet$population<(1*10^9)) {
+      hpg_roll <- hpg_roll-1
+    } else if(hpg_roll>(2*10^9)) {
+      hpg_roll <- hpg_roll+1
+    }
+    if(planet$tech<="D") {
+      hpg_roll <- hpg_roll-1
+    }
+    if(planet$industry<="D") {
+      hpg_roll <- hpg_roll-1
+    }
+    if(current_year<2800) {
+      hpg_roll <- hpg_roll+2
+    }
+    
+    hpg_table_is <- c(3,rep(4,9),rep(5,2))
+    hpg_table_periphery <- c(2,3,rep(4,9),5)
+    hpg_table_minor <- c(rep(1,10),3,4)
+    
+    hpg <- hpg_table_is[min(max(hpg_roll,12),1)] 
+    if(faction_type=="Major Periphery") {
+      hpg <- hpg_table_periphery[min(max(hpg_roll,12),1)] 
+    } else {
+      hpg <- hpg_table_minor[min(max(hpg_roll,12),1)] 
+    }
+    
+    planet$hpg <- factor(hpg,
+                         levels=1:5,
+                         labels=c("None","D","C","B","A"), 
+                         ordered=TRUE)
     
     ##### Recharge Stations #####
     
