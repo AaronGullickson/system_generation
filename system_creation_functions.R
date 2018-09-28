@@ -550,9 +550,9 @@ add_colonization <- function(system, distance_terra, current_year,
         base_roll <- base_roll+roll_d6(2)
         if(high_roll==6) {
           #we should probably put a cap on this or we will get somewhat ridiculously high numbers at zero distance
-          #averageing about 17 billion. If we cap at one billion then we get an average of 10.5 billion
-          #for high numbers at Terra with a max of 24 billion
-          base_size <- max(exp(21.2080664-0.0059444*distance_terra),1*10^9)
+          #averageing about 17 billion. If we cap at 200LY from terra, then we will average 5.2 billion for high
+          #rolls with a max of around 12 billion. 
+          base_size <- exp(21.2080664-0.0059444*max(distance_terra, 200))
         } else {
           base_size <- exp(19.1844368-0.0064085*distance_terra)
         }
