@@ -336,6 +336,32 @@ ggplot(generated_systems, aes(x=distance_terra, y=population))+
   theme_bw()+
   facet_wrap(~faction_type, scales = "free")+
   ggtitle("Relationship between population and distance from Terra, by faction type")+
+  xlab("distance from terra")+
+  ylab("population (log-scale)")
+
+ggplot(generated_systems, aes(x=distance_terra, y=population, color=faction_type))+
+  geom_point(alpha=0.4)+
+  scale_y_log10()+
+  theme_bw()+
+  scale_color_brewer(palette = "Set1")+
+  ggtitle("Relationship between population and distance from Terra")+
+  xlab("distance from terra")+
+  ylab("population (log-scale)")
+
+#now without logs
+ggplot(generated_systems, aes(x=distance_terra, y=population))+
+  geom_point(alpha=0.4)+
+  geom_smooth()+
+  theme_bw()+
+  facet_wrap(~faction_type, scales = "free")+
+  ggtitle("Relationship between population and distance from Terra, by faction type")+
+  xlab("distance from terra")
+
+ggplot(generated_systems, aes(x=distance_terra, y=population, color=faction_type))+
+  geom_point(alpha=0.4)+
+  theme_bw()+
+  scale_color_brewer(palette = "Set1")+
+  ggtitle("Relationship between population and distance from Terra")+
   xlab("distance from terra")
 ```
 
