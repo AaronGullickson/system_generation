@@ -603,7 +603,8 @@ add_colonization <- function(system, distance_terra, current_year,
     if(faction_type=="Minor Periphery") {
       tech <- tech-1
     }
-    planet$tech <- factor(max(min(7,tech),1),
+    #Tweak: dont allow regressed and advanced worlds through random generation
+    planet$tech <- factor(max(min(6,tech),2),
                                   levels=1:7,
                                   labels=c("X","F","D","C","B","A","A+"), 
                                   ordered=TRUE)
