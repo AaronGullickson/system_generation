@@ -539,22 +539,36 @@ add_colonization <- function(system, distance_terra, current_year,
         population <- 1000000*roll_d6(3)
       }
     } else {
+      #tweak: we are now going to use a function that we derived from applying
+      #statistical models to the numbers from CamOps pg. 123. This will give us a 
+      #smoother population distribution as a function of light years from Terra, while
+      #still preserving variation from the roll. The script population_distance_models.R
+      #contains the details. The star league model is a basic exponential decay model
+      #while the more recent founding uses a spline model because of the peak around 500-600LY
       base_roll <- roll_d6(2)
       if(founding_sleague) {
         base_roll <- base_roll+roll_d6(2)
-      }
-      if(high_roll==6) {
-        base_size <- pop_table_high[as.numeric(cut(distance_terra,
-                                                   breaks=c(-1,500,600,750,1000,
-                                                            1250,2000,Inf))),
-                                    (!founding_sleague)+1]
+        if(high_roll==6) {
+          #we should probably put a cap on this or we will get somewhat ridiculously high numbers at zero distance
+          #averageing about 17 billion. If we cap at one billion then we get an average of 10.5 billion
+          #for high numbers at Terra with a max of 24 billion
+          base_size <- max(exp(21.2080664-0.0059444*distance_terra),1*10^9)
+        } else {
+          base_size <- exp(19.1844368-0.0064085*distance_terra)
+        }
       } else {
-        base_size <- pop_table[as.numeric(cut(distance_terra,
-                                              breaks=c(-1,500,600,750,1000,
-                                                       1250,2000,Inf))),
-                               (!founding_sleague)+1]
+        #need splines 
+        before_spline <- distance_terra-550
+        before_spline[before_spline>0] <- 0
+        after_spline <- distance_terra-550
+        after_spline[after_spline<0] <- 0
+        if(high_roll==6) {
+          base_size <- exp(16.0763067+0.0152113*before_spline-0.0072360*after_spline)
+        } else {
+          base_size <- exp(13.7805152+0.0152339*before_spline-0.0077084*after_spline)
+        }
       }
-       population <- base_size*base_roll
+      population <- base_size*base_roll
     }
     
     #check for modifiers
@@ -603,6 +617,9 @@ add_colonization <- function(system, distance_terra, current_year,
     if(faction_type=="Minor Periphery") {
       tech <- tech-1
     }
+    #Tweak: apply gamma distribution to tech rating to create variation. A scale
+    #of 0.2 seems to work pretty nicely in keepint it roughly in bounds
+    #tech <- round(rgamma(1, tech/.2,scale=0.2))
     #Tweak: dont allow regressed and advanced worlds through random generation
     planet$tech <- factor(max(min(6,tech),2),
                                   levels=1:7,
