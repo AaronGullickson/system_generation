@@ -1,0 +1,369 @@
+---
+title: "Planetary Simulation"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(xml2)
+source("system_creation_functions.R")
+```
+
+This report will run a simulation that assigns system information for every planet in the `planets.xml` database so that we can examine how well the simulation produces socio-industrial codes, population, and the like. 
+
+```{r read_planets_xml, echo=FALSE}
+planets <- read_xml("data/planets.xml")
+planet.table <- NULL
+target.year <- 3047
+
+for(i in 1:xml_length(planets)) {
+  planet <- xml_children(planets)[[i]]
+  pname <- xml_text(xml_find_first(planet, "id"))
+  xcood <- as.numeric(xml_text(xml_find_first(planet, "xcood")))
+  ycood <- as.numeric(xml_text(xml_find_first(planet, "ycood")))
+  faction <- xml_text(xml_find_first(planet, "faction"))
+  hpg <- xml_text(xml_find_first(planet, "hpg"))
+  sic <- xml_text(xml_find_first(planet, "socioIndustrial"))
+  founding_year <- NA
+
+  events <- xml_find_all(planet, "event")
+  first_faction_found <- FALSE
+  for(event in events) {
+    year <- as.numeric(substr(xml_text(xml_find_first(event, "date")),1,4))
+    if(year>target.year) {
+      next
+    }
+    if(!is.na(xml_find_first(event, "faction"))) {
+      faction <- xml_text(xml_find_first(event, "faction"))
+      #for now if faction is multiple just take the first
+      faction <- strsplit(faction,",")[[1]][1]
+      #if this is the first time we hit a faction, then 
+      #this is the founding year
+      if(!first_faction_found) {
+        founding_year <- year
+        first_faction_found <- TRUE
+      }
+    }
+    if(!is.na(xml_find_first(event, "hpg"))) {
+      hpg <- xml_text(xml_find_first(event, "hpg"))
+    }
+    #only take changes to default SIC within 30 years of target date
+    if(!is.na(xml_find_first(event, "socioIndustrial")) & (target.year-year)<=30) {
+      sic <- xml_text(xml_find_first(event, "socioIndustrial"))
+    }
+  }
+  
+  #do some re-coding
+  sic_codes <- c(NA,NA,NA,NA,NA)
+  if(!is.na(sic)) {
+    sic_codes <- strsplit(sic, "-")[[1]]
+  }
+  
+  temp <- c(pname, xcood, ycood, sic_codes, faction, hpg, founding_year)
+  #print(temp)
+  planet.table <- rbind(planet.table, temp)
+}
+
+
+planets <- data.frame(name=planet.table[,1],
+                      x=as.numeric(planet.table[,2]),
+                      y=as.numeric(planet.table[,3]),
+                      faction=factor(planet.table[,9]),
+                      hpg=factor(planet.table[,10], levels=c("A","B","C","D","None"),ordered=TRUE),
+                      founding_year=as.numeric(planet.table[,11]),
+                      tech=    factor(planet.table[,4], levels=c("A+","A","B","C","D","F","X"), ordered = TRUE),
+                      industry=factor(planet.table[,5], levels=c("A","B","C","D","F"), ordered = TRUE),
+                      raw     =factor(planet.table[,6], levels=c("A","B","C","D","F"), ordered = TRUE),
+                      output  =factor(planet.table[,7], levels=c("A","B","C","D","F"), ordered = TRUE),
+                      agriculture =factor(planet.table[,8], levels=c("A","B","C","D","F"), ordered = TRUE))
+planets$distance_terra <- sqrt(planets$x^2+planets$y^2)
+
+#code in faction type
+#remove abandoned and UND
+#Danger: this is not a full list, just for 3049
+planets <- subset(planets, faction!="ABN" & faction!="UND" & faction!="NONE")
+planets$faction_type <- "Minor"
+planets[(planets$faction=="CC" | planets$faction=="DC" | planets$faction=="FS" | planets$faction=="LA" |
+           planets$faction=="FWL" |
+           planets$faction=="FC" | planets$faction=="FRR" | planets$faction=="SIC" | planets$faction=="MERC" |
+           planets$faction=="CS"),
+        "faction_type"] <- "IS"
+planets[(planets$faction=="CBS" | planets$faction=="CB" | planets$faction=="CCC" | planets$faction=="CCO" |
+           planets$faction=="CDS" | planets$faction=="CFM" | planets$faction=="CGB" | planets$faction=="CGS" |
+           planets$faction=="CGS" | planets$faction=="CHH" | planets$faction=="CIH" | planets$faction=="CJF" | 
+           planets$faction=="CMG" | planets$faction=="CNC" | planets$faction=="CSJ" | planets$faction=="CSR" | 
+           planets$faction=="CSA" | planets$faction=="CSV" | planets$faction=="CSL" | planets$faction=="CWI" |
+           planets$faction=="CW" | planets$faction=="CLAN"), 
+        "faction_type"] <- "Clan"
+planets[(planets$faction=="TC" | planets$faction=="OA" | planets$faction=="MOC" | planets$faction=="MH"),
+        "faction_type"] <- "Periphery"
+planets$faction_type <- factor(planets$faction_type)
+```
+
+First, we read in the XML file. In order to assign colonization variables, we need to know the:
+
+- distance from Terra
+- faction type: Inner Sphere, Major Periphery, Minor Periphery, Clan
+- year colony founded
+
+We pull data from year 3047, so that we can derive clan factions by original foundings. We determine original year of colony founding by the first faction change from the default faction of `UND`. We code faction type from specific faction codes. The method used here is not safe to be used if the date is changed from 3047 as we only code factions that existed in 3047, not all possible factions. We remove all factions that were `ABN` (abandoned), `UND`, and `NONE`. This removes all of the Exodus Road planets. 
+
+The following cases of planets were missing a founding year:
+
+```{r check_missing_founding, echo=FALSE}
+subset(planets, is.na(founding_year))
+#one missing
+planets <- subset(planets, !is.na(founding_year))
+```
+
+After removing missing factions and missing founding year, we have a total of ```r nrow(planets)``` planets. The maps below show our key independent variable values across diferent planets.
+
+```{r map_faction_type, echo=FALSE}
+ggplot(planets, aes(x=x, y=y, color=faction_type))+
+  geom_point(alpha=0.5)+
+  scale_colour_brewer(palette="Accent")+
+  theme_minimal()+
+  ggtitle("Faction types in 3047")
+```
+
+```{r map_founding_year, echo=FALSE}
+ggplot(planets, aes(x=x, y=y, color=founding_year))+
+  geom_point(alpha=0.5)+
+  scale_color_gradient(low="blue",high="yellow")+
+  theme_minimal()+
+  ggtitle("Founding year")
+```
+
+```{r map_distance, echo=FALSE}
+ggplot(planets, aes(x=x, y=y, color=distance_terra))+
+  geom_point(alpha=0.5)+
+  scale_color_gradient(low="red",high="blue")+
+  theme_minimal()+
+  ggtitle("Founding year")
+```
+
+Now, we cycle through every single planet and generate a system complete with astronomical and social data.
+
+```{r generate_systems, echo=FALSE}
+planet <- planets[1,]
+system <- add_colonization(generate_system(), planet$distance_terra, 3047, planet$founding_year, planet$faction_type)
+habitable_systems <- subset(system$planets, inhabitable)
+#in case more than one pick the one with most population
+generated_systems <- subset(habitable_systems, population==max(habitable_systems$population))[1,]
+rownames(generated_systems) <- NULL
+
+for(i in 2:nrow(planets)) {
+  planet <- planets[i,]
+  system <- add_colonization(generate_system(), planet$distance_terra, 3047, planet$founding_year, planet$faction_type)
+  habitable_systems <- subset(system$planets, inhabitable)
+  #in case more than one pick the one with most population
+  temp <- subset(habitable_systems, population==max(habitable_systems$population))[1,]
+  rownames(temp) <- NULL
+  generated_systems <- rbind(generated_systems, temp)
+}
+
+generated_systems <- cbind(planets[,c("name","x","y","faction","faction_type","founding_year","distance_terra")],
+                           generated_systems)
+
+
+#create a combined dataset for comparison to planets with some canon data
+temp1 <- planets
+temp1$population <- NA
+temp1$creation <- "Canon"
+temp2 <- generated_systems
+temp2$creation <- "Generated"
+temp2 <- temp2[,colnames(temp1)]
+combined_data <- rbind(temp1, temp2)
+```
+
+Now lets look the results.
+
+### Tech Rating
+
+```{r tech, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y, color=tech))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+  scale_color_brewer(palette="Accent")+
+  ggtitle("Generated tech ratings in 3047")
+
+tab <- na.omit(as.data.frame.table(prop.table(table(combined_data$tech, combined_data$faction_type, 
+                                            combined_data$creation),c(2,3))))
+ggplot(tab, aes(x=Var1, y=Freq, fill=Var3))+
+  geom_col()+
+  theme_bw()+
+  facet_grid(Var3~Var2)+
+  xlab("tech level")+
+  ylab("proportion")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Tech rating distribution by faction type")
+
+ggplot(subset(combined_data, !is.na(tech)), aes(x=tech, y=distance_terra, fill=creation))+
+  geom_boxplot()+
+  theme_bw()+
+  facet_grid(faction_type~creation, scales="free")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Relationship between tech rating and distance from terra, by faction type")
+```
+
+### Industry Rating
+
+```{r industry, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y, color=industry))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+  scale_color_brewer(palette="Set1")+
+  ggtitle("Generated industry ratings in 3047")
+
+tab <- na.omit(as.data.frame.table(prop.table(table(combined_data$industry, combined_data$faction_type, 
+                                            combined_data$creation),c(2,3))))
+ggplot(tab, aes(x=Var1, y=Freq, fill=Var3))+
+  geom_col()+
+  theme_bw()+
+  facet_grid(Var3~Var2)+
+  xlab("industry level")+
+  ylab("proportion")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Industry rating distribution by faction type")
+
+ggplot(subset(combined_data, !is.na(industry)), aes(x=industry, y=distance_terra, fill=creation))+
+  geom_boxplot()+
+  theme_bw()+
+  facet_grid(faction_type~creation, scales="free")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Relationship between industry rating and distance from terra, by faction type")
+```
+
+### Output Rating
+
+```{r output, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y, color=output))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+  scale_color_brewer(palette="Set1")+
+  ggtitle("Generated output ratings in 3047")
+
+tab <- na.omit(as.data.frame.table(prop.table(table(combined_data$output, combined_data$faction_type, 
+                                            combined_data$creation),c(2,3))))
+ggplot(tab, aes(x=Var1, y=Freq, fill=Var3))+
+  geom_col()+
+  theme_bw()+
+  facet_grid(Var3~Var2)+
+  xlab("output level")+
+  ylab("proportion")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Output rating distribution by faction type")
+
+ggplot(subset(combined_data, !is.na(output)), aes(x=output, y=distance_terra, fill=creation))+
+  geom_boxplot()+
+  theme_bw()+
+  facet_grid(faction_type~creation, scales="free")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Relationship between output rating and distance from terra, by faction type")
+```
+
+### Raw Materials Rating
+
+```{r raw, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y, color=raw))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+  scale_color_brewer(palette="Set1")+
+  ggtitle("Generated raw material ratings in 3047")
+
+tab <- na.omit(as.data.frame.table(prop.table(table(combined_data$raw, combined_data$faction_type, 
+                                            combined_data$creation),c(2,3))))
+ggplot(tab, aes(x=Var1, y=Freq, fill=Var3))+
+  geom_col()+
+  theme_bw()+
+  facet_grid(Var3~Var2)+
+  xlab("raw material level")+
+  ylab("proportion")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Raw materials rating distribution by faction type")
+
+ggplot(subset(combined_data, !is.na(raw)), aes(x=raw, y=distance_terra, fill=creation))+
+  geom_boxplot()+
+  theme_bw()+
+  facet_grid(faction_type~creation, scales="free")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Relationship between raw material rating and distance from terra, by faction type")
+```
+
+### Agriculture Rating
+
+```{r agriculture, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y, color=agriculture))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+  scale_color_brewer(palette="Set1")+
+  ggtitle("Generated agriculture ratings in 3047")
+
+tab <- na.omit(as.data.frame.table(prop.table(table(combined_data$agriculture, combined_data$faction_type, 
+                                            combined_data$creation),c(2,3))))
+ggplot(tab, aes(x=Var1, y=Freq, fill=Var3))+
+  geom_col()+
+  theme_bw()+
+  facet_grid(Var3~Var2)+
+  xlab("agriculture level")+
+  ylab("proportion")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Agriculture rating distribution by faction type")
+
+ggplot(subset(combined_data, !is.na(agriculture)), aes(x=agriculture, y=distance_terra, fill=creation))+
+  geom_boxplot()+
+  theme_bw()+
+  facet_grid(faction_type~creation, scales="free")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Relationship between agriculture rating and distance from terra, by faction type")
+```
+
+### Population
+
+```{r population_graphs, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y, 
+                              color=cut(population,breaks=quantile(generated_systems$population))))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+  scale_color_brewer(palette="BuGn", name="Population Quartiles")+
+  ggtitle("Generated population level")
+
+ggplot(generated_systems, aes(x=distance_terra, y=population))+
+  geom_point(alpha=0.4)+
+  geom_smooth()+
+  scale_y_log10()+
+  theme_bw()+
+  facet_wrap(~faction_type, scales = "free")+
+  ggtitle("Relationship between population and distance from Terra, by faction type")+
+  xlab("distance from terra")
+```
+
+### HPG
+
+```{r hpg, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y, color=hpg))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+  scale_color_brewer(palette="Set1")+
+  ggtitle("Generated HPG Systems by faction type")
+
+tab <- na.omit(as.data.frame.table(prop.table(table(combined_data$hpg, combined_data$faction_type, 
+                                            combined_data$creation),c(2,3))))
+ggplot(tab, aes(x=Var1, y=Freq, fill=Var3))+
+  geom_col()+
+  theme_bw()+
+  facet_grid(Var3~Var2)+
+  xlab("HPG type")+
+  ylab("proportion")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("HPG rating distribution by faction type")
+
+ggplot(subset(combined_data, !is.na(hpg)), aes(x=hpg, y=distance_terra, fill=creation))+
+  geom_boxplot()+
+  theme_bw()+
+  facet_grid(faction_type~creation, scales="free")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ylab("Distance from Terra")+
+  ggtitle("Relationship between HPG rating and distance from terra, by faction type")
+```
