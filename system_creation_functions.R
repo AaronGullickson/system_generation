@@ -545,12 +545,12 @@ add_colonization <- function(system, distance_terra, current_year,
       }
       if(high_roll==6) {
         base_size <- pop_table_high[as.numeric(cut(distance_terra,
-                                                   breaks=c(0,500,600,750,1000,
+                                                   breaks=c(-1,500,600,750,1000,
                                                             1250,2000,Inf))),
                                     (!founding_sleague)+1]
       } else {
         base_size <- pop_table[as.numeric(cut(distance_terra,
-                                              breaks=c(0,500,600,750,1000,
+                                              breaks=c(-1,500,600,750,1000,
                                                        1250,2000,Inf))),
                                (!founding_sleague)+1]
       }
@@ -610,7 +610,7 @@ add_colonization <- function(system, distance_terra, current_year,
     
     
     #industry
-    industry <- 3
+    industry <- 2
     if(planet$tech>="B") {
       industry <- industry+1
     } else if(planet$tech<="F") {
@@ -656,7 +656,7 @@ add_colonization <- function(system, distance_terra, current_year,
                             ordered=TRUE)
     
     #raw materials
-    raw <- 3
+    raw <- 4
     if(planet$tech>="C") {
       raw <- raw+1
       if(planet$tech=="A+") {
