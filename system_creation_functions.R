@@ -619,7 +619,7 @@ add_colonization <- function(system, distance_terra, current_year,
     }
     #Tweak: apply gamma distribution to tech rating to create variation. A scale
     #of 0.2 seems to work pretty nicely in keepint it roughly in bounds
-    #tech <- round(rgamma(1, tech/.2,scale=0.2))
+    tech <- round(rgamma(1, max(tech,0)/.2,scale=0.2))
     #Tweak: dont allow regressed and advanced worlds through random generation
     planet$tech <- factor(max(min(6,tech),2),
                                   levels=1:7,
@@ -645,6 +645,7 @@ add_colonization <- function(system, distance_terra, current_year,
         industry <- industry-1
       }
     }
+    industry <- round(rgamma(1, max(industry,0)/.1,scale=0.1))
     planet$industry <- factor(max(min(5,industry),1),
                               levels=1:5,
                               labels=c("F","D","C","B","A"), 
@@ -668,6 +669,7 @@ add_colonization <- function(system, distance_terra, current_year,
     } else if(planet$industry<="D") {
       output <- output-1
     }
+    output <- round(rgamma(1, max(output,0)/.1,scale=0.1))
     planet$output <- factor(max(min(5,output),1),
                             levels=1:5,
                             labels=c("F","D","C","B","A"), 
@@ -695,6 +697,7 @@ add_colonization <- function(system, distance_terra, current_year,
     if(years_since_founding>250) {
       raw <- raw-1
     }
+    raw <- round(rgamma(1, max(raw,0)/.1,scale=0.1))
     planet$raw <- factor(max(min(5,raw),1),
                          levels=1:5,
                          labels=c("F","D","C","B","A"), 
@@ -725,6 +728,7 @@ add_colonization <- function(system, distance_terra, current_year,
     if(grepl("Toxic", planet$atmosphere)) {
       agriculture <- agriculture-2
     }
+    agriculture <- round(rgamma(1, max(agriculture,0)/.1,scale=0.1))
     planet$agriculture <- factor(max(min(5,agriculture),1),
                                  levels=1:5,
                                  labels=c("F","D","C","B","A"), 
