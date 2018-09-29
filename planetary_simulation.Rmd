@@ -136,10 +136,10 @@ ggplot(planets, aes(x=x, y=y, color=founding_year))+
 ```
 
 ```{r map_founding_sl, echo=FALSE}
-planets$sl_founding <- planets$founding_year<=2764
-ggplot(planets, aes(x=x, y=y, color=sl_founding))+
+ggplot(planets, aes(x=x, y=y, color=(founding_year<=2764)))+
   geom_point(alpha=0.5)+
   theme_minimal()+
+  scale_color_brewer(palette="Set1", name="Star league founding")+
   ggtitle("Star League Founding")
 ```
 
