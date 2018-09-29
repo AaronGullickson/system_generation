@@ -603,19 +603,21 @@ add_colonization <- function(system, distance_terra, current_year,
     
     ##Tech
     tech <- 4
-    if(founding_sleague | faction_type=="Clan") {
-      tech <- tech+1
+    if(faction_type=="Clan") {
+      tech <- tech+1.5
+    } else if(founding_sleague) {
+      tech <- tech+0.5
     }
     if(faction_type!="Clan" & planet$population>(1*10^9)) {
       tech <- tech+1
     } else if(faction_type!="Clan" & planet$population<(1*10^8)) {
       tech <- tech-1
       if(planet$population<(1*10^6)) {
-        tech <- tech-1
+        tech <- tech-0.75
       }
     }
     if(faction_type=="Minor Periphery") {
-      tech <- tech-1
+      tech <- tech-0.25
     }
     #Tweak: apply gamma distribution to tech rating to create variation. A scale
     #of 0.2 seems to work pretty nicely in keepint it roughly in bounds
@@ -628,11 +630,14 @@ add_colonization <- function(system, distance_terra, current_year,
     
     
     #industry
-    industry <- 2
+    industry <- 2.5
     if(planet$tech>="B") {
       industry <- industry+1
     } else if(planet$tech<="F") {
       industry <- industry-1
+    }
+    if(faction_type=="Clan") {
+      industry <- industry+1
     }
     if(faction_type!="Clan" & planet$population>(1*10^9)) {
       industry <- industry+1
@@ -640,9 +645,9 @@ add_colonization <- function(system, distance_terra, current_year,
         industry <- industry+1
       }
     } else if(faction_type!="Clan" & planet$population<(1*10^8)) {
-      industry <- industry-1
+      industry <- industry-0.5
       if(planet$population<(1*10^6)) {
-        industry <- industry-1
+        industry <- industry-0.5
       }
     }
     industry <- round(rgamma(1, max(industry,0)/.1,scale=0.1))
@@ -653,21 +658,23 @@ add_colonization <- function(system, distance_terra, current_year,
     
     #output
     output <- 3
-    if(faction_type!="Clan" & planet$population>(1*10^9)) {
+    if(faction=="Clan") {
+      output <- output+0.75
+    } else if(planet$population>(1*10^9)) {
       output <- output+1
     }
     if(planet$tech>="A") {
-      output <- output+1
+      output <- output+0.5
     } else if(planet$tech<="D") {
-      output <- output-1
+      output <- output-0.5
       if(planet$tech=="X") {
         output <- output-1
       }
     }
     if(planet$industry>="B") {
-      output <- output+1
+      output <- output+0.5
     } else if(planet$industry<="D") {
-      output <- output-1
+      output <- output-0.5
     }
     output <- round(rgamma(1, max(output,0)/.1,scale=0.1))
     planet$output <- factor(max(min(5,output),1),
