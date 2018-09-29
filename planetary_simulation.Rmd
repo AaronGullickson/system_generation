@@ -10,7 +10,95 @@ library(xml2)
 source("system_creation_functions.R")
 ```
 
-This report will run a simulation that assigns system information for every planet in the `planets.xml` database so that we can examine how well the simulation produces socio-industrial codes, population, and the like. 
+This report will run a simulation that assigns system information for every planet in the `planets.xml` database so that we can examine how well the simulation produces socio-industrial codes, population, and HPG status. We run this simulation for the year of 3047 so that we can properly identify clan homeworlds, and only clan homeworlds, as clan foundings.
+
+We use the basic system detailed in *Campaign Operations* to assign these values. However, we have made a variety of tweaks to the system that are detailed below. These tweaks are intended to increase variability and reduce the "chunkiness" of the basic rules, as well as address some areas where the distributions were not producing realistic values. 
+
+## Changes to Population Generation
+
+Populations are generated in *Campaign Operations* by first calculating a base population number and then multiplying this base number by the sum of a variable number of d6 rolls. There are also "normal" base numbers and "high" base numbers where the high base numbers are produced by rolling a 6 on a single d6. 
+
+### Clan Populations
+
+The numbers for clan populations are extemely small and produce a total clan population well below the 1.2 billion cited in canon. We found that increasing the base numbers to 1 and 5 million for normal and high rolls produced a total clan population very close to 1.2 billion, while still producing clan populations that were much smaller than typical Inner Sphere countries.
+
+### Interpolating Base Population Numbers
+
+The table on pg. 123 of *Campaign Operations* gives base population numbers base on bandwidths away from Terra. This makes sense but the use of wide bandwidths produces some pretty chunky variation in population sizes. We used the base numbers and the midpoint of each bandwidth to estimate statistical models that predicted the right base number as a function of light years from Terra. This gives a nice smooth function. 
+
+```{r pop_base_estimation, echo=FALSE}
+distance <- c(250, 550, 675, 875, 1125, 1625)
+base_pop_high_sl <- c(500*10^6,100*10^6,25*10^6,5*10^6,1*10^6,2*10^5) 
+base_pop_low_sl <- c(50*10^6,10*10^6,2.5*10^6,5*10^5,1*10^5,1*10^4)
+#for recent settlement, I needed to tweak numbers a bit to fit decently with a spline
+#I halved the 500-600 LY numbers, and doubled the numbers from 500-600 and 750-1000. I also doubled the number 
+#for 600-750 low roll again, because that original number (50,000) was particularly low
+base_pop_high_recent <- c(1*10^5, 10*10^6, 2*10^6, 4*10^5, 5*10^4, 1*10^4)
+base_pop_low_recent <- c(1*10^4, 1*10^6, 2*10^5, 4*10^4, 5*10^3, 500)
+```
+
+For example, for normal rolls and a star league founding, here are the five base population numbers provided in the book (leaving out the open-ended period past 2000 LY) by the midpoint of LY from Terra for each row. 
+
+```{r pop_high_plot, echo=FALSE}
+plot(distance, base_pop_high_sl)
+model_sl_high <- lm(log(base_pop_high_sl)~distance)
+lines(distance, exp(model_sl_high$fitted.values), lwd=3, col="red")
+```
+
+The line in red shows the fit of a statistical model (in this case, an OLS regression model predicting log of the base number). This line fits the data very well ($R^2=$`r summary(model_sl_high)$r.squared`). On the original scale, this formula is:
+
+$$y=(1623754082)(0.9940732)^{(LY)}$$
+
+We estimate both cases of a Star League founding in this way. The model for more recent foundings is more complex because of the peak around 550 light years out. We use spline models with a heavy weight on the peak to fit this model. Finally, because the model for the high star league can produce very high population numbers when you get very close to zero, we cap this base number at 200 LY. So any planet within 200 LY of Terra gets the same value that a planet at exactly 200 LY would get. After all these adjustments, our models for base population are shown below for each case below. The red dots correspond to the base population numbers from *Campaign Operations*.
+
+```{r pop_model_fits, echo=FALSE}
+model_sl_low <- lm(log(base_pop_low_sl)~distance)
+before_spline <- distance-550
+before_spline[before_spline>0] <- 0
+after_spline <- distance-550
+after_spline[after_spline<0] <- 0
+model_recent_high <- lm(log(base_pop_high_recent)~before_spline+after_spline, weights=c(1,40,1,1,1,1))
+model_recent_low <- lm(log(base_pop_low_recent)~before_spline+after_spline, weights=c(1,40,1,1,1,1))
+temp <- data.frame(distance=0:2500)
+temp$before_spline <- temp$distance-550
+temp$before_spline[temp$before_spline>0] <- 0
+temp$after_spline <- temp$distance-550
+temp$after_spline[temp$after_spline<0] <- 0
+predicted_base_low_sl <-  exp(predict(model_sl_low, temp))
+predicted_base_high_recent <-  exp(predict(model_recent_high, temp))
+predicted_base_low_recent <-  exp(predict(model_recent_low, temp))
+#tweak the distance for high
+temp$distance[temp$distance<200] <- 200
+predicted_base_high_sl <-  exp(predict(model_sl_high, temp))
+
+predictions <- data.frame(base_pop=c(predicted_base_high_sl, predicted_base_low_sl,
+                                     predicted_base_high_recent, predicted_base_low_recent),
+                          sl_founding=c(rep("Star League", 2*length(predicted_base_high_recent)),
+                                        rep("Recent", 2*length(predicted_base_high_recent))),
+                          roll=c(rep(c(rep("High",length(predicted_base_high_recent)),
+                                       rep("Normal",length(predicted_base_high_recent))),2)),
+                          distance=rep(0:2500,4))
+poptable_camops <- data.frame(distance=rep(distance,4), 
+                              base_pop=c(base_pop_high_sl, base_pop_low_sl,
+                                         base_pop_high_recent, base_pop_low_recent),
+                              sl_founding=c(rep("Star League", 2*length(base_pop_high_sl)),
+                                            rep("Recent", 2*length(base_pop_high_sl))),
+                              roll=c(rep(c(rep("High",length(base_pop_high_sl)),
+                                           rep("Normal",length(base_pop_high_sl))))))
+
+ggplot(predictions, aes(x=distance, base_pop))+
+  geom_line()+
+  geom_point(data=poptable_camops, col="red")+
+  facet_wrap(~sl_founding+roll, scales="free")+
+  theme_bw()
+```
+
+We also make one other change to population generation. According to the table on pg. 123, more recent foundings only roll 2d6 rather than 4d6 for the random component of population that is multiplied by the base population to get final population. We found that this produced very small numbers for some distant periphery realms like the Hanseatic League because they were being double penalized by the base number roll and the multiplier when founded after the Star League. Therefore we use 4d6 as the base multiplier for all non-clan population multipliers. 
+
+## Changes to USILR Code Generation
+
+
+## Changes to HPG Generation
 
 ```{r read_planets_xml, echo=FALSE}
 planets <- read_xml("data/planets.xml")
@@ -101,6 +189,8 @@ planets[(planets$faction=="TC" | planets$faction=="OA" | planets$faction=="MOC" 
 planets$faction_type <- factor(planets$faction_type)
 ```
 
+## Generating Systems
+
 First, we read in the XML file. In order to assign colonization variables, we need to know the:
 
 - distance from Terra
@@ -185,7 +275,7 @@ temp2 <- temp2[,colnames(temp1)]
 combined_data <- rbind(temp1, temp2)
 ```
 
-Now lets look the results.
+## Analysis of Generated Results
 
 ### Tech Rating
 
