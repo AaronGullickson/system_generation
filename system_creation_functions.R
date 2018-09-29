@@ -545,9 +545,9 @@ add_colonization <- function(system, distance_terra, current_year,
       #still preserving variation from the roll. The script population_distance_models.R
       #contains the details. The star league model is a basic exponential decay model
       #while the more recent founding uses a spline model because of the peak around 500-600LY
-      base_roll <- roll_d6(2)
+      base_roll <- roll_d6(4)
       if(founding_sleague) {
-        base_roll <- base_roll+roll_d6(2)
+        #base_roll <- base_roll+roll_d6(2)
         if(high_roll==6) {
           #we should probably put a cap on this or we will get somewhat ridiculously high numbers at zero distance
           #averageing about 17 billion. If we cap at 200LY from terra, then we will average 5.2 billion for high
@@ -613,7 +613,7 @@ add_colonization <- function(system, distance_terra, current_year,
     } else if(faction_type!="Clan" & planet$population<(1*10^8)) {
       tech <- tech-1
       if(planet$population<(1*10^6)) {
-        tech <- tech-0.75
+        tech <- tech-0.5
       }
     }
     if(faction_type=="Minor Periphery") {
@@ -632,9 +632,9 @@ add_colonization <- function(system, distance_terra, current_year,
     #industry
     industry <- 2.5
     if(planet$tech>="B") {
-      industry <- industry+1
+      industry <- industry+0.75
     } else if(planet$tech<="F") {
-      industry <- industry-1
+      industry <- industry-0.75
     }
     if(faction_type=="Clan") {
       industry <- industry+1
@@ -647,7 +647,7 @@ add_colonization <- function(system, distance_terra, current_year,
     } else if(faction_type!="Clan" & planet$population<(1*10^8)) {
       industry <- industry-0.5
       if(planet$population<(1*10^6)) {
-        industry <- industry-0.5
+        industry <- industry-0.25
       }
     }
     industry <- round(rgamma(1, max(industry,0)/.1,scale=0.1))
@@ -698,6 +698,13 @@ add_colonization <- function(system, distance_terra, current_year,
     if(faction_type!="Clan" & planet$population>(3*10^9)) {
       raw <- raw-1
     }
+    #tweak - because clan pops are small and they have high
+    #tech and industry, they get ridiculos raw materials, so 
+    #we apply a straight penalty to take it down
+    if(faction_type=="Clan") {
+      raw <- raw-0.5
+    }
+    
     if(planet$output>="B") {
       raw <- raw-1
     }

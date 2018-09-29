@@ -135,6 +135,14 @@ ggplot(planets, aes(x=x, y=y, color=founding_year))+
   ggtitle("Founding year")
 ```
 
+```{r map_founding_sl, echo=FALSE}
+planets$sl_founding <- planets$founding_year<=2764
+ggplot(planets, aes(x=x, y=y, color=sl_founding))+
+  geom_point(alpha=0.5)+
+  theme_minimal()+
+  ggtitle("Star League Founding")
+```
+
 ```{r map_distance, echo=FALSE}
 ggplot(planets, aes(x=x, y=y, color=distance_terra))+
   geom_point(alpha=0.5)+
