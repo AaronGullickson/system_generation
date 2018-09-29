@@ -700,9 +700,10 @@ add_colonization <- function(system, distance_terra, current_year,
     }
     #tweak - because clan pops are small and they have high
     #tech and industry, they get ridiculos raw materials, so 
-    #we apply a straight penalty to take it down
+    #we apply a straight penalty to take it down, plus
+    #clan planets fluffed as resource poor 
     if(faction_type=="Clan") {
-      raw <- raw-0.5
+      raw <- raw-1.5
     }
     
     if(planet$output>="B") {
@@ -732,6 +733,10 @@ add_colonization <- function(system, distance_terra, current_year,
       if(planet$population>(5*10^9)) {
         agriculture <- agriculture-1
       }
+    }
+    #tweak - clan planets are fluffed as pretty barren
+    if(faction_type=="Clan") {
+      agriculture <- agriculture-1
     }
     if(planet$water<50) {
       agriculture <- agriculture-1
