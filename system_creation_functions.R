@@ -4,44 +4,90 @@ roll_d6 <- function(n) {
   return(sum(sample(1:6, n, replace=TRUE)))
 }
 
-generate_system <- function(habitable=TRUE) {
+generate_system <- function(star=NULL, habitable=TRUE) {
   
-  star_roll <- roll_d6(2)
+  if(!is.null(star)) {
+    #break apart stype to make sure it makes sense
+    spectral_class <- substr(star,1,1)
+    subtype <- as.numeric(substr(star,2,2))
+    star_size <- substring(star, 3)
+    
+    if(is.na(star_size) | !(spectral_class %in% c("A","B","F","G","K","M"))) {
+      warning("Invalid spectral class provided.")
+      return(NULL)
+    }
+    if(is.na(subtype) | subtype <0 | subtype>9) {
+      warning("Invalid subtype provided.")
+      return(NULL)
+    }
+    if(is.na(star_size) | nchar(star_size)==0 | 
+       !(star_size %in% c("Ia","Ib","II","III","IV","V","VI","VII"))) {
+      warning("Invalid star size provided.")
+      return(NULL)
+    }
+    
+  } else {
   
-  ##### Star Type #####
-  star_type <- c("F","M","G","K",rep("M",6),"F")
-  if(habitable) {
-    star_type <- c(rep("M",3),"K","K","G","G",rep("F",4))
-  } else if(star_roll==12) {
-    #hot stars!
-    star_type <- c(rep("B",2),rep("A",7),"B","F")
+    #if no star type provided, then roll one up from life-friendly column
+    #in CamOps
     star_roll <- roll_d6(2)
-  }
-
-  spectral_class <- star_type[star_roll-1]
-  subtype <- sample(0:9,1)
-  ##A tweak here. Classes M6V and M9V have no planets in habitable zone, so 
-  ##leave them out of substype sample if habitable==TRUE
-  if(habitable & spectral_class=="M") {
-    subtype <- sample(c(0,1,2,3,4,5,7,8),1)
-  }
+    
+    ##### Star Type #####
+    star_type <- c("F","M","G","K",rep("M",6),"F")
+    if(habitable) {
+      star_type <- c(rep("M",3),"K","K","G","G",rep("F",4))
+    } else if(star_roll==12) {
+      #hot stars!
+      star_type <- c(rep("B",2),rep("A",7),"B","F")
+      star_roll <- roll_d6(2)
+    }
   
-  stype <- paste(spectral_class,subtype,"V",sep="")
-  stype_data <- read.csv("data/solar_type.csv", row.names=1)[stype,]
+    spectral_class <- star_type[star_roll-1]
+    subtype <- sample(0:9,1)
+    ##A tweak here. Classes M6V and M9V have no planets in habitable zone, so 
+    ##leave them out of substype sample if habitable==TRUE
+    if(habitable & spectral_class=="M") {
+      subtype <- sample(c(0,1,2,3,4,5,7,8),1)
+    }
+    star_size <- "V"
+    
+  }
+  stype <- paste(spectral_class, subtype, star_size, sep="")
+  
+  #table only has V stars, so feed that in. We will override below
+  stype_data <- read.csv("data/solar_type.csv", 
+                         row.names=1)[paste(spectral_class, subtype, "V", sep=""),]
+  
+  #TODO: what about VI and VII?
+  if(star_size != "V") {
+    #according to CamOps pg 116, mulitiply luminosity by four and double the life 
+    #zone values
+    stype_data$luminosity <- stype_data$luminosity*4
+    stype_data$distance_inner_au <- stype_data$distance_inner_au*2
+    stype_data$distance_outer_au <- stype_data$distance_outer_au*2
+  }
   
   ##### Orbital Slots #####
   orbital_slots <- 3+roll_d6(2)
-  
+
   placement_constants <- c(0.4,0.7,1.0,1.6,2.8,5.2,10,19.6,
                            38.8,77.2,154,307.6,614.8,1229.2,
                            2458)
-  orbital_placement <- stype_data$mass*placement_constants[1:orbital_slots]
+  orbital_placement <- stype_data$mass*placement_constants
 
   planets <- NULL
   #if the system needs to be habitable, then randomly pick one of the habitable slots
   #and force it to produce a habitable planet
   life_zone <- orbital_placement>=stype_data$distance_inner_au & 
     orbital_placement<=stype_data$distance_outer_au
+  
+  #make sure the number of orbital slots is at least equal to the minimum life zone
+  if(habitable) {
+    min_life_zone_slot <- min(which(life_zone))
+    orbital_slots <- max(orbital_slots, min_life_zone_slot)
+  }
+  life_zone <- life_zone[1:orbital_slots]
+  
   habitable_slot <- -1
   if(habitable) {
     habitable_slot <- which(life_zone)
