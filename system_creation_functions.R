@@ -52,13 +52,13 @@ generate_system <- function(habitable=TRUE) {
   }
   i <- 1
   for(slot in 1:orbital_slots) {
-    planet <- generate_planet(orbital_placement[slot],habitable,stype_data)
+    planet <- generate_planet(orbital_placement[slot],slot==habitable_slot,stype_data)
     #another tweak - if habitable is true, then we need to ensure
     #that at least on habitable slot in the life zone is occupied by terrestrial 
     #planet 
     if(slot==habitable_slot) {
       while(!planet$inhabitable & i<5000) {
-        planet <- generate_planet(orbital_placement[slot],habitable,stype_data)
+        planet <- generate_planet(orbital_placement[slot],TRUE,stype_data)
         i <- i + 1
       }
     }
@@ -196,16 +196,17 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
                   rep("High",2),rep("Very High",2))[roll_d6(2)-1]
     
     if(life_zone) {
-      habitable_roll <- roll_d6(2)+system_data$habitability
+      habitable_roll <- roll_d6(2)
+      #tweak: if we know this planet slot must be inhabited, then do not add
+      #system habitability modifiers
+      if(!habitable_system) {
+        habitable_roll <- habitable_roll+system_data$habitability
+      }
       if(pressure=="Low" | pressure=="High") {
         habitable_roll <- habitable_roll-1
       }
       if(type=="Giant Terrestrial") {
         habitable_roll <- habitable_roll-2
-      }
-      #Tweak to make habitabile planets more likely in systems that must be inhabited
-      if(habitable_system) {
-        habitable_roll <- habitable_roll+2
       }
       if(pressure=="Vacuum" | pressure=="Trace" | pressure=="Very High" | habitable_roll<9) {
         atmosphere <-  "Toxic (Poisonous)"

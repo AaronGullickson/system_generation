@@ -16,8 +16,8 @@ This document contains diagnostic checks of the `generate_system` function based
 - We roll on the life friendly column for star type.
 - When rolling star subtypes, we disallow M6 and M9 subtypes because these stars have no orbital slots within the life zone, according to the tables provided in *Campaign Operations* (see the file `habit_zones.pdf` for details). 
 - We randomly pick one slot within the life zone and continue to run the `generate_planet` function until we produce a habitable planet.
-- Within the `generate_planet` function called by `generate_system`, we also add the following tweaks:
-     - We add two to the habitability check roll to make habitable planets more likely.
+- Within the `generate_planet` function called by `generate_system`, we also add the following tweaks for the planet that must be habitable:
+     - We do not add the system level habitability modifier.
      - We add three to the atmospheric conditions roll to eliminate toxic atmospheres and reduce the frequency of tainted atmospheres (which are otherwise more than 40% of the cases).
      - We add two to the water coverage roll on the assumption that colonizers would prefer planets with generous water. 
      - We use different functions to determine diameter and density of terrestrials that will have averages closer to Earth and less variance in order to get gravities that are closer to Earth and less variable. These functions are:
