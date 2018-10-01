@@ -98,6 +98,7 @@ generate_system <- function(star=NULL, habitable=TRUE) {
   }
   i <- 1
   for(slot in 1:orbital_slots) {
+    #TODO: follow optional rules about placement of gas giants near terrestrials and asteroids
     planet <- generate_planet(orbital_placement[slot],slot==habitable_slot,stype_data)
     #another tweak - if habitable is true, then we need to ensure
     #that at least on habitable slot in the life zone is occupied by terrestrial 
@@ -143,10 +144,7 @@ generate_system <- function(star=NULL, habitable=TRUE) {
   return(list(star=stype, planets=planets, iterations=i))
 }
 
-#TODO: generate moons and rings
-#TODO: generate uinhabitable atmospheres, mostly to determine if atmo is caustic
 #TODO: asteroid belt characteristics
-#TODO: allow for some toxic habitable worlds besides Giant Terrestrials
 generate_planet <- function(radius, habitable_system, system_data, more_gradation=TRUE) {
  
   life_zone <- radius>=system_data$distance_inner_au & radius<=system_data$distance_outer_au
