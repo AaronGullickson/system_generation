@@ -175,6 +175,7 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
   day <- NA
   pressure <- NA
   atmosphere <- NA
+  composition <- NA
   life <- NA
   water <- NA
   continents <- NA
@@ -209,18 +210,21 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
     day <- roll_d6(4)
     pressure <- "Very High"
     atmosphere <- "Toxic (Poisonous)"
+    composition <- "Hydrogen and Helium, plus trace gases"
   } else if(type=="Gas Giant") {
     diameter <- 50000+10000*roll_d6(2)
     density <- 0.5+roll_d6(2)/10
     day <- roll_d6(4)
     pressure <- "Very High"
     atmosphere <-  "Toxic (Poisonous)"
+    composition <- "Hydrogen and Helium, plus trace gases"
   } else if(type=="Ice Giant") {
     diameter <- 25000+5000*roll_d6(1)
     density <- 1+roll_d6(2)/10
     day <- roll_d6(4)
     pressure <- "Very High"
     atmosphere <-  "Toxic (Poisonous)"
+    composition <- "Hydrogen and Helium, plus trace gases"
   } else if(type=="Asteroid Belt") {
 
   }
@@ -286,6 +290,7 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
       ## We have a habitable planet, lets do some additional rolls
       inhabitable <- TRUE
       life_mod <- (radius-system_data$distance_inner_au)/(system_data$distance_outer_au-system_data$distance_inner_au)
+      composition <- "Nitrogen and Oxygen, plus trace gases"
       
       #temperature
       temp_roll <- round(roll_d6(2)*life_mod)
@@ -350,7 +355,91 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
         atmosphere <- "Breathable"
       }
     } else {
-      atmosphere <- "Toxic (Poisonous)"
+      if(pressure=="Vacuum") {
+        atmosphere <-  "None"
+      } else {
+        atmosphere <- "Toxic (Poisonous)"
+        #determine composition
+        base_roll <- roll_d6(2)-1
+        secondary_roll <- roll_d6(2)-1
+        if(outer) {
+          base_roll <- base_roll - 2
+          secondary_roll <- secondary_roll - 2
+        } else if(!life_zone) {
+          base_roll <- base_roll + 2
+          secondary_roll <- secondary_roll + 2
+        }
+        if(escape_velocity>12000) {
+          base_roll <- base_roll - 1
+          secondary_roll <- secondary_roll - 1
+        } else if(escape_velocity<7000) {
+          base_roll <- base_roll + 1
+          secondary_roll <- secondary_roll + 1
+        }
+        base_roll <- min(max(base_roll, 1),11)
+        secondary_roll <- min(max(secondary_roll, 1),11)
+        base <- c(rep("Methane",2),
+                  rep("Ammonia",2),
+                  rep("Nitrogen",4),
+                  rep("Carbon Dioxide",3))[base_roll]
+        secondary <- c("Methane",
+                       rep("Ammonia",4),
+                       rep("Carbon Dioxide",3),
+                       rep("Nitrogen",3))[secondary_roll]
+        trace_roll <- roll_d6(2)-1
+        trace_table <- c("Chlorine","None","Sulfur Dioxide",
+                         "Carbon Dioxide","Argon","Methane",
+                         "Water Vapor","Argon","Nitrous Oxide")
+        if(trace_roll==2) {
+          trace <- ""
+        } else if(trace_roll==10) {
+          trace_roll <- roll_d6(2)-1
+          while(trace_roll>9 | trace_roll==2) {
+            trace_roll <- roll_d6(2)-1
+          }
+          trace <- paste(", plus trace amounts of", 
+                         trace_table[trace_roll])
+          first_roll <- trace_roll
+          trace_roll <- roll_d6(2)-1
+          while(trace_roll>9 | trace_roll==2 | trace_roll==first_roll) {
+            trace_roll <- roll_d6(2)-1
+          }
+          trace <- paste(trace, "and", 
+                         trace_table[trace_roll])
+        } else if(trace_roll==11) {
+          trace_roll <- roll_d6(2)-1
+          while(trace_roll>9 | trace_roll==2) {
+            trace_roll <- roll_d6(2)-1
+          }
+          trace <- paste(", plus trace amounts of", 
+                         trace_table[trace_roll])
+          special_trace <- c("Helium","Complex Hydrocarbons",
+                             "Nitric Acid","Phosphine",
+                             "Hydrogen Peroxide","Hydrochloric Acid",
+                             "Hydrogen Sulfide","Simple Hydrocarbons",
+                             "Sulfuric Acid","Carbonyl Sulfide",
+                             "Hydrofluoric Acid")[roll_d6(2)-1]
+          trace <- paste(trace, "and", special_trace)
+        } else {
+          trace <- paste(", plus trace amounts of", 
+                         trace_table[trace_roll])
+        }
+        if(base==secondary) {
+          composition <- paste(base, trace, sep="")
+        } else {
+          composition <- paste(base, " and ", secondary, trace, sep="")
+        }
+        #change to caustic atmosphere depending on trace
+        if(grepl("Chlorine", trace) | 
+           grepl("Sulfur Dioxide", trace) |
+           grepl("Nitric Acide", trace) |
+           grepl("Hydrogen Peroxide", trace) |
+           grepl("Hydrochloric Acid", trace) |
+           grepl("Sulfuric Acid", trace) |
+           grepl("Hydrofluoric Acid", trace)) {
+          atmosphere <- "Toxic (Caustic)"
+        }
+      }
     }
     
     #per the optional rules, we will check for water on terrestrials
@@ -430,14 +519,14 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
  
   return(list(type=type, orbital_dist=radius, 
               inhabitable=inhabitable, life_zone=life_zone,
-              pressure=pressure, atmosphere=atmosphere, 
+              pressure=pressure, atmosphere=atmosphere, composition=composition,
               gravity=round(gravity,2), temperature=round(temperature-273.15), 
+              water=water, continents=continents, life=life, 
+              day_length=day, year_length=round(year_length,1),
               transit_time=round(transit_time,2),
-              water=water, life=life, continents=continents,
               diameter=diameter, density=round(density,4), 
               escape_velocity=round(escape_velocity),
-              orbital_velocity=round(orbital_velocity), 
-              day_length=day, year_length=round(year_length,1)))
+              orbital_velocity=round(orbital_velocity)))
   
 }
 
