@@ -339,13 +339,12 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
       }
       ## Another tweak here. The proportion of tainted atmospheres is quite high.
       ## presumably settlers would have selected on non-tainted worlds so add a bonus here
-      ## if this needs to be a habitable system
-      if(habitable_system) {
-        atmo_roll <- atmo_roll + 3
-      }
-      if(atmo_roll<2) {
+      ## if this needs to be a habitable system. But we also want to allow
+      ## for some toxic environments, so lets change the values on the 
+      ## atmospheric composition table
+      if(atmo_roll<=2 & roll_d6(1)<4) {
         atmosphere <-  "Toxic (Poisonous)"
-      } else if(atmo_roll<7) {
+      } else if(atmo_roll<=3 & roll_d6(1)<=4) {
         atmosphere <- "Tainted (Poisonous)"
       } else {
         atmosphere <- "Breathable"
