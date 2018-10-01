@@ -133,6 +133,12 @@ generate_system <- function(star=NULL, habitable=TRUE) {
                          levels=c("Microbes","Plants","Insects","Fish","Amphibians","Reptiles","Birds","Mammals"))
   planets$life_zone <- planets$life_zone=="TRUE"
   planets$inhabitable <- planets$inhabitable=="TRUE"
+  planets$moons_giant <- as.numeric(planets$moons_giant)
+  planets$moons_large <- as.numeric(planets$moons_large)
+  planets$moons_medium <- as.numeric(planets$moons_medium)
+  planets$moons_small <- as.numeric(planets$moons_small)
+  planets$rings <- planets$rings=="TRUE"
+  
   
   return(list(star=stype, planets=planets, iterations=i))
 }
@@ -181,6 +187,11 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
   continents <- NA
   temperature <- NA
   inhabitable <- FALSE
+  moons_giant <- 0
+  moons_large <- 0
+  moons_medium <- 0
+  moons_small <- 0
+  rings <- FALSE
   
   if(type=="Dwarf Terrestrial") {
     diameter <- 400+100*roll_d6(3)
@@ -516,6 +527,88 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
       }
     }
   }
+  
+  #calculate moons
+  moon_roll <- roll_d6(1)
+  if(type=="Dwarf Terrestrial") {
+    if(moon_roll<3) {
+      moons_medium <- max(0,roll_d6(1)-5)
+      moons_small <- max(0,roll_d6(1)-3)
+    } else if(moon_roll<5) {
+      moons_small <- max(0,roll_d6(1)-2)
+    } 
+  } else if(type=="Terrestrial") {
+    if(moon_roll<3) {
+      moons_large <- max(0,roll_d6(1)-5)
+    } else if(moon_roll<5) {
+      moons_medium <- max(0,roll_d6(1)-3)
+      moons_small <- max(0,roll_d6(1)-3)
+    } else {
+      moons_small <- max(0,roll_d6(2)-4)
+      if(!inhabitable & roll_d6(1)==6) {
+        rings <- TRUE
+      }
+    }
+  } else if(type=="Giant Terrestrial") {
+    if(moon_roll<3) {
+      moons_giant <- max(0,roll_d6(1)-5)
+      moons_small <- max(0,roll_d6(1)-3)
+    } else if(moon_roll<5) {
+      moons_large <- max(0,roll_d6(1)-4)
+      moons_medium <- max(0,roll_d6(1)-3)
+      moons_small <- max(0,roll_d6(1)-2)
+    } else {
+      moons_medium <- max(0,roll_d6(1)-3)
+      moons_small <- max(0,roll_d6(2))
+      if(!inhabitable & roll_d6(1)>=5) {
+        rings <- TRUE
+      }
+    }
+  } else if(type=="Gas Giant") {
+    if(moon_roll<3) {
+      moons_giant <- max(0,roll_d6(1)-4)
+      moons_large <- max(0,roll_d6(1)-1)
+      moons_medium <- max(0,roll_d6(1)-2)
+      moons_small <- max(0,roll_d6(5))
+      if(roll_d6(1)>=4) {
+        rings <- TRUE
+      }
+    } else if(moon_roll<5) {
+      moons_large <- max(0,roll_d6(1)-3)
+      moons_medium <- max(0,roll_d6(1)-2)
+      moons_small <- max(0,roll_d6(5))
+      if(roll_d6(1)>=3) {
+        rings <- TRUE
+      }
+    } else {
+      moons_large <- max(0,roll_d6(1)-4)
+      moons_medium <- max(0,roll_d6(1)-3)
+      moons_small <- max(0,roll_d6(5))
+      if(roll_d6(1)>=3) {
+        rings <- TRUE
+      }
+    }
+  } else if(type=="Ice Giant") {
+    if(moon_roll<3) {
+      moons_giant <- max(0,roll_d6(1)-4)
+      moons_large <- max(0,roll_d6(1)-3)
+      moons_small <- max(0,roll_d6(2))
+    } else if(moon_roll<5) {
+      moons_large <- max(0,roll_d6(1)-3)
+      moons_medium <- max(0,roll_d6(1)-2)
+      moons_small <- max(0,roll_d6(2))
+      if(roll_d6(1)>=4) {
+        rings <- TRUE
+      }
+    } else {
+      moons_large <- max(0,roll_d6(1)-4)
+      moons_medium <- max(0,roll_d6(1)-3)
+      moons_small <- max(0,roll_d6(2))
+      if(roll_d6(1)>=4) {
+        rings <- TRUE
+      }
+    }
+  }
  
   return(list(type=type, orbital_dist=radius, 
               inhabitable=inhabitable, life_zone=life_zone,
@@ -526,7 +619,10 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
               transit_time=round(transit_time,2),
               diameter=diameter, density=round(density,4), 
               escape_velocity=round(escape_velocity),
-              orbital_velocity=round(orbital_velocity)))
+              orbital_velocity=round(orbital_velocity),
+              moons_giant=moons_giant, moons_large=moons_large, 
+              moons_medium=moons_medium, moons_small=moons_small,
+              rings=rings))
   
 }
 
