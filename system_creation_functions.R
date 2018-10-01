@@ -187,6 +187,8 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
     day <- roll_d6(3)+12
     pressure <- "Vacuum"
     atmosphere <- "None"
+    water <- 0
+    continent <- NA
   } else if(type=="Terrestrial") {
     #Another tweak here. The diameter and density numbers for terrestrials
     #are producing average gravities well below 1.0 and too variable. Its 
@@ -228,172 +230,17 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
   escape_velocity <- 11186*(diameter/12742)*sqrt(density/5.5153)
   orbital_velocity <- escape_velocity/sqrt(2)
   year_length <- sqrt(radius^3+system_data$mass)
-  
   transit_distance <- sqrt((system_data$safe_jump*1000)^2+
                              (radius*149597871000)^2)
   transit_time <- (2 * sqrt(transit_distance/9.8))/(24*60*60)
   
-  #determine habitability for terrestrial
-  
-  #life zone position modifier
-  life_mod <- (radius-system_data$distance_inner_au)/(system_data$distance_outer_au-system_data$distance_inner_au)
+  #determine pressure
   if(type=="Terrestrial" | (type=="Giant Terrestrial" & roll_d6(1)==6)) {
     pressure <- c(rep("Vacuum",2),"Trace",rep("Low",2),rep("Normal",2),
                   rep("High",2),rep("Very High",2))[roll_d6(2)-1]
-    
-    if(life_zone) {
-      habitable_roll <- roll_d6(2)
-      #tweak: if we know this planet slot must be inhabited, then do not add
-      #system habitability modifiers
-      if(!habitable_system) {
-        habitable_roll <- habitable_roll+system_data$habitability
-      }
-      if(pressure=="Low" | pressure=="High") {
-        habitable_roll <- habitable_roll-1
-      }
-      if(type=="Giant Terrestrial") {
-        habitable_roll <- habitable_roll-2
-      }
-      if(pressure=="Vacuum" | pressure=="Trace" | pressure=="Very High" | habitable_roll<9) {
-        atmosphere <-  "Toxic (Poisonous)"
-      } else {
-        ## We have a habitable planet, although it could still be toxic if Giant Terrestrial
-        inhabitable <- TRUE
-        
-        ## Atmospheic composition roll
-        atmo_roll <- roll_d6(2)
-        if(type=="Giant Terrestrial") {
-          atmo_roll <- atmo_roll-2
-        }
-        ## Another tweak here. The proportion of tainted atmospheres is quite high.
-        ## presumably settlers would have selected on non-tainted worlds so add a bonus here
-        ## if this needs to be a habitable system
-        if(habitable_system) {
-          atmo_roll <- atmo_roll + 3
-        }
-        if(atmo_roll<2) {
-          atmosphere <-  "Toxic (Poisonous)"
-        } else if(atmo_roll<7) {
-          atmosphere <- "Tainted (Poisonous)"
-        } else {
-          atmosphere <- "Breathable"
-        }
-        
-        ##Surface water roll
-        escape_velocity_mod <- escape_velocity/11186
-        water_roll <- round(roll_d6(2)*life_mod*escape_velocity_mod)
-        if(type=="Giant Terrestrial") {
-          water_roll <- water_roll+3
-        }
-        #another tweak to allow for more water on inhabited planets
-        if(habitable_system) {
-          water_roll <- water_roll+2
-        }
-        if(water_roll<0) {
-          water <- 0
-        } else if(water_roll==0) {
-          water <- 5
-        } else if(water_roll==1) {
-          water <- 10
-        } else if(water_roll==2) {
-          water <- 20
-        } else if(water_roll==3) {
-          water <- 30
-        } else if(water_roll<6) {
-          water <- 40
-        } else if(water_roll<8) {
-          water <- 50
-        } else if(water_roll<9) {
-          water <- 60
-        } else if(water_roll<10) {
-          water <- 70
-        } else if(water_roll<11) {
-          water <- 80
-        } else if(water_roll<12) {
-          water <- 90
-        } else {
-          water <- 100
-        }
-        
-        if(more_gradation) {
-          #since we do not need things to be in 10 point increments, lets add single
-          #digit variation fot water amount
-          if(water>=5 & water<=95) {
-            water <- (water-5)+sample(0:9,1)
-          }
-        }
-         
-        #continents
-        if(water==0) {
-          continents <- 1
-        } else if(water==100) {
-          continents <- 0
-        } else {
-          continents <- roll_d6(1)
-          if(diameter<9000) {
-            continents <- continents/2
-          }
-          if(water<30) {
-            continents <- continents/2
-          }
-          if(diameter>15000) {
-            continents <- continents*1.5
-          }
-          if(water>60) {
-            continents <- continents*1.5
-          }
-          continents <- round(continents)
-        }
-        
-        #temperature
-        temp_roll <- round(roll_d6(2)*life_mod)
-        if(pressure=="Low") {
-          temp_roll <- temp_roll+1
-        }
-        if(pressure=="High") {
-          temp_roll <- temp_roll-1
-        }
-        if(temp_roll<=0) {
-          temperature <- 317
-        } else if(temp_roll<5) {
-          temperature <- 307
-        } else if(temp_roll<10) {
-          temperature <- 297
-        } else {
-          temperature <- 287
-        }
-        
-        if(more_gradation) {
-          temperature <- (temperature - 5)+sample(0:9,1)
-        }
-        
-        ## Highest life form roll
-        life_roll <- roll_d6(2)+system_data$habitability
-        if(life_roll<=0) {
-          life <- "Microbes"
-        } else if(life_roll==1) {
-          life <- "Plants"
-        } else if(life_roll==2) {
-          life <- "Insects"
-        } else if(life_roll<5) {
-          life <- "Fish"
-        } else if(life_roll<7) {
-          life <- "Amphibians"
-        } else if(life_roll<9) {
-          life <- "Reptiles"
-        } else if(life_roll<11) {
-          life <- "Birds"
-        } else {
-          life <- "Mammals"
-        }
-        
-      }
-    } else {
-      atmosphere <- "Toxic (Poisonous)"
-    }
   }
   
-  #base temperature if not created above
+  #base temperature - this will be changed later if inhabitable
   if(is.na(temperature) & 
      !((type=="Giant Terrestrial" & pressure=="Very High") | 
        type=="Gas Giant" |
@@ -414,6 +261,174 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
     temperature <- 277*system_data$luminosity^(0.25)*sqrt(1/(pressure_multiplier*radius))
   }
   
+  #set life zone position modifier to one and change for habitable later
+  life_mod <- 1
+  #escape velocity modifier
+  escape_velocity_mod <- escape_velocity/11186
+    
+  if(type=="Terrestrial" | (type=="Giant Terrestrial" & pressure != "Very High")) {
+    habitable_roll <- roll_d6(2)
+    #tweak: if we know this planet slot must be inhabited, then do not add
+    #system habitability modifiers
+    if(!habitable_system) {
+      habitable_roll <- habitable_roll+system_data$habitability
+    }
+    if(pressure=="Low" | pressure=="High") {
+      habitable_roll <- habitable_roll-1
+    }
+    if(type=="Giant Terrestrial") {
+      habitable_roll <- habitable_roll-2
+    }
+    
+    #check for habitability
+    if(life_zone & pressure!="Vacuum" & pressure!="Trace" & pressure!="Very High" & habitable_roll>=9) {
+      
+      ## We have a habitable planet, lets do some additional rolls
+      inhabitable <- TRUE
+      life_mod <- (radius-system_data$distance_inner_au)/(system_data$distance_outer_au-system_data$distance_inner_au)
+      
+      #temperature
+      temp_roll <- round(roll_d6(2)*life_mod)
+      if(pressure=="Low") {
+        temp_roll <- temp_roll+1
+      }
+      if(pressure=="High") {
+        temp_roll <- temp_roll-1
+      }
+      if(temp_roll<=0) {
+        temperature <- 317
+      } else if(temp_roll<5) {
+        temperature <- 307
+      } else if(temp_roll<10) {
+        temperature <- 297
+      } else {
+        temperature <- 287
+      }
+        
+      if(more_gradation) {
+        temperature <- (temperature - 5)+sample(0:9,1)
+      }
+      
+      ## Highest life form roll
+      life_roll <- roll_d6(2)+system_data$habitability
+      if(life_roll<=0) {
+        life <- "Microbes"
+      } else if(life_roll==1) {
+        life <- "Plants"
+      } else if(life_roll==2) {
+        life <- "Insects"
+      } else if(life_roll<5) {
+        life <- "Fish"
+      } else if(life_roll<7) {
+        life <- "Amphibians"
+      } else if(life_roll<9) {
+        life <- "Reptiles"
+      } else if(life_roll<11) {
+        life <- "Birds"
+      } else {
+        life <- "Mammals"
+      }
+    }
+    
+    
+    ## Atmospheric composition
+    if(inhabitable) {
+      atmo_roll <- roll_d6(2)
+      if(type=="Giant Terrestrial") {
+        atmo_roll <- atmo_roll-2
+      }
+      ## Another tweak here. The proportion of tainted atmospheres is quite high.
+      ## presumably settlers would have selected on non-tainted worlds so add a bonus here
+      ## if this needs to be a habitable system
+      if(habitable_system) {
+        atmo_roll <- atmo_roll + 3
+      }
+      if(atmo_roll<2) {
+        atmosphere <-  "Toxic (Poisonous)"
+      } else if(atmo_roll<7) {
+        atmosphere <- "Tainted (Poisonous)"
+      } else {
+        atmosphere <- "Breathable"
+      }
+    } else {
+      atmosphere <- "Toxic (Poisonous)"
+    }
+    
+    #per the optional rules, we will check for water on terrestrials
+    #that meet certain conditions, regardless of habitability
+    if(!inhabitable & (gravity<0.5 | 
+                       pressure=="Vacuum" | pressure=="Trace" |
+                       is.na(temperature) | temperature>323)) {
+      water <- 0
+      continents <- NA
+    } else {
+      ##Surface water roll
+      water_roll <- round(roll_d6(2)*life_mod*escape_velocity_mod)
+      if(type=="Giant Terrestrial") {
+        water_roll <- water_roll+3
+      }
+      #another tweak to allow for more water on inhabited planets
+      if(habitable_system) {
+        water_roll <- water_roll+2
+      }
+      if(water_roll<0) {
+        water <- 0
+      } else if(water_roll==0) {
+        water <- 5
+      } else if(water_roll==1) {
+        water <- 10
+      } else if(water_roll==2) {
+        water <- 20
+      } else if(water_roll==3) {
+        water <- 30
+      } else if(water_roll<6) {
+        water <- 40
+      } else if(water_roll<8) {
+        water <- 50
+      } else if(water_roll<9) {
+        water <- 60
+      } else if(water_roll<10) {
+        water <- 70
+      } else if(water_roll<11) {
+        water <- 80
+      } else if(water_roll<12) {
+        water <- 90
+      } else {
+        water <- 100
+      }
+      
+      if(more_gradation) {
+        #since we do not need things to be in 10 point increments, lets add single
+        #digit variation fot water amount
+        if(water>=5 & water<=95) {
+          water <- (water-5)+sample(0:9,1)
+        }
+      }
+      
+      #continents
+      if(water==0) {
+        continents <- NA
+      } else if(water==100) {
+        continents <- 0
+      } else {
+        continents <- roll_d6(1)
+        if(diameter<9000) {
+          continents <- continents/2
+        }
+        if(water<30) {
+          continents <- continents/2
+        }
+        if(diameter>15000) {
+          continents <- continents*1.5
+        }
+        if(water>60) {
+          continents <- continents*1.5
+        }
+        continents <- round(continents)
+      }
+    }
+  }
+ 
   return(list(type=type, orbital_dist=radius, 
               inhabitable=inhabitable, life_zone=life_zone,
               pressure=pressure, atmosphere=atmosphere, 
