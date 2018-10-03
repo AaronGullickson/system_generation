@@ -58,7 +58,6 @@ generate_system <- function(star=NULL, habitable=TRUE) {
   stype_data <- read.csv("data/solar_type.csv", 
                          row.names=1)[paste(spectral_class, subtype, "V", sep=""),]
   
-  #TODO: what about VI and VII?
   if(star_size != "V") {
     #according to CamOps pg 116, mulitiply luminosity by four and double the life 
     #zone values
@@ -96,19 +95,87 @@ generate_system <- function(star=NULL, habitable=TRUE) {
       habitable_slot <- sample(habitable_slot,1)
     } 
   }
-  i <- 1
+  swept_zone <- FALSE
+  previous_inhabitable <- FALSE
   for(slot in 1:orbital_slots) {
-    #TODO: follow optional rules about placement of gas giants near terrestrials and asteroids
+
     planet <- generate_planet(orbital_placement[slot],slot==habitable_slot,stype_data)
-    #another tweak - if habitable is true, then we need to ensure
-    #that at least on habitable slot in the life zone is occupied by terrestrial 
-    #planet 
+    
+    #If habitable is true, then we need to ensure that at least on habitable
+    #slot in the life zone is occupied by terrestrial planet
     if(slot==habitable_slot) {
-      while(!planet$inhabitable & i<5000) {
+      while(!planet$inhabitable) {
         planet <- generate_planet(orbital_placement[slot],TRUE,stype_data)
-        i <- i + 1
       }
     }
+    
+    #according to camOps, a gas giant should create a swept zone past its
+    #orbital slot that disallows dwarf terrestrials and terrestrials. So if we
+    #are forcing habitation, only allow gas giant past the habitable slot. Also,
+    #according to camOps a gas giant should not be allowed next to an inhabited
+    #planet so really it has to be at least two slots above habitable_slot
+    if(habitable & slot < (habitable_slot+2)) {
+      while(planet$type=="Gas Giant") {
+        planet <- generate_planet(orbital_placement[slot],FALSE,stype_data)
+      }
+    }
+    
+    #now check if we are in a swept zone from a prior gas giant and if so 
+    #then disallow Terrestrials and Dwarf Terrestrials
+    if(swept_zone) {
+      #no dwarf terrestrials or terrestrial
+      while(planet$type=="Terrestrial" | planet$type=="Dwarf Terrestrial") {
+        planet <- generate_planet(orbital_placement[slot],FALSE,stype_data)
+      }
+    }
+    
+    #According to the optional placement rules in CamOps, asteroid belts should
+    #only be placed next to Gas Giants. If this is a forced habitation system,
+    #then this means that asteroid belts should never be placed closer than the
+    #habitable slot+1 because otherwise the habitable slot will end up in a
+    #swept zone once the gas giant is picked
+    if(habitable & slot < (habitable_slot+1)) {
+      while(planet$type=="Asteroid Belt" | planet$type=="Gas Giant") {
+        planet <- generate_planet(orbital_placement[slot],FALSE,stype_data)
+      }
+    }
+    
+    #now check if the previous slot was an Asteroid belt, and if the slot in front of it
+    #was not a Gas Giant, put a gas giant here
+    if(!is.null(planets)) {
+      if(planets[nrow(planets),1]=="Asteroid Belt") {
+        previous <- "None"
+        if(nrow(planets)>1) {
+          previous <- planets[nrow(planets)-1,1]
+        }
+        if(previous!="Gas Giant") {
+          #last slot was an asteroid belt without a Gas Giant on the other side
+          #so put a Gas Giant here. 
+          while(planet$type!="Gas Giant") {
+            planet <- generate_planet(orbital_placement[slot],FALSE,stype_data)
+          }
+        }
+      }
+    }
+    
+    #If habitable is not forced or we are not on the habitable slot, we still
+    #need to make sure that we didn't radomly get a habitable planet next to gas
+    #giant. It will be impossible for previous to be gas giant because of swept
+    #zone effect so we only need to check if current is gas giant and previous
+    #was inhabitable.
+    if(previous_inhabitable) {
+      while(planet$type=="Gas Giant") {
+        planet <- generate_planet(orbital_placement[slot],FALSE,stype_data)
+      }
+    }
+    
+    #If we currently have a gas giant then create swept zone
+    if(!swept_zone & planet$type=="Gas Giant") {
+      swept_zone <- TRUE
+    }
+    
+    previous_inhabitable <- planet$inhabitable
+    
     if(planet$type!="Empty") {
       planets <- rbind(planets, unlist(planet))
     }
@@ -141,7 +208,7 @@ generate_system <- function(star=NULL, habitable=TRUE) {
   planets$rings <- planets$rings=="TRUE"
   
   
-  return(list(star=stype, planets=planets, iterations=i))
+  return(list(star=stype, planets=planets))
 }
 
 #TODO: asteroid belt characteristics
