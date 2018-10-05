@@ -170,7 +170,7 @@ for(i in 1:xml_length(planets)) {
   
   if(is.null(star)) {
     xml_add_child(system_node, "spectralType", 
-                  system$star, source="noncanon")
+                  system$star)
   } else {
     xml_add_child(system_node, "spectralType", 
                   system$star, source="canon")
@@ -184,19 +184,19 @@ for(i in 1:xml_length(planets)) {
                                    source="canon")
       xml_add_child(planet_node, "name", name, source="canon")
     } else {
-      planet_node <- xml_add_child(system_node, "planet", source="noncanon")
-      xml_add_child(planet_node, "name", "Unnamed Planet", source="noncanon")
+      planet_node <- xml_add_child(system_node, "planet")
+      xml_add_child(planet_node, "name", "Unnamed Planet")
     }
     
     xml_add_child(planet_node, "type", 
-                  as.character(planet$type), 
-                  source="noncanon")
+                  as.character(planet$type))
     xml_add_child(planet_node, "orbitalDist", 
-                  planet$orbital_dis, 
-                  source="noncanon")
+                  planet$orbital_dis)
+    
+    #TODO: asteroid belts should not count for system position
+    #also what to do we do if this does not match canon system position?
     xml_add_child(planet_node, "sysPos", 
-                  i, 
-                  source="noncanon")
+                  i)
     
     if(i==primary_slot & !is.na(pressure)) {
       xml_add_child(planet_node, "pressure", 
@@ -204,20 +204,17 @@ for(i in 1:xml_length(planets)) {
                     source="canon")
     } else if(!is.na(planet$pressure)) {
       xml_add_child(planet_node, "pressure", 
-                    as.character(planet$pressure), 
-                    source="noncanon")
+                    as.character(planet$pressure))
     }
     
     if(!is.na(planet$atmosphere)) {
       xml_add_child(planet_node, "atmosphere", 
-                    as.character(planet$atmosphere), 
-                    source="noncanon")
+                    as.character(planet$atmosphere))
     }
     
     if(!is.na(planet$composition)) {
       xml_add_child(planet_node, "composition", 
-                    as.character(planet$composition), 
-                    source="noncanon")
+                    as.character(planet$composition))
     }
    
     #if we adjust gravity then we will need to adjust diameter 
@@ -232,8 +229,7 @@ for(i in 1:xml_length(planets)) {
                     source="canon")
     } else if(!is.na(planet$gravity)) {
       xml_add_child(planet_node, "gravity", 
-                    planet$gravity, 
-                    source="noncanon")
+                    planet$gravity)
     }
     
     if(i==primary_slot & !is.na(temperature)) {
@@ -243,8 +239,7 @@ for(i in 1:xml_length(planets)) {
     }
     else if(!is.na(planet$temperature)) {
       xml_add_child(planet_node, "temperature", 
-                    planet$temperature, 
-                    source="noncanon")
+                    planet$temperature)
     }
     
     if(i==primary_slot & !is.na(water)) {
@@ -254,8 +249,7 @@ for(i in 1:xml_length(planets)) {
     }
     else if(!is.na(planet$water)) {
       xml_add_child(planet_node, "water", 
-                    planet$water, 
-                    source="noncanon")
+                    planet$water)
     }
     
     if(i==primary_slot & !is.na(life)) {
@@ -265,44 +259,27 @@ for(i in 1:xml_length(planets)) {
     }
     else if(!is.na(planet$life)) {
       xml_add_child(planet_node, "life", 
-                    as.character(planet$life), 
-                    source="noncanon")
+                    as.character(planet$life))
     }
     
     if(!is.na(planet$day_length)) {
       xml_add_child(planet_node, "dayLength", 
-                    planet$day_length, 
-                    source="noncanon")
+                    planet$day_length)
     }
     
     if(!is.na(planet$year_length)) {
       xml_add_child(planet_node, "yearLength", 
-                    planet$year_length, 
-                    source="noncanon")
+                    planet$year_length)
     }
     
     if(!is.na(planet$diameter)) {
       xml_add_child(planet_node, "diameter", 
-                    sqrt(gravity_multiplier) * planet$diameter, 
-                    source="noncanon")
+                    sqrt(gravity_multiplier) * planet$diameter)
     }
     
     if(!is.na(planet$density)) {
       xml_add_child(planet_node, "density", 
-                    sqrt(gravity_multiplier) * planet$density, 
-                    source="noncanon")
-    }
-    
-    if(!is.na(planet$escape_velocity)) {
-      xml_add_child(planet_node, "escapeVelocity", 
-                    planet$escape_velocity, 
-                    source="noncanon")
-    }
-    
-    if(!is.na(planet$orbital_velocity)) {
-      xml_add_child(planet_node, "orbitalVelocity", 
-                    planet$orbital_velocity, 
-                    source="noncanon")
+                    sqrt(gravity_multiplier) * planet$density)
     }
     
     #TODO: population, SIC, and HPG data will eventually all go in 
@@ -349,8 +326,7 @@ for(i in 1:xml_length(planets)) {
           landmass_name <- "Unnamed Landmass (Unnamed Capital)"
         }
         xml_add_child(planet_node, "landMass",
-                      landmass_name,
-                      source="noncanon")
+                      landmass_name)
       }
     }
     
@@ -358,7 +334,7 @@ for(i in 1:xml_length(planets)) {
     #assume named moons are never small
     if(i==primary_slot & !is.null(moons)) {
       for(moon in moons) {
-        moon_size <- c("giant",rep("large",5),rep("medium",9))
+        moon_size <- c("giant",rep("large",5),rep("medium",9))[sample(1:15),1]
         xml_add_child(planet_node, "satellite", size=moon_size,
                       moon, 
                       source="canon")
@@ -367,28 +343,24 @@ for(i in 1:xml_length(planets)) {
       if(planet$moons_giant>0) {
         for(i in 1:planet$moons_giant) {
           xml_add_child(planet_node, "satellite", size="giant",
-                        "Unnamed Moon", 
-                        source="noncanon")
+                        "Unnamed Moon")
         }
       }
       if(planet$moons_large>0) {
         for(i in 1:planet$moons_large) {
           xml_add_child(planet_node, "satellite", size="large",
-                        "Unnamed Moon", 
-                        source="noncanon")
+                        "Unnamed Moon")
         }
       }
       if(planet$moons_medium>0) {
         for(i in 1:planet$moons_medium) {
           xml_add_child(planet_node, "satellite", size="medium",
-                        "Unnamed Moon", 
-                        source="noncanon")
+                        "Unnamed Moon")
         }
       }
       if(planet$moons_small>0) {
         xml_add_child(planet_node, "smallMoons",
-                      planet$moons_small, 
-                      source="noncanon")
+                      planet$moons_small)
       }
     }
     
@@ -399,5 +371,7 @@ for(i in 1:xml_length(planets)) {
   }
 
 }
+
+#TODO: a similar for-loop for connectors but no need to force habitation
 
 cat(as.character(systems), file = "test_systems.xml")
