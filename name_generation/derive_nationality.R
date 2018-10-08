@@ -4,7 +4,7 @@ library(xml2)
 library(magrittr)
 library(opencage)
 
-planets <- read_xml("data/planets.xml")
+planets <- read_xml("../data/planets.xml")
 
 full_matches <- NULL
 
