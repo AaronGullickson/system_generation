@@ -1159,3 +1159,32 @@ add_colonization <- function(system, distance_terra, current_year,
   return(system)
 }
 
+#simulate a random walk of population growth rates for a given amount
+#of time. 
+# average - the average growth over the time period
+# length - number of years to simulate
+# increment - how much to increment the random walk by each time
+# penalize - the mean value (as difference from average) at which to adjust sampling
+#   to pull the value back closer to the average 
+# max - the value (as difference from average) for the maximum growth rate. At this
+# point the sampling will only draw 0 or change in the opposite direction
+growth_simulation <- function(average, length, increment, penalize, max) {
+  growth <- c(average)
+  for(i in 1:length) {
+    sampler <- c(increment,-1*increment,0)
+    if(growth[i] > (average+max)) {
+      sampler <- c(rep(-1*increment,2), 0)
+    } else if(mean(growth) > (average+penalize)) {
+      sampler <- c(increment, rep(-1*increment,5), 0)
+    }
+    if(growth[i] < (average-max)) {
+      sampler <- c(rep(increment,2), 0)
+    } else if(mean(growth) < (average-penalize)) {
+      sampler <- c(-1*increment, rep(increment,5), 0)
+    }
+    growth <- c(growth, growth[i]+sample(sampler,1))
+  }
+  return(growth[-1])
+}
+
+
