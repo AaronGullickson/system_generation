@@ -155,6 +155,58 @@ for(i in 1:xml_length(planets)) {
     star <- NULL
   }
   
+  ## Fix founding year
+  # There was considerable amounts of heaping in founding years because these were
+  # determined in many cases by changes between maps with the faction change only 
+  # occurring at the latter date. We want to allow these founding dates to vary between
+  # the map dates, probably by drawing from uniform distribution. 
+  
+  #TODO: Ultimately, we will will also need to correct the faction change event and mark
+  # it as non-canon
+  
+  # The following dates showed evidence of heaping and need to be corrected. We ignore
+  # some potential small heaping cases for small year intervals.
+  
+  # 2172 - 131 cases. not from known SUCS map change, but clear heaping, distibute these
+   #cases between 2118 and 2172
+  # 2200 - 42 cases. not from known SUCS map change, but clear heaping, distribute these cases
+  # between 2173 and 2200
+  # 2271 - 232 cases. First SUCS map. Distributed these cases between 2118 and 2271. 
+  # 2300 - 212 cases. not from known SUCS map change, but clear heaping, distribute these cases 
+  # between 2201 and 2300
+  # 2317 - 49 cases. SUCS map. Distribute these cases between 2272 and 2317.
+  # 2367 - 43 cases. SUCS map. Distribute these cases between 2342 and 2367.
+  # 2571 - 238 cases. SUCS map. Distribute these cases between 2368 and 2571.
+  # 2750 - 531 cases. SUCS map. Distributed these cases between 2597 and 2750.
+  
+  #remaining heaps seem to be clans, hanseatic league, and back part of TC, not
+  #adjusting them for now. 
+  
+  if(founding_year==2172) {
+    founding_year <- sample(2118:2172, 1)
+  }
+  if(founding_year==2200) {
+    founding_year <- sample(2173:2200, 1)
+  }
+  if(founding_year==2300) {
+    founding_year <- sample(2201:2300, 1)
+  }
+  if(founding_year==2271) {
+    founding_year <- sample(2118:2271, 1)
+  }
+  if(founding_year==2317) {
+    founding_year <- sample(2272:2317, 1)
+  }
+  if(founding_year==2367) {
+    founding_year <- sample(2342:2367, 1)
+  }
+  if(founding_year==2571) {
+    founding_year <- sample(2368:2571, 1)
+  }
+  if(founding_year==2750) {
+    founding_year <- sample(2597:2750, 1)
+  }
+  
   system <- add_colonization(generate_system(star=star), distance_terra, 3047, founding_year,
                              faction_type)
   primary_slot <- which(system$planets$population==max(system$planets$population, na.rm=TRUE))[1]
@@ -367,6 +419,30 @@ for(i in 1:xml_length(planets)) {
     #### Project Social Data in Time ####
     
     #TODO: Do this. it will be added to planet events rather than planets
+    
+    #I have now created a function that will allow for a random walk in annual 
+    #growth rates around an average with some adjustments so that the random
+    #walk does not get out of control in one direction or the other. We should be 
+    #able to use this to backward project population to the time of initial 
+    #colonization. How we do this should depend a bit on what kind of system we have
+    
+    # CLAN HOMEWORLDS: very small initial coloniation sizes and some significant 
+    # negative growth for non-pentagon worlds during second exodus period. Then significant
+    # growth throughout the golden century followed by some leveling off after a certain
+    # point. Look at Operation Klondike for some guidance.
+    
+    # INNER SPHERE, PRE STAR LEAGUE: small initial colony sizes (10K-100K?). Rapid growth 
+    # up until age of war period, then very slow growth through Star League. From
+    # star league to end of succession wars, significant declines in population, but I should
+    # probably sample a couple of different averages, to get something from total devastation 
+    # (90% losses) to largely stationary. The best way to handle this case, will be to first
+    # sample a total loss rate for the succession wars, then use this to calculate annual 
+    # declines from present (I might also want to add a basic stationary level between end
+    # of 3SW and present of 3067), then backtrack that. From there, I will get a total 
+    # peak population size. Based on the average from that point until the age of war switch, 
+    # I should be able to calculate the necessary growth rate to get back to a colony size of
+    # XX. If at any point in this formulation, I get a ridiculous growth rate, peak population
+    # size, or colonization size, then I throw out and start again. 
     
   }
 
