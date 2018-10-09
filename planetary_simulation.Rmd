@@ -185,7 +185,7 @@ Base Balue=3 (C)
 ## Changes to HPG Generation
 
 ```{r read_planets_xml, echo=FALSE}
-planets <- read_xml("data/planets.xml")
+planets <- read_xml("input/planets.xml")
 planet.table <- NULL
 target.year <- 3047
 
@@ -315,6 +315,25 @@ ggplot(planets, aes(x=x, y=y, color=(founding_year<=2764)))+
   theme_minimal()+
   scale_color_brewer(palette="Set1", name="Star league founding")+
   ggtitle("Star League Founding")
+```
+
+```{r dist_founding, echo=FALSE}
+# The numbers below all correspond to map dates that come from planet first appearances
+# on maps and may lead to heaping in our estimate of founding year. Any founding in 
+# this year should be assigned to a year widway between this year and the perious year.
+#2271	2317	2319	2341	2367	2571	2596	2750	2765	2767	2783	2786	2821	2822	2830	2864	3025	3030	3040	3049	3050	3050	3050	3051	3052	3057	3058	3059	3059	3059	3059	3063	3067	3068	3075	3079	3081	3085	3095	3130	3135	3145	3151
+#also consider 2200 and 2300
+ggplot(planets, aes(x=founding_year))+
+  geom_histogram(col="grey10", fill="grey70", binwidth=5)+
+  facet_wrap(~faction_type, scales="free")+
+  theme_bw()
+```
+
+A lot of heaping on some specific founding years. This appears to be a result of using a map data as the founding date if system did not appear on a previous map. We need to distribute those founding years and consider them to be non-canon.
+
+```{r founding_table, echo=FALSE}
+tab_found <- table(planets$founding_year)
+knitr::kable(tab_found)
 ```
 
 ```{r map_distance, echo=FALSE}
