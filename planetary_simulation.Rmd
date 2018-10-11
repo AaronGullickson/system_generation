@@ -347,7 +347,52 @@ ggplot(planets, aes(x=x, y=y, color=distance_terra))+
 Now, we cycle through every single planet and generate a system complete with astronomical and social data.
 
 ```{r generate_systems, echo=FALSE}
+#fix founding year heaping
+# The following dates showed evidence of heaping and need to be corrected. We ignore
+# some potential small heaping cases for small year intervals.
+
+# 2172 - 131 cases. not from known SUCS map change, but clear heaping, distibute these
+#cases between 2118 and 2172
+# 2200 - 42 cases. not from known SUCS map change, but clear heaping, distribute these cases
+# between 2173 and 2200
+# 2271 - 232 cases. First SUCS map. Distributed these cases between 2118 and 2271. 
+# 2300 - 212 cases. not from known SUCS map change, but clear heaping, distribute these cases 
+# between 2201 and 2300
+# 2317 - 49 cases. SUCS map. Distribute these cases between 2272 and 2317.
+# 2367 - 43 cases. SUCS map. Distribute these cases between 2342 and 2367.
+# 2571 - 238 cases. SUCS map. Distribute these cases between 2368 and 2571.
+# 2750 - 531 cases. SUCS map. Distributed these cases between 2597 and 2750.
+
+#remaining heaps seem to be clans, hanseatic league, and back part of TC, not
+#adjusting them for now. 
+
+planets[planets$founding_year==2172,"founding_year"] <- sample(2118:2172, 
+                                                               sum(planets$founding_year==2172), 
+                                                               replace=TRUE)
+planets[planets$founding_year==2200,"founding_year"] <- sample(2173:2200,
+                                                               sum(planets$founding_year==2200), 
+                                                               replace=TRUE)
+planets[planets$founding_year==2300,"founding_year"] <- sample(2201:2300, 
+                                                               sum(planets$founding_year==2300), 
+                                                               replace=TRUE)
+planets[planets$founding_year==2271,"founding_year"] <- sample(2118:2271, 
+                                                               sum(planets$founding_year==2271), 
+                                                               replace=TRUE)
+planets[planets$founding_year==2317,"founding_year"] <- sample(2272:2317, 
+                                                               sum(planets$founding_year==2317), 
+                                                               replace=TRUE)
+planets[planets$founding_year==2367,"founding_year"] <- sample(2342:2367, 
+                                                               sum(planets$founding_year==2367), 
+                                                               replace=TRUE)
+planets[planets$founding_year==2571,"founding_year"] <- sample(2368:2571, 
+                                                               sum(planets$founding_year==2571), 
+                                                               replace=TRUE)
+planets[planets$founding_year==2750,"founding_year"] <- sample(2597:2750, 
+                                                               sum(planets$founding_year==2750), 
+                                                               replace=TRUE)
+
 planet <- planets[1,]
+
 system <- add_colonization(generate_system(), planet$distance_terra, 3047, planet$founding_year, planet$faction_type)
 habitable_systems <- subset(system$planets, inhabitable)
 #in case more than one pick the one with most population
@@ -364,7 +409,8 @@ for(i in 2:nrow(planets)) {
   generated_systems <- rbind(generated_systems, temp)
 }
 
-generated_systems <- cbind(planets[,c("name","x","y","faction","faction_type","founding_year","distance_terra")],
+generated_systems <- cbind(planets[,c("name","x","y","faction","faction_type",
+                                      "founding_year","distance_terra")],
                            generated_systems)
 
 
@@ -376,6 +422,17 @@ temp2 <- generated_systems
 temp2$creation <- "Generated"
 temp2 <- temp2[,colnames(temp1)]
 combined_data <- rbind(temp1, temp2)
+
+#do population projections for a given planet
+#create a dataset to hold all of this
+projected_populations <- matrix(NA, nrow(generated_systems), length(2100:3060))
+colnames(projected_populations) <- paste(2100:3060)
+rownames(projected_populations) <- paste(generated_systems$name)
+for(i in 1:nrow(generated_systems)) {
+  system <- generated_systems[i,]
+  proj_pop <- project_population(system$population, 3060, system$founding_year, system$faction_type)
+  projected_populations[i,paste(system$founding_year:3060)] <- proj_pop
+}
 ```
 
 ## Analysis of Generated Results
@@ -593,4 +650,50 @@ ggplot(subset(combined_data, !is.na(hpg)), aes(x=hpg, y=distance_terra, fill=cre
   scale_fill_brewer(name="Creation", palette="Set1")+
   ylab("Distance from Terra")+
   ggtitle("Relationship between HPG rating and distance from terra, by faction type")
+```
+
+### Population Projections
+
+```{r pop_growth, echo=FALSE}
+total_pop <- apply(projected_populations, 2, sum, na.rm=TRUE)
+plot(2100:3060, total_pop, type="l", lwd=3, xlab="year", ylab="total human population")
+```
+
+```{r sw_decline, echo=FALSE}
+sw_decline <- 100*(projected_populations[,"3028"]/projected_populations[,"2750"]-1)
+hist(sw_decline[sw_decline<50], col="red",
+     main="Histogram of population decline during Succession Wars",
+     xlab="Population change from 3028 to 2750")
+```
+
+```{r map_sw_decline, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y,
+                              color=cut(sw_decline,breaks=quantile(sw_decline[sw_decline<50],
+                                                                   na.rm=TRUE))))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+    scale_color_brewer(palette="BuGn", name="Depopulation Quartiles", direction=-1)+
+  ggtitle("Decline during Succession wars")
+```
+
+```{r colony_size, echo=FALSE}
+indx <- apply(projected_populations, 1, function(x) {min(which(!is.na(x)))})
+starting_size <- projected_populations[1:nrow(projected_populations) + nrow(projected_populations) * (indx - 1)]
+hist(starting_size[starting_size<1000000],
+     main="Histogram of starting colony size", xlab="starting colony size")
+```
+
+```{r max_pop, echo=FALSE}
+max_pop <- apply(projected_populations, 1, max, na.rm=TRUE)
+hist(max_pop, 
+     main="Histogram of maximum population size for each planet",
+     xlab="Maximum population size on planet")
+```
+
+```{r founding_year, echo=FALSE}
+ggplot(planets, aes(x=founding_year))+
+  geom_histogram(col="grey10", fill="grey70", binwidth=5)+
+  facet_wrap(~faction_type, scales="free")+
+  theme_bw()+
+  ggtitle("Founding year after heaping correction")
 ```

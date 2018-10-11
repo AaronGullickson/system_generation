@@ -55,7 +55,7 @@ generate_system <- function(star=NULL, habitable=TRUE) {
   stype <- paste(spectral_class, subtype, star_size, sep="")
   
   #table only has V stars, so feed that in. We will override below
-  stype_data <- read.csv("data/solar_type.csv", 
+  stype_data <- read.csv("input/solar_type.csv", 
                          row.names=1)[paste(spectral_class, subtype, "V", sep=""),]
   
   if(star_size != "V") {
@@ -904,6 +904,15 @@ add_colonization <- function(system, distance_terra, current_year,
     if(planet$water<40) {
       modifier <- modifier * 0.8
     }
+    #ANOTHER TWEAK: to avoid ridiculous growth rates when we reverse project
+    #populations, we need to apply some kind of reduction on colonies that 
+    #were founded Star league era and earlier but late within that period.
+    #lets try a uniform reduction in percent down to a max reduction of 0.5
+    #for every year after 2500
+    if(founding_sleague & founding_year>2500) {
+      founding_mod <- 0.5 + 0.5*(2764 - founding_year)/(2764-2500)
+      modifier <- modifier * founding_mod
+    }
     
     planet$population <- modifier*population
     
@@ -1187,4 +1196,137 @@ growth_simulation <- function(average, length, increment, penalize, max) {
   return(growth[-1])
 }
 
+#TODO: planets to use in projecting border regions
+#LA - DC: The Edge
+#LA - FWL: Poulsbo
+#FWL-CC: Pilpala
+#CC-FS: Bromhead
+#FS-DC: Groveld III
+#TODO: Core should be former hegemony worlds, just add that to my list of things to 
+#call in XML loading
+#TODO: adjust depopulation by agriculture ratings
+#TODO: simplify random walk to have one parameter for messiness
+#TODO: allow for some initial canon population sizes
+#TODO: put some hard upper limit on population sizes (i.e. carrying capacity)
+project_population <- function(base_pop, base_year, found_year, faction_type) {
+  
+  #base_year needs to be after 3SW
+  if(base_year<3030) {
+    warning("base_year must be later than 3029")
+    return(NULL)
+  }
+  
+  if(faction_type=="Clan") {
+    if(found_year<=2787) {
+      #pentagon worlds
+      #Op Klondike says about 6 million in Exodus fleet, so that should be an initial colonization size
+      #of 1.2 million per pentagon planet. However, Op Klondike also says the population ws 4.5 million
+      #after second exodus and about 2 million upon return. some of this is due to SL forces not being
+      #counted here. Probably best to assume about 1.2 million with no growth rate because of 
+      #founding of other colonies and then create artificial decline in 2802
+      colony_size <- 1200000
+      early_growth <- c(growth_simulation(0,2801-found_year,0.0001,0.001,0.005), log(0.9/1.2))
+      pop_second_exodus <- colony_size*exp(sum(early_growth))
+
+      #now do SW style depopulation with the decline being about to 45% of population through 2822
+      decline_rate <- log(0.45)/(2822-2802)
+      #now random walk it
+      growth_pent_wars <- growth_simulation(decline_rate, 2822-2802, 0.001, 0.005, 0.0075)
+      #resample until I get something in the ballpark of the overall decline
+      while(abs(exp(sum(growth_pent_wars))-0.45)>0.05) {
+        growth_pent_wars <- growth_simulation(decline_rate, 2822-2802, 0.001, 0.005, 0.0075)
+      }
+      pop_post_war <- pop_second_exodus*exp(sum(growth_pent_wars))
+     
+      #now we are into the golden century, so gompertz to the base_pop
+      growth_golden <- get_gompertz_rates(base_pop, pop_post_war, base_year-2822+1)
+      #add noise
+      growth_golden <- growth_golden+growth_simulation(0,base_year-2822,0.0002,0.001,0.005)
+      
+      full_growth_rates <- c(early_growth, growth_pent_wars, growth_golden)
+      
+    } else {
+      #kerensky cluster
+      #Just use a straightforward gompertz curve. assume smaller initial colonization size for clans
+      full_growth_rates <- get_gompertz_rates(base_pop, 10000, base_year-found_year+1)
+      #add noise
+      full_growth_rates <- full_growth_rates+growth_simulation(0,base_year-found_year,0.0002,0.001,0.005)
+      if(found_year<2802) {
+        full_growth_rates[2802-2790+1] <- 2
+      }
+    }
+  } else {
+    #our population creation method in add_colonization assumes 2764, but I think 
+    #we need to go back a little earlier or we will get some very weird growth rates for
+    #colonies founded right before that period. 
+    if(found_year>2700) {
+      #just a straightforward gompertz curve
+      full_growth_rates <- get_gompertz_rates(base_pop, 50000, base_year-found_year+1)
+      #add noise
+      full_growth_rates <- full_growth_rates+growth_simulation(0,base_year-found_year,0.0002,0.001,0.005)
+    } else {
+      #lets assume a very slight average increase from end of 3SW to present
+      growth_post_sw <- growth_simulation(0.001, base_year-3029, 0.0001, 0.01, 0.01)
+      pop_3sw <- base_pop/exp(sum(growth_post_sw))
+
+      #now lets model succession wars depopulation. First sample an overall 
+      #depopulation ratio for the whole period.
+      sw_decline <- 1-sample(seq(from=5,to=90,by=1)/100, 1)
+      if(base_pop>5000000000) {
+        sw_decline <- 1-sample(seq(from=1,to=20,by=1)/100, 1)
+      } else if(base_pop>1000000000) {
+        sw_decline <- 1-sample(seq(from=5,to=40,by=1)/100, 1)
+      } else if(base_pop>100000000) {
+        sw_decline <- 1-sample(seq(from=5,to=60,by=1)/100, 1)
+      }
+      #use overall ratio to calculate average annual rate of decline.
+      sw_decline_rate <- log(sw_decline)/(3029-2785)
+      #now random walk it
+      growth_sw <- growth_simulation(sw_decline_rate, 3029-2785, 0.002, 0.005, 0.0075)
+      #resample until I get something in the ballpark of the overall decline
+      while(abs(exp(sum(growth_sw))-sw_decline)>0.1) {
+        growth_sw <- growth_simulation(sw_decline_rate, 3029-2785, 0.002, 0.005, 0.0075)
+      }
+      pop_sl <- pop_3sw/exp(sum(growth_sw))
+  
+      #from colonization to end of star league, fit a gompertz
+      growth_initial <- get_gompertz_rates(pop_sl, 50000, 2785-found_year+1)
+      #add noise
+      growth_initial <- growth_initial+growth_simulation(0,2785-found_year,0.0003,0.001,0.005)
+      
+      #TODO: resample if I get a ridiculously large or small initial colony size
+      
+      #put it all together
+      full_growth_rates <- c(growth_initial, growth_sw, growth_post_sw)
+    }
+  }
+    
+  #reverse projecting is easy
+  len <- length(full_growth_rates)
+  full_pop <- base_pop/exp(c(cumsum(full_growth_rates[len:1])[len:1],0))
+  
+  #plot(found_year:base_year, full_pop, type="l", ylim=c(0, max(full_pop)))
+  #abline(h=50000, col="green", lwd=2)
+  #abline(v=2785, lty=2, col="red")
+  #abline(v=3029, lty=2, col="red")
+  
+  return(full_pop)
+}
+
+get_gompertz_rates <- function(ending_pop, start_colony_size, time_length) {
+  
+  if(ending_pop<start_colony_size) {
+    #a bit of hack, but this can't handle negative growth so 
+    #we will change starting colony size to be 90% of ending pop
+    start_colony_size <- 0.9*ending_pop
+  }
+  
+  a <- ending_pop*1.005
+  b <- -log(start_colony_size/a)
+  c <- -log(-log(ending_pop/a)/b)/time_length
+  t <- 0:time_length
+  yt = a*exp(-(b*exp(-c*t)))
+  rates <- log(yt[2:time_length]/yt[1:(time_length-1)])
+  return(rates)
+}
 
