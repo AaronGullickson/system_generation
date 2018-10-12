@@ -1208,13 +1208,11 @@ growth_simulation <- function(average, length, increment, penalize, max) {
 #TODO: simplify random walk to have one parameter for messiness
 #TODO: allow for some initial canon population sizes
 #TODO: put some hard upper limit on population sizes (i.e. carrying capacity)
-project_population <- function(base_pop, base_year, found_year, faction_type) {
+#project population from year 3067 forwards and backwards
+project_population <- function(base_pop, found_year, faction_type, terran_hegemony=FALSE,
+                               p2750=NULL, p3025=NULL, p3079=NULL, p3145=NULL) {
   
-  #base_year needs to be after 3SW
-  if(base_year<3030) {
-    warning("base_year must be later than 3029")
-    return(NULL)
-  }
+  base_year <- 3067
   
   if(faction_type=="Clan") {
     if(found_year<=2787) {
@@ -1265,9 +1263,23 @@ project_population <- function(base_pop, base_year, found_year, faction_type) {
       #add noise
       full_growth_rates <- full_growth_rates+growth_simulation(0,base_year-found_year,0.0002,0.001,0.005)
     } else {
-      #lets assume a very slight average increase from end of 3SW to present
-      growth_post_sw <- growth_simulation(0.001, base_year-3029, 0.0001, 0.01, 0.01)
+      
+      #lets assume a very slight average increase from 3025 to present
+      growth_rate <- 0.001
+      
+      #check for existing population counts in 3025 and/or 2067 and adjust growth rate
+      if(!is.null(p3025)) {
+        growth_rate <- log(base_pop/p3025)/(base_year-3025)
+      } 
+      
+      growth_post_sw <- growth_simulation(growth_rate, base_year-3025, 0.0001, 0.01, 0.01)
       pop_3sw <- base_pop/exp(sum(growth_post_sw))
+      if(!is.null(p3025)) {
+        while(abs((pop_3sw-p3025)/p3025)>0.02) {
+          growth_post_sw <- growth_simulation(growth_rate, base_year-3025, 0.0001, 0.01, 0.01)
+          pop_3sw <- base_pop/exp(sum(growth_post_sw))
+        }
+      }
 
       #now lets model succession wars depopulation. First sample an overall 
       #depopulation ratio for the whole period.
@@ -1279,20 +1291,39 @@ project_population <- function(base_pop, base_year, found_year, faction_type) {
       } else if(base_pop>100000000) {
         sw_decline <- 1-sample(seq(from=5,to=60,by=1)/100, 1)
       }
+      
+      #if we have a star league pop size, then use that instead
+      if(!is.null(p2750)) {
+        sw_decline <- pop_3sw/p2750
+      }
+      
+      #calculate the end point based on being a part of the Terran Hegemony or not
+      sl_peak <- 2785
+      if(terran_hegemony) {
+        sl_peak <- 2767
+      }
+      
       #use overall ratio to calculate average annual rate of decline.
-      sw_decline_rate <- log(sw_decline)/(3029-2785)
+      sw_decline_rate <- log(sw_decline)/(3025-sl_peak)
       #now random walk it
-      growth_sw <- growth_simulation(sw_decline_rate, 3029-2785, 0.002, 0.005, 0.0075)
+      growth_sw <- growth_simulation(sw_decline_rate, 3025-sl_peak, 0.002, 0.005, 0.0075)
       #resample until I get something in the ballpark of the overall decline
-      while(abs(exp(sum(growth_sw))-sw_decline)>0.1) {
-        growth_sw <- growth_simulation(sw_decline_rate, 3029-2785, 0.002, 0.005, 0.0075)
+      tolerance <- 0.1
+      if(!is.null(p2750)) {
+        tolerance <- 0.01
+      }
+      while(abs(exp(sum(growth_sw))-sw_decline)>tolerance) {
+        growth_sw <- growth_simulation(sw_decline_rate, 3025-sl_peak, 0.002, 0.005, 0.0075)
       }
       pop_sl <- pop_3sw/exp(sum(growth_sw))
+      if(!is.null(p2750)) {
+        pop_sl <- p2750
+      }
   
       #from colonization to end of star league, fit a gompertz
-      growth_initial <- get_gompertz_rates(pop_sl, 50000, 2785-found_year+1)
+      growth_initial <- get_gompertz_rates(pop_sl, 50000, sl_peak-found_year+1)
       #add noise
-      growth_initial <- growth_initial+growth_simulation(0,2785-found_year,0.0003,0.001,0.005)
+      growth_initial <- growth_initial+growth_simulation(0,sl_peak-found_year,0.0003,0.001,0.005)
       
       #TODO: resample if I get a ridiculously large or small initial colony size
       
@@ -1304,6 +1335,15 @@ project_population <- function(base_pop, base_year, found_year, faction_type) {
   #reverse projecting is easy
   len <- length(full_growth_rates)
   full_pop <- base_pop/exp(c(cumsum(full_growth_rates[len:1])[len:1],0))
+  
+  #replace with any canon values that are not null
+  names(full_pop) <- paste(found_year:base_year)
+  if(!is.null(p3025)) {
+    full_pop["3025"] <- p3025
+  }
+  if(!is.null(p2750)) {
+    full_pop[paste(sl_peak)] <- p2750
+  }
   
   #plot(found_year:base_year, full_pop, type="l", ylim=c(0, max(full_pop)))
   #abline(h=50000, col="green", lwd=2)
