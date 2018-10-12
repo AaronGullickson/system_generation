@@ -1206,10 +1206,11 @@ growth_simulation <- function(average, length, increment, penalize, max) {
 #call in XML loading
 #TODO: adjust depopulation by agriculture ratings
 #TODO: simplify random walk to have one parameter for messiness
-#TODO: allow for some initial canon population sizes
+#TODO: forward project to 3145 as well
 #TODO: put some hard upper limit on population sizes (i.e. carrying capacity)
 #project population from year 3067 forwards and backwards
-project_population <- function(base_pop, found_year, faction_type, terran_hegemony=FALSE,
+project_population <- function(base_pop, found_year, faction_type, agriculture,
+                               terran_hegemony=FALSE,
                                p2750=NULL, p3025=NULL, p3079=NULL, p3145=NULL) {
   
   base_year <- 3067
@@ -1283,18 +1284,42 @@ project_population <- function(base_pop, found_year, faction_type, terran_hegemo
 
       #now lets model succession wars depopulation. First sample an overall 
       #depopulation ratio for the whole period.
-      sw_decline <- 1-sample(seq(from=5,to=90,by=1)/100, 1)
+      sw_decline <- 1-sample(seq(from=5,to=70,by=1), 1)
+      #adjust by current pop
       if(base_pop>5000000000) {
-        sw_decline <- 1-sample(seq(from=1,to=20,by=1)/100, 1)
+        sw_decline <- sample(seq(from=1,to=10,by=1), 1)
       } else if(base_pop>1000000000) {
-        sw_decline <- 1-sample(seq(from=5,to=40,by=1)/100, 1)
+        sw_decline <- sample(seq(from=5,to=30,by=1), 1)
       } else if(base_pop>100000000) {
-        sw_decline <- 1-sample(seq(from=5,to=60,by=1)/100, 1)
+        sw_decline <- sample(seq(from=5,to=50,by=1), 1)
       }
+      #if terran hegemony then hit harder
+      if(terran_hegemony) {
+        sw_decline <- sw_decline+sample(seq(from=5,to=15,by=1), 1)
+      }
+      #TODO: if border region, then hit harder
+      #if not IS, then not hit as hard
+      if(faction_type!="IS") {
+        sw_decline <- sw_decline-sample(seq(from=10,to=25,by=1), 1)
+      }
+      #agriculture makes you more self reliant
+      if(agriculture=="A") {
+        sw_decline <- sw_decline-sample(seq(from=5,to=15,by=1), 1)
+      } else if(agriculture=="B") {
+        sw_decline <- sw_decline-sample(seq(from=0,to=10,by=1), 1)
+      } else if(agriculture=="C") {
+        sw_decline <- sw_decline+sample(seq(from=0,to=15,by=1), 1)
+      } else if(agriculture=="D") {
+        sw_decline <- sw_decline+sample(seq(from=10,to=25,by=1), 1)
+      } else {
+        sw_decline <- sw_decline+sample(seq(from=20,to=35,by=1), 1)
+      }
+      
+      sw_ratio <- 1-min(sw_decline,95)/100
       
       #if we have a star league pop size, then use that instead
       if(!is.null(p2750)) {
-        sw_decline <- pop_3sw/p2750
+        sw_ratio <- pop_3sw/p2750
       }
       
       #calculate the end point based on being a part of the Terran Hegemony or not
@@ -1304,7 +1329,7 @@ project_population <- function(base_pop, found_year, faction_type, terran_hegemo
       }
       
       #use overall ratio to calculate average annual rate of decline.
-      sw_decline_rate <- log(sw_decline)/(3025-sl_peak)
+      sw_decline_rate <- log(sw_ratio)/(3025-sl_peak)
       #now random walk it
       growth_sw <- growth_simulation(sw_decline_rate, 3025-sl_peak, 0.002, 0.005, 0.0075)
       #resample until I get something in the ballpark of the overall decline
@@ -1312,7 +1337,7 @@ project_population <- function(base_pop, found_year, faction_type, terran_hegemo
       if(!is.null(p2750)) {
         tolerance <- 0.01
       }
-      while(abs(exp(sum(growth_sw))-sw_decline)>tolerance) {
+      while(abs(exp(sum(growth_sw))-sw_ratio)>tolerance) {
         growth_sw <- growth_simulation(sw_decline_rate, 3025-sl_peak, 0.002, 0.005, 0.0075)
       }
       pop_sl <- pop_3sw/exp(sum(growth_sw))
