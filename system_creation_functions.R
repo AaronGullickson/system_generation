@@ -1177,18 +1177,29 @@ add_colonization <- function(system, distance_terra, current_year,
 #   to pull the value back closer to the average 
 # max - the value (as difference from average) for the maximum growth rate. At this
 # point the sampling will only draw 0 or change in the opposite direction
-growth_simulation <- function(average, length, increment, penalize, max) {
+growth_simulation <- function(average, length, messiness=1) {
   growth <- c(average)
+  
+  #increment is equal to 5% of the level times messiness factor
+  increment <- abs(average * 0.1 * messiness)
+  if(increment==0) {
+    increment <- 0.0002*messiness
+  }
+  #penalize if we get five times the increment away
+  penalize <- increment * 5
+  #cap if we the increement equals the average or more
+  max <- increment * 10
+  
   for(i in 1:length) {
     sampler <- c(increment,-1*increment,0)
     if(growth[i] > (average+max)) {
       sampler <- c(rep(-1*increment,2), 0)
-    } else if(mean(growth) > (average+penalize)) {
+    } else if(growth[i] > (average+penalize)) {
       sampler <- c(increment, rep(-1*increment,5), 0)
     }
     if(growth[i] < (average-max)) {
       sampler <- c(rep(increment,2), 0)
-    } else if(mean(growth) < (average-penalize)) {
+    } else if(growth[i] < (average-penalize)) {
       sampler <- c(-1*increment, rep(increment,5), 0)
     }
     growth <- c(growth, growth[i]+sample(sampler,1))
@@ -1202,9 +1213,6 @@ growth_simulation <- function(average, length, increment, penalize, max) {
 #FWL-CC: Pilpala
 #CC-FS: Bromhead
 #FS-DC: Groveld III
-#TODO: Core should be former hegemony worlds, just add that to my list of things to 
-#call in XML loading
-#TODO: adjust depopulation by agriculture ratings
 #TODO: simplify random walk to have one parameter for messiness
 #TODO: forward project to 3145 as well
 #TODO: put some hard upper limit on population sizes (i.e. carrying capacity)
@@ -1230,17 +1238,17 @@ project_population <- function(base_pop, found_year, faction_type, agriculture,
       #now do SW style depopulation with the decline being about to 45% of population through 2822
       decline_rate <- log(0.45)/(2822-2802)
       #now random walk it
-      growth_pent_wars <- growth_simulation(decline_rate, 2822-2802, 0.001, 0.005, 0.0075)
+      growth_pent_wars <- growth_simulation(decline_rate, 2822-2802)
       #resample until I get something in the ballpark of the overall decline
       while(abs(exp(sum(growth_pent_wars))-0.45)>0.05) {
-        growth_pent_wars <- growth_simulation(decline_rate, 2822-2802, 0.001, 0.005, 0.0075)
+        growth_pent_wars <- growth_simulation(decline_rate, 2822-2802)
       }
       pop_post_war <- pop_second_exodus*exp(sum(growth_pent_wars))
      
       #now we are into the golden century, so gompertz to the base_pop
       growth_golden <- get_gompertz_rates(base_pop, pop_post_war, base_year-2822+1)
       #add noise
-      growth_golden <- growth_golden+growth_simulation(0,base_year-2822,0.0002,0.001,0.005)
+      growth_golden <- growth_golden+growth_simulation(0,base_year-2822)
       
       full_growth_rates <- c(early_growth, growth_pent_wars, growth_golden)
       
@@ -1249,7 +1257,7 @@ project_population <- function(base_pop, found_year, faction_type, agriculture,
       #Just use a straightforward gompertz curve. assume smaller initial colonization size for clans
       full_growth_rates <- get_gompertz_rates(base_pop, 10000, base_year-found_year+1)
       #add noise
-      full_growth_rates <- full_growth_rates+growth_simulation(0,base_year-found_year,0.0002,0.001,0.005)
+      full_growth_rates <- full_growth_rates+growth_simulation(0,base_year-found_year)
       if(found_year<2802) {
         full_growth_rates[2802-2790+1] <- 2
       }
@@ -1262,7 +1270,7 @@ project_population <- function(base_pop, found_year, faction_type, agriculture,
       #just a straightforward gompertz curve
       full_growth_rates <- get_gompertz_rates(base_pop, 50000, base_year-found_year+1)
       #add noise
-      full_growth_rates <- full_growth_rates+growth_simulation(0,base_year-found_year,0.0002,0.001,0.005)
+      full_growth_rates <- full_growth_rates+growth_simulation(0,base_year-found_year)
     } else {
       
       #lets assume a very slight average increase from 3025 to present
@@ -1273,18 +1281,18 @@ project_population <- function(base_pop, found_year, faction_type, agriculture,
         growth_rate <- log(base_pop/p3025)/(base_year-3025)
       } 
       
-      growth_post_sw <- growth_simulation(growth_rate, base_year-3025, 0.0001, 0.01, 0.01)
+      growth_post_sw <- growth_simulation(growth_rate, base_year-3025)
       pop_3sw <- base_pop/exp(sum(growth_post_sw))
       if(!is.null(p3025)) {
         while(abs((pop_3sw-p3025)/p3025)>0.02) {
-          growth_post_sw <- growth_simulation(growth_rate, base_year-3025, 0.0001, 0.01, 0.01)
+          growth_post_sw <- growth_simulation(growth_rate, base_year-3025)
           pop_3sw <- base_pop/exp(sum(growth_post_sw))
         }
       }
 
       #now lets model succession wars depopulation. First sample an overall 
       #depopulation ratio for the whole period.
-      sw_decline <- 1-sample(seq(from=5,to=70,by=1), 1)
+      sw_decline <- sample(seq(from=5,to=70,by=1), 1)
       #adjust by current pop
       if(base_pop>5000000000) {
         sw_decline <- sample(seq(from=1,to=10,by=1), 1)
@@ -1331,14 +1339,14 @@ project_population <- function(base_pop, found_year, faction_type, agriculture,
       #use overall ratio to calculate average annual rate of decline.
       sw_decline_rate <- log(sw_ratio)/(3025-sl_peak)
       #now random walk it
-      growth_sw <- growth_simulation(sw_decline_rate, 3025-sl_peak, 0.002, 0.005, 0.0075)
+      growth_sw <- growth_simulation(sw_decline_rate, 3025-sl_peak, messiness = 3)
       #resample until I get something in the ballpark of the overall decline
       tolerance <- 0.1
       if(!is.null(p2750)) {
         tolerance <- 0.01
       }
       while(abs(exp(sum(growth_sw))-sw_ratio)>tolerance) {
-        growth_sw <- growth_simulation(sw_decline_rate, 3025-sl_peak, 0.002, 0.005, 0.0075)
+        growth_sw <- growth_simulation(sw_decline_rate, 3025-sl_peak, messiness = 3)
       }
       pop_sl <- pop_3sw/exp(sum(growth_sw))
       if(!is.null(p2750)) {
@@ -1348,7 +1356,7 @@ project_population <- function(base_pop, found_year, faction_type, agriculture,
       #from colonization to end of star league, fit a gompertz
       growth_initial <- get_gompertz_rates(pop_sl, 50000, sl_peak-found_year+1)
       #add noise
-      growth_initial <- growth_initial+growth_simulation(0,sl_peak-found_year,0.0003,0.001,0.005)
+      growth_initial <- growth_initial+growth_simulation(0,sl_peak-found_year)
       
       #TODO: resample if I get a ridiculously large or small initial colony size
       
@@ -1370,7 +1378,7 @@ project_population <- function(base_pop, found_year, faction_type, agriculture,
     full_pop[paste(sl_peak)] <- p2750
   }
   
-  #plot(found_year:base_year, full_pop, type="l", ylim=c(0, max(full_pop)))
+  plot(found_year:base_year, full_pop, type="l", ylim=c(0, max(full_pop)))
   #abline(h=50000, col="green", lwd=2)
   #abline(v=2785, lty=2, col="red")
   #abline(v=3029, lty=2, col="red")
