@@ -425,13 +425,15 @@ combined_data <- rbind(temp1, temp2)
 
 #do population projections for a given planet
 #create a dataset to hold all of this
-projected_populations <- matrix(NA, nrow(generated_systems), length(2100:3060))
-colnames(projected_populations) <- paste(2100:3060)
+projected_populations <- matrix(NA, nrow(generated_systems), length(2100:3145))
+colnames(projected_populations) <- paste(2100:3145)
 rownames(projected_populations) <- paste(generated_systems$name)
 for(i in 1:nrow(generated_systems)) {
   system <- generated_systems[i,]
-  proj_pop <- project_population(system$population, 3060, system$founding_year, system$faction_type)
-  projected_populations[i,paste(system$founding_year:3060)] <- proj_pop
+  proj_pop <- project_population(system$population, system$founding_year, system$faction_type,
+                                 distance_to_border(system$x, system$y, system$faction),
+                                 system$agriculture)
+  projected_populations[i,names(proj_pop)] <- proj_pop
 }
 ```
 
@@ -656,7 +658,7 @@ ggplot(subset(combined_data, !is.na(hpg)), aes(x=hpg, y=distance_terra, fill=cre
 
 ```{r pop_growth, echo=FALSE}
 total_pop <- apply(projected_populations, 2, sum, na.rm=TRUE)
-plot(2100:3060, total_pop, type="l", lwd=3, xlab="year", ylab="total human population")
+plot(2100:3145, total_pop, type="l", lwd=3, xlab="year", ylab="total human population")
 ```
 
 ```{r sw_decline, echo=FALSE}
@@ -670,16 +672,16 @@ hist(sw_decline[sw_decline<50], col="red",
 ggplot(generated_systems, aes(x=x, y=y,
                               color=cut(sw_decline,breaks=quantile(sw_decline[sw_decline<50],
                                                                    na.rm=TRUE))))+
-  geom_point(alpha=0.8)+
+  geom_point(alpha=0.5)+
   theme_minimal()+
-    scale_color_brewer(palette="BuGn", name="Depopulation Quartiles", direction=-1)+
+    scale_color_brewer(palette="Reds", name="Depopulation Quartiles", direction=-1)+
   ggtitle("Decline during Succession wars")
 ```
 
 ```{r colony_size, echo=FALSE}
 indx <- apply(projected_populations, 1, function(x) {min(which(!is.na(x)))})
 starting_size <- projected_populations[1:nrow(projected_populations) + nrow(projected_populations) * (indx - 1)]
-hist(starting_size[starting_size<1000000],
+hist(starting_size[starting_size<1000000], col="darkgreen",
      main="Histogram of starting colony size", xlab="starting colony size")
 ```
 
@@ -687,7 +689,7 @@ hist(starting_size[starting_size<1000000],
 max_pop <- apply(projected_populations, 1, max, na.rm=TRUE)
 hist(max_pop, 
      main="Histogram of maximum population size for each planet",
-     xlab="Maximum population size on planet")
+     xlab="Maximum population size on planet", col="skyblue")
 ```
 
 ```{r founding_year, echo=FALSE}

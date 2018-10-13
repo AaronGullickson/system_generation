@@ -1207,16 +1207,10 @@ growth_simulation <- function(average, length, messiness=1) {
   return(growth[-1])
 }
 
-#TODO: planets to use in projecting border regions
-#LA - DC: The Edge
-#LA - FWL: Poulsbo
-#FWL-CC: Pilpala
-#CC-FS: Bromhead
-#FS-DC: Groveld III
 #TODO: put some hard upper limit on population sizes (i.e. carrying capacity)
 #project population from year 3067 forwards and backwards
-project_population <- function(base_pop, found_year, faction_type, agriculture,
-                               terran_hegemony=FALSE,
+project_population <- function(base_pop, found_year, faction_type, border_distance, 
+                               agriculture, terran_hegemony=FALSE,
                                p2750=NULL, p3025=NULL, p3079=NULL, p3145=NULL) {
   
   base_year <- 3067
@@ -1230,7 +1224,7 @@ project_population <- function(base_pop, found_year, faction_type, agriculture,
       #counted here. Probably best to assume about 1.2 million with no growth rate because of 
       #founding of other colonies and then create artificial decline in 2802
       colony_size <- 1200000
-      early_growth <- c(growth_simulation(0,2801-found_year,0.0001,0.001,0.005), log(0.9/1.2))
+      early_growth <- c(growth_simulation(0,2801-found_year), log(0.9/1.2))
       pop_second_exodus <- colony_size*exp(sum(early_growth))
 
       #now do SW style depopulation with the decline being about to 45% of population through 2822
@@ -1299,11 +1293,11 @@ project_population <- function(base_pop, found_year, faction_type, agriculture,
       } else if(base_pop>100000000) {
         sw_decline <- sample(seq(from=5,to=50,by=1), 1)
       }
-      #if terran hegemony then hit harder
-      if(terran_hegemony) {
+      #if terran hegemony or border region then hit harder
+      if(terran_hegemony | border_distance<=60) {
         sw_decline <- sw_decline+sample(seq(from=5,to=15,by=1), 1)
       }
-      #TODO: if border region, then hit harder
+
       #if not IS, then not hit as hard
       if(faction_type!="IS") {
         sw_decline <- sw_decline-sample(seq(from=10,to=25,by=1), 1)
@@ -1404,7 +1398,7 @@ project_population <- function(base_pop, found_year, faction_type, agriculture,
     full_pop["3145"] <- p3145
   }
   
-  plot(found_year:3145, full_pop, type="l", ylim=c(0, max(full_pop)))
+  #plot(found_year:3145, full_pop, type="l", ylim=c(0, max(full_pop)))
   #abline(h=50000, col="green", lwd=2)
   #abline(v=2785, lty=2, col="red")
   #abline(v=3029, lty=2, col="red")
@@ -1427,5 +1421,42 @@ get_gompertz_rates <- function(ending_pop, start_colony_size, time_length) {
   yt = a*exp(-(b*exp(-c*t)))
   rates <- log(yt[2:time_length]/yt[1:(time_length-1)])
   return(rates)
+}
+
+#distance to border for a given faction
+distance_to_border <- function(x0,y0,faction) {
+  
+  #return Inf if not one of the five IS factions
+  
+  #based on faction put in two options for x2 and y2 for a 
+  #planet along the border
+  if(faction=="LC" | faction=="LA") {
+    #Lyran-DC border, use Outpost (15.426, 426.466)
+    #Lyran-FWL border, use Green Stone (405.913, -79.963) 
+    x2 <- c(15.426,405.913)
+    y2 <- c(426.466,-79.963)
+  } else if(faction=="DC" | faction=="FRR") {
+    #Lyran-DC border, use Outpost (15.426, 426.466)
+    #DC-FS border, use Crestobulus (452,426, 426.466)
+    x2 <- c(15.426,452.426)
+    y2 <- c(426.466,426.466)
+  } else if(faction=="FS") {
+    #DC-FS border, use Crestobulus (452,426, 426.466)
+    #FS-CC border, use Desolate Plains (207.01,-361.318)
+    x2 <- c(452.426,207.01)
+    y2 <- c(426.466,-361.318)
+  } else if(faction=="CC" | faction=="SIC") {
+    #FS-CC border, use Desolate Plains (207.01,-361.318)
+    #CC-FWL border, use Zathras (-84.041, -390.39)
+    x2 <- c(-84.041)
+    y2 <- c(-390.39)
+  } else {
+    return(Inf)
+  }
+  
+  #general equation, where x1,y1 will always be terra at 0,0 (so dropped)
+  #and x2,y2 is always some other planet along the border line
+  return(min(abs(y2*x0-x2*y0)/sqrt(y2^2+x2^2)))
+
 }
 
