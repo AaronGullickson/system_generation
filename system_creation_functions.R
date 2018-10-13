@@ -1213,8 +1213,6 @@ growth_simulation <- function(average, length, messiness=1) {
 #FWL-CC: Pilpala
 #CC-FS: Bromhead
 #FS-DC: Groveld III
-#TODO: simplify random walk to have one parameter for messiness
-#TODO: forward project to 3145 as well
 #TODO: put some hard upper limit on population sizes (i.e. carrying capacity)
 #project population from year 3067 forwards and backwards
 project_population <- function(base_pop, found_year, faction_type, agriculture,
@@ -1364,21 +1362,49 @@ project_population <- function(base_pop, found_year, faction_type, agriculture,
       full_growth_rates <- c(growth_initial, growth_sw, growth_post_sw)
     }
   }
-    
+  
   #reverse projecting is easy
   len <- length(full_growth_rates)
   full_pop <- base_pop/exp(c(cumsum(full_growth_rates[len:1])[len:1],0))
   
+  
+  #now forward project to 3145 with low growth rate
+  growth <- 0.001
+  
+  if(!is.null(p3079)) {
+    growth <- log(p3079/base_pop)/(3079-3067)
+    growth_jihad <- growth_simulation(growth,3145-3067, messiness=2)
+    growth <- 0.001
+    if(!is.null(p3145)) {
+      growth <- log(p3145/p3079)/(3145-3079)
+    }
+    growth_da <- growth_simulation(growth,3145-3079, messiness=2)
+    growth_da <- c(growth_jihad, growth_da)
+  } else {
+    if(!is.null(p3145)) {
+      growth <- log(p3145/base_pop)/(3145-3067)
+   }
+   growth_da <- growth_simulation(growth,3145-3067, messiness=2)
+  }
+
+  full_pop <- c(full_pop, base_pop*exp(cumsum(growth_da)))
+  
   #replace with any canon values that are not null
-  names(full_pop) <- paste(found_year:base_year)
+  names(full_pop) <- paste(found_year:3145)
   if(!is.null(p3025)) {
     full_pop["3025"] <- p3025
   }
   if(!is.null(p2750)) {
     full_pop[paste(sl_peak)] <- p2750
   }
+  if(!is.null(p3079)) {
+    full_pop["3079"] <- p3079
+  }
+  if(!is.null(p3145)) {
+    full_pop["3145"] <- p3145
+  }
   
-  plot(found_year:base_year, full_pop, type="l", ylim=c(0, max(full_pop)))
+  plot(found_year:3145, full_pop, type="l", ylim=c(0, max(full_pop)))
   #abline(h=50000, col="green", lwd=2)
   #abline(v=2785, lty=2, col="red")
   #abline(v=3029, lty=2, col="red")
