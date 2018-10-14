@@ -1211,9 +1211,41 @@ growth_simulation <- function(average, length, messiness=1) {
 #project population from year 3067 forwards and backwards
 project_population <- function(base_pop, found_year, faction_type, border_distance, 
                                agriculture, terran_hegemony=FALSE,
-                               p2750=NULL, p3025=NULL, p3079=NULL, p3145=NULL) {
+                               p2750=NULL, p3025=NULL, p3067=NULL, p3079=NULL, p3145=NULL) {
   
+  #base year is 3067
   base_year <- 3067
+  if(!is.null(p3067)) {
+    base_pop <- p3067
+  } 
+  
+  #get growth to end of DA first. If there are valid 3079 or 3145 dates, but not
+  #3067, then ignore current base pop and reassign at the end.
+  growth <- 0.001
+  if(!is.null(p3079)) {
+    if(!is.null(p3067)) {
+      growth <- log(p3079/p3067)/(3079-3067)
+    }
+    growth_jihad <- growth_simulation(growth, 3079-3067, messiness=2)
+    growth <- 0.001
+    if(!is.null(p3145)) {
+      growth <- log(p3145/p3079)/(3145-3079)
+    }
+    growth_da <- growth_simulation(growth, 3145-3079, messiness=2)
+    growth_da <- c(growth_jihad, growth_da)
+  } else {
+    if(!is.null(p3145) & !is.null(p3067)) {
+      growth <- log(p3145/p3067)/(3145-3067)
+    }
+    growth_da <- growth_simulation(growth, 3145-3067, messiness=2)
+  }
+  
+  #check to see if I need to reassign 3067 date
+  if(!is.null(p3079) & is.null(p3067)) {
+    base_pop <- p3079/exp(sum(growth_jihad))
+  } else if(!is.null(p3145) & is.null(p3067)) {
+    base_pop <- p3145/exp(sum(growth_da))
+  }
   
   if(faction_type=="Clan") {
     if(found_year<=2787) {
@@ -1349,9 +1381,7 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
       growth_initial <- get_gompertz_rates(pop_sl, 50000, sl_peak-found_year+1)
       #add noise
       growth_initial <- growth_initial+growth_simulation(0,sl_peak-found_year)
-      
-      #TODO: resample if I get a ridiculously large or small initial colony size
-      
+ 
       #put it all together
       full_growth_rates <- c(growth_initial, growth_sw, growth_post_sw)
     }
@@ -1361,26 +1391,7 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
   len <- length(full_growth_rates)
   full_pop <- base_pop/exp(c(cumsum(full_growth_rates[len:1])[len:1],0))
   
-  
-  #now forward project to 3145 with low growth rate
-  growth <- 0.001
-  
-  if(!is.null(p3079)) {
-    growth <- log(p3079/base_pop)/(3079-3067)
-    growth_jihad <- growth_simulation(growth,3145-3067, messiness=2)
-    growth <- 0.001
-    if(!is.null(p3145)) {
-      growth <- log(p3145/p3079)/(3145-3079)
-    }
-    growth_da <- growth_simulation(growth,3145-3079, messiness=2)
-    growth_da <- c(growth_jihad, growth_da)
-  } else {
-    if(!is.null(p3145)) {
-      growth <- log(p3145/base_pop)/(3145-3067)
-   }
-   growth_da <- growth_simulation(growth,3145-3067, messiness=2)
-  }
-
+  #finally, add forward projection to 3145
   full_pop <- c(full_pop, base_pop*exp(cumsum(growth_da)))
   
   #replace with any canon values that are not null
