@@ -1451,7 +1451,7 @@ distance_to_border <- function(x0,y0,faction) {
     #DC-FS border, use Crestobulus (452,426, 426.466)
     x2 <- c(15.426,452.426)
     y2 <- c(426.466,426.466)
-  } else if(faction=="FS") {
+  } else if(faction=="FS" | faction=="FC") {
     #DC-FS border, use Crestobulus (452,426, 426.466)
     #FS-CC border, use Desolate Plains (207.01,-361.318)
     x2 <- c(452.426,207.01)
