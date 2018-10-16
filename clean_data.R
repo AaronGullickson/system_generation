@@ -1,0 +1,74 @@
+library(xml2)
+library(magrittr)
+library(rlist)
+source("system_creation_functions.R")
+
+#return planet nodeset by id
+get_planet_id <- function(full_xml, id) {
+  planets <- xml_find_all(full_xml, "planet")
+  planets[which(xml_text(xml_find_first(planets, "id"))==id)]
+}
+
+planets <- read_xml("input/planets.xml")
+events <- read_xml("input/0002_planetevents.xml")
+connectors <- read_xml("input/1000_connectors.xml")
+
+
+#now run through planets first time and add all of the events
+#TODO: clean up this events file, remove non-canon and re-identify
+#all existing events as canon
+new_planets <- xml_new_document() %>% xml_add_child("planets")
+
+for(i in 1:xml_length(planets)) {
+  planet <- xml_children(planets)[[i]]
+  id <- xml_text(xml_find_first(planet, "id"))
+  cat(id)
+  
+  ## Pull out all events and add them to the events XML
+  new_events <- xml_find_all(planet, "event")
+  existing_planet <- get_planet_id(events, id)
+  if(length(existing_planet)>0) {
+    xml_add_child(existing_planet, new_events)
+  } else {
+    #need to add a new planet 
+    planet_node <- xml_add_child(events, "planet")
+    xml_add_child(planet_node, "id", id)
+    for(new_event in new_events) {
+      xml_add_child(planet_node, new_event)
+    }
+  }
+  
+  # Check for connector
+  name <- xml_text(xml_find_first(planet, "name"))
+  if(grepl("^(DPR|ER|KC|TFS|NP|NC|HL)", name)) {
+    xml_add_child(connectors, planet)
+    next
+  }
+  
+  # If we are still here cycle through nodes and spit out results to the 
+  # new file
+  planet_node <- xml_add_child(new_planets, "planet")
+  for(node in xml_children(planet)) {
+    if(xml_name(node)!="event" & xml_name(node)!="pop") {
+      xml_add_child(planet_node, node)
+    }
+  }
+  cat("\n")
+}
+
+cat(as.character(new_planets), file = "output/planets_initial.xml")
+cat(as.character(events), file = "output/planetevents_initial.xml")
+
+#ok clean up connectors now
+new_connectors <- xml_new_document() %>% xml_add_child("planets")
+for(i in 1:xml_length(connectors)) {
+  planet <- xml_children(connectors)[[i]]
+  planet_node <- xml_add_child(new_connectors, "planet")
+  for(node in xml_children(planet)) {
+    if(xml_name(node)!="event" & xml_name(node)!="pop" & xml_name(node)!="desc") {
+      xml_add_child(planet_node, node)
+    }
+  }
+}
+
+cat(as.character(new_connectors), file = "output/connectors_initial.xml")

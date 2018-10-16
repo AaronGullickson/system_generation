@@ -1,0 +1,6520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<planets>
+  <planet>
+    <name>DPR 0101</name>
+    <xcood>-137</xcood>
+    <ycood>889</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0102</name>
+    <xcood>-162</xcood>
+    <ycood>894</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0103</name>
+    <xcood>-187</xcood>
+    <ycood>899</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0104</name>
+    <xcood>-212</xcood>
+    <ycood>904</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0105</name>
+    <xcood>-237</xcood>
+    <ycood>909</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0106</name>
+    <xcood>-262</xcood>
+    <ycood>914</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0107</name>
+    <xcood>-287</xcood>
+    <ycood>919</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0108</name>
+    <xcood>-312</xcood>
+    <ycood>924</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0109</name>
+    <xcood>-337</xcood>
+    <ycood>929</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0201</name>
+    <xcood>-725</xcood>
+    <ycood>1075</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0202</name>
+    <xcood>-732</xcood>
+    <ycood>1048</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0203</name>
+    <xcood>-739</xcood>
+    <ycood>1021</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0204</name>
+    <xcood>-744</xcood>
+    <ycood>994</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0205</name>
+    <xcood>-752</xcood>
+    <ycood>967</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0301</name>
+    <xcood>-598</xcood>
+    <ycood>813</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0302</name>
+    <xcood>-573</xcood>
+    <ycood>819</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0303</name>
+    <xcood>-548</xcood>
+    <ycood>825</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>III</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0304</name>
+    <xcood>-523</xcood>
+    <ycood>831</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0305</name>
+    <xcood>-497</xcood>
+    <ycood>838</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0306</name>
+    <xcood>-472</xcood>
+    <ycood>844</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0307</name>
+    <xcood>-447</xcood>
+    <ycood>850</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0308</name>
+    <xcood>-422</xcood>
+    <ycood>857</ycood>
+    <faction>UND</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0309</name>
+    <xcood>-386</xcood>
+    <ycood>885</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0310</name>
+    <xcood>-376</xcood>
+    <ycood>907</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NC 01</name>
+    <xcood>-685</xcood>
+    <ycood>1120</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0401</name>
+    <xcood>-425</xcood>
+    <ycood>395</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0402</name>
+    <xcood>-445</xcood>
+    <ycood>416</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0403</name>
+    <xcood>-465</xcood>
+    <ycood>437</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0404</name>
+    <xcood>-485</xcood>
+    <ycood>458</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0405</name>
+    <xcood>-505</xcood>
+    <ycood>479</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0406</name>
+    <xcood>-525</xcood>
+    <ycood>500</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0407</name>
+    <xcood>-545</xcood>
+    <ycood>521</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0408</name>
+    <xcood>-565</xcood>
+    <ycood>542</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0409</name>
+    <xcood>-585</xcood>
+    <ycood>563</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0410</name>
+    <xcood>-605</xcood>
+    <ycood>584</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0411</name>
+    <xcood>-625</xcood>
+    <ycood>605</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0412</name>
+    <xcood>-645</xcood>
+    <ycood>626</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0413</name>
+    <xcood>-665</xcood>
+    <ycood>647</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 01</name>
+    <xcood>-686</xcood>
+    <ycood>650.6</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 02</name>
+    <xcood>-701</xcood>
+    <ycood>664</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 03</name>
+    <xcood>-690</xcood>
+    <ycood>690</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 04</name>
+    <xcood>-655</xcood>
+    <ycood>686</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 05</name>
+    <xcood>-650</xcood>
+    <ycood>708</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>II</luminosity>
+  </planet>
+  <planet>
+    <name>HL 06</name>
+    <xcood>-650</xcood>
+    <ycood>750</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>HL 07</name>
+    <xcood>-636</xcood>
+    <ycood>785</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>HL 08</name>
+    <xcood>-625</xcood>
+    <ycood>820</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>HL 09</name>
+    <xcood>-655</xcood>
+    <ycood>841</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 10</name>
+    <xcood>-690</xcood>
+    <ycood>828</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>HL 11</name>
+    <xcood>-676</xcood>
+    <ycood>795</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>HL 12</name>
+    <xcood>-695</xcood>
+    <ycood>735</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>II</luminosity>
+  </planet>
+  <planet>
+    <name>HL 13</name>
+    <xcood>-710</xcood>
+    <ycood>755</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 14</name>
+    <xcood>-710</xcood>
+    <ycood>794</ycood>
+    <faction>NONE</faction>
+    <spectralClass>A</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>HL 15</name>
+    <xcood>-742</xcood>
+    <ycood>755</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 16</name>
+    <xcood>-727</xcood>
+    <ycood>671</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>HL 17</name>
+    <xcood>-756</xcood>
+    <ycood>707</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 18</name>
+    <xcood>-781</xcood>
+    <ycood>735</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 19</name>
+    <xcood>-744</xcood>
+    <ycood>784</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 20</name>
+    <xcood>-762</xcood>
+    <ycood>793</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 21</name>
+    <xcood>-772</xcood>
+    <ycood>819</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 22</name>
+    <xcood>-802</xcood>
+    <ycood>807</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 23</name>
+    <xcood>-838</xcood>
+    <ycood>794</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 24</name>
+    <xcood>-840</xcood>
+    <ycood>835</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 25</name>
+    <xcood>-835</xcood>
+    <ycood>868</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 26</name>
+    <xcood>-701</xcood>
+    <ycood>861</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 27</name>
+    <xcood>-770</xcood>
+    <ycood>859</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 28</name>
+    <xcood>-755</xcood>
+    <ycood>890</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>HL 29</name>
+    <xcood>-805</xcood>
+    <ycood>880</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 30</name>
+    <xcood>-835</xcood>
+    <ycood>915</ycood>
+    <faction>NONE</faction>
+    <spectralClass>A</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 31</name>
+    <xcood>-745</xcood>
+    <ycood>915</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>HL 32</name>
+    <xcood>-775</xcood>
+    <ycood>940</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>HL 33</name>
+    <xcood>-815</xcood>
+    <ycood>940</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0501</name>
+    <xcood>-169</xcood>
+    <ycood>791</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0502</name>
+    <xcood>-196</xcood>
+    <ycood>781</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0503</name>
+    <xcood>-223</xcood>
+    <ycood>770</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0504</name>
+    <xcood>-267</xcood>
+    <ycood>738</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0505</name>
+    <xcood>-283</xcood>
+    <ycood>716</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0506</name>
+    <xcood>-300</xcood>
+    <ycood>667</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0507</name>
+    <xcood>-274</xcood>
+    <ycood>634</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0508</name>
+    <xcood>-247</xcood>
+    <ycood>628</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0509</name>
+    <xcood>-220</xcood>
+    <ycood>622</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0510</name>
+    <xcood>-193</xcood>
+    <ycood>616</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0601</name>
+    <xcood>-46</xcood>
+    <ycood>976</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0602</name>
+    <xcood>-20</xcood>
+    <ycood>969</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0603</name>
+    <xcood>6</xcood>
+    <ycood>960</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0604</name>
+    <xcood>32</xcood>
+    <ycood>951</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>II</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0605</name>
+    <xcood>58</xcood>
+    <ycood>942</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0606</name>
+    <xcood>84</xcood>
+    <ycood>933</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0607</name>
+    <xcood>136</xcood>
+    <ycood>926</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0608</name>
+    <xcood>163</xcood>
+    <ycood>932</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0609</name>
+    <xcood>190</xcood>
+    <ycood>938</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0610</name>
+    <xcood>217</xcood>
+    <ycood>944</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0611</name>
+    <xcood>260</xcood>
+    <ycood>966</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0612</name>
+    <xcood>276</xcood>
+    <ycood>986</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0613</name>
+    <xcood>291</xcood>
+    <ycood>1005</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0614</name>
+    <xcood>307</xcood>
+    <ycood>1025</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0615</name>
+    <xcood>345</xcood>
+    <ycood>1029</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0616</name>
+    <xcood>368</xcood>
+    <ycood>1014</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0617</name>
+    <xcood>391</xcood>
+    <ycood>999</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0618</name>
+    <xcood>414</xcood>
+    <ycood>984</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0701</name>
+    <xcood>-79</xcood>
+    <ycood>698</ycood>
+    <faction>NONE</faction>
+    <spectralClass>A</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0702</name>
+    <xcood>-54</xcood>
+    <ycood>713</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0703</name>
+    <xcood>-29</xcood>
+    <ycood>728</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0704</name>
+    <xcood>-4</xcood>
+    <ycood>743</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0705</name>
+    <xcood>44</xcood>
+    <ycood>772</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0706</name>
+    <xcood>65</xcood>
+    <ycood>790</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0707</name>
+    <xcood>86</xcood>
+    <ycood>808</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0708</name>
+    <xcood>107</xcood>
+    <ycood>826</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0709</name>
+    <xcood>122</xcood>
+    <ycood>869</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0710</name>
+    <xcood>116</xcood>
+    <ycood>894</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0711</name>
+    <xcood>155</xcood>
+    <ycood>832</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0712</name>
+    <xcood>181</xcood>
+    <ycood>821</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0713</name>
+    <xcood>207</xcood>
+    <ycood>810</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0714</name>
+    <xcood>234</xcood>
+    <ycood>799</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>ER 044</name>
+    <xcood>18</xcood>
+    <ycood>1745</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 045</name>
+    <xcood>-82</xcood>
+    <ycood>1610</ycood>
+    <faction>NONE</faction>
+    <spectralClass>B</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>JF 01</name>
+    <xcood>575</xcood>
+    <ycood>510</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>JF 02</name>
+    <xcood>573</xcood>
+    <ycood>478</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>JF 03</name>
+    <xcood>595</xcood>
+    <ycood>525</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>KC 12</name>
+    <xcood>68</xcood>
+    <ycood>1746</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>KC 13</name>
+    <xcood>49</xcood>
+    <ycood>1817</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>KC 14</name>
+    <xcood>24</xcood>
+    <ycood>1862</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>KC 15</name>
+    <xcood>-35</xcood>
+    <ycood>1855</ycood>
+    <faction>NONE</faction>
+    <spectralClass>B</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>KC 16</name>
+    <xcood>-89</xcood>
+    <ycood>1823</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>II</luminosity>
+  </planet>
+  <planet>
+    <name>KC 17</name>
+    <xcood>-110</xcood>
+    <ycood>1835</ycood>
+    <faction>NONE</faction>
+    <spectralClass>A</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 01</name>
+    <xcood>416</xcood>
+    <ycood>472</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 02</name>
+    <xcood>416</xcood>
+    <ycood>501</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 03</name>
+    <xcood>415</xcood>
+    <ycood>528</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 04</name>
+    <xcood>415</xcood>
+    <ycood>555</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 05</name>
+    <xcood>414</xcood>
+    <ycood>582</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 06</name>
+    <xcood>390</xcood>
+    <ycood>620</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 07</name>
+    <xcood>366</xcood>
+    <ycood>632</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 08</name>
+    <xcood>342</xcood>
+    <ycood>644</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 09</name>
+    <xcood>318</xcood>
+    <ycood>656</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 10</name>
+    <xcood>287</xcood>
+    <ycood>692</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 11</name>
+    <xcood>280</xcood>
+    <ycood>716</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 12</name>
+    <xcood>274</xcood>
+    <ycood>740</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 13</name>
+    <xcood>268</xcood>
+    <ycood>764</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 14</name>
+    <xcood>258</xcood>
+    <ycood>815</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 15</name>
+    <xcood>256</xcood>
+    <ycood>841</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 16</name>
+    <xcood>253</xcood>
+    <ycood>868</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 17</name>
+    <xcood>251</xcood>
+    <ycood>894</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 18</name>
+    <xcood>248</xcood>
+    <ycood>921</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 19</name>
+    <xcood>304</xcood>
+    <ycood>1064</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 20</name>
+    <xcood>285</xcood>
+    <ycood>1084</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 21</name>
+    <xcood>267</xcood>
+    <ycood>1104</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 22</name>
+    <xcood>248</xcood>
+    <ycood>1124</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 23</name>
+    <xcood>230</xcood>
+    <ycood>1144</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 24</name>
+    <xcood>204</xcood>
+    <ycood>1192</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 25</name>
+    <xcood>197</xcood>
+    <ycood>1220</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 26</name>
+    <xcood>191</xcood>
+    <ycood>1248</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 27</name>
+    <xcood>185</xcood>
+    <ycood>1276</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 28</name>
+    <xcood>179</xcood>
+    <ycood>1304</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 29</name>
+    <xcood>173</xcood>
+    <ycood>1332</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 30</name>
+    <xcood>167</xcood>
+    <ycood>1360</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 31</name>
+    <xcood>161</xcood>
+    <ycood>1388</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 32</name>
+    <xcood>155</xcood>
+    <ycood>1416</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 33</name>
+    <xcood>149</xcood>
+    <ycood>1444</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 34</name>
+    <xcood>143</xcood>
+    <ycood>1472</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 35</name>
+    <xcood>137</xcood>
+    <ycood>1500</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 36</name>
+    <xcood>131</xcood>
+    <ycood>1528</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 37</name>
+    <xcood>125</xcood>
+    <ycood>1556</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 38</name>
+    <xcood>119</xcood>
+    <ycood>1584</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 39</name>
+    <xcood>113</xcood>
+    <ycood>1612</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 40</name>
+    <xcood>107</xcood>
+    <ycood>1640</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 41</name>
+    <xcood>101</xcood>
+    <ycood>1668</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>TFS 42</name>
+    <xcood>95</xcood>
+    <ycood>1696</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 001</name>
+    <xcood>-82</xcood>
+    <ycood>530</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>ER 002</name>
+    <xcood>-86</xcood>
+    <ycood>555</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>ER 003</name>
+    <xcood>-90</xcood>
+    <ycood>580</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 004</name>
+    <xcood>-94</xcood>
+    <ycood>605</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 005</name>
+    <xcood>-98</xcood>
+    <ycood>630</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 006</name>
+    <xcood>-102</xcood>
+    <ycood>655</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 007</name>
+    <xcood>-112</xcood>
+    <ycood>708</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 008</name>
+    <xcood>-120</xcood>
+    <ycood>733</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>ER 009</name>
+    <xcood>-128</xcood>
+    <ycood>758</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 010</name>
+    <xcood>-136</xcood>
+    <ycood>783</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 011</name>
+    <xcood>-134</xcood>
+    <ycood>822</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 012</name>
+    <xcood>-126</xcood>
+    <ycood>842</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 013</name>
+    <xcood>-118</xcood>
+    <ycood>862</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>ER 014</name>
+    <xcood>-102</xcood>
+    <ycood>909</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>III</luminosity>
+  </planet>
+  <planet>
+    <name>ER 015</name>
+    <xcood>-92</xcood>
+    <ycood>934</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 016</name>
+    <xcood>-82</xcood>
+    <ycood>959</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 017</name>
+    <xcood>-92</xcood>
+    <ycood>1005</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 018</name>
+    <xcood>-112</xcood>
+    <ycood>1025</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 019</name>
+    <xcood>-116</xcood>
+    <ycood>1065</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 020</name>
+    <xcood>-117</xcood>
+    <ycood>1093</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 021</name>
+    <xcood>-117</xcood>
+    <ycood>1122</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 022</name>
+    <xcood>-118</xcood>
+    <ycood>1150</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 023</name>
+    <xcood>-118</xcood>
+    <ycood>1179</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 024</name>
+    <xcood>-119</xcood>
+    <ycood>1207</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 025</name>
+    <xcood>-119</xcood>
+    <ycood>1236</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 026</name>
+    <xcood>-120</xcood>
+    <ycood>1264</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>ER 027</name>
+    <xcood>-121</xcood>
+    <ycood>1293</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 028</name>
+    <xcood>-122</xcood>
+    <ycood>1321</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 029</name>
+    <xcood>-122</xcood>
+    <ycood>1350</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>ER 030</name>
+    <xcood>-123</xcood>
+    <ycood>1378</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 031</name>
+    <xcood>-123</xcood>
+    <ycood>1407</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 032</name>
+    <xcood>-124</xcood>
+    <ycood>1436</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>5</luminosity>
+  </planet>
+  <planet>
+    <name>ER 033</name>
+    <xcood>-124</xcood>
+    <ycood>1465</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>ER 034</name>
+    <xcood>-124</xcood>
+    <ycood>1494</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 035</name>
+    <xcood>-124</xcood>
+    <ycood>1523</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>ER 036</name>
+    <xcood>-124</xcood>
+    <ycood>1552</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>ER 037</name>
+    <xcood>-124</xcood>
+    <ycood>1581</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 038</name>
+    <xcood>-96</xcood>
+    <ycood>1625</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 039</name>
+    <xcood>-76</xcood>
+    <ycood>1645</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 040</name>
+    <xcood>-56</xcood>
+    <ycood>1665</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>ER 041</name>
+    <xcood>-36</xcood>
+    <ycood>1685</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>ER 042</name>
+    <xcood>-16</xcood>
+    <ycood>1705</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>ER 043</name>
+    <xcood>4</xcood>
+    <ycood>1725</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>5</luminosity>
+  </planet>
+  <planet>
+    <name>KC 01</name>
+    <xcood>2</xcood>
+    <ycood>1777</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>KC 02</name>
+    <xcood>-40</xcood>
+    <ycood>1814</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>KC 03</name>
+    <xcood>0</xcood>
+    <ycood>1900</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>KC 04</name>
+    <xcood>-45</xcood>
+    <ycood>1883</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>KC 05</name>
+    <xcood>47</xcood>
+    <ycood>1860</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>KC 06</name>
+    <xcood>62</xcood>
+    <ycood>1827</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>KC 07</name>
+    <xcood>68</xcood>
+    <ycood>1776</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>KC 08</name>
+    <xcood>95</xcood>
+    <ycood>1780</ycood>
+    <faction>NONE</faction>
+    <spectralClass>A</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>KC 09</name>
+    <xcood>101</xcood>
+    <ycood>1763</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>KC 10</name>
+    <xcood>88</xcood>
+    <ycood>1725</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>KC 11</name>
+    <xcood>128</xcood>
+    <ycood>1736</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 00</name>
+    <xcood>-163</xcood>
+    <ycood>543</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 01</name>
+    <xcood>-396</xcood>
+    <ycood>354</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>NP 02</name>
+    <xcood>-555</xcood>
+    <ycood>132</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 03</name>
+    <xcood>-580</xcood>
+    <ycood>134</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 04</name>
+    <xcood>-495</xcood>
+    <ycood>-116</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 05</name>
+    <xcood>-458</xcood>
+    <ycood>-193</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>NP 06</name>
+    <xcood>-475</xcood>
+    <ycood>-275</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>NP 07</name>
+    <xcood>-453</xcood>
+    <ycood>-366</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 08</name>
+    <xcood>-375</xcood>
+    <ycood>-390</ycood>
+    <faction>UND</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 09</name>
+    <xcood>-351</xcood>
+    <ycood>-417</ycood>
+    <faction>UND</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 10</name>
+    <xcood>-352</xcood>
+    <ycood>-447</ycood>
+    <faction>UND</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 11</name>
+    <xcood>-381</xcood>
+    <ycood>-483</ycood>
+    <faction>UND</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 12</name>
+    <xcood>-364</xcood>
+    <ycood>-374</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 13</name>
+    <xcood>-344</xcood>
+    <ycood>-377</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 14</name>
+    <xcood>-305</xcood>
+    <ycood>-383</ycood>
+    <faction>NONE</faction>
+    <spectralClass>A</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>NP 15</name>
+    <xcood>-255</xcood>
+    <ycood>-458</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>NP 16</name>
+    <xcood>-265</xcood>
+    <ycood>-500</ycood>
+    <faction>UND</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 17</name>
+    <xcood>-283</xcood>
+    <ycood>-539</ycood>
+    <faction>UND</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 18</name>
+    <xcood>-287</xcood>
+    <ycood>-564</ycood>
+    <faction>UND</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 19</name>
+    <xcood>-214</xcood>
+    <ycood>-458</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 20</name>
+    <xcood>-173</xcood>
+    <ycood>-477</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 21</name>
+    <xcood>-235</xcood>
+    <ycood>-530</ycood>
+    <faction>UND</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 22</name>
+    <xcood>-47</xcood>
+    <ycood>-503</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>NP 23</name>
+    <xcood>4</xcood>
+    <ycood>-471</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 24</name>
+    <xcood>35</xcood>
+    <ycood>-495</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 25</name>
+    <xcood>95</xcood>
+    <ycood>-487</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 26</name>
+    <xcood>213</xcood>
+    <ycood>-484</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 27</name>
+    <xcood>225</xcood>
+    <ycood>-500</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 28</name>
+    <xcood>269</xcood>
+    <ycood>-430</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 29</name>
+    <xcood>291</xcood>
+    <ycood>-453</ycood>
+    <faction>UND</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>NP 30</name>
+    <xcood>339</xcood>
+    <ycood>-451</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 31</name>
+    <xcood>417</xcood>
+    <ycood>-417</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 32</name>
+    <xcood>379</xcood>
+    <ycood>-457</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>NP 33</name>
+    <xcood>414</xcood>
+    <ycood>-487</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 34</name>
+    <xcood>451</xcood>
+    <ycood>-478</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>NP 35</name>
+    <xcood>366</xcood>
+    <ycood>-397</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 36</name>
+    <xcood>425</xcood>
+    <ycood>-455</ycood>
+    <faction>UND</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 37</name>
+    <xcood>519</xcood>
+    <ycood>-282</ycood>
+    <faction>NONE</faction>
+    <spectralClass>A</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 38</name>
+    <xcood>541</xcood>
+    <ycood>-295</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 39</name>
+    <xcood>560</xcood>
+    <ycood>-275</ycood>
+    <faction>UND</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>NP 40</name>
+    <xcood>683</xcood>
+    <ycood>-107</ycood>
+    <faction>UND</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 41</name>
+    <xcood>660</xcood>
+    <ycood>-108</ycood>
+    <faction>UND</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 42</name>
+    <xcood>563</xcood>
+    <ycood>-308</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 43</name>
+    <xcood>585</xcood>
+    <ycood>-321</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>NP 44</name>
+    <xcood>607</xcood>
+    <ycood>-334</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 45</name>
+    <xcood>608</xcood>
+    <ycood>-212</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>7</subtype>
+    <luminosity>Ib</luminosity>
+  </planet>
+  <planet>
+    <name>NP 46</name>
+    <xcood>635</xcood>
+    <ycood>-212</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 47</name>
+    <xcood>633</xcood>
+    <ycood>19</ycood>
+    <faction>NONE</faction>
+    <spectralClass>A</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>NP 48</name>
+    <xcood>657</xcood>
+    <ycood>19</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 49</name>
+    <xcood>640</xcood>
+    <ycood>62</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 50</name>
+    <xcood>800</xcood>
+    <ycood>203</ycood>
+    <faction>UND</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 51</name>
+    <xcood>446</xcood>
+    <ycood>263</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 52</name>
+    <xcood>479</xcood>
+    <ycood>300</ycood>
+    <faction>UND</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>5</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 53</name>
+    <xcood>495</xcood>
+    <ycood>320</ycood>
+    <faction>UND</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>NP 54</name>
+    <xcood>511</xcood>
+    <ycood>340</ycood>
+    <faction>UND</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 55</name>
+    <xcood>386</xcood>
+    <ycood>417</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>NP 56</name>
+    <xcood>401</xcood>
+    <ycood>432</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>9</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>NP 57</name>
+    <xcood>429</xcood>
+    <ycood>450</ycood>
+    <faction>UND</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>0</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>NP 58</name>
+    <xcood>444</xcood>
+    <ycood>458</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 59</name>
+    <xcood>472</xcood>
+    <ycood>468</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 60</name>
+    <xcood>499</xcood>
+    <ycood>479</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 61</name>
+    <xcood>527</xcood>
+    <ycood>489</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>NP 62</name>
+    <xcood>338</xcood>
+    <ycood>438</ycood>
+    <faction>UND</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 63</name>
+    <xcood>344</xcood>
+    <ycood>459</ycood>
+    <faction>UND</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>6</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 64</name>
+    <xcood>225</xcood>
+    <ycood>450</ycood>
+    <faction>UND</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>8</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>NP 65</name>
+    <xcood>170</xcood>
+    <ycood>443</ycood>
+    <faction>UND</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0116</name>
+    <xcood>-492</xcood>
+    <ycood>1076</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0117</name>
+    <xcood>-518</xcood>
+    <ycood>1087</ycood>
+    <faction>NONE</faction>
+    <spectralClass>M</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>V</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0118</name>
+    <xcood>-546</xcood>
+    <ycood>1088</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>III</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0119</name>
+    <xcood>-572</xcood>
+    <ycood>1090</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0120</name>
+    <xcood>-600</xcood>
+    <ycood>1094</ycood>
+    <faction>NONE</faction>
+    <spectralClass>F</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>II</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0121</name>
+    <xcood>-628</xcood>
+    <ycood>1102</ycood>
+    <faction>NONE</faction>
+    <spectralClass>A</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0115</name>
+    <xcood>-450</xcood>
+    <ycood>1042</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>2</subtype>
+    <luminosity>III</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0114</name>
+    <xcood>-430</xcood>
+    <ycood>1032</ycood>
+    <faction>NONE</faction>
+    <spectralClass>K</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>III</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0113</name>
+    <xcood>-383</xcood>
+    <ycood>1015</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>3</subtype>
+    <luminosity>IV</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0112</name>
+    <xcood>-363</xcood>
+    <ycood>1005</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>1</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0111</name>
+    <xcood>-363</xcood>
+    <ycood>975</ycood>
+    <faction>NONE</faction>
+    <spectralClass>G</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>VI</luminosity>
+  </planet>
+  <planet>
+    <name>DPR 0110</name>
+    <xcood>-365</xcood>
+    <ycood>955</ycood>
+    <faction>NONE</faction>
+    <spectralClass>A</spectralClass>
+    <subtype>4</subtype>
+    <luminosity>Ib</luminosity>
+  </planet>
+  <planet>
+    <xcood>-137.0</xcood>
+    <ycood>889.0</ycood>
+    <id>DPR 0101</id>
+    <name>DPR 0101</name>
+    <spectralType>M6V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-162.0</xcood>
+    <ycood>894.0</ycood>
+    <id>DPR 0102</id>
+    <name>DPR 0102</name>
+    <spectralType>M1V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-187.0</xcood>
+    <ycood>899.0</ycood>
+    <id>DPR 0103</id>
+    <name>DPR 0103</name>
+    <spectralType>M0V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-212.0</xcood>
+    <ycood>904.0</ycood>
+    <id>DPR 0104</id>
+    <name>DPR 0104</name>
+    <spectralType>sdK7</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-237.0</xcood>
+    <ycood>909.0</ycood>
+    <id>DPR 0105</id>
+    <name>DPR 0105</name>
+    <spectralType>sdK5</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-262.0</xcood>
+    <ycood>914.0</ycood>
+    <id>DPR 0106</id>
+    <name>DPR 0106</name>
+    <spectralType>K7IV</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-287.0</xcood>
+    <ycood>919.0</ycood>
+    <id>DPR 0107</id>
+    <name>DPR 0107</name>
+    <spectralType>sdK0</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-312.0</xcood>
+    <ycood>924.0</ycood>
+    <id>DPR 0108</id>
+    <name>DPR 0108</name>
+    <spectralType>M6V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-337.0</xcood>
+    <ycood>929.0</ycood>
+    <id>DPR 0109</id>
+    <name>DPR 0109</name>
+    <spectralType>K1V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-365.0</xcood>
+    <ycood>955.0</ycood>
+    <id>DPR 0110</id>
+    <name>DPR 0110</name>
+    <spectralType>A4Ib</spectralType>
+    <spectralClass>A</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>Ib</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-363.0</xcood>
+    <ycood>975.0</ycood>
+    <id>DPR 0111</id>
+    <name>DPR 0111</name>
+    <spectralType>sdG4</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-363.0</xcood>
+    <ycood>1005.0</ycood>
+    <id>DPR 0112</id>
+    <name>DPR 0112</name>
+    <spectralType>sdG1</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-383.0</xcood>
+    <ycood>1015.0</ycood>
+    <id>DPR 0113</id>
+    <name>DPR 0113</name>
+    <spectralType>G3IV</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-430.0</xcood>
+    <ycood>1032.0</ycood>
+    <id>DPR 0114</id>
+    <name>DPR 0114</name>
+    <spectralType>K4III</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>III</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-450.0</xcood>
+    <ycood>1042.0</ycood>
+    <id>DPR 0115</id>
+    <name>DPR 0115</name>
+    <spectralType>K2III</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>III</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-492.0</xcood>
+    <ycood>1076.0</ycood>
+    <id>DPR 0116</id>
+    <name>DPR 0116</name>
+    <spectralType>F3IV</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-518.0</xcood>
+    <ycood>1087.0</ycood>
+    <id>DPR 0117</id>
+    <name>DPR 0117</name>
+    <spectralType>M2V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-546.0</xcood>
+    <ycood>1088.0</ycood>
+    <id>DPR 0118</id>
+    <name>DPR 0118</name>
+    <spectralType>G2III</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>III</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-572.0</xcood>
+    <ycood>1090.0</ycood>
+    <id>DPR 0119</id>
+    <name>DPR 0119</name>
+    <spectralType>sdK4</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-600.0</xcood>
+    <ycood>1094.0</ycood>
+    <id>DPR 0120</id>
+    <name>DPR 0120</name>
+    <spectralType>F2II</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>II</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-628.0</xcood>
+    <ycood>1102.0</ycood>
+    <id>DPR 0121</id>
+    <name>DPR 0121</name>
+    <spectralType>A3IV</spectralType>
+    <spectralClass>A</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-725.0</xcood>
+    <ycood>1075.0</ycood>
+    <id>DPR 0201</id>
+    <name>DPR 0201</name>
+    <spectralType>sdG6</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-732.0</xcood>
+    <ycood>1048.0</ycood>
+    <id>DPR 0202</id>
+    <name>DPR 0202</name>
+    <spectralType>M8V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-739.0</xcood>
+    <ycood>1021.0</ycood>
+    <id>DPR 0203</id>
+    <name>DPR 0203</name>
+    <spectralType>M9V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-744.0</xcood>
+    <ycood>994.0</ycood>
+    <id>DPR 0204</id>
+    <name>DPR 0204</name>
+    <spectralType>M5V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-752.0</xcood>
+    <ycood>967.0</ycood>
+    <id>DPR 0205</id>
+    <name>DPR 0205</name>
+    <spectralType>sdF4</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-598.0</xcood>
+    <ycood>813.0</ycood>
+    <id>DPR 0301</id>
+    <name>DPR 0301</name>
+    <spectralType>K8V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-573.0</xcood>
+    <ycood>819.0</ycood>
+    <id>DPR 0302</id>
+    <name>DPR 0302</name>
+    <spectralType>G2IV</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-548.0</xcood>
+    <ycood>825.0</ycood>
+    <id>DPR 0303</id>
+    <name>DPR 0303</name>
+    <spectralType>G3III</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>III</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-523.0</xcood>
+    <ycood>831.0</ycood>
+    <id>DPR 0304</id>
+    <name>DPR 0304</name>
+    <spectralType>G2V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-497.0</xcood>
+    <ycood>838.0</ycood>
+    <id>DPR 0305</id>
+    <name>DPR 0305</name>
+    <spectralType>G6V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-472.0</xcood>
+    <ycood>844.0</ycood>
+    <id>DPR 0306</id>
+    <name>DPR 0306</name>
+    <spectralType>M8V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-447.0</xcood>
+    <ycood>850.0</ycood>
+    <id>DPR 0307</id>
+    <name>DPR 0307</name>
+    <spectralType>F6V</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-422.0</xcood>
+    <ycood>857.0</ycood>
+    <id>DPR 0308</id>
+    <name>DPR 0308</name>
+    <spectralType>sdK1</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>-386.0</xcood>
+    <ycood>885.0</ycood>
+    <id>DPR 0309</id>
+    <name>DPR 0309</name>
+    <spectralType>K2V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-376.0</xcood>
+    <ycood>907.0</ycood>
+    <id>DPR 0310</id>
+    <name>DPR 0310</name>
+    <spectralType>K4V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-425.0</xcood>
+    <ycood>395.0</ycood>
+    <id>DPR 0401</id>
+    <name>DPR 0401</name>
+    <spectralType>K6V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-445.0</xcood>
+    <ycood>416.0</ycood>
+    <id>DPR 0402</id>
+    <name>DPR 0402</name>
+    <spectralType>G8V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-465.0</xcood>
+    <ycood>437.0</ycood>
+    <id>DPR 0403</id>
+    <name>DPR 0403</name>
+    <spectralType>M1V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-485.0</xcood>
+    <ycood>458.0</ycood>
+    <id>DPR 0404</id>
+    <name>DPR 0404</name>
+    <spectralType>G0V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-505.0</xcood>
+    <ycood>479.0</ycood>
+    <id>DPR 0405</id>
+    <name>DPR 0405</name>
+    <spectralType>M4V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-525.0</xcood>
+    <ycood>500.0</ycood>
+    <id>DPR 0406</id>
+    <name>DPR 0406</name>
+    <spectralType>F2V</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-545.0</xcood>
+    <ycood>521.0</ycood>
+    <id>DPR 0407</id>
+    <name>DPR 0407</name>
+    <spectralType>K4V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-565.0</xcood>
+    <ycood>542.0</ycood>
+    <id>DPR 0408</id>
+    <name>DPR 0408</name>
+    <spectralType>M3V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-585.0</xcood>
+    <ycood>563.0</ycood>
+    <id>DPR 0409</id>
+    <name>DPR 0409</name>
+    <spectralType>K3V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-605.0</xcood>
+    <ycood>584.0</ycood>
+    <id>DPR 0410</id>
+    <name>DPR 0410</name>
+    <spectralType>M9V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-625.0</xcood>
+    <ycood>605.0</ycood>
+    <id>DPR 0411</id>
+    <name>DPR 0411</name>
+    <spectralType>K0V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-645.0</xcood>
+    <ycood>626.0</ycood>
+    <id>DPR 0412</id>
+    <name>DPR 0412</name>
+    <spectralType>M5V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-665.0</xcood>
+    <ycood>647.0</ycood>
+    <id>DPR 0413</id>
+    <name>DPR 0413</name>
+    <spectralType>M3V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-169.0</xcood>
+    <ycood>791.0</ycood>
+    <id>DPR 0501</id>
+    <name>DPR 0501</name>
+    <spectralType>sdK6</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-196.0</xcood>
+    <ycood>781.0</ycood>
+    <id>DPR 0502</id>
+    <name>DPR 0502</name>
+    <spectralType>K6V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-223.0</xcood>
+    <ycood>770.0</ycood>
+    <id>DPR 0503</id>
+    <name>DPR 0503</name>
+    <spectralType>sdM1</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-267.0</xcood>
+    <ycood>738.0</ycood>
+    <id>DPR 0504</id>
+    <name>DPR 0504</name>
+    <spectralType>G0V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-283.0</xcood>
+    <ycood>716.0</ycood>
+    <id>DPR 0505</id>
+    <name>DPR 0505</name>
+    <spectralType>sdM5</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-300.0</xcood>
+    <ycood>667.0</ycood>
+    <id>DPR 0506</id>
+    <name>DPR 0506</name>
+    <spectralType>M6IV</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-274.0</xcood>
+    <ycood>634.0</ycood>
+    <id>DPR 0507</id>
+    <name>DPR 0507</name>
+    <spectralType>F1V</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-247.0</xcood>
+    <ycood>628.0</ycood>
+    <id>DPR 0508</id>
+    <name>DPR 0508</name>
+    <spectralType>K0V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-220.0</xcood>
+    <ycood>622.0</ycood>
+    <id>DPR 0509</id>
+    <name>DPR 0509</name>
+    <spectralType>F6V</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-193.0</xcood>
+    <ycood>616.0</ycood>
+    <id>DPR 0510</id>
+    <name>DPR 0510</name>
+    <spectralType>G2IV</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-46.0</xcood>
+    <ycood>976.0</ycood>
+    <id>DPR 0601</id>
+    <name>DPR 0601</name>
+    <spectralType>K2V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-20.0</xcood>
+    <ycood>969.0</ycood>
+    <id>DPR 0602</id>
+    <name>DPR 0602</name>
+    <spectralType>M6V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>6.0</xcood>
+    <ycood>960.0</ycood>
+    <id>DPR 0603</id>
+    <name>DPR 0603</name>
+    <spectralType>M3V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>32.0</xcood>
+    <ycood>951.0</ycood>
+    <id>DPR 0604</id>
+    <name>DPR 0604</name>
+    <spectralType>G7II</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>II</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>58.0</xcood>
+    <ycood>942.0</ycood>
+    <id>DPR 0605</id>
+    <name>DPR 0605</name>
+    <spectralType>G1V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>84.0</xcood>
+    <ycood>933.0</ycood>
+    <id>DPR 0606</id>
+    <name>DPR 0606</name>
+    <spectralType>M7V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>136.0</xcood>
+    <ycood>926.0</ycood>
+    <id>DPR 0607</id>
+    <name>DPR 0607</name>
+    <spectralType>K6V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>163.0</xcood>
+    <ycood>932.0</ycood>
+    <id>DPR 0608</id>
+    <name>DPR 0608</name>
+    <spectralType>K8V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>190.0</xcood>
+    <ycood>938.0</ycood>
+    <id>DPR 0609</id>
+    <name>DPR 0609</name>
+    <spectralType>M3V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>217.0</xcood>
+    <ycood>944.0</ycood>
+    <id>DPR 0610</id>
+    <name>DPR 0610</name>
+    <spectralType>K6V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>260.0</xcood>
+    <ycood>966.0</ycood>
+    <id>DPR 0611</id>
+    <name>DPR 0611</name>
+    <spectralType>M0V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>276.0</xcood>
+    <ycood>986.0</ycood>
+    <id>DPR 0612</id>
+    <name>DPR 0612</name>
+    <spectralType>K8V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>291.0</xcood>
+    <ycood>1005.0</ycood>
+    <id>DPR 0613</id>
+    <name>DPR 0613</name>
+    <spectralType>sdM0</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>307.0</xcood>
+    <ycood>1025.0</ycood>
+    <id>DPR 0614</id>
+    <name>DPR 0614</name>
+    <spectralType>K9V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>345.0</xcood>
+    <ycood>1029.0</ycood>
+    <id>DPR 0615</id>
+    <name>DPR 0615</name>
+    <spectralType>sdK2</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>368.0</xcood>
+    <ycood>1014.0</ycood>
+    <id>DPR 0616</id>
+    <name>DPR 0616</name>
+    <spectralType>M5V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>391.0</xcood>
+    <ycood>999.0</ycood>
+    <id>DPR 0617</id>
+    <name>DPR 0617</name>
+    <spectralType>K4IV</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>414.0</xcood>
+    <ycood>984.0</ycood>
+    <id>DPR 0618</id>
+    <name>DPR 0618</name>
+    <spectralType>sdF3</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-79.0</xcood>
+    <ycood>698.0</ycood>
+    <id>DPR 0701</id>
+    <name>DPR 0701</name>
+    <spectralType>A6V</spectralType>
+    <spectralClass>A</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-54.0</xcood>
+    <ycood>713.0</ycood>
+    <id>DPR 0702</id>
+    <name>DPR 0702</name>
+    <spectralType>G5V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-29.0</xcood>
+    <ycood>728.0</ycood>
+    <id>DPR 0703</id>
+    <name>DPR 0703</name>
+    <spectralType>K0V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-4.0</xcood>
+    <ycood>743.0</ycood>
+    <id>DPR 0704</id>
+    <name>DPR 0704</name>
+    <spectralType>sdK6</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>44.0</xcood>
+    <ycood>772.0</ycood>
+    <id>DPR 0705</id>
+    <name>DPR 0705</name>
+    <spectralType>K1V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>65.0</xcood>
+    <ycood>790.0</ycood>
+    <id>DPR 0706</id>
+    <name>DPR 0706</name>
+    <spectralType>G9V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>86.0</xcood>
+    <ycood>808.0</ycood>
+    <id>DPR 0707</id>
+    <name>DPR 0707</name>
+    <spectralType>sdM6</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>107.0</xcood>
+    <ycood>826.0</ycood>
+    <id>DPR 0708</id>
+    <name>DPR 0708</name>
+    <spectralType>F1IV</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>122.0</xcood>
+    <ycood>869.0</ycood>
+    <id>DPR 0709</id>
+    <name>DPR 0709</name>
+    <spectralType>M2V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>116.0</xcood>
+    <ycood>894.0</ycood>
+    <id>DPR 0710</id>
+    <name>DPR 0710</name>
+    <spectralType>K2V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>155.0</xcood>
+    <ycood>832.0</ycood>
+    <id>DPR 0711</id>
+    <name>DPR 0711</name>
+    <spectralType>K1V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>181.0</xcood>
+    <ycood>821.0</ycood>
+    <id>DPR 0712</id>
+    <name>DPR 0712</name>
+    <spectralType>M6V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>207.0</xcood>
+    <ycood>810.0</ycood>
+    <id>DPR 0713</id>
+    <name>DPR 0713</name>
+    <spectralType>sdG8</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>234.0</xcood>
+    <ycood>799.0</ycood>
+    <id>DPR 0714</id>
+    <name>DPR 0714</name>
+    <spectralType>sdF6</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-82.0</xcood>
+    <ycood>530.0</ycood>
+    <id>ER 001</id>
+    <name>ER 001</name>
+    <spectralType>sdK4</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-86.0</xcood>
+    <ycood>555.0</ycood>
+    <id>ER 002</id>
+    <name>ER 002</name>
+    <spectralType>sdK3</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-90.0</xcood>
+    <ycood>580.0</ycood>
+    <id>ER 003</id>
+    <name>ER 003</name>
+    <spectralType>M5V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-94.0</xcood>
+    <ycood>605.0</ycood>
+    <id>ER 004</id>
+    <name>ER 004</name>
+    <spectralType>G9V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-98.0</xcood>
+    <ycood>630.0</ycood>
+    <id>ER 005</id>
+    <name>ER 005</name>
+    <spectralType>K4V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-102.0</xcood>
+    <ycood>655.0</ycood>
+    <id>ER 006</id>
+    <name>ER 006</name>
+    <spectralType>M7V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-112.0</xcood>
+    <ycood>708.0</ycood>
+    <id>ER 007</id>
+    <name>ER 007</name>
+    <spectralType>K2V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-120.0</xcood>
+    <ycood>733.0</ycood>
+    <id>ER 008</id>
+    <name>ER 008</name>
+    <spectralType>sdK0</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-128.0</xcood>
+    <ycood>758.0</ycood>
+    <id>ER 009</id>
+    <name>ER 009</name>
+    <spectralType>K5V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-136.0</xcood>
+    <ycood>783.0</ycood>
+    <id>ER 010</id>
+    <name>ER 010</name>
+    <spectralType>K9V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-134.0</xcood>
+    <ycood>822.0</ycood>
+    <id>ER 011</id>
+    <name>ER 011</name>
+    <spectralType>K3V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-126.0</xcood>
+    <ycood>842.0</ycood>
+    <id>ER 012</id>
+    <name>ER 012</name>
+    <spectralType>G3V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-118.0</xcood>
+    <ycood>862.0</ycood>
+    <id>ER 013</id>
+    <name>ER 013</name>
+    <spectralType>sdK0</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-102.0</xcood>
+    <ycood>909.0</ycood>
+    <id>ER 014</id>
+    <name>ER 014</name>
+    <spectralType>M7III</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>III</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-92.0</xcood>
+    <ycood>934.0</ycood>
+    <id>ER 015</id>
+    <name>ER 015</name>
+    <spectralType>M6V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-82.0</xcood>
+    <ycood>959.0</ycood>
+    <id>ER 016</id>
+    <name>ER 016</name>
+    <spectralType>M2V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-92.0</xcood>
+    <ycood>1005.0</ycood>
+    <id>ER 017</id>
+    <name>ER 017</name>
+    <spectralType>M8V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-112.0</xcood>
+    <ycood>1025.0</ycood>
+    <id>ER 018</id>
+    <name>ER 018</name>
+    <spectralType>K4V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-116.0</xcood>
+    <ycood>1065.0</ycood>
+    <id>ER 019</id>
+    <name>ER 019</name>
+    <spectralType>G6V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-117.0</xcood>
+    <ycood>1093.0</ycood>
+    <id>ER 020</id>
+    <name>ER 020</name>
+    <spectralType>K6V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-117.0</xcood>
+    <ycood>1122.0</ycood>
+    <id>ER 021</id>
+    <name>ER 021</name>
+    <spectralType>M3V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-118.0</xcood>
+    <ycood>1150.0</ycood>
+    <id>ER 022</id>
+    <name>ER 022</name>
+    <spectralType>M9V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-118.0</xcood>
+    <ycood>1179.0</ycood>
+    <id>ER 023</id>
+    <name>ER 023</name>
+    <spectralType>M7V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-119.0</xcood>
+    <ycood>1207.0</ycood>
+    <id>ER 024</id>
+    <name>ER 024</name>
+    <spectralType>M9V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-119.0</xcood>
+    <ycood>1236.0</ycood>
+    <id>ER 025</id>
+    <name>ER 025</name>
+    <spectralType>M4V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-120.0</xcood>
+    <ycood>1264.0</ycood>
+    <id>ER 026</id>
+    <name>ER 026</name>
+    <spectralType>sdM2</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-121.0</xcood>
+    <ycood>1293.0</ycood>
+    <id>ER 027</id>
+    <name>ER 027</name>
+    <spectralType>G6V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-122.0</xcood>
+    <ycood>1321.0</ycood>
+    <id>ER 028</id>
+    <name>ER 028</name>
+    <spectralType>M2V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-122.0</xcood>
+    <ycood>1350.0</ycood>
+    <id>ER 029</id>
+    <name>ER 029</name>
+    <spectralType>sdM0</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-123.0</xcood>
+    <ycood>1378.0</ycood>
+    <id>ER 030</id>
+    <name>ER 030</name>
+    <spectralType>G0V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-123.0</xcood>
+    <ycood>1407.0</ycood>
+    <id>ER 031</id>
+    <name>ER 031</name>
+    <spectralType>M6V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-124.0</xcood>
+    <ycood>1436.0</ycood>
+    <id>ER 032</id>
+    <name>ER 032</name>
+    <spectralType>M25</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>5</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-124.0</xcood>
+    <ycood>1465.0</ycood>
+    <id>ER 033</id>
+    <name>ER 033</name>
+    <spectralType>sdG0</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-124.0</xcood>
+    <ycood>1494.0</ycood>
+    <id>ER 034</id>
+    <name>ER 034</name>
+    <spectralType>M0V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-124.0</xcood>
+    <ycood>1523.0</ycood>
+    <id>ER 035</id>
+    <name>ER 035</name>
+    <spectralType>M2IV</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-124.0</xcood>
+    <ycood>1552.0</ycood>
+    <id>ER 036</id>
+    <name>ER 036</name>
+    <spectralType>M5IV</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-124.0</xcood>
+    <ycood>1581.0</ycood>
+    <id>ER 037</id>
+    <name>ER 037</name>
+    <spectralType>K6V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-96.0</xcood>
+    <ycood>1625.0</ycood>
+    <id>ER 038</id>
+    <name>ER 038</name>
+    <spectralType>K9V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-76.0</xcood>
+    <ycood>1645.0</ycood>
+    <id>ER 039</id>
+    <name>ER 039</name>
+    <spectralType>F0V</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-56.0</xcood>
+    <ycood>1665.0</ycood>
+    <id>ER 040</id>
+    <name>ER 040</name>
+    <spectralType>M7IV</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-36.0</xcood>
+    <ycood>1685.0</ycood>
+    <id>ER 041</id>
+    <name>ER 041</name>
+    <spectralType>K7V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-16.0</xcood>
+    <ycood>1705.0</ycood>
+    <id>ER 042</id>
+    <name>ER 042</name>
+    <spectralType>K8IV</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>4.0</xcood>
+    <ycood>1725.0</ycood>
+    <id>ER 043</id>
+    <name>ER 043</name>
+    <spectralType>M05</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>5</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>18.0</xcood>
+    <ycood>1745.0</ycood>
+    <id>ER 044</id>
+    <name>ER 044</name>
+    <spectralType>F5V</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-82.0</xcood>
+    <ycood>1610.0</ycood>
+    <id>ER 045</id>
+    <name>ER 045</name>
+    <spectralType>B3IV</spectralType>
+    <spectralClass>B</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-686.0</xcood>
+    <ycood>650.6</ycood>
+    <id>HL 01</id>
+    <name>HL 01</name>
+    <spectralType>M6V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-701.0</xcood>
+    <ycood>664.0</ycood>
+    <id>HL 02</id>
+    <name>HL 02</name>
+    <spectralType>M6V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-690.0</xcood>
+    <ycood>690.0</ycood>
+    <id>HL 03</id>
+    <name>HL 03</name>
+    <spectralType>M0V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-655.0</xcood>
+    <ycood>686.0</ycood>
+    <id>HL 04</id>
+    <name>HL 04</name>
+    <spectralType>G2V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-650.0</xcood>
+    <ycood>708.0</ycood>
+    <id>HL 05</id>
+    <name>HL 05</name>
+    <spectralType>G6II</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>II</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-650.0</xcood>
+    <ycood>750.0</ycood>
+    <id>HL 06</id>
+    <name>HL 06</name>
+    <spectralType>sdG9</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-636.0</xcood>
+    <ycood>785.0</ycood>
+    <id>HL 07</id>
+    <name>HL 07</name>
+    <spectralType>M3IV</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-625.0</xcood>
+    <ycood>820.0</ycood>
+    <id>HL 08</id>
+    <name>HL 08</name>
+    <spectralType>sdM3</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-655.0</xcood>
+    <ycood>841.0</ycood>
+    <id>HL 09</id>
+    <name>HL 09</name>
+    <spectralType>K5V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-690.0</xcood>
+    <ycood>828.0</ycood>
+    <id>HL 10</id>
+    <name>HL 10</name>
+    <spectralType>M0IV</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-676.0</xcood>
+    <ycood>795.0</ycood>
+    <id>HL 11</id>
+    <name>HL 11</name>
+    <spectralType>M9IV</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-695.0</xcood>
+    <ycood>735.0</ycood>
+    <id>HL 12</id>
+    <name>HL 12</name>
+    <spectralType>K7II</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>II</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-710.0</xcood>
+    <ycood>755.0</ycood>
+    <id>HL 13</id>
+    <name>HL 13</name>
+    <spectralType>K6V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-710.0</xcood>
+    <ycood>794.0</ycood>
+    <id>HL 14</id>
+    <name>HL 14</name>
+    <spectralType>A7IV</spectralType>
+    <spectralClass>A</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-742.0</xcood>
+    <ycood>755.0</ycood>
+    <id>HL 15</id>
+    <name>HL 15</name>
+    <spectralType>G3V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-727.0</xcood>
+    <ycood>671.0</ycood>
+    <id>HL 16</id>
+    <name>HL 16</name>
+    <spectralType>sdK1</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-756.0</xcood>
+    <ycood>707.0</ycood>
+    <id>HL 17</id>
+    <name>HL 17</name>
+    <spectralType>M1V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-781.0</xcood>
+    <ycood>735.0</ycood>
+    <id>HL 18</id>
+    <name>HL 18</name>
+    <spectralType>K5V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-744.0</xcood>
+    <ycood>784.0</ycood>
+    <id>HL 19</id>
+    <name>HL 19</name>
+    <spectralType>K4V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-762.0</xcood>
+    <ycood>793.0</ycood>
+    <id>HL 20</id>
+    <name>HL 20</name>
+    <spectralType>K3V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-772.0</xcood>
+    <ycood>819.0</ycood>
+    <id>HL 21</id>
+    <name>HL 21</name>
+    <spectralType>K3V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-802.0</xcood>
+    <ycood>807.0</ycood>
+    <id>HL 22</id>
+    <name>HL 22</name>
+    <spectralType>F1V</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-838.0</xcood>
+    <ycood>794.0</ycood>
+    <id>HL 23</id>
+    <name>HL 23</name>
+    <spectralType>M4V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-840.0</xcood>
+    <ycood>835.0</ycood>
+    <id>HL 24</id>
+    <name>HL 24</name>
+    <spectralType>K1V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-835.0</xcood>
+    <ycood>868.0</ycood>
+    <id>HL 25</id>
+    <name>HL 25</name>
+    <spectralType>M9V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-701.0</xcood>
+    <ycood>861.0</ycood>
+    <id>HL 26</id>
+    <name>HL 26</name>
+    <spectralType>M1V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-770.0</xcood>
+    <ycood>859.0</ycood>
+    <id>HL 27</id>
+    <name>HL 27</name>
+    <spectralType>M5V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-755.0</xcood>
+    <ycood>890.0</ycood>
+    <id>HL 28</id>
+    <name>HL 28</name>
+    <spectralType>sdM7</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-805.0</xcood>
+    <ycood>880.0</ycood>
+    <id>HL 29</id>
+    <name>HL 29</name>
+    <spectralType>G0V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-835.0</xcood>
+    <ycood>915.0</ycood>
+    <id>HL 30</id>
+    <name>HL 30</name>
+    <spectralType>A8V</spectralType>
+    <spectralClass>A</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-745.0</xcood>
+    <ycood>915.0</ycood>
+    <id>HL 31</id>
+    <name>HL 31</name>
+    <spectralType>M5V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-775.0</xcood>
+    <ycood>940.0</ycood>
+    <id>HL 32</id>
+    <name>HL 32</name>
+    <spectralType>sdK5</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-815.0</xcood>
+    <ycood>940.0</ycood>
+    <id>HL 33</id>
+    <name>HL 33</name>
+    <spectralType>K6V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>2.0</xcood>
+    <ycood>1777.0</ycood>
+    <id>KC 01</id>
+    <name>KC 01</name>
+    <spectralType>K7V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-40.0</xcood>
+    <ycood>1814.0</ycood>
+    <id>KC 02</id>
+    <name>KC 02</name>
+    <spectralType>K5V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>0.0</xcood>
+    <ycood>1900.0</ycood>
+    <id>KC 03</id>
+    <name>KC 03</name>
+    <spectralType>sdK7</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-45.0</xcood>
+    <ycood>1883.0</ycood>
+    <id>KC 04</id>
+    <name>KC 04</name>
+    <spectralType>K1V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>47.0</xcood>
+    <ycood>1860.0</ycood>
+    <id>KC 05</id>
+    <name>KC 05</name>
+    <spectralType>M9V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>62.0</xcood>
+    <ycood>1827.0</ycood>
+    <id>KC 06</id>
+    <name>KC 06</name>
+    <spectralType>M5V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>68.0</xcood>
+    <ycood>1776.0</ycood>
+    <id>KC 07</id>
+    <name>KC 07</name>
+    <spectralType>K8V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>95.0</xcood>
+    <ycood>1780.0</ycood>
+    <id>KC 08</id>
+    <name>KC 08</name>
+    <spectralType>A9V</spectralType>
+    <spectralClass>A</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>101.0</xcood>
+    <ycood>1763.0</ycood>
+    <id>KC 09</id>
+    <name>KC 09</name>
+    <spectralType>F5V</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>88.0</xcood>
+    <ycood>1725.0</ycood>
+    <id>KC 10</id>
+    <name>KC 10</name>
+    <spectralType>M9V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>128.0</xcood>
+    <ycood>1736.0</ycood>
+    <id>KC 11</id>
+    <name>KC 11</name>
+    <spectralType>G5V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>68.0</xcood>
+    <ycood>1746.0</ycood>
+    <id>KC 12</id>
+    <name>KC 12</name>
+    <spectralType>M6V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>49.0</xcood>
+    <ycood>1817.0</ycood>
+    <id>KC 13</id>
+    <name>KC 13</name>
+    <spectralType>F7V</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>24.0</xcood>
+    <ycood>1862.0</ycood>
+    <id>KC 14</id>
+    <name>KC 14</name>
+    <spectralType>M6V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-35.0</xcood>
+    <ycood>1855.0</ycood>
+    <id>KC 15</id>
+    <name>KC 15</name>
+    <spectralType>B7V</spectralType>
+    <spectralClass>B</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-89.0</xcood>
+    <ycood>1823.0</ycood>
+    <id>KC 16</id>
+    <name>KC 16</name>
+    <spectralType>F2II</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>II</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-110.0</xcood>
+    <ycood>1835.0</ycood>
+    <id>KC 17</id>
+    <name>KC 17</name>
+    <spectralType>A0IV</spectralType>
+    <spectralClass>A</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-685.0</xcood>
+    <ycood>1120.0</ycood>
+    <id>NC 01</id>
+    <name>NC 01</name>
+    <spectralType>M3IV</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-163.0</xcood>
+    <ycood>543.0</ycood>
+    <id>NP 00</id>
+    <name>NP 00</name>
+    <spectralType>K8V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-396.0</xcood>
+    <ycood>354.0</ycood>
+    <id>NP 01</id>
+    <name>NP 01</name>
+    <spectralType>sdM2</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-555.0</xcood>
+    <ycood>132.0</ycood>
+    <id>NP 02</id>
+    <name>NP 02</name>
+    <spectralType>M1V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-580.0</xcood>
+    <ycood>134.0</ycood>
+    <id>NP 03</id>
+    <name>NP 03</name>
+    <spectralType>K6V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-495.0</xcood>
+    <ycood>-116.0</ycood>
+    <id>NP 04</id>
+    <name>NP 04</name>
+    <spectralType>M6V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-458.0</xcood>
+    <ycood>-193.0</ycood>
+    <id>NP 05</id>
+    <name>NP 05</name>
+    <spectralType>G2IV</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-475.0</xcood>
+    <ycood>-275.0</ycood>
+    <id>NP 06</id>
+    <name>NP 06</name>
+    <spectralType>M6IV</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-453.0</xcood>
+    <ycood>-366.0</ycood>
+    <id>NP 07</id>
+    <name>NP 07</name>
+    <spectralType>K8V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-375.0</xcood>
+    <ycood>-390.0</ycood>
+    <id>NP 08</id>
+    <name>NP 08</name>
+    <spectralType>G9V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>-351.0</xcood>
+    <ycood>-417.0</ycood>
+    <id>NP 09</id>
+    <name>NP 09</name>
+    <spectralType>M6V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>-352.0</xcood>
+    <ycood>-447.0</ycood>
+    <id>NP 10</id>
+    <name>NP 10</name>
+    <spectralType>K8V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>-381.0</xcood>
+    <ycood>-483.0</ycood>
+    <id>NP 11</id>
+    <name>NP 11</name>
+    <spectralType>F1V</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>-364.0</xcood>
+    <ycood>-374.0</ycood>
+    <id>NP 12</id>
+    <name>NP 12</name>
+    <spectralType>K4V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-344.0</xcood>
+    <ycood>-377.0</ycood>
+    <id>NP 13</id>
+    <name>NP 13</name>
+    <spectralType>K7V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-305.0</xcood>
+    <ycood>-383.0</ycood>
+    <id>NP 14</id>
+    <name>NP 14</name>
+    <spectralType>sdA8</spectralType>
+    <spectralClass>A</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-255.0</xcood>
+    <ycood>-458.0</ycood>
+    <id>NP 15</id>
+    <name>NP 15</name>
+    <spectralType>sdM9</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-265.0</xcood>
+    <ycood>-500.0</ycood>
+    <id>NP 16</id>
+    <name>NP 16</name>
+    <spectralType>M3V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>-283.0</xcood>
+    <ycood>-539.0</ycood>
+    <id>NP 17</id>
+    <name>NP 17</name>
+    <spectralType>G8V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>-287.0</xcood>
+    <ycood>-564.0</ycood>
+    <id>NP 18</id>
+    <name>NP 18</name>
+    <spectralType>K3V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>-214.0</xcood>
+    <ycood>-458.0</ycood>
+    <id>NP 19</id>
+    <name>NP 19</name>
+    <spectralType>G2V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-173.0</xcood>
+    <ycood>-477.0</ycood>
+    <id>NP 20</id>
+    <name>NP 20</name>
+    <spectralType>K3V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>-235.0</xcood>
+    <ycood>-530.0</ycood>
+    <id>NP 21</id>
+    <name>NP 21</name>
+    <spectralType>M6V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>-47.0</xcood>
+    <ycood>-503.0</ycood>
+    <id>NP 22</id>
+    <name>NP 22</name>
+    <spectralType>K7IV</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>4.0</xcood>
+    <ycood>-471.0</ycood>
+    <id>NP 23</id>
+    <name>NP 23</name>
+    <spectralType>K1V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>35.0</xcood>
+    <ycood>-495.0</ycood>
+    <id>NP 24</id>
+    <name>NP 24</name>
+    <spectralType>M5V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>95.0</xcood>
+    <ycood>-487.0</ycood>
+    <id>NP 25</id>
+    <name>NP 25</name>
+    <spectralType>M9V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>213.0</xcood>
+    <ycood>-484.0</ycood>
+    <id>NP 26</id>
+    <name>NP 26</name>
+    <spectralType>K2V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>225.0</xcood>
+    <ycood>-500.0</ycood>
+    <id>NP 27</id>
+    <name>NP 27</name>
+    <spectralType>G4V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>269.0</xcood>
+    <ycood>-430.0</ycood>
+    <id>NP 28</id>
+    <name>NP 28</name>
+    <spectralType>G8V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>291.0</xcood>
+    <ycood>-453.0</ycood>
+    <id>NP 29</id>
+    <name>NP 29</name>
+    <spectralType>K6IV</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>339.0</xcood>
+    <ycood>-451.0</ycood>
+    <id>NP 30</id>
+    <name>NP 30</name>
+    <spectralType>M7V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>417.0</xcood>
+    <ycood>-417.0</ycood>
+    <id>NP 31</id>
+    <name>NP 31</name>
+    <spectralType>K7V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>379.0</xcood>
+    <ycood>-457.0</ycood>
+    <id>NP 32</id>
+    <name>NP 32</name>
+    <spectralType>sdG7</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>414.0</xcood>
+    <ycood>-487.0</ycood>
+    <id>NP 33</id>
+    <name>NP 33</name>
+    <spectralType>K8V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>451.0</xcood>
+    <ycood>-478.0</ycood>
+    <id>NP 34</id>
+    <name>NP 34</name>
+    <spectralType>sdK1</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>366.0</xcood>
+    <ycood>-397.0</ycood>
+    <id>NP 35</id>
+    <name>NP 35</name>
+    <spectralType>K6V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>425.0</xcood>
+    <ycood>-455.0</ycood>
+    <id>NP 36</id>
+    <name>NP 36</name>
+    <spectralType>F9V</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>519.0</xcood>
+    <ycood>-282.0</ycood>
+    <id>NP 37</id>
+    <name>NP 37</name>
+    <spectralType>A8V</spectralType>
+    <spectralClass>A</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>541.0</xcood>
+    <ycood>-295.0</ycood>
+    <id>NP 38</id>
+    <name>NP 38</name>
+    <spectralType>K1V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>560.0</xcood>
+    <ycood>-275.0</ycood>
+    <id>NP 39</id>
+    <name>NP 39</name>
+    <spectralType>sdM9</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>683.0</xcood>
+    <ycood>-107.0</ycood>
+    <id>NP 40</id>
+    <name>NP 40</name>
+    <spectralType>K7V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>660.0</xcood>
+    <ycood>-108.0</ycood>
+    <id>NP 41</id>
+    <name>NP 41</name>
+    <spectralType>K1V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>563.0</xcood>
+    <ycood>-308.0</ycood>
+    <id>NP 42</id>
+    <name>NP 42</name>
+    <spectralType>M3V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>585.0</xcood>
+    <ycood>-321.0</ycood>
+    <id>NP 43</id>
+    <name>NP 43</name>
+    <spectralType>M9IV</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>607.0</xcood>
+    <ycood>-334.0</ycood>
+    <id>NP 44</id>
+    <name>NP 44</name>
+    <spectralType>K9V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>608.0</xcood>
+    <ycood>-212.0</ycood>
+    <id>NP 45</id>
+    <name>NP 45</name>
+    <spectralType>M7Ib</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>Ib</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>635.0</xcood>
+    <ycood>-212.0</ycood>
+    <id>NP 46</id>
+    <name>NP 46</name>
+    <spectralType>G2V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>633.0</xcood>
+    <ycood>19.0</ycood>
+    <id>NP 47</id>
+    <name>NP 47</name>
+    <spectralType>A3IV</spectralType>
+    <spectralClass>A</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>657.0</xcood>
+    <ycood>19.0</ycood>
+    <id>NP 48</id>
+    <name>NP 48</name>
+    <spectralType>M3V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>640.0</xcood>
+    <ycood>62.0</ycood>
+    <id>NP 49</id>
+    <name>NP 49</name>
+    <spectralType>G6V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>800.0</xcood>
+    <ycood>203.0</ycood>
+    <id>NP 50</id>
+    <name>NP 50</name>
+    <spectralType>M2V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>446.0</xcood>
+    <ycood>263.0</ycood>
+    <id>NP 51</id>
+    <name>NP 51</name>
+    <spectralType>K9V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>479.0</xcood>
+    <ycood>300.0</ycood>
+    <id>NP 52</id>
+    <name>NP 52</name>
+    <spectralType>M5V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>495.0</xcood>
+    <ycood>320.0</ycood>
+    <id>NP 53</id>
+    <name>NP 53</name>
+    <spectralType>sdM6</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>511.0</xcood>
+    <ycood>340.0</ycood>
+    <id>NP 54</id>
+    <name>NP 54</name>
+    <spectralType>M4V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>386.0</xcood>
+    <ycood>417.0</ycood>
+    <id>NP 55</id>
+    <name>NP 55</name>
+    <spectralType>G2IV</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>401.0</xcood>
+    <ycood>432.0</ycood>
+    <id>NP 56</id>
+    <name>NP 56</name>
+    <spectralType>sdG9</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>429.0</xcood>
+    <ycood>450.0</ycood>
+    <id>NP 57</id>
+    <name>NP 57</name>
+    <spectralType>sdG0</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>444.0</xcood>
+    <ycood>458.0</ycood>
+    <id>NP 58</id>
+    <name>NP 58</name>
+    <spectralType>K8V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>472.0</xcood>
+    <ycood>468.0</ycood>
+    <id>NP 59</id>
+    <name>NP 59</name>
+    <spectralType>M1V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>499.0</xcood>
+    <ycood>479.0</ycood>
+    <id>NP 60</id>
+    <name>NP 60</name>
+    <spectralType>M1V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>527.0</xcood>
+    <ycood>489.0</ycood>
+    <id>NP 61</id>
+    <name>NP 61</name>
+    <spectralType>G6IV</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>338.0</xcood>
+    <ycood>438.0</ycood>
+    <id>NP 62</id>
+    <name>NP 62</name>
+    <spectralType>M2V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>344.0</xcood>
+    <ycood>459.0</ycood>
+    <id>NP 63</id>
+    <name>NP 63</name>
+    <spectralType>G6V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>225.0</xcood>
+    <ycood>450.0</ycood>
+    <id>NP 64</id>
+    <name>NP 64</name>
+    <spectralType>G8V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>170.0</xcood>
+    <ycood>443.0</ycood>
+    <id>NP 65</id>
+    <name>NP 65</name>
+    <spectralType>K2V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
+    <xcood>416.0</xcood>
+    <ycood>472.0</ycood>
+    <id>TFS 01</id>
+    <name>TFS 01</name>
+    <spectralType>M2V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>416.0</xcood>
+    <ycood>501.0</ycood>
+    <id>TFS 02</id>
+    <name>TFS 02</name>
+    <spectralType>sdK6</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>415.0</xcood>
+    <ycood>528.0</ycood>
+    <id>TFS 03</id>
+    <name>TFS 03</name>
+    <spectralType>G3V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>415.0</xcood>
+    <ycood>555.0</ycood>
+    <id>TFS 04</id>
+    <name>TFS 04</name>
+    <spectralType>sdM9</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>414.0</xcood>
+    <ycood>582.0</ycood>
+    <id>TFS 05</id>
+    <name>TFS 05</name>
+    <spectralType>K8V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>390.0</xcood>
+    <ycood>620.0</ycood>
+    <id>TFS 06</id>
+    <name>TFS 06</name>
+    <spectralType>sdK0</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>366.0</xcood>
+    <ycood>632.0</ycood>
+    <id>TFS 07</id>
+    <name>TFS 07</name>
+    <spectralType>K7IV</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>342.0</xcood>
+    <ycood>644.0</ycood>
+    <id>TFS 08</id>
+    <name>TFS 08</name>
+    <spectralType>M6IV</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>318.0</xcood>
+    <ycood>656.0</ycood>
+    <id>TFS 09</id>
+    <name>TFS 09</name>
+    <spectralType>M0V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>287.0</xcood>
+    <ycood>692.0</ycood>
+    <id>TFS 10</id>
+    <name>TFS 10</name>
+    <spectralType>M7V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>280.0</xcood>
+    <ycood>716.0</ycood>
+    <id>TFS 11</id>
+    <name>TFS 11</name>
+    <spectralType>F0IV</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>274.0</xcood>
+    <ycood>740.0</ycood>
+    <id>TFS 12</id>
+    <name>TFS 12</name>
+    <spectralType>K4IV</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>268.0</xcood>
+    <ycood>764.0</ycood>
+    <id>TFS 13</id>
+    <name>TFS 13</name>
+    <spectralType>F8V</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>258.0</xcood>
+    <ycood>815.0</ycood>
+    <id>TFS 14</id>
+    <name>TFS 14</name>
+    <spectralType>G4V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>256.0</xcood>
+    <ycood>841.0</ycood>
+    <id>TFS 15</id>
+    <name>TFS 15</name>
+    <spectralType>M7IV</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>253.0</xcood>
+    <ycood>868.0</ycood>
+    <id>TFS 16</id>
+    <name>TFS 16</name>
+    <spectralType>K7V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>251.0</xcood>
+    <ycood>894.0</ycood>
+    <id>TFS 17</id>
+    <name>TFS 17</name>
+    <spectralType>M6V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>248.0</xcood>
+    <ycood>921.0</ycood>
+    <id>TFS 18</id>
+    <name>TFS 18</name>
+    <spectralType>sdM0</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>304.0</xcood>
+    <ycood>1064.0</ycood>
+    <id>TFS 19</id>
+    <name>TFS 19</name>
+    <spectralType>M1V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>285.0</xcood>
+    <ycood>1084.0</ycood>
+    <id>TFS 20</id>
+    <name>TFS 20</name>
+    <spectralType>G0V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>267.0</xcood>
+    <ycood>1104.0</ycood>
+    <id>TFS 21</id>
+    <name>TFS 21</name>
+    <spectralType>G5V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>248.0</xcood>
+    <ycood>1124.0</ycood>
+    <id>TFS 22</id>
+    <name>TFS 22</name>
+    <spectralType>M0IV</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>230.0</xcood>
+    <ycood>1144.0</ycood>
+    <id>TFS 23</id>
+    <name>TFS 23</name>
+    <spectralType>G6IV</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>6.0</subtype>
+    <luminosity>IV</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>204.0</xcood>
+    <ycood>1192.0</ycood>
+    <id>TFS 24</id>
+    <name>TFS 24</name>
+    <spectralType>M4V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>197.0</xcood>
+    <ycood>1220.0</ycood>
+    <id>TFS 25</id>
+    <name>TFS 25</name>
+    <spectralType>F5V</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>191.0</xcood>
+    <ycood>1248.0</ycood>
+    <id>TFS 26</id>
+    <name>TFS 26</name>
+    <spectralType>sdK5</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>185.0</xcood>
+    <ycood>1276.0</ycood>
+    <id>TFS 27</id>
+    <name>TFS 27</name>
+    <spectralType>K7V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>179.0</xcood>
+    <ycood>1304.0</ycood>
+    <id>TFS 28</id>
+    <name>TFS 28</name>
+    <spectralType>M1V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>173.0</xcood>
+    <ycood>1332.0</ycood>
+    <id>TFS 29</id>
+    <name>TFS 29</name>
+    <spectralType>K1V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>167.0</xcood>
+    <ycood>1360.0</ycood>
+    <id>TFS 30</id>
+    <name>TFS 30</name>
+    <spectralType>K2V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>161.0</xcood>
+    <ycood>1388.0</ycood>
+    <id>TFS 31</id>
+    <name>TFS 31</name>
+    <spectralType>sdM7</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>155.0</xcood>
+    <ycood>1416.0</ycood>
+    <id>TFS 32</id>
+    <name>TFS 32</name>
+    <spectralType>F2V</spectralType>
+    <spectralClass>F</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>149.0</xcood>
+    <ycood>1444.0</ycood>
+    <id>TFS 33</id>
+    <name>TFS 33</name>
+    <spectralType>sdM0</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>0.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>143.0</xcood>
+    <ycood>1472.0</ycood>
+    <id>TFS 34</id>
+    <name>TFS 34</name>
+    <spectralType>K3V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>137.0</xcood>
+    <ycood>1500.0</ycood>
+    <id>TFS 35</id>
+    <name>TFS 35</name>
+    <spectralType>M5V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>5.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>131.0</xcood>
+    <ycood>1528.0</ycood>
+    <id>TFS 36</id>
+    <name>TFS 36</name>
+    <spectralType>K3V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>125.0</xcood>
+    <ycood>1556.0</ycood>
+    <id>TFS 37</id>
+    <name>TFS 37</name>
+    <spectralType>sdG8</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>8.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>119.0</xcood>
+    <ycood>1584.0</ycood>
+    <id>TFS 38</id>
+    <name>TFS 38</name>
+    <spectralType>M3V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>3.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>113.0</xcood>
+    <ycood>1612.0</ycood>
+    <id>TFS 39</id>
+    <name>TFS 39</name>
+    <spectralType>sdM1</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>107.0</xcood>
+    <ycood>1640.0</ycood>
+    <id>TFS 40</id>
+    <name>TFS 40</name>
+    <spectralType>G9V</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>9.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>101.0</xcood>
+    <ycood>1668.0</ycood>
+    <id>TFS 41</id>
+    <name>TFS 41</name>
+    <spectralType>M7V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>7.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>95.0</xcood>
+    <ycood>1696.0</ycood>
+    <id>TFS 42</id>
+    <name>TFS 42</name>
+    <spectralType>K2V</spectralType>
+    <spectralClass>K</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+</planets>
