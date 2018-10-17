@@ -1,8 +1,6 @@
 #This script contains functions for creating systems and planets
 
-roll_d6 <- function(n) {
-  return(sum(sample(1:6, n, replace=TRUE)))
-}
+#### System Generation Functions ####
 
 generate_system <- function(star=NULL, habitable=TRUE) {
   
@@ -32,7 +30,7 @@ generate_system <- function(star=NULL, habitable=TRUE) {
     #in CamOps
     star_roll <- roll_d6(2)
     
-    ##### Star Type #####
+    # Star Type
     star_type <- c("F","M","G","K",rep("M",6),"F")
     if(habitable) {
       star_type <- c(rep("M",3),"K","K","G","G",rep("F",4))
@@ -66,7 +64,7 @@ generate_system <- function(star=NULL, habitable=TRUE) {
     stype_data$distance_outer_au <- stype_data$distance_outer_au*2
   }
   
-  ##### Orbital Slots #####
+  #orbital slots
   orbital_slots <- 3+roll_d6(2)
 
   placement_constants <- c(0.4,0.7,1.0,1.6,2.8,5.2,10,19.6,
@@ -206,7 +204,6 @@ generate_system <- function(star=NULL, habitable=TRUE) {
   planets$moons_medium <- as.numeric(planets$moons_medium)
   planets$moons_small <- as.numeric(planets$moons_small)
   planets$rings <- planets$rings=="TRUE"
-  
   
   return(list(star=stype, planets=planets))
 }
@@ -691,67 +688,6 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
   
 }
 
-plot_system <- function(system) {
-  
-  system_data <- read.csv("data/solar_type.csv", row.names=1)[system$star$type,]
-  
-  par(mar=c(0,0,0,0), bg="black")
-  plot(-10,-10,
-       ylim=c(2.4,2.6), 
-       xlim=c(0,1.1*(system_data$radius+sqrt(max(system$planets$orbital_dist, na.rm=TRUE)))))
-  
-  library(plotrix)
-  
-  #remove empties
-  system$planets <- subset(system$planets, type!="Empty")
-  
-  #draw green zone
-  draw.circle(0,2.5,radius=system_data$radius+system_data$distance_outer_au, col="green", border="green")
-  draw.circle(0,2.5,radius=system_data$radius+system_data$distance_inner_au, col="white", border="black")
-  
-  #draw orbit lines for slots
-  for(slot in nrow(system$planets):1) {
-    planet <- system$planets[slot,]
-    draw.circle(0,2.5,radius=system_data$radius+sqrt(planet$orbital_dist),col="black",border="grey80")
-  }
- 
-  #draw sun
-  draw.circle(0,2.5,radius=system_data$radius, col="yellow", border="orange")
-  
-  for(slot in 1:nrow(system$planets)) {
-    planet <- system$planets[slot,]
-    if(planet$type=="Empty") {
-      next
-    }
-    bg.choice <- "grey"
-    col.choice <- "black"
-    if(planet$type=="Terrestrial" | planet$type=="Giant Terrestrial") {
-      if(is.na(planet$life)) {
-        bg.choice <- "brown"
-        col.choice <- "red"
-      } else {
-        bg.choice <- "darkgreen"
-        col.choice <- "blue"
-      }
-    }
-    if(planet$type=="Dwarf Terrestrial") {
-      bg.choice <- "brown"
-      col.choice <- "red"
-    }
-    if(planet$type=="Gas Giant") {
-      bg.choice <- "purple"
-      col.choice <- "violet"
-    }
-    if(planet$type=="Ice Giant") {
-      bg.choice <- "skyblue"
-      col.choice <- "blue"
-    }
-    points(sqrt(planet$orbital_dist)+system_data$radius, 2.5, pch=21, bg=bg.choice, col=col.choice,
-           cex=log(planet$diameter)/log(12000))
-  }
-  
-}
-
 #faction type should be either "Clan", "IS", "Periphery", "Minor"
 add_colonization <- function(system, distance_terra, current_year,
                              founding_year, faction_type) {
@@ -801,41 +737,11 @@ add_colonization <- function(system, distance_terra, current_year,
   
   system$recharge <- list(nadir=FALSE, zenith=FALSE)
   
-  pop_table <- cbind(c(50000000,
-                       10000000,
-                        2500000,
-                         500000,
-                         100000,
-                          10000,
-                           2500),
-                     c(   10000,
-                        2000000,
-                          50000,
-                          20000,
-                           5000,
-                            500,
-                            100))
-  
-  pop_table_high <- cbind(c(500000000,
-                            100000000,
-                             25000000,
-                              5000000,
-                              1000000,
-                               200000,
-                                50000),
-                          c(   100000,
-                             20000000,
-                              1000000,
-                               200000,
-                                50000,
-                                10000,
-                                 2500))
-  
   for(slot in which(system$planets$inhabitable)) {
     
     planet <- system$planets[slot,]
     
-    ##### Population #####
+    #population
     high_roll <- roll_d6(1)
     
     ##Tweaks: the clan numbers are super low and produce populations of 
@@ -916,7 +822,7 @@ add_colonization <- function(system, distance_terra, current_year,
     
     planet$population <- modifier*population
     
-    ##### USILR #####
+    # USILR Codes
     #we will use numbers until done (also reverse the coding for christ sakes) 
     #watch out for tech. This one has two additional levels at either end
     #that the others dont have so the numbers dont line up.
@@ -947,7 +853,6 @@ add_colonization <- function(system, distance_terra, current_year,
                                   levels=1:7,
                                   labels=c("X","F","D","C","B","A","A+"), 
                                   ordered=TRUE)
-    
     
     #industry
     industry <- 2.5
@@ -1073,7 +978,7 @@ add_colonization <- function(system, distance_terra, current_year,
                                  labels=c("F","D","C","B","A"), 
                                  ordered=TRUE)
 
-    ##### HPG Status #####
+    #HPG Status
     #Tweak: the -1 per 100 LY from Terra was very harsh and 
     #produced distributions that did not match at all what the 
     #text of CamOps on pg. 132-133. We found that reducing
@@ -1122,7 +1027,7 @@ add_colonization <- function(system, distance_terra, current_year,
     
   }
   
-  ##### Recharge Stations #####
+  #Recharge stations
   recharge_roll <- roll_d6(2)
   if(max(system$planets$population,na.rm=TRUE)<(1*10^9)) {
     recharge_roll <- recharge_roll-1
@@ -1168,44 +1073,8 @@ add_colonization <- function(system, distance_terra, current_year,
   return(system)
 }
 
-#simulate a random walk of population growth rates for a given amount
-#of time. 
-# average - the average growth over the time period
-# length - number of years to simulate
-# increment - how much to increment the random walk by each time
-# penalize - the mean value (as difference from average) at which to adjust sampling
-#   to pull the value back closer to the average 
-# max - the value (as difference from average) for the maximum growth rate. At this
-# point the sampling will only draw 0 or change in the opposite direction
-growth_simulation <- function(average, length, messiness=1) {
-  growth <- c(average)
-  
-  #increment is equal to 5% of the level times messiness factor
-  increment <- abs(average * 0.1 * messiness)
-  if(increment==0) {
-    increment <- 0.0002*messiness
-  }
-  #penalize if we get five times the increment away
-  penalize <- increment * 5
-  #cap if we the increement equals the average or more
-  max <- increment * 10
-  
-  for(i in 1:length) {
-    sampler <- c(increment,-1*increment,0)
-    if(growth[i] > (average+max)) {
-      sampler <- c(rep(-1*increment,2), 0)
-    } else if(growth[i] > (average+penalize)) {
-      sampler <- c(increment, rep(-1*increment,5), 0)
-    }
-    if(growth[i] < (average-max)) {
-      sampler <- c(rep(increment,2), 0)
-    } else if(growth[i] < (average-penalize)) {
-      sampler <- c(-1*increment, rep(increment,5), 0)
-    }
-    growth <- c(growth, growth[i]+sample(sampler,1))
-  }
-  return(growth[-1])
-}
+
+#### Population Projection Functions ####
 
 #TODO: put some hard upper limit on population sizes (i.e. carrying capacity)
 #project population from year 3067 forwards and backwards
@@ -1417,6 +1286,45 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
   return(full_pop)
 }
 
+#simulate a random walk of population growth rates for a given amount
+#of time. 
+# average - the average growth over the time period
+# length - number of years to simulate
+# increment - how much to increment the random walk by each time
+# penalize - the mean value (as difference from average) at which to adjust sampling
+#   to pull the value back closer to the average 
+# max - the value (as difference from average) for the maximum growth rate. At this
+# point the sampling will only draw 0 or change in the opposite direction
+growth_simulation <- function(average, length, messiness=1) {
+  growth <- c(average)
+  
+  #increment is equal to 5% of the level times messiness factor
+  increment <- abs(average * 0.1 * messiness)
+  if(increment==0) {
+    increment <- 0.0002*messiness
+  }
+  #penalize if we get five times the increment away
+  penalize <- increment * 5
+  #cap if we the increement equals the average or more
+  max <- increment * 10
+  
+  for(i in 1:length) {
+    sampler <- c(increment,-1*increment,0)
+    if(growth[i] > (average+max)) {
+      sampler <- c(rep(-1*increment,2), 0)
+    } else if(growth[i] > (average+penalize)) {
+      sampler <- c(increment, rep(-1*increment,5), 0)
+    }
+    if(growth[i] < (average-max)) {
+      sampler <- c(rep(increment,2), 0)
+    } else if(growth[i] < (average-penalize)) {
+      sampler <- c(-1*increment, rep(increment,5), 0)
+    }
+    growth <- c(growth, growth[i]+sample(sampler,1))
+  }
+  return(growth[-1])
+}
+
 get_gompertz_rates <- function(ending_pop, start_colony_size, time_length) {
   
   if(ending_pop<start_colony_size) {
@@ -1433,6 +1341,8 @@ get_gompertz_rates <- function(ending_pop, start_colony_size, time_length) {
   rates <- log(yt[2:time_length]/yt[1:(time_length-1)])
   return(rates)
 }
+
+#### Utility Functions ####
 
 #distance to border for a given faction
 distance_to_border <- function(x0,y0,faction) {
@@ -1470,4 +1380,10 @@ distance_to_border <- function(x0,y0,faction) {
   return(min(abs(y2*x0-x2*y0)/sqrt(y2^2+x2^2)))
 
 }
+
+
+roll_d6 <- function(n) {
+  return(sum(sample(1:6, n, replace=TRUE)))
+}
+
 

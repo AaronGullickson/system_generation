@@ -2,17 +2,11 @@ library(xml2)
 library(magrittr)
 library(rlist)
 source("system_creation_functions.R")
-
-#return planet nodeset by id
-get_planet_id <- function(full_xml, id) {
-  planets <- xml_find_all(full_xml, "planet")
-  planets[which(xml_text(xml_find_first(planets, "id"))==id)]
-}
+source("data_functions.R")
 
 planets <- read_xml("input/planets.xml")
 events <- read_xml("input/0002_planetevents.xml")
 connectors <- read_xml("input/1000_connectors.xml")
-
 
 #now run through planets first time and add all of the events
 #TODO: clean up this events file, remove non-canon and re-identify
