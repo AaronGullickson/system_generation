@@ -270,7 +270,10 @@ for(i in 1:xml_length(planets)) {
   
   #now cycle through planets and create planet nodes
   for(i in 1:nrow(system$planets)) {
+    cat(paste("\n",i))
     planet <- system$planets[i,]
+    cat("\t\t\tplanet info")
+    
     if(i==primary_slot) {
       planet_node <- xml_add_child(system_node, "planet", primary="TRUE", 
                                    source="canon")
@@ -399,6 +402,7 @@ for(i in 1:xml_length(planets)) {
       }
     }
     
+    cat("\tmoon info")
     #we will detail all moons except small moons where we will just list number
     #assume named moons are never small
     if(i==primary_slot & !is.null(moons)) {
@@ -439,6 +443,7 @@ for(i in 1:xml_length(planets)) {
     #population
     #TODO: how do we do this for systems with multiple habitable planets. Probably need
     #      a system position id for each planet on event
+    cat("\tpopulation projection")
     if(!is.na(planet$population)) {
       border_distance <- distance_to_border(x, y, faction)
       p2750 <- NULL
@@ -476,44 +481,46 @@ for(i in 1:xml_length(planets)) {
       census_years <- c(founding_year, seq(from=first_census_year, to=last_census_year, by=10), last_year)
       census_pop <- round(pop[paste(census_years)])
       for(i in 1:length(census_years)) {
-        pop_event <- xml_add_child(system_events, "event")
+        #I don't know why its popping up a node for the root document, but
+        #the [[1]] ensures that we only grab the correct node
+        pop_event <- xml_add_child(system_events, "event")[[1]]
         xml_add_child(pop_event, "date", paste(census_years[i],"01","01",sep="-"))
         xml_add_child(pop_event, "population", census_pop[i], source="noncanon")
       }
       #add in canon populations
       if(!is.null(p2750)) {
-        pop_event <- xml_add_child(system_events, "event")
+        pop_event <- xml_add_child(system_events, "event")[[1]]
         sl_peak <- 2785
         if(terran_hegemony) {
           sl_peak <- 2767
         }
-        xml_add_child(pop_event, "date", paste(sl_peack,"01","01",sep="-"))
+        xml_add_child(pop_event, "date", paste(sl_peak,"01","01",sep="-"))
         xml_add_child(pop_event, "population", p2750, source="canon")
       }
       if(!is.null(p3025)) {
-        pop_event <- xml_add_child(system_events, "event")
+        pop_event <- xml_add_child(system_events, "event")[[1]]
         xml_add_child(pop_event, "date", paste(3025,"01","01",sep="-"))
         xml_add_child(pop_event, "population", p3025, source="canon")
       }
       if(!is.null(p3067)) {
-        pop_event <- xml_add_child(system_events, "event")
+        pop_event <- xml_add_child(system_events, "event")[[1]]
         xml_add_child(pop_event, "date", paste(3067,"01","01",sep="-"))
         xml_add_child(pop_event, "population", p3067, source="canon")
       }
       if(!is.null(p3079)) {
-        pop_event <- xml_add_child(system_events, "event")
+        pop_event <- xml_add_child(system_events, "event")[[1]]
         xml_add_child(pop_event, "date", paste(3079,"01","01",sep="-"))
         xml_add_child(pop_event, "population", p3079, source="canon")
       }
       if(!is.null(p3145)) {
-        pop_event <- xml_add_child(system_events, "event")
+        pop_event <- xml_add_child(system_events, "event")[[1]]
         xml_add_child(pop_event, "date", paste(3145,"01","01",sep="-"))
         xml_add_child(pop_event, "population", p3145, source="canon")
       }
     }
   }
   
-  cat("done\n")
+  cat("\n\tdone\n")
 }
 
 #TODO: a similar for-loop for connectors but no need to force habitation
