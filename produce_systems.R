@@ -6,15 +6,65 @@
 
 library(xml2)
 library(magrittr)
+library(rlist)
 source("system_creation_functions.R")
 
-#TODO: read in planet events and and store so I can use this below
-#and output a final planet events file
+#return planet nodeset by id
+get_planet_id <- function(full_xml, id) {
+  planets <- xml_find_all(full_xml, "planet")
+  planets[which(xml_text(xml_find_first(planets, "id"))==id)]
+}
 
-planets <- read_xml("data/planets.xml")
+#return a data frame of type of events for a given planet
+get_event_data <- function(events, id, event_type) {
+  planet_events <- xml_find_all(get_planet_id(events, id), "event")
+  dates <- NULL
+  v_events <- NULL
+  for(event in planet_events) {
+    date <- xml_text(xml_find_first(event, "date"))
+    chosen_event <- xml_find_first(event, event_type)
+    if(!is.na(chosen_event)) {
+      dates <- c(dates, date)
+      v_events <- c(v_events, xml_text(chosen_event))
+    } 
+  }
+  if(is.null(dates)) {
+    return(NULL)
+  }
+  events_df <- data.frame(date=as.Date(dates,format=c("%Y-%m-%d")),
+                          event=v_events)
+  events_df <- events_df[order(events_df$date),]
+  return(events_df)
+}
+
+#get the closest event to the given date that is not later than the 
+#given date and not before the min_date
+get_closest_event <- function(event_table, chosen_date, min_date=NA) {
+  date_diff <- faction_table$date-chosen_date
+  if(sum(date_diff<=0)==0) {
+    return(NA)
+  }
+  if(!is.na(min_date)) {
+    if(sum(abs(date_diff[date_diff<0])<(chosen_date-min_date))==0) {
+      return(NA)
+    }    
+  }
+  return(as.character(event_table$event[which(date_diff==max(date_diff[date_diff<=0]))[1]]))
+}
+
+get_year <- function(date) {
+  as.numeric(format(date,'%Y'))
+}
+
+planets <- read_xml("output/planets_initial.xml")
+events <- read_xml("output/planetevents_initial.xml")
+canon_populations <- read.csv("input/canon_populations.csv", row.names=1)
+
 planet.table <- NULL
 target.year <- 3047
+target_date <- as.Date(paste(target.year,"01","01",sep="-"))
 
+#prepare the XML systems output
 systems <- xml_new_document() %>% xml_add_child("systems")
 
 for(i in 1:xml_length(planets)) {
@@ -27,6 +77,8 @@ for(i in 1:xml_length(planets)) {
   name <- xml_text(xml_find_first(planet, "name"))
   x <- as.numeric(xml_text(xml_find_first(planet, "xcood")))
   y <- as.numeric(xml_text(xml_find_first(planet, "ycood")))
+  
+  cat(paste(id,"\n\treading in XML data..."))
   
   #system information
   star <- xml_text(xml_find_first(planet, "spectralType"))
@@ -53,53 +105,76 @@ for(i in 1:xml_length(planets)) {
   
   
   #social information
+  #First see if it is in the planet data
   faction <- xml_text(xml_find_first(planet, "faction"))
   hpg <- xml_text(xml_find_first(planet, "hpg"))
   sic <- xml_text(xml_find_first(planet, "socioIndustrial"))
+  
+  #check for faction change events
+  faction_table <- get_event_data(events, id, "faction")
   founding_year <- NA
-  events <- xml_find_all(planet, "event")
-  first_faction_found <- FALSE
-  for(event in events) {
-    year <- as.numeric(substr(xml_text(xml_find_first(event, "date")),1,4))
-    if(year>target.year) {
-      next
+  terran_hegemony <- FALSE
+  if(!is.null(faction_table)) {
+    founding_year <- get_year(faction_table$date[1])
+    #take the first faction in cases of multiple factions
+    temp <- get_closest_event(faction_table, target_date)
+    if(!is.na(temp)) {
+      faction <- strsplit(temp,",")[[1]][1]
     }
-    if(!is.na(xml_find_first(event, "faction"))) {
-      faction <- xml_text(xml_find_first(event, "faction"))
-      #for now if faction is multiple just take the first
-      faction <- strsplit(faction,",")[[1]][1]
-      #if this is the first time we hit a faction, then 
-      #this is the founding year
-      if(!first_faction_found) {
-        founding_year <- year
-        first_faction_found <- TRUE
-      }
-    }
-    if(!is.na(xml_find_first(event, "hpg"))) {
-      hpg <- xml_text(xml_find_first(event, "hpg"))
-    }
-    #only take changes to default SIC within 30 years of target date
-    if(!is.na(xml_find_first(event, "socioIndustrial")) & (target.year-year)<=30) {
-      sic <- xml_text(xml_find_first(event, "socioIndustrial"))
+    #figure out if this was Terran Hegemony world in 2750
+    terran_hegemony <- grepl("(^TH$|TH,|,TH)", 
+                             get_closest_event(faction_table, as.Date(paste(2750,"01","01",sep="-"))))
+  }
+  
+  hpg_table <- get_event_data(events, id, "hpg")
+  if(!is.null(hpg_table)) {
+     temp <- get_closest_event(hpg_table, target_date)
+     if(!is.na(temp)) {
+       hpg <- temp
+     }
+  }
+  
+  sic_table <- get_event_data(events, id, "sic")
+  if(!is.null(sic_table)) {
+    #SIC must be within 20 years of target year
+    temp <- get_closest_event(sic_table, target_date, 
+                              as.Date(paste(target_year-20,"01","01",sep="-")))
+    if(!is.na(temp)) {
+      sic <- temp
     }
   }
+  
   desc <- xml_text(xml_find_first(planet, "desc"))
   
   # do some checks, if fail then skip for now
   # TODO: fix problems
-  # ignore abandoned places or those with UND or NONE factions (mostly highways which
-  # should be in the connector file not here)
-  if(faction=="ABN" | faction=="UND" | faction=="NONE") {
-    next
-  }
+  
   #drop if they are missing x or y coordinates (shouldnt happen)
   if(is.na(x) | is.na(y)) {
+    cat(paste("ERROR:", id, "is missing an x or y value. Skipping.\n"))
     next
   }
+  
+  # ignore abandoned places or those with UND or NONE factions (mostly highways which
+  # should be in the connector file not here)
+  if(is.na(faction) | faction=="UND" | faction=="NONE") {
+    next
+    cat(paste("ERROR:", id, "has a missing or unknown faction. Skipping.\n"))
+  }
+  
+  #TODO: need to generate data for abandoned planets too
+  if(faction=="ABN") {
+    cat(paste(id, "is abandoned. Skipping.\n"))
+    next
+  }
+
   #drop if they are missing founding year
   if(is.na(founding_year)) {
     next
+    cat(paste("ERROR:", id, "has a missing founding year. Skipping.\n"))
   }
+  
+  cat("done\n\tOrganizing data...")
   
   #### Generate the System ####
   
@@ -207,11 +282,22 @@ for(i in 1:xml_length(planets)) {
     founding_year <- sample(2597:2750, 1)
   }
   
+  #read in canon population data
+  if(id %in% rownames(canon_populations)) {
+    canon_population <- canon_populations[id,]
+  } else {
+    canon_population <- NULL
+  }
+  
+  cat("done\n\tGenerating base system and colonization data...")
+  
   system <- add_colonization(generate_system(star=star), distance_terra, 3047, founding_year,
                              faction_type)
   primary_slot <- which(system$planets$population==max(system$planets$population, na.rm=TRUE))[1]
   
   #### Output XML ####
+  
+  cat("done\n\tOutputing base data to XML...")
   
   #create a system node
   system_node <- xml_add_child(systems, "system")
@@ -334,29 +420,6 @@ for(i in 1:xml_length(planets)) {
                     sqrt(gravity_multiplier) * planet$density)
     }
     
-    #TODO: population, SIC, and HPG data will eventually all go in 
-    #planetevents.xml.
-    # if(!is.na(planet$population)) {
-    #   xml_add_child(planet_node, "population", 
-    #                 planet$population, 
-    #                 source="noncanon")
-    # }
-    # if(i==primary_slot & !is.na(sic)) {
-    #   xml_add_child(planet_node, "socioIndustrial", 
-    #                 sic, 
-    #                 source="canon")
-    # }
-    # else if(!is.na(planet$tech)) {
-    #   xml_add_child(planet_node, "socioIndustrial", 
-    #                 paste(c(as.character(planet$tech), 
-    #                         as.character(planet$industry), 
-    #                         as.character(planet$output), 
-    #                         as.character(planet$raw), 
-    #                         as.character(planet$agriculture)),
-    #                       collapse="-"), 
-    #                 source="noncanon")
-    # }
-    
     if(i==primary_slot & !is.na(desc)) {
       xml_add_child(planet_node, "desc", 
                     desc, 
@@ -386,7 +449,7 @@ for(i in 1:xml_length(planets)) {
     #assume named moons are never small
     if(i==primary_slot & !is.null(moons)) {
       for(moon in moons) {
-        moon_size <- c("giant",rep("large",5),rep("medium",9))[sample(1:15),1]
+        moon_size <- c("giant",rep("large",5),rep("medium",9))[sample(1:15,1)]
         xml_add_child(planet_node, "satellite", size=moon_size,
                       moon, 
                       source="canon")
@@ -417,37 +480,89 @@ for(i in 1:xml_length(planets)) {
     }
     
     #### Project Social Data in Time ####
+    system_events <- get_planet_id(events, id)
     
-    #TODO: Do this. it will be added to planet events rather than planets
-    
-    #I have now created a function that will allow for a random walk in annual 
-    #growth rates around an average with some adjustments so that the random
-    #walk does not get out of control in one direction or the other. We should be 
-    #able to use this to backward project population to the time of initial 
-    #colonization. How we do this should depend a bit on what kind of system we have
-    
-    # CLAN HOMEWORLDS: very small initial coloniation sizes and some significant 
-    # negative growth for non-pentagon worlds during second exodus period. Then significant
-    # growth throughout the golden century followed by some leveling off after a certain
-    # point. Look at Operation Klondike for some guidance.
-    
-    # INNER SPHERE, PRE STAR LEAGUE: small initial colony sizes (10K-100K?). Rapid growth 
-    # up until age of war period, then very slow growth through Star League. From
-    # star league to end of succession wars, significant declines in population, but I should
-    # probably sample a couple of different averages, to get something from total devastation 
-    # (90% losses) to largely stationary. The best way to handle this case, will be to first
-    # sample a total loss rate for the succession wars, then use this to calculate annual 
-    # declines from present (I might also want to add a basic stationary level between end
-    # of 3SW and present of 3067), then backtrack that. From there, I will get a total 
-    # peak population size. Based on the average from that point until the age of war switch, 
-    # I should be able to calculate the necessary growth rate to get back to a colony size of
-    # XX. If at any point in this formulation, I get a ridiculous growth rate, peak population
-    # size, or colonization size, then I throw out and start again. 
-    
+    #population
+    #TODO: how do we do this for systems with multiple habitable planets. Probably need
+    #      a system position id for each planet on event
+    if(!is.na(planet$population)) {
+      border_distance <- distance_to_border(x, y, faction)
+      p2750 <- NULL
+      p3025 <- NULL
+      p3067 <- NULL
+      p3079 <- NULL
+      p3145 <- NULL
+      if(!is.null(canon_population) & i==primary_slot) {
+        if(!is.na(canon_population$X2750)) {
+          p2750 <- canon_population$X2750
+        }
+        if(!is.na(canon_population$X3025)) {
+          p3025 <- canon_population$X3025
+        }
+        if(!is.na(canon_population$X3067)) {
+          p3067 <- canon_population$X3067
+        }
+        if(!is.na(canon_population$X3079)) {
+          p3079 <- canon_population$X3079
+        }
+        if(!is.na(canon_population$X3145)) {
+          p3145 <- canon_population$X3145
+        }
+      }
+      pop <- project_population(planet$population, founding_year, faction_type,
+                                border_distance, planet$agriculture, 
+                                terran_hegemony = terran_hegemony,
+                                p2750 = p2750, p3025 = p3025, p3067 = p3067,
+                                p3079 = p3079, p3145 = p3145)
+      #collect population values at 10 year intervals, plus the starting and final values.
+      first_census_year <- founding_year + 10*(ceiling(founding_year/10)-(founding_year/10))
+      last_year <- as.numeric(names(pop)[length(pop)])
+      last_census_year <- 10*floor(last_year/10)
+      #TODO: not safe if colony quickly died
+      census_years <- c(founding_year, seq(from=first_census_year, to=last_census_year, by=10), last_year)
+      census_pop <- round(pop[paste(census_years)])
+      for(i in 1:length(census_years)) {
+        pop_event <- xml_add_child(system_events, "event")
+        xml_add_child(pop_event, "date", paste(census_years[i],"01","01",sep="-"))
+        xml_add_child(pop_event, "population", census_pop[i], source="noncanon")
+      }
+      #add in canon populations
+      if(!is.null(p2750)) {
+        pop_event <- xml_add_child(system_events, "event")
+        sl_peak <- 2785
+        if(terran_hegemony) {
+          sl_peak <- 2767
+        }
+        xml_add_child(pop_event, "date", paste(sl_peack,"01","01",sep="-"))
+        xml_add_child(pop_event, "population", p2750, source="canon")
+      }
+      if(!is.null(p3025)) {
+        pop_event <- xml_add_child(system_events, "event")
+        xml_add_child(pop_event, "date", paste(3025,"01","01",sep="-"))
+        xml_add_child(pop_event, "population", p3025, source="canon")
+      }
+      if(!is.null(p3067)) {
+        pop_event <- xml_add_child(system_events, "event")
+        xml_add_child(pop_event, "date", paste(3067,"01","01",sep="-"))
+        xml_add_child(pop_event, "population", p3067, source="canon")
+      }
+      if(!is.null(p3079)) {
+        pop_event <- xml_add_child(system_events, "event")
+        xml_add_child(pop_event, "date", paste(3079,"01","01",sep="-"))
+        xml_add_child(pop_event, "population", p3079, source="canon")
+      }
+      if(!is.null(p3145)) {
+        pop_event <- xml_add_child(system_events, "event")
+        xml_add_child(pop_event, "date", paste(3145,"01","01",sep="-"))
+        xml_add_child(pop_event, "population", p3145, source="canon")
+      }
+    }
   }
-
+  
+  cat("done\n")
 }
 
 #TODO: a similar for-loop for connectors but no need to force habitation
 
 cat(as.character(systems), file = "test_systems.xml")
+cat(as.character(events), file = "test_events.xml")
