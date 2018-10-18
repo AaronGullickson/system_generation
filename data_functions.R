@@ -23,8 +23,9 @@ get_event_data <- function(events, id, event_type) {
   if(is.null(dates)) {
     return(NULL)
   }
-  events_df <- data.frame(date=as.Date(dates,format=c("%Y-%m-%d")),
-                          event=v_events)
+  #remove any missing values that may occur due to bad date formatting
+  events_df <- na.omit(data.frame(date=as.Date(dates,format=c("%Y-%m-%d")),
+                                  event=v_events))
   events_df <- events_df[order(events_df$date),]
   return(events_df)
 }
