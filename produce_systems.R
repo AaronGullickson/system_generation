@@ -258,7 +258,8 @@ for(i in 1:xml_length(planets)) {
   
   xml_add_child(system_node, "id", id)
   xml_add_child(system_node, "name", name)
-  
+  xml_add_child(system_node, "xcood", x)
+  xml_add_child(system_node, "ycood", y)
   
   if(is.null(star)) {
     xml_add_child(system_node, "spectralType", 
