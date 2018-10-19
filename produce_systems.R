@@ -269,6 +269,8 @@ for(i in 1:xml_length(planets)) {
                   system$star, source="canon")
   }
   
+  xml_add_child(system_node, "primarySlot", primary_slot)
+  
   #now cycle through planets and create planet nodes
   for(i in 1:nrow(system$planets)) {
     cat(paste("\n",i))
