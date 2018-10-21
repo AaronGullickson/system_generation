@@ -7,6 +7,11 @@ get_planet_id <- function(full_xml, id) {
   planets[which(xml_text(xml_find_first(planets, "id"))==id)]
 }
 
+get_planet_syspos <- function(full_xml, syspos) {
+  planets <- xml_find_all(full_xml, "planet")
+  planets[which(xml_text(xml_find_first(planets, "sysPos"))==syspos)]
+}
+
 #return a data frame of type of events for a given planet
 get_event_data <- function(events, id, event_type) {
   planet_events <- xml_find_all(get_planet_id(events, id), "event")

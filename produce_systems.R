@@ -20,8 +20,9 @@ target_date <- as.Date(paste(target.year,"01","01",sep="-"))
 
 #prepare the XML systems output
 systems <- xml_new_document() %>% xml_add_child("systems")
+systems_events <- xml_new_document() %>% xml_add_child("systems")
 
-for(i in 1:xml_length(planets)) {
+for(i in 1:5) {#xml_length(planets)) {
   
   #### Read in a planet's data ####
   
@@ -255,11 +256,13 @@ for(i in 1:xml_length(planets)) {
   
   #create a system node
   system_node <- xml_add_child(systems, "system")
+  system_event_node <- xml_add_child(systems_events, "system")
   
   xml_add_child(system_node, "id", id)
   xml_add_child(system_node, "name", name)
   xml_add_child(system_node, "xcood", x)
   xml_add_child(system_node, "ycood", y)
+  xml_add_child(system_event_node, "id", id)
   
   if(is.null(star)) {
     xml_add_child(system_node, "spectralType", 
@@ -271,13 +274,20 @@ for(i in 1:xml_length(planets)) {
   
   xml_add_child(system_node, "primarySlot", primary_slot)
   
+  #cycle through events and assing to system or planet
+  #primary_planet_event_node <- xml_add_child(system_event_node, "planet")
+  #xml_add_child(primary_planet_event_node, "sysPos", i)
+  #TODO: actually loop through and make some decisions This should come after 
+  #planetary loop.
+  #xml_add_child(primary_planet_event_node, planet_events)
+  
   #now cycle through planets and create planet nodes
-  for(i in 1:nrow(system$planets)) {
-    cat(paste("\n",i))
-    planet <- system$planets[i,]
+  for(j in 1:nrow(system$planets)) {
+    cat(paste("\n",j))
+    planet <- system$planets[j,]
     cat("\t\t\tplanet info")
     
-    if(i==primary_slot) {
+    if(j==primary_slot) {
       planet_node <- xml_add_child(system_node, "planet", primary="TRUE", 
                                    source="canon")
       xml_add_child(planet_node, "name", name, source="canon")
@@ -293,10 +303,9 @@ for(i in 1:xml_length(planets)) {
     
     #TODO: asteroid belts should not count for system position
     #also what to do we do if this does not match canon system position?
-    xml_add_child(planet_node, "sysPos", 
-                  i)
+    xml_add_child(planet_node, "sysPos", j)
     
-    if(i==primary_slot & !is.na(pressure)) {
+    if(j==primary_slot & !is.na(pressure)) {
       xml_add_child(planet_node, "pressure", 
                     as.character(pressure), 
                     source="canon")
@@ -320,7 +329,7 @@ for(i in 1:xml_length(planets)) {
     #root of the proportional difference. This should also 
     #maintain correct orbital and escape velocity
     gravity_multiplier <- 1
-    if(i==primary_slot & !is.na(gravity)) {
+    if(j==primary_slot & !is.na(gravity)) {
       gravity_multiplier <- gravity/planet$gravity
       xml_add_child(planet_node, "gravity", 
                     gravity, 
@@ -330,7 +339,7 @@ for(i in 1:xml_length(planets)) {
                     planet$gravity)
     }
     
-    if(i==primary_slot & !is.na(temperature)) {
+    if(j==primary_slot & !is.na(temperature)) {
       xml_add_child(planet_node, "temperature", 
                     temperature, 
                     source="canon")
@@ -340,7 +349,7 @@ for(i in 1:xml_length(planets)) {
                     planet$temperature)
     }
     
-    if(i==primary_slot & !is.na(water)) {
+    if(j==primary_slot & !is.na(water)) {
       xml_add_child(planet_node, "water", 
                     water, 
                     source="canon")
@@ -350,7 +359,7 @@ for(i in 1:xml_length(planets)) {
                     planet$water)
     }
     
-    if(i==primary_slot & !is.na(life)) {
+    if(j==primary_slot & !is.na(life)) {
       xml_add_child(planet_node, "life", 
                     life, 
                     source="canon")
@@ -380,13 +389,13 @@ for(i in 1:xml_length(planets)) {
                     sqrt(gravity_multiplier) * planet$density)
     }
     
-    if(i==primary_slot & !is.na(desc)) {
+    if(j==primary_slot & !is.na(desc)) {
       xml_add_child(planet_node, "desc", 
                     desc, 
                     source="canon")
     }
     
-    if(i==primary_slot & !is.null(continents)) {
+    if(j==primary_slot & !is.null(continents)) {
       for(continent in continents) {
         xml_add_child(planet_node, "landMass", 
                       continent, 
@@ -395,9 +404,9 @@ for(i in 1:xml_length(planets)) {
     } else if(!is.na(planet$continents) & planet$continents>0) {
       #pick random one to have capital
       capital <- sample(1:planet$continents, 1)
-      for(i in 1:planet$continents) {
+      for(k in 1:planet$continents) {
         landmass_name <- "Unnamed Landmass"
-        if(i==capital) {
+        if(j==capital) {
           landmass_name <- "Unnamed Landmass (Unnamed Capital)"
         }
         xml_add_child(planet_node, "landMass",
@@ -408,7 +417,7 @@ for(i in 1:xml_length(planets)) {
     cat("\tmoon info")
     #we will detail all moons except small moons where we will just list number
     #assume named moons are never small
-    if(i==primary_slot & !is.null(moons)) {
+    if(j==primary_slot & !is.null(moons)) {
       for(moon in moons) {
         moon_size <- c("giant",rep("large",5),rep("medium",9))[sample(1:15,1)]
         xml_add_child(planet_node, "satellite", size=moon_size,
@@ -417,19 +426,19 @@ for(i in 1:xml_length(planets)) {
       }
     } else {
       if(planet$moons_giant>0) {
-        for(i in 1:planet$moons_giant) {
+        for(k in 1:planet$moons_giant) {
           xml_add_child(planet_node, "satellite", size="giant",
                         "Unnamed Moon")
         }
       }
       if(planet$moons_large>0) {
-        for(i in 1:planet$moons_large) {
+        for(k in 1:planet$moons_large) {
           xml_add_child(planet_node, "satellite", size="large",
                         "Unnamed Moon")
         }
       }
       if(planet$moons_medium>0) {
-        for(i in 1:planet$moons_medium) {
+        for(k in 1:planet$moons_medium) {
           xml_add_child(planet_node, "satellite", size="medium",
                         "Unnamed Moon")
         }
@@ -439,22 +448,24 @@ for(i in 1:xml_length(planets)) {
                       planet$moons_small)
       }
     }
-    
+        
     #### Project Social Data in Time ####
-    system_events <- get_planet_id(events, id)
+    #figure out where to add these events
     
     #population
-    #TODO: how do we do this for systems with multiple habitable planets. Probably need
-    #      a system position id for each planet on event
     cat("\tpopulation projection")
     if(!is.na(planet$population)) {
+      
+      current_planet_event_node <- xml_add_child(system_event_node, "planet")
+      xml_add_child(current_planet_event_node, "sysPos", j)
+      
       border_distance <- distance_to_border(x, y, faction)
       p2750 <- NULL
       p3025 <- NULL
       p3067 <- NULL
       p3079 <- NULL
       p3145 <- NULL
-      if(!is.null(canon_population) & i==primary_slot) {
+      if(!is.null(canon_population) & j==primary_slot) {
         if(!is.na(canon_population$X2750)) {
           p2750 <- canon_population$X2750
         }
@@ -483,16 +494,16 @@ for(i in 1:xml_length(planets)) {
       #TODO: not safe if colony quickly died
       census_years <- c(founding_year, seq(from=first_census_year, to=last_census_year, by=10), last_year)
       census_pop <- round(pop[paste(census_years)])
-      for(i in 1:length(census_years)) {
+      for(k in 1:length(census_years)) {
         #I don't know why its popping up a node for the root document, but
         #the [[1]] ensures that we only grab the correct node
-        pop_event <- xml_add_child(system_events, "event")[[1]]
-        xml_add_child(pop_event, "date", paste(census_years[i],"01","01",sep="-"))
-        xml_add_child(pop_event, "population", census_pop[i], source="noncanon")
+        pop_event <- xml_add_child(current_planet_event_node, "event")
+        xml_add_child(pop_event, "date", paste(census_years[k],"01","01",sep="-"))
+        xml_add_child(pop_event, "population", census_pop[k], source="noncanon")
       }
       #add in canon populations
       if(!is.null(p2750)) {
-        pop_event <- xml_add_child(system_events, "event")[[1]]
+        pop_event <- xml_add_child(current_planet_event_node, "event")
         sl_peak <- 2785
         if(terran_hegemony) {
           sl_peak <- 2767
@@ -501,25 +512,44 @@ for(i in 1:xml_length(planets)) {
         xml_add_child(pop_event, "population", p2750, source="canon")
       }
       if(!is.null(p3025)) {
-        pop_event <- xml_add_child(system_events, "event")[[1]]
+        pop_event <- xml_add_child(current_planet_event_node, "event")
         xml_add_child(pop_event, "date", paste(3025,"01","01",sep="-"))
         xml_add_child(pop_event, "population", p3025, source="canon")
       }
       if(!is.null(p3067)) {
-        pop_event <- xml_add_child(system_events, "event")[[1]]
+        pop_event <- xml_add_child(current_planet_event_node, "event")
         xml_add_child(pop_event, "date", paste(3067,"01","01",sep="-"))
         xml_add_child(pop_event, "population", p3067, source="canon")
       }
       if(!is.null(p3079)) {
-        pop_event <- xml_add_child(system_events, "event")[[1]]
+        pop_event <- xml_add_child(current_planet_event_node, "event")
         xml_add_child(pop_event, "date", paste(3079,"01","01",sep="-"))
         xml_add_child(pop_event, "population", p3079, source="canon")
       }
       if(!is.null(p3145)) {
-        pop_event <- xml_add_child(system_events, "event")[[1]]
+        pop_event <- xml_add_child(current_planet_event_node, "event")
         xml_add_child(pop_event, "date", paste(3145,"01","01",sep="-"))
         xml_add_child(pop_event, "population", p3145, source="canon")
       }
+    }
+  }
+  
+  #TODO: cycle through existing events and figure out whether to assign them to a 
+  #planet or to the system
+  
+  #get existing planet events and preparet to move them over
+  planet_events <- get_planet_id(events, id)
+  primary_planet_events <- get_planet_syspos(system_event_node, primary_slot)
+  for(event in xml_find_all(planet_events, "event")) {
+    #all events except nadir and zenith charge should go into planet I think
+    if(grepl("noncanon", xml_text(event))) {
+      next
+    }
+    if(any(grepl("nadirCharge",xml_contents(event))) | 
+       any(grepl("zenithCharge",xml_contents(event)))) {
+      xml_add_child(system_event_node, event)
+    } else {
+      xml_add_child(primary_planet_events, event)
     }
   }
   
@@ -529,4 +559,4 @@ for(i in 1:xml_length(planets)) {
 #TODO: a similar for-loop for connectors but no need to force habitation
 
 cat(as.character(systems), file = "test_systems.xml")
-cat(as.character(events), file = "test_events.xml")
+cat(as.character(systems_events), file = "test_events.xml")
