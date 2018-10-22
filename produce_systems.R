@@ -12,6 +12,7 @@ source("data_functions.R")
 
 planets <- read_xml("output/planets_initial.xml")
 events <- read_xml("output/planetevents_initial.xml")
+name_changes <- read_xml("input/0999_namechanges.xml")
 canon_populations <- read.csv("input/canon_populations.csv", row.names=1)
 
 planet.table <- NULL
@@ -21,8 +22,9 @@ target_date <- as.Date(paste(target.year,"01","01",sep="-"))
 #prepare the XML systems output
 systems <- xml_new_document() %>% xml_add_child("systems")
 systems_events <- xml_new_document() %>% xml_add_child("systems")
+systems_name_changes <- xml_new_document() %>% xml_add_child("systems")
 
-for(i in 1:xml_length(planets)) {
+for(i in 1:10) {#xml_length(planets)) {
   
   #### Read in a planet's data ####
   
@@ -273,13 +275,6 @@ for(i in 1:xml_length(planets)) {
   }
   
   xml_add_child(system_node, "primarySlot", primary_slot)
-  
-  #cycle through events and assing to system or planet
-  #primary_planet_event_node <- xml_add_child(system_event_node, "planet")
-  #xml_add_child(primary_planet_event_node, "sysPos", i)
-  #TODO: actually loop through and make some decisions This should come after 
-  #planetary loop.
-  #xml_add_child(primary_planet_event_node, planet_events)
   
   #now cycle through planets and create planet nodes
   for(j in 1:nrow(system$planets)) {
@@ -534,10 +529,7 @@ for(i in 1:xml_length(planets)) {
     }
   }
   
-  #TODO: cycle through existing events and figure out whether to assign them to a 
-  #planet or to the system
-  
-  #get existing planet events and preparet to move them over
+  #get existing planet events and move them over
   planet_events <- get_planet_id(events, id)
   primary_planet_events <- get_planet_syspos(system_event_node, primary_slot)
   for(event in xml_find_all(planet_events, "event")) {
@@ -553,10 +545,24 @@ for(i in 1:xml_length(planets)) {
     }
   }
   
+  #get name changes and move them over
+  planet_name_changes <- get_planet_id(name_changes, id)
+  if(length(planet_name_changes)>0) {
+    system_name_node <- xml_add_child(systems_name_changes, "system")
+    xml_add_child(system_name_node, "id", id)
+    primary_planet_name_node <- xml_add_child(system_name_node, "planet")
+    xml_add_child(primary_planet_name_node, "sysPos", primary_slot)
+    for(planet_name_change in xml_find_all(planet_name_changes, "event")) {
+      xml_add_child(primary_planet_name_node, event)
+    }
+  }
+    
   cat("\n\tdone\n")
 }
 
+cat(as.character(systems), file = "systems.xml")
+cat(as.character(systems_events), file = "system_events.xml")
+cat(as.character(systems_name_changes), file = "system_namechanges.xml")
+
 #TODO: a similar for-loop for connectors but no need to force habitation
 
-cat(as.character(systems), file = "test_systems.xml")
-cat(as.character(systems_events), file = "test_events.xml")
