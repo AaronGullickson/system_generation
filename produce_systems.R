@@ -24,7 +24,7 @@ systems <- xml_new_document() %>% xml_add_child("systems")
 systems_events <- xml_new_document() %>% xml_add_child("systems")
 systems_name_changes <- xml_new_document() %>% xml_add_child("systems")
 
-for(i in 1:10) {#xml_length(planets)) {
+for(i in 1:xml_length(planets)) {
   
   #### Read in a planet's data ####
   
