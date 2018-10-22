@@ -261,7 +261,6 @@ for(i in 1:xml_length(planets)) {
   system_event_node <- xml_add_child(systems_events, "system")
   
   xml_add_child(system_node, "id", id)
-  xml_add_child(system_node, "name", name)
   xml_add_child(system_node, "xcood", x)
   xml_add_child(system_node, "ycood", y)
   xml_add_child(system_event_node, "id", id)
@@ -553,7 +552,7 @@ for(i in 1:xml_length(planets)) {
     primary_planet_name_node <- xml_add_child(system_name_node, "planet")
     xml_add_child(primary_planet_name_node, "sysPos", primary_slot)
     for(planet_name_change in xml_find_all(planet_name_changes, "event")) {
-      xml_add_child(primary_planet_name_node, event)
+      xml_add_child(primary_planet_name_node, planet_name_change)
     }
   }
     
