@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<systems>
+  <system>
+    <id>Adhara (Trip 3040+)</id>
+    <planet>
+      <sysPos>3</sysPos>
+      <event>
+        <date>2721-01-01</date>
+        <hpg>B</hpg>
+      </event>
+      <event>
+        <date>2721-01-01</date>
+        <hpg>B</hpg>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Andiron (Helbrent 3025-)</id>
+    <planet>
+      <sysPos>3</sysPos>
+      <event>
+        <date>3081-05-01</date>
+        <faction>PIND</faction>
+      </event>
+      <event>
+        <date>3081-05-01</date>
+        <faction>PIND</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Baltazar III (Himmels 3025-)</id>
+    <planet>
+      <sysPos>2</sysPos>
+      <event>
+        <date>3081-05-01</date>
+        <faction>PIND</faction>
+      </event>
+      <event>
+        <date>3081-05-01</date>
+        <faction>PIND</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Barlow's Folly (Cussar 2864-)</id>
+    <planet>
+      <sysPos>3</sysPos>
+      <event>
+        <date>2864-01-01</date>
+        <message>Cussar renamed to Barlow's Folly</message>
+        <name>Barlow's Folly</name>
+      </event>
+      <event>
+        <date>2864-01-01</date>
+        <message>Cussar renamed to Barlow's Folly</message>
+        <name>Barlow's Folly</name>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Blantleff (Dersidatz 3025-)</id>
+    <planet>
+      <sysPos>1</sysPos>
+      <event>
+        <date>3130-01-01</date>
+        <faction>MH</faction>
+      </event>
+      <event>
+        <date>3130-01-01</date>
+        <faction>MH</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Carver V (Liberty 3063+)</id>
+    <planet>
+      <sysPos>1</sysPos>
+      <event>
+        <date>3085-01-01</date>
+        <faction>ROS</faction>
+      </event>
+      <event>
+        <date>3085-01-01</date>
+        <faction>ROS</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Clayborne II (Green Stone 3025-)</id>
+    <planet>
+      <sysPos>1</sysPos>
+      <event>
+        <date>3081-05-01</date>
+        <faction>PIND</faction>
+      </event>
+      <event>
+        <date>3081-05-01</date>
+        <faction>PIND</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Diedre's Den (Iolas 3025-)</id>
+    <planet>
+      <sysPos>2</sysPos>
+      <event>
+        <date>3081-05-01</date>
+        <faction>PIND</faction>
+      </event>
+      <event>
+        <date>3081-05-01</date>
+        <faction>PIND</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Elgin (Chisholm 2878-)</id>
+    <planet>
+      <sysPos>3</sysPos>
+      <event>
+        <date>3081-01-01</date>
+        <faction>ROS</faction>
+      </event>
+      <event>
+        <date>3081-01-01</date>
+        <faction>ROS</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Gulf Breeze (Commonwealth Mining Outpost 26 3057-)</id>
+    <planet>
+      <sysPos>3</sysPos>
+      <event>
+        <date>3057-09-18</date>
+        <faction>LA</faction>
+      </event>
+      <event>
+        <date>3057-09-18</date>
+        <faction>LA</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Homer (Zara 2850-)</id>
+    <planet>
+      <sysPos>1</sysPos>
+      <event>
+        <date>3085-01-01</date>
+        <faction>CCC,CCO</faction>
+      </event>
+      <event>
+        <date>3085-01-01</date>
+        <faction>CCC,CCO</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Jardine (Herakleion 2822+)</id>
+    <planet>
+      <sysPos>4</sysPos>
+      <event>
+        <date>3068-01-01</date>
+        <faction>ABN</faction>
+      </event>
+      <event>
+        <date>3068-01-01</date>
+        <faction>ABN</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Liao (Cynthiana 2202-)</id>
+    <planet>
+      <sysPos>1</sysPos>
+      <event>
+        <date>3134-07-01</date>
+        <faction>CC</faction>
+      </event>
+      <event>
+        <date>3134-07-01</date>
+        <faction>CC</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Murrain (Richmond's World 3025-)</id>
+    <planet>
+      <sysPos>2</sysPos>
+      <event>
+        <date>3025-01-01</date>
+        <message>Richmond's World renamed to Murrain</message>
+        <name>Murrain</name>
+        <faction>IE</faction>
+      </event>
+      <event>
+        <date>3025-01-01</date>
+        <message>Richmond's World renamed to Murrain</message>
+        <name>Murrain</name>
+        <faction>IE</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Neukirchen (Jodipur 3025-)</id>
+    <planet>
+      <sysPos>4</sysPos>
+      <event>
+        <date>3067-04-20</date>
+        <faction>FS</faction>
+      </event>
+      <event>
+        <date>3067-04-20</date>
+        <faction>FS</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>New Earth (Tau Ceti 2116-)</id>
+    <planet>
+      <sysPos>4</sysPos>
+      <event>
+        <date>3081-01-01</date>
+        <faction>ROS</faction>
+      </event>
+      <event>
+        <date>3081-01-01</date>
+        <faction>ROS</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Pain (Dijonne 3050-)</id>
+    <planet>
+      <sysPos>1</sysPos>
+      <event>
+        <date>3087-06-01</date>
+        <faction>RT</faction>
+      </event>
+      <event>
+        <date>3087-06-01</date>
+        <faction>RT</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Pirates Haven (50) (Badlands Cluster 3025-)</id>
+    <planet>
+      <sysPos>3</sysPos>
+      <event>
+        <date>3025-01-01</date>
+        <message>Badlands Cluster (50) renamed to Pirates Haven (50)</message>
+        <name>Pirates Haven (50)</name>
+        <faction>IND</faction>
+      </event>
+      <event>
+        <date>3025-01-01</date>
+        <message>Badlands Cluster (50) renamed to Pirates Haven (50)</message>
+        <name>Pirates Haven (50)</name>
+        <faction>IND</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Randis IV (Hope IV 2988-)</id>
+    <planet>
+      <sysPos>1</sysPos>
+      <event>
+        <date>2989-01-01</date>
+        <faction>FOR</faction>
+      </event>
+      <event>
+        <date>2989-01-01</date>
+        <faction>FOR</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Sharpe (Obeedah 3025+)</id>
+    <planet>
+      <sysPos>3</sysPos>
+      <event>
+        <date>3057-09-01</date>
+        <faction>WOB</faction>
+      </event>
+      <event>
+        <date>3057-09-01</date>
+        <faction>WOB</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Shaula (Perrot 3025-)</id>
+    <planet>
+      <sysPos>1</sysPos>
+      <event>
+        <date>3145-01-01</date>
+        <faction>CJF</faction>
+      </event>
+      <event>
+        <date>3145-01-01</date>
+        <faction>CJF</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Tanis (Radulov 2600-)</id>
+    <planet>
+      <sysPos>3</sysPos>
+      <event>
+        <date>3075-01-30</date>
+        <faction>ABN</faction>
+      </event>
+      <event>
+        <date>3075-01-30</date>
+        <faction>ABN</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>The Rack (Port Vail 3050-)</id>
+    <planet>
+      <sysPos>2</sysPos>
+      <event>
+        <date>3087-06-01</date>
+        <faction>RT</faction>
+      </event>
+      <event>
+        <date>3087-06-01</date>
+        <faction>RT</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Versailles (Taussen 2822+)</id>
+    <planet>
+      <sysPos>1</sysPos>
+      <event>
+        <date>3057-09-01</date>
+        <faction>WOB</faction>
+      </event>
+      <event>
+        <date>3057-09-01</date>
+        <faction>WOB</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Victoria (Meglan 2537-)</id>
+    <planet>
+      <sysPos>1</sysPos>
+      <event>
+        <date>3067-04-20</date>
+        <faction>FS</faction>
+      </event>
+      <event>
+        <date>3067-04-20</date>
+        <faction>FS</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Von Strang's World (Erin 2830-)</id>
+    <planet>
+      <sysPos>1</sysPos>
+      <event>
+        <date>3100-02-07</date>
+        <faction>TB</faction>
+      </event>
+      <event>
+        <date>3100-02-07</date>
+        <faction>TB</faction>
+      </event>
+    </planet>
+  </system>
+  <system>
+    <id>Winfield (Treeline 2863-)</id>
+    <planet>
+      <sysPos>2</sysPos>
+      <event>
+        <date>3100-01-01</date>
+        <faction>CHH</faction>
+      </event>
+      <event>
+        <date>3100-01-01</date>
+        <faction>CHH</faction>
+      </event>
+    </planet>
+  </system>
+</systems>
