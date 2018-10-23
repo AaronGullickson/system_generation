@@ -530,7 +530,7 @@ for(i in 1:xml_length(planets)) {
       #TODO: adjust for canon entries
       sics_projections <- project_sics(planet$tech, planet$industry, planet$raw, 
                                        planet$output,planet$agriculture, 
-                                       found_year, pop)
+                                       founding_year, pop)
       
       for(i in 1:nrow(sics_projections)) {
         sics_projection <- sics_projections[i,]
