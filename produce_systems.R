@@ -525,8 +525,57 @@ for(i in 1:xml_length(planets)) {
         xml_add_child(pop_event, "date", paste(3145,"01","01",sep="-"))
         xml_add_child(pop_event, "population", p3145, source="canon")
       }
+      
+      #SIC Codes 
+      #TODO: adjust for canon entries
+      sics_projections <- project_sics(planet$tech, planet$industry, planet$raw, 
+                                       planet$output,planet$agriculture, 
+                                       found_year, pop)
+      
+      for(i in 1:nrow(sics_projections)) {
+        sics_projection <- sics_projections[i,]
+        sics_event <- xml_add_child(current_planet_event_node, "event")
+        xml_add_child(sics_event, "date", paste(sics_projection$year,"01","01",sep="-"))
+        xml_add_child(sics_event, "socioIndustrial", paste(sics_projection$sics), 
+                      source="noncanon")
+      }
+      
+      
     }
   }
+  
+  
+  
+  #I am thinking the following plan for SIC codes. First, we will
+  #start by determining a peak Star League SIC code. This should be quite
+  #similar to generated SIC codes but allow for some movements both up and down,
+  #but more up and related shifts across the code. This SL code will be set up
+  #as the code at 2700. Then forward and backward project from here at certain
+  #intervalus. intervals. Within each of these time intervals, there will be a
+  #certain probability of dropping/increasing a SIC level by the existing SIC
+  #level. This probability may be affected by things like depopulation and the
+  #contemporaneous loss of SIC for other characteristics, as well as faction.
+  #Then cycle backwards and test for loss in each time period. The actual date
+  #of the change will be randomly distributed within the time period so that
+  #there is more of a natural progression of progress and decline.
+  
+  # Here are the time periods I am currently thinking about:
+  #
+  # 2800-2900. The Succession Wars. All planets should be dropped to a B tech at
+  # most and some may even suffer double drops. Pobability of drops throughout
+  # the rest of the distribution as well. This loss of tech should have
+  # potential effects on other SIC codes as well, particularly industry and
+  # output. I might do this in two groups with a smaller chance of a drop on the second
+  # interval, but allowing for possibility of multiple drops during the time period.
+  #
+  # 3040-3055. This is the period of the IS reinassance. This should just give
+  # the codes actually generated. If a particular code did drop by more than
+  # one, then I may want to allow for two changes during this time period, to
+  # get a smoother change.
+  # 
+  # TODO: Work out what to do going the other direction. 
+
+  
   
   #get existing planet events and move them over
   planet_events <- get_planet_id(events, id)

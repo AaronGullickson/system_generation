@@ -1342,6 +1342,185 @@ get_gompertz_rates <- function(ending_pop, start_colony_size, time_length) {
   return(rates)
 }
 
+#### SICS Projection Functions ####
+
+project_sics <- function(tech, industry, raw, output, agriculture,
+                         found_year, pop) {
+  
+  sics <- list(tech=tech, industry=industry, raw=raw, output=output, 
+               agriculture=agriculture)
+  
+  #TODO: Figure out better starting colony values by a variety of characteristics
+  #and allowing for some randomness
+  sics_colony <- list(tech=factor("C", levels=levels(sics$tech), ordered=TRUE),
+                      industry=factor("C", levels=levels(sics$industry), ordered=TRUE),
+                      raw=factor("B", levels=levels(sics$raw), ordered=TRUE),
+                      output=factor("C", levels=levels(sics$output), ordered=TRUE),
+                      agriculture=factor("C", levels=levels(sics$agriculture), ordered=TRUE))
+  
+  if(found_year<2700) {
+    #the input values will be considered to be the SIC values resulting
+    #from IS renaissance. We will assume that these value are actually
+    #close to the SL peak values. Derive SL peak values by allowing for
+    #a little bit of wiggle. 
+    odds_drop <- c(0,0,0.05,0.05,0.1,0.1)
+    odds_increase <- c(4,2,0.7,0.7,0.3,0)
+    sics_sl <- adjust_sics(sics, odds_drop, odds_increase,
+                           pop_ratio = pop["2700"]/pop["3049"])
+    
+    #now roll for diminished SICS twice during SW period
+    odds_drop <- c(0,0,0.3,0.7,3,100000)
+    odds_increase <- c(0,0,0,0,0,0)
+    sics_sw1 <- adjust_sics(sics_sl, odds_drop, odds_increase,
+                            pop_ratio = pop["2850"]/pop["2700"])
+    sics_sw2 <- adjust_sics(sics_sw1, odds_drop, odds_increase,
+                            pop_ratio = pop["2950"]/pop["2850"])
+    
+    #TODO: randomize SW and SL years
+    sic_changes <- rbind(interpolate_sics(sics_colony, sics_sl, found_year, 2700),
+                         data.frame(year=2825, sics=combine_sics(sics_sw1)), 
+                         interpolate_sics(sics_sw2, sics, 2900, 3049, 3025))
+    return(sic_changes)
+  } else {
+    #just interpolate between colony and now 
+    return(interpolate_sics(sics_colony, sics, found_year, 3049))
+  }
+}
+
+adjust_sics <- function(sics, odds_drop, odds_increase,
+                        pop_ratio=1) {
+  
+  tech <- sics$tech[1]
+  industry <- sics$industry[1]
+  raw <- sics$raw[1]
+  output <- sics$output[1]
+  agriculture <- sics$agriculture[1]
+ 
+  pop_modifier <- min(max(pop_ratio, 0.2), 5)
+  
+  tech_new <- roll_sics(tech, odds_drop/pop_modifier, odds_increase*pop_modifier)
+  #get rid of bottom category for others
+  odds_drop <- odds_drop[-1]
+  odds_increase <- odds_increase[-1]
+  agriculture_new <- roll_sics(agriculture, odds_drop, odds_increase)
+  #industry and raw materials should be affected by change in tech level
+  if(tech_new>tech) {
+    odds_increase <- odds_increase * 2
+    odds_drop <- odds_drop * 0.5
+  } else if(tech_new<tech) {
+    odds_increase <- odds_increase * 0.5
+    odds_drop <- odds_drop * 2
+  }
+  industry_new <- roll_sics(industry, odds_drop, odds_increase)
+  #TODO: raw materials should also be affected by timing of settlement
+  raw_new <- roll_sics(raw, odds_drop, odds_increase)
+  #output should be affectd by industry rating and technology
+  if(industry_new>industry) {
+    odds_increase <- odds_increase * 2
+    odds_drop <- odds_drop * 0.5
+  } else if(industry_new<industry) {
+    odds_increase <- odds_increase * 0.5
+    odds_drop <- odds_drop * 2
+  }
+  output_new <- roll_sics(output, odds_drop, odds_increase)
+  
+  return(list(tech=tech_new, industry=industry_new, raw=raw_new, 
+              output=output_new, agriculture=agriculture_new))
+}
+
+combine_sics <- function(sics) {
+  return(paste(simplify2array(sics), collapse="-"))
+}
+
+#do everything in terms of odds to makae sure we stay on a scale that adds
+#up to one
+roll_sics <- function(value, odds_drop, odds_increase) {
+  probs <- cbind(odds_drop/(1+odds_drop+odds_increase),
+                 1/(1+odds_drop+odds_increase),
+                 odds_increase/(1+odds_drop+odds_increase))[as.numeric(value),]
+  move <- sample(c(-1,0,1), 1, prob=probs)
+  return(factor(levels(value)[as.numeric(value)+move],
+                levels=levels(value), ordered=TRUE))
+}
+
+interpolate_sics <- function(sics_start, sics_end, start_year, end_year,
+                             start_interval=start_year, end_interval=end_year) {
+  #interpolate intermediate values of SICS between, start_year
+  #does not have to be same as starting year of the SICS if you want
+  #to concentrate changes at a different point
+  
+  start <- sapply(sics_start, as.numeric)
+  end <- sapply(sics_end, as.numeric)
+  
+  #figure out total changes for each group
+  changes <- end-start
+  
+  total <- rbind(start)
+  
+  new_values <- start
+  #always change the biggest absolute differences first
+  while(sum(changes!=0)!=0) {
+    max_change <- max(changes)
+    min_change <- min(changes)
+    #if both a min and max change are possible then decide randomly which to do
+    do_max_change <- max_change>0
+    do_min_change <- min_change<0
+    if(do_max_change & do_min_change) {
+      if(sample(c(TRUE,FALSE),1)) {
+        do_min_change <- FALSE
+      } else {
+        do_max_change <- FALSE
+      }
+    }
+    if(do_max_change) {
+      new_values[max_change==changes] <- new_values[max_change==changes]+1
+    } else {
+      new_values[min_change==changes] <- new_values[min_change==changes]-1
+    }
+    total <- rbind(total, new_values)
+    changes <- end-new_values
+  }
+  
+  rownames(total) <- NULL
+  total <- as.data.frame(total)
+  total$tech <- factor(total$tech,
+                       levels=1:6,
+                       labels=levels(sics_end$tech),
+                       ordered=TRUE)
+  total$industry <- factor(total$industry,
+                           levels=1:5,
+                           labels=levels(sics_end$industry),
+                           ordered=TRUE)
+  total$raw <- factor(total$raw,
+                      levels=1:5,
+                      labels=levels(sics_end$raw),
+                      ordered=TRUE)
+  total$output <- factor(total$output,
+                         levels=1:5,
+                         labels=levels(sics_end$output),
+                         ordered=TRUE)
+  total$agriculture <- factor(total$agriculture,
+                              levels=1:5,
+                              labels=levels(sics_end$agriculture),
+                              ordered=TRUE)
+  
+  #figure out years of change
+  n <- nrow(total)-2
+  length <- (end_interval-start_interval)
+  rate <- n/length
+  
+  #sample from waiting times with a mean equal to the length 
+  waiting_times <- round(rexp(n,rate=rate))
+  while(sum(waiting_times)>=length) {
+    waiting_times <- round(rexp(n,rate=rate))
+  }
+  years <- c(start_year, start_interval + cumsum(waiting_times), end_year)
+  
+  data.frame(year=years,
+             sics=apply(total, 1, combine_sics))
+  
+}
+
 #### Utility Functions ####
 
 #distance to border for a given faction
