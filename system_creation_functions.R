@@ -1506,15 +1506,19 @@ interpolate_sics <- function(sics_start, sics_end, start_year, end_year,
   
   #figure out years of change
   n <- nrow(total)-2
-  length <- (end_interval-start_interval)
-  rate <- n/length
-  
-  #sample from waiting times with a mean equal to the length 
-  waiting_times <- round(rexp(n,rate=rate))
-  while(sum(waiting_times)>=length) {
+  if(n>0) {
+    length <- (end_interval-start_interval)
+    rate <- n/length
+    
+    #sample from waiting times with a mean equal to the length 
     waiting_times <- round(rexp(n,rate=rate))
+    while(sum(waiting_times)>=length) {
+      waiting_times <- round(rexp(n,rate=rate))
+    }
+    years <- c(start_year, start_interval + cumsum(waiting_times), end_year)
+  } else {
+    years <- c(start_year, end_year)
   }
-  years <- c(start_year, start_interval + cumsum(waiting_times), end_year)
   
   data.frame(year=years,
              sics=apply(total, 1, combine_sics))
