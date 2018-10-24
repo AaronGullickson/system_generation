@@ -38,7 +38,7 @@ get_event_data <- function(events, id, event_type) {
 #get the closest event to the given date that is not later than the 
 #given date and not before the min_date (ignore min_date if NA)
 get_closest_event <- function(event_table, chosen_date, min_date=NA) {
-  date_diff <- faction_table$date-chosen_date
+  date_diff <- event_table$date-chosen_date
   if(sum(date_diff<=0)==0) {
     return(NA)
   }

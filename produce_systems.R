@@ -91,11 +91,11 @@ for(i in 1:xml_length(planets)) {
      }
   }
   
-  sic_table <- get_event_data(events, id, "sic")
+  sic_table <- get_event_data(events, id, "socioIndustrial")
   if(!is.null(sic_table)) {
-    #SIC must be within 20 years of target year
-    temp <- get_closest_event(sic_table, target_date, 
-                              as.Date(paste(target_year-20,"01","01",sep="-")))
+    #SIC must be between 3045 and 3080 to use
+    temp <- get_closest_event(sic_table, as.Date(paste(3080,"01","01",sep="-")), 
+                              as.Date(paste(3045,"01","01",sep="-")))
     if(!is.na(temp)) {
       sic <- temp
     }
@@ -527,17 +527,34 @@ for(i in 1:xml_length(planets)) {
       }
       
       #SIC Codes 
-      #TODO: adjust for canon entries
-      sics_projections <- project_sics(planet$tech, planet$industry, planet$raw, 
-                                       planet$output,planet$agriculture, 
-                                       founding_year, pop)
+      tech <- planet$tech
+      industry <- planet$industry
+      raw <- planet$raw
+      output <- planet$output
+      agriculture <- planet$agriculture
+      if(!is.na(sic)) {
+        #TODO: adjust for canon SIC entries for different time periods
+        canon_sics <- separate_sics(sic)
+        tech <- canon_sics$tech
+        industry <- canon_sics$industry
+        raw <- canon_sics$raw
+        output <- canon_sics$output
+        agriculture <- canon_sics$agriculture
+      }
+      sics_projections <- project_sics(tech, industry, raw, output, agriculture, 
+                                       founding_year, pop, faction_type)
       
       for(i in 1:nrow(sics_projections)) {
         sics_projection <- sics_projections[i,]
         sics_event <- xml_add_child(current_planet_event_node, "event")
         xml_add_child(sics_event, "date", paste(sics_projection$year,"01","01",sep="-"))
-        xml_add_child(sics_event, "socioIndustrial", paste(sics_projection$sics), 
-                      source="noncanon")
+        if(i == nrow(sics_projections) & !is.na(sic)) {
+          xml_add_child(sics_event, "socioIndustrial", paste(sics_projection$sics), 
+                        source="canon")
+        } else {
+          xml_add_child(sics_event, "socioIndustrial", paste(sics_projection$sics), 
+                       source="noncanon")
+        }
       }
       
       

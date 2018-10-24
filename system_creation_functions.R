@@ -1345,20 +1345,38 @@ get_gompertz_rates <- function(ending_pop, start_colony_size, time_length) {
 #### SICS Projection Functions ####
 
 project_sics <- function(tech, industry, raw, output, agriculture,
-                         found_year, pop) {
+                         founding_year, pop, faction_type) {
+  
+  #current year should be between 3040 and 3049
+  current_year <- 3040 + sample(0:9, 1)
   
   sics <- list(tech=tech, industry=industry, raw=raw, output=output, 
                agriculture=agriculture)
+
+  sics_colony <- get_colony_sics(sics, founding_year, current_year,
+                                 faction_type)
   
-  #TODO: Figure out better starting colony values by a variety of characteristics
-  #and allowing for some randomness
-  sics_colony <- list(tech=factor("C", levels=levels(sics$tech), ordered=TRUE),
-                      industry=factor("C", levels=levels(sics$industry), ordered=TRUE),
-                      raw=factor("B", levels=levels(sics$raw), ordered=TRUE),
-                      output=factor("C", levels=levels(sics$output), ordered=TRUE),
-                      agriculture=factor("C", levels=levels(sics$agriculture), ordered=TRUE))
-  
-  if(found_year<2700) {
+  if(founding_year<2700) {
+    
+    #we need a year of SL peak, and a first and second SW decline date
+    #assign these somewhat randomly by drawing from exponential distribution
+    
+    #SL peak year (target 2700-2750, mean 2710)
+    year_sl <- round(2700+rexp(1,.1))
+    while(year_sl>2750) {
+      year_sl <- round(2700+rexp(1,.1))
+    }
+    #1st SW drop (target 2840-2880, mean 2850)
+    year_1sw <- round(2840+rexp(1,.1))
+    while(year_1sw>2880) {
+      year_1sw <- round(2840+rexp(1,.1))
+    }
+    #second SW drop (target 2890-2950, mean 2900)
+    year_2sw <- round(2890+rexp(1,.1))
+    while(year_2sw>2950) {
+      year_2sw <- round(2890+rexp(1,.1))
+    }
+    
     #the input values will be considered to be the SIC values resulting
     #from IS renaissance. We will assume that these value are actually
     #close to the SL peak values. Derive SL peak values by allowing for
@@ -1366,29 +1384,69 @@ project_sics <- function(tech, industry, raw, output, agriculture,
     odds_drop <- c(0,0,0.05,0.05,0.1,0.1)
     odds_increase <- c(4,2,0.7,0.7,0.3,0)
     sics_sl <- adjust_sics(sics, odds_drop, odds_increase,
-                           pop_ratio = pop["2700"]/pop["3049"])
+                           pop_ratio = pop[paste(year_sl)]/pop[paste(current_year)],
+                           year_sl-founding_year)
     
     #now roll for diminished SICS twice during SW period
     odds_drop <- c(0,0,0.3,0.7,3,100000)
     odds_increase <- c(0,0,0,0,0,0)
     sics_sw1 <- adjust_sics(sics_sl, odds_drop, odds_increase,
-                            pop_ratio = pop["2850"]/pop["2700"])
+                            pop_ratio = pop[paste(year_1sw)]/pop[paste(year_sl)],
+                            year_1sw-founding_year)
     sics_sw2 <- adjust_sics(sics_sw1, odds_drop, odds_increase,
-                            pop_ratio = pop["2950"]/pop["2850"])
+                            pop_ratio = pop[paste(year_2sw)]/pop[paste(year_1sw)],
+                            year_2sw-founding_year)
     
-    #TODO: randomize SW and SL years
-    sic_changes <- rbind(interpolate_sics(sics_colony, sics_sl, found_year, 2700),
-                         data.frame(year=2825, sics=combine_sics(sics_sw1)), 
-                         interpolate_sics(sics_sw2, sics, 2900, 3049, 3025))
+    sic_changes <- rbind(interpolate_sics(sics_colony, sics_sl, founding_year, 
+                                          year_sl),
+                         data.frame(year=year_1sw, sics=combine_sics(sics_sw1)), 
+                         interpolate_sics(sics_sw2, sics, year_2sw, current_year, 
+                                          3025))
     return(sic_changes)
   } else {
     #just interpolate between colony and now 
-    return(interpolate_sics(sics_colony, sics, found_year, 3049))
+    return(interpolate_sics(sics_colony, sics, founding_year, current_year))
   }
 }
 
+get_colony_sics <- function(sics, founding_year, current_year, faction_type) {
+  
+  tech_colony <- factor("C", levels=levels(sics$tech), ordered=TRUE)
+  industry_colony <- factor("D", levels=levels(sics$industry), ordered=TRUE)
+  output_colony <- factor("D", levels=levels(sics$output), ordered=TRUE)
+  if(faction_type=="Clan") {
+    #clan colonies start better
+    tech_colony <- factor("B", levels=levels(sics$tech), ordered=TRUE)
+    industry_colony <- factor("C", levels=levels(sics$industry), ordered=TRUE)
+    output_colony <- factor("C", levels=levels(sics$output), ordered=TRUE)
+  }
+  #raw materials should start as the same as current (colony age will come into
+  #play when we randomize a bit)
+  raw_colony <- as.numeric(sics$raw)
+  raw_colony <- factor(raw_colony, levels=1:5,
+                       labels=c("F","D","C","B","A"), ordered=TRUE)
+  #agriculture should start as one less than current
+  agriculture_colony <- max(as.numeric(sics$agriculture)-1,1)
+  agriculture_colony <- factor(agriculture_colony, levels=1:5,
+                               labels=c("F","D","C","B","A"), ordered=TRUE)
+  
+  sics_colony <- list(tech=tech_colony,
+                      industry=industry_colony,
+                      raw=raw_colony,
+                      output=output_colony,
+                      agriculture=agriculture_colony)
+  
+  #now lets apply some randomness to these values
+  odds_drop <- c(0,0,0.1,0.1,0.1,0.1)
+  odds_increase <- c(0.1,0.1,0.1,0.1,0.1,0)
+  sics_colony <- adjust_sics(sics_colony, odds_drop, odds_increase,
+                             1, 0)
+}
+
+#randomly drop or raise SIC codes based on vectors of odds of increase 
+#or decrease for each level.
 adjust_sics <- function(sics, odds_drop, odds_increase,
-                        pop_ratio=1) {
+                        pop_ratio=1, colony_age) {
   
   tech <- sics$tech[1]
   industry <- sics$industry[1]
@@ -1412,8 +1470,12 @@ adjust_sics <- function(sics, odds_drop, odds_increase,
     odds_drop <- odds_drop * 2
   }
   industry_new <- roll_sics(industry, odds_drop, odds_increase)
-  #TODO: raw materials should also be affected by timing of settlement
-  raw_new <- roll_sics(raw, odds_drop, odds_increase)
+  #raw materials should also be affected by timing of settlement
+  age_modifier <- 1
+  if(colony_age < 250) {
+    age_modifier <- 2
+  }
+  raw_new <- roll_sics(raw, odds_drop/age_modifier, odds_increase*age_modifier)
   #output should be affectd by industry rating and technology
   if(industry_new>industry) {
     odds_increase <- odds_increase * 2
@@ -1428,10 +1490,6 @@ adjust_sics <- function(sics, odds_drop, odds_increase,
               output=output_new, agriculture=agriculture_new))
 }
 
-combine_sics <- function(sics) {
-  return(paste(simplify2array(sics), collapse="-"))
-}
-
 #do everything in terms of odds to makae sure we stay on a scale that adds
 #up to one
 roll_sics <- function(value, odds_drop, odds_increase) {
@@ -1441,6 +1499,23 @@ roll_sics <- function(value, odds_drop, odds_increase) {
   move <- sample(c(-1,0,1), 1, prob=probs)
   return(factor(levels(value)[as.numeric(value)+move],
                 levels=levels(value), ordered=TRUE))
+}
+
+combine_sics <- function(sics) {
+  return(paste(simplify2array(sics), collapse="-"))
+}
+
+separate_sics <- function(sics) {
+  codes <- strsplit(sics, "-")[[1]]
+  tech <- factor(codes[1],
+                 levels=c("X","F","D","C","B","A"),
+                 ordered=TRUE)
+  codes <- factor(codes[-1],
+                  levels=c("F","D","C","B","A"),
+                  ordered=TRUE)
+  
+  return(list(tech=tech, industry=codes[1], raw=codes[2], output=codes[3], 
+              agriculture=codes[4]))
 }
 
 interpolate_sics <- function(sics_start, sics_end, start_year, end_year,
