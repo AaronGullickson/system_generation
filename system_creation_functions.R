@@ -1347,12 +1347,17 @@ get_gompertz_rates <- function(ending_pop, start_colony_size, time_length) {
 project_sics <- function(tech, industry, raw, output, agriculture,
                          founding_year, pop, faction_type) {
   
+  sics <- list(tech=tech, industry=industry, raw=raw, output=output, 
+               agriculture=agriculture)
+  
   #current year should be between 3040 and 3049
   current_year <- 3040 + sample(0:9, 1)
   
-  sics <- list(tech=tech, industry=industry, raw=raw, output=output, 
-               agriculture=agriculture)
-
+  #if founded in the last 10 years then just use the one SIC code
+  if(founding_year>=(current_year-10)) {
+    return(data.frame(year=founding_year, sics=combine_sics(sics)))
+  }
+  
   sics_colony <- get_colony_sics(sics, founding_year, current_year,
                                  faction_type)
   
