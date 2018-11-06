@@ -56,19 +56,19 @@ clean_name <- function(name) {
 }
 
 name_data$search_name <- clean_name(name_data$founding_name)
-write.csv(name_data, file="search_name.csv", fileEncoding = "UTF-8")
+#write.csv(name_data, file="search_name.csv", fileEncoding = "UTF-8")
 
 #check for star names
 name_data$country_match <- NA
 
 name_data$country_match[name_data$search_name %in% star_names] <- "STAR"
 
-#since we can only make 2500 calls a day, lets
-#first try a sample of 500 planets to see how well it works
-sampled_idx <- sample(1:nrow(name_data), 500, replace=FALSE)
+#sampled_idx <- sample(1:nrow(name_data), 500, replace=FALSE)
 full_matches <- NULL
-#TODO: make sure we don't sample too many calls for the day (2500 limit)
 for(i in 1:nrow(name_data)) {
+  if(!is.na(name_data$country_match[i])) {
+    next
+  }
   id <- name_data$id[i]
   search_name <- name_data$search_name[i]
   cat(search_name)
@@ -80,9 +80,9 @@ for(i in 1:nrow(name_data)) {
     cat(paste(" found", nrow(results$results), "possible matches"))
     #TODO: include language info
     full_matches <- rbind(full_matches, cbind(id, search_name, 
-                                              results$results[,c("components.country",
-                                                                 "components._type",
-                                                                 "confidence")]))
+                                              results$results[,c("components.ISO_3166-1_alpha-2",
+                                                                 "components.country",
+                                                                 "components._type")]))
   } else {
     cat(" NO MATCHES")
     full_matches <- rbind(full_matches, c(id, search_name, NA, NA, NA))
@@ -93,7 +93,7 @@ for(i in 1:nrow(name_data)) {
   #check to see if we hit out limit and if so, sleep until we get to the reset
   if(results$rate_info$remaining<=0) {
     cat("Hit open cage limit. Sleeping until reset...")
-    Sys.sleep(as.numeric(difftime(results$rate_info$reset,Sys.time(),units="secs")))
+    Sys.sleep(as.numeric(difftime(results$rate_info$reset,Sys.time(),units="secs"))+60*5)
     cat("Waking up!\n")
   }
 }
@@ -101,7 +101,7 @@ for(i in 1:nrow(name_data)) {
 #cycle through all the unique ids and decide on a best match
 priority_type=c("county","state","city", "village", "peak", "neighborhood",
                 "park", "nature_preserve", "road", "stream", "university") 
-name_data$country_match <- NA
+name_data$country_iso <- NA
 for(this_id in name_data$id) {
   matches <- subset(full_matches, id==this_id)
   best_match <- NULL
@@ -109,11 +109,16 @@ for(this_id in name_data$id) {
     for(type in priority_type) {
       temp <- subset(matches, components._type==type)
       if(nrow(temp)>0) {
-        name_data$country_match[name_data$id==this_id] <- sample(unique(as.character(temp$components.country)),1)
+        name_data$country_iso[name_data$id==this_id] <- sample(unique(as.character(temp$`components.ISO_3166-1_alpha-2`)),1)
         break
       }
     }
   }
 }
 
+temp <- na.omit(unique(full_matches[,c("components.ISO_3166-1_alpha-2","components.country")]))
+correspondence <- temp[,2]
+names(correspondence) <- temp[,1]
+name_data$country_name <- correspondence[paste(name_data$country_iso)]
   
+write.csv(name_data, file="output/name_nationality.csv")
