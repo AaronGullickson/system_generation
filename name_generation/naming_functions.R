@@ -6,8 +6,10 @@
 
 #What resources will we draw on to grab a random name?
 # actual world place names (with some probability of getting the occasional "New")
-# mythological names
+# mythological names TODO: add mythological places to this list
 # surnames, perhaps applied with some kind of desriptor (e.g. Jackson's Mistake))
+# TODO: Some sort of numeric coding for things that they never bothered to name
+# TODO: a grab bag of somewhat random easter egg names
 
 #each of the types should probably have a different distribution. For example,
 #planets and moons should be more likely to pull mythological names, while cities and 
@@ -21,11 +23,28 @@
 #load the data for the random draws in at the base of this script so it doesn't need
 #to be loaded every time the function is loaded
 
-#because we will be sampling with some weights, use that library that samples with weights
-#rather than base sample, cause its super slow.
+#I will need to set up some data matrices that allows me to convert country id codes
+#into likely mythological pantheons and surname groups
+
+#some chance for moons to be just named by a number of something. Maybe some chance for 
+#continents to be named like this as well (e.g. "One" and "Two"; "A" and "B")
+
+#basic set up
+# read in country code for a given planet
+# check to see if planet is named by numerals. if so, then just assign all planets the 
+# same numeral system
+# Cycle through and name planets based on some probability of being named in a certain
+# way. Based on first method chosen, give some higher probability to continue using this
+# method.
+# Within each planet, cycle through and name moons. Probably a higher probability of naming
+# in the same way as the planet
+# Landmasses similarly and capital city should be tied in, but may have different probs. 
+
+
 
 library(wrswoR)
 load("output/myth_sample.RData")
+load("output/places_sample.RData")
 
 generate_name <- function() {
   
@@ -33,12 +52,29 @@ generate_name <- function() {
   
 }
 
+sample_place_name <- function(c, n=1) {
+  sample_country <- subset(places_sample, country==c)
+  if(nrow(sample_country)==0) {
+    warning(paste("No country named",c))
+    return(NA)
+  }
+  if(n > nrow(sample_country)) {
+    n <- nrow(sample_country)
+  }
+  sample_idx <- sample_int_expj(nrow(sample_country),
+                                n,
+                                prob=sample_country$weight)
+  return(as.character(sample_country$name[sample_idx]))
+}
 
-sample_myth_name <- function(p,n=1) {
+sample_myth_name <- function(p, n=1) {
   sample_pantheon <- subset(myth_sample, pantheon==p)
   if(nrow(sample_pantheon)==0) {
     warning(paste("No pantheon named",p))
     return(NA)
+  }
+  if(n > nrow(sample_pantheon)) {
+    n <- nrow(sample_pantheon)
   }
   sample_idx <- sample_int_expj(nrow(sample_pantheon),
                                 n,

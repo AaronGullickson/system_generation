@@ -59,9 +59,9 @@ name_data$search_name <- clean_name(name_data$founding_name)
 #write.csv(name_data, file="search_name.csv", fileEncoding = "UTF-8")
 
 #check for star names
-name_data$country_match <- NA
+name_data$country_iso <- NA
 
-name_data$country_match[name_data$search_name %in% star_names] <- "STAR"
+name_data$country_iso[name_data$search_name %in% star_names] <- "STAR"
 
 #sampled_idx <- sample(1:nrow(name_data), 500, replace=FALSE)
 full_matches <- NULL
@@ -120,5 +120,6 @@ temp <- na.omit(unique(full_matches[,c("components.ISO_3166-1_alpha-2","componen
 correspondence <- temp[,2]
 names(correspondence) <- temp[,1]
 name_data$country_name <- correspondence[paste(name_data$country_iso)]
+name_data$country_name[is.na(name_data$country_iso)] <- NA
   
 write.csv(name_data, file="output/name_nationality.csv")
