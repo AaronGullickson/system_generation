@@ -1,0 +1,702 @@
+---
+title: "Planetary Simulation"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(xml2)
+library(here)
+source(here("functions","system_creation_functions.R"))
+```
+
+This report will run a simulation that assigns system information for every planet in the `planets.xml` database so that we can examine how well the simulation produces socio-industrial codes, population, and HPG status. We run this simulation for the year of 3047 so that we can properly identify clan homeworlds, and only clan homeworlds, as clan foundings.
+
+We use the basic system detailed in *Campaign Operations* to assign these values. However, we have made a variety of tweaks to the system that are detailed below. These tweaks are intended to increase variability and reduce the "chunkiness" of the basic rules, as well as address some areas where the distributions were not producing realistic values. 
+
+## Changes to Population Generation
+
+Populations are generated in *Campaign Operations* by first calculating a base population number and then multiplying this base number by the sum of a variable number of d6 rolls. There are also "normal" base numbers and "high" base numbers where the high base numbers are produced by rolling a 6 on a single d6. 
+
+### Clan Populations
+
+The numbers for clan populations are extemely small and produce a total clan population well below the 1.2 billion cited in canon. We found that increasing the base numbers to 1 and 5 million for normal and high rolls produced a total clan population very close to 1.2 billion, while still producing clan populations that were much smaller than typical Inner Sphere countries.
+
+### Interpolating Base Population Numbers
+
+The table on pg. 123 of *Campaign Operations* gives base population numbers base on bandwidths away from Terra. This makes sense but the use of wide bandwidths produces some pretty chunky variation in population sizes. We used the base numbers and the midpoint of each bandwidth to estimate statistical models that predicted the right base number as a function of light years from Terra. This gives a nice smooth function. 
+
+```{r pop_base_estimation, echo=FALSE}
+distance <- c(250, 550, 675, 875, 1125, 1625)
+base_pop_high_sl <- c(500*10^6,100*10^6,25*10^6,5*10^6,1*10^6,2*10^5) 
+base_pop_low_sl <- c(50*10^6,10*10^6,2.5*10^6,5*10^5,1*10^5,1*10^4)
+#for recent settlement, I needed to tweak numbers a bit to fit decently with a spline
+#I halved the 500-600 LY numbers, and doubled the numbers from 500-600 and 750-1000. I also doubled the number 
+#for 600-750 low roll again, because that original number (50,000) was particularly low
+base_pop_high_recent <- c(1*10^5, 10*10^6, 2*10^6, 4*10^5, 5*10^4, 1*10^4)
+base_pop_low_recent <- c(1*10^4, 1*10^6, 2*10^5, 4*10^4, 5*10^3, 500)
+```
+
+For example, for normal rolls and a star league founding, here are the five base population numbers provided in the book (leaving out the open-ended period past 2000 LY) by the midpoint of LY from Terra for each row. 
+
+```{r pop_high_plot, echo=FALSE}
+plot(distance, base_pop_high_sl)
+model_sl_high <- lm(log(base_pop_high_sl)~distance)
+lines(distance, exp(model_sl_high$fitted.values), lwd=3, col="red")
+```
+
+The line in red shows the fit of a statistical model (in this case, an OLS regression model predicting log of the base number). This line fits the data very well ($R^2=$`r summary(model_sl_high)$r.squared`). On the original scale, this formula is:
+
+$$y=(1623754082)(0.9940732)^{(LY)}$$
+
+We estimate both cases of a Star League founding in this way. The model for more recent foundings is more complex because of the peak around 550 light years out. We use spline models with a heavy weight on the peak to fit this model. Finally, because the model for the high star league can produce very high population numbers when you get very close to zero, we cap this base number at 200 LY. So any planet within 200 LY of Terra gets the same value that a planet at exactly 200 LY would get. After all these adjustments, our models for base population are shown below for each case below. The red dots correspond to the base population numbers from *Campaign Operations*.
+
+```{r pop_model_fits, echo=FALSE}
+model_sl_low <- lm(log(base_pop_low_sl)~distance)
+before_spline <- distance-550
+before_spline[before_spline>0] <- 0
+after_spline <- distance-550
+after_spline[after_spline<0] <- 0
+model_recent_high <- lm(log(base_pop_high_recent)~before_spline+after_spline, weights=c(1,40,1,1,1,1))
+model_recent_low <- lm(log(base_pop_low_recent)~before_spline+after_spline, weights=c(1,40,1,1,1,1))
+temp <- data.frame(distance=0:2500)
+temp$before_spline <- temp$distance-550
+temp$before_spline[temp$before_spline>0] <- 0
+temp$after_spline <- temp$distance-550
+temp$after_spline[temp$after_spline<0] <- 0
+predicted_base_low_sl <-  exp(predict(model_sl_low, temp))
+predicted_base_high_recent <-  exp(predict(model_recent_high, temp))
+predicted_base_low_recent <-  exp(predict(model_recent_low, temp))
+#tweak the distance for high
+temp$distance[temp$distance<200] <- 200
+predicted_base_high_sl <-  exp(predict(model_sl_high, temp))
+
+predictions <- data.frame(base_pop=c(predicted_base_high_sl, predicted_base_low_sl,
+                                     predicted_base_high_recent, predicted_base_low_recent),
+                          sl_founding=c(rep("Star League", 2*length(predicted_base_high_recent)),
+                                        rep("Recent", 2*length(predicted_base_high_recent))),
+                          roll=c(rep(c(rep("High",length(predicted_base_high_recent)),
+                                       rep("Normal",length(predicted_base_high_recent))),2)),
+                          distance=rep(0:2500,4))
+poptable_camops <- data.frame(distance=rep(distance,4), 
+                              base_pop=c(base_pop_high_sl, base_pop_low_sl,
+                                         base_pop_high_recent, base_pop_low_recent),
+                              sl_founding=c(rep("Star League", 2*length(base_pop_high_sl)),
+                                            rep("Recent", 2*length(base_pop_high_sl))),
+                              roll=c(rep(c(rep("High",length(base_pop_high_sl)),
+                                           rep("Normal",length(base_pop_high_sl))))))
+
+ggplot(predictions, aes(x=distance, base_pop))+
+  geom_line()+
+  geom_point(data=poptable_camops, col="red")+
+  facet_wrap(~sl_founding+roll, scales="free")+
+  theme_bw()
+```
+
+We also make one other change to population generation. According to the table on pg. 123, more recent foundings only roll 2d6 rather than 4d6 for the random component of population that is multiplied by the base population to get final population. We found that this produced very small numbers for some distant periphery realms like the Hanseatic League because they were being double penalized by the base number roll and the multiplier when founded after the Star League. Therefore we use 4d6 as the base multiplier for all non-clan population multipliers. 
+
+## Changes to USILR Code Generation
+
+The most important change to the USILR code system is that we apply a gamma distribution to our final result in order to create more variability and smoother distributions of USILR codes. To to this we convert all letter codes to numerical codes (e.g. A,B,C,D,F becomes 5,4,3,2,1). After arriving at a final score $\alpha$ by the methods described in *Campaign Operations*, we then draw from a gamma distribution such that:
+
+$$score \sim gamma(\alpha, \alpha/c)$$
+
+Where $c$ is a constant that allows us to scale the variation up or down. We use $c=0.2$ for tech ratings and $c=0.1$ for all other ratings. Because tech ratings play a role in most other codes, we wanted to generate more initial variation there and less variation in later codes. Because the gamma distribution produces a continuous value, we round to the nearest integer and then convert to the appropriate letter (after reducing or increasing numbers that fall outside the range). Mathematially, the mean of this distribution will be equal to $\alpha$ but will allow for some variation above and below. For the mathematically inclined, this approach is identical to fitting a poisson distribution with a mean of $\alpha$ but with underdispersion (smaller variance than the theoretical poisson).
+
+The use of this approach helped to smooth out the distribution of ratings considerably. However the final results still frequently produced distributions that were too extreme in one direction or the other. The IS for example had almost exclusively A and B tech rated planets with a smattering of a few Cs, while the minor periphery had nearly F on everything for all planets.
+
+One of the nice features of using the gamma distribution described above is that the modifiers described on pg. 126 of *Campaign Operations* no longer have to be whole numbers. If we want to scale down the effect of one thing by 50% we can simply reduce its bonus/penalty from 1 to 0.5. Therefore, we tweaked a variety of numbers to produce smaller differentiation between cases and in particular to not penalize low population size as much. We also increased modifier sizes in a few cases. All of the modifiers we used are described in the tables below. 
+
+We also made some additional changes for clan populations. Clan planets are supposedly fairly resource poor and clan populations are small, but supposedly with the strict clan system and high technology skill, the clans have been able to prosper on these planets. We removed all population based modifiers for the clans and also added some flat clan penalties to raw materials and agriculture. 
+
+**Please also note that we reverse the direction of these modifiers, so that + means higher rating**
+
+### Technology Modifiers
+
+Base Value=4 (C). We do not use the Advanced or Regressed levels for Tech Rating by random generation.
+
+| Condition                                      | Modifier  |
+|:-----------------------------------------------|----------:|
+| Star League or earlier                         |+0.5       |
+| Population over 1 billion (non-Clan only)      |+1         |
+| Clan settlement                                |+1.5       |
+| Minor periphery                                |-0.25      |
+| Population under 100 million (non-Clan only)   |-1         | 
+| Population under 1 million (non-Clan only)     |-0.5       |
+
+### Industry Modifiers
+
+Base Balue=2.5 (C-D)
+
+| Condition                                      | Modifier  |
+|:-----------------------------------------------|----------:|
+| Tech Rating >= B                               |+0.75      |
+| Clan settlement                                |+1.5       |
+| Population over 4 billion (non-Clan only)      |+1         |
+| Population over 1 billion (non-Clan only)      |+1         |
+| Population under 100 million (non-Clan only)   |-0.5       | 
+| Population under 1 million (non-Clan only)     |-0.25      |
+| Tech Rating <= F                               |-0.75      |
+
+### Output Modifiers
+
+Base Balue=3 (C)
+
+| Condition                                      | Modifier  |
+|:-----------------------------------------------|----------:|
+| Clan settlement                                |+0.75      |
+| Population over 4 billion (non-Clan only)      |+1         |
+| Tech Rating >= A                               |+0.5       |
+| Industry Rating >= B                           |+0.5       |
+| Tech Rating <= D                               |-0.5       |
+| Industry Rating <= D                           |-0.5       |
+
+### Raw Material Modifiers
+
+Base Balue=4 (B)
+
+| Condition                                      | Modifier  |
+|:-----------------------------------------------|----------:|
+| Clan settlement                                |-1.5       |
+| Tech Rating >= C                               |+1         |
+| Density over 5.5                               |+1         |
+| Population over 3 billion (non-Clan only)      |-1         |
+| Output Rating >= B                             |-1         |
+| Settled over 250 years ago                     |-1         |
+| Density under 4                                |-1         |
+
+### Agriculture Modifiers
+
+Base Balue=3 (C)
+
+| Condition                                      | Modifier  |
+|:-----------------------------------------------|----------:|
+| Clan settlement                                |-1         |
+| Tech Rating >= B                               |+1         |
+| Industry Rating >= C                           |+1         |
+| Tech Rating <= F                               |-1         |
+| Population over 1 billion (non-Clan only)      |-1         |
+| Population over 5 billion (non-Clan only)      |-1         |
+| Water Percentage under 50%                     |-1         |
+| Tainted Atmosphere                             |-1         |
+| Toxic Atmosphere                               |-2         | 
+
+
+## Changes to HPG Generation
+
+```{r read_planets_xml, echo=FALSE}
+planets <- read_xml(here("input","planets.xml"))
+planet.table <- NULL
+target.year <- 3047
+
+for(i in 1:xml_length(planets)) {
+  planet <- xml_children(planets)[[i]]
+  pname <- xml_text(xml_find_first(planet, "id"))
+  xcood <- as.numeric(xml_text(xml_find_first(planet, "xcood")))
+  ycood <- as.numeric(xml_text(xml_find_first(planet, "ycood")))
+  faction <- xml_text(xml_find_first(planet, "faction"))
+  hpg <- xml_text(xml_find_first(planet, "hpg"))
+  sic <- xml_text(xml_find_first(planet, "socioIndustrial"))
+  founding_year <- NA
+
+  events <- xml_find_all(planet, "event")
+  first_faction_found <- FALSE
+  for(event in events) {
+    year <- as.numeric(substr(xml_text(xml_find_first(event, "date")),1,4))
+    if(year>target.year) {
+      next
+    }
+    if(!is.na(xml_find_first(event, "faction"))) {
+      faction <- xml_text(xml_find_first(event, "faction"))
+      #for now if faction is multiple just take the first
+      faction <- strsplit(faction,",")[[1]][1]
+      #if this is the first time we hit a faction, then 
+      #this is the founding year
+      if(!first_faction_found) {
+        founding_year <- year
+        first_faction_found <- TRUE
+      }
+    }
+    if(!is.na(xml_find_first(event, "hpg"))) {
+      hpg <- xml_text(xml_find_first(event, "hpg"))
+    }
+    #only take changes to default SIC within 30 years of target date
+    if(!is.na(xml_find_first(event, "socioIndustrial")) & (target.year-year)<=30) {
+      sic <- xml_text(xml_find_first(event, "socioIndustrial"))
+    }
+  }
+  
+  #do some re-coding
+  sic_codes <- c(NA,NA,NA,NA,NA)
+  if(!is.na(sic)) {
+    sic_codes <- strsplit(sic, "-")[[1]]
+  }
+  
+  temp <- c(pname, xcood, ycood, sic_codes, faction, hpg, founding_year)
+  #print(temp)
+  planet.table <- rbind(planet.table, temp)
+}
+
+
+planets <- data.frame(name=planet.table[,1],
+                      x=as.numeric(planet.table[,2]),
+                      y=as.numeric(planet.table[,3]),
+                      faction=factor(planet.table[,9]),
+                      hpg=factor(planet.table[,10], levels=c("A","B","C","D","None"),ordered=TRUE),
+                      founding_year=as.numeric(planet.table[,11]),
+                      tech=    factor(planet.table[,4], levels=c("A+","A","B","C","D","F","X"), ordered = TRUE),
+                      industry=factor(planet.table[,5], levels=c("A","B","C","D","F"), ordered = TRUE),
+                      raw     =factor(planet.table[,6], levels=c("A","B","C","D","F"), ordered = TRUE),
+                      output  =factor(planet.table[,7], levels=c("A","B","C","D","F"), ordered = TRUE),
+                      agriculture =factor(planet.table[,8], levels=c("A","B","C","D","F"), ordered = TRUE))
+planets$distance_terra <- sqrt(planets$x^2+planets$y^2)
+
+#code in faction type
+#remove abandoned and UND
+#Danger: this is not a full list, just for 3049
+planets <- subset(planets, faction!="ABN" & faction!="UND" & faction!="NONE")
+planets$faction_type <- "Minor"
+planets[(planets$faction=="CC" | planets$faction=="DC" | planets$faction=="FS" | planets$faction=="LA" |
+           planets$faction=="FWL" |
+           planets$faction=="FC" | planets$faction=="FRR" | planets$faction=="SIC" | planets$faction=="MERC" |
+           planets$faction=="CS"),
+        "faction_type"] <- "IS"
+planets[(planets$faction=="CBS" | planets$faction=="CB" | planets$faction=="CCC" | planets$faction=="CCO" |
+           planets$faction=="CDS" | planets$faction=="CFM" | planets$faction=="CGB" | planets$faction=="CGS" |
+           planets$faction=="CGS" | planets$faction=="CHH" | planets$faction=="CIH" | planets$faction=="CJF" | 
+           planets$faction=="CMG" | planets$faction=="CNC" | planets$faction=="CSJ" | planets$faction=="CSR" | 
+           planets$faction=="CSA" | planets$faction=="CSV" | planets$faction=="CSL" | planets$faction=="CWI" |
+           planets$faction=="CW" | planets$faction=="CLAN"), 
+        "faction_type"] <- "Clan"
+planets[(planets$faction=="TC" | planets$faction=="OA" | planets$faction=="MOC" | planets$faction=="MH"),
+        "faction_type"] <- "Periphery"
+planets$faction_type <- factor(planets$faction_type)
+```
+
+## Generating Systems
+
+First, we read in the XML file. In order to assign colonization variables, we need to know the:
+
+- distance from Terra
+- faction type: Inner Sphere, Major Periphery, Minor Periphery, Clan
+- year colony founded
+
+We pull data from year 3047, so that we can derive clan factions by original foundings. We determine original year of colony founding by the first faction change from the default faction of `UND`. We code faction type from specific faction codes. The method used here is not safe to be used if the date is changed from 3047 as we only code factions that existed in 3047, not all possible factions. We remove all factions that were `ABN` (abandoned), `UND`, and `NONE`. This removes all of the Exodus Road planets. 
+
+The following cases of planets were missing a founding year:
+
+```{r check_missing_founding, echo=FALSE}
+subset(planets, is.na(founding_year))
+#one missing
+planets <- subset(planets, !is.na(founding_year))
+```
+
+After removing missing factions and missing founding year, we have a total of ```r nrow(planets)``` planets. The maps below show our key independent variable values across diferent planets.
+
+```{r map_faction_type, echo=FALSE}
+ggplot(planets, aes(x=x, y=y, color=faction_type))+
+  geom_point(alpha=0.5)+
+  scale_colour_brewer(palette="Accent")+
+  theme_minimal()+
+  ggtitle("Faction types in 3047")
+```
+
+```{r map_founding_year, echo=FALSE}
+ggplot(planets, aes(x=x, y=y, color=founding_year))+
+  geom_point(alpha=0.5)+
+  scale_color_gradient(low="blue",high="yellow")+
+  theme_minimal()+
+  ggtitle("Founding year")
+```
+
+```{r map_founding_sl, echo=FALSE}
+ggplot(planets, aes(x=x, y=y, color=(founding_year<=2764)))+
+  geom_point(alpha=0.5)+
+  theme_minimal()+
+  scale_color_brewer(palette="Set1", name="Star league founding")+
+  ggtitle("Star League Founding")
+```
+
+```{r dist_founding, echo=FALSE}
+# The numbers below all correspond to map dates that come from planet first appearances
+# on maps and may lead to heaping in our estimate of founding year. Any founding in 
+# this year should be assigned to a year widway between this year and the perious year.
+#2271	2317	2319	2341	2367	2571	2596	2750	2765	2767	2783	2786	2821	2822	2830	2864	3025	3030	3040	3049	3050	3050	3050	3051	3052	3057	3058	3059	3059	3059	3059	3063	3067	3068	3075	3079	3081	3085	3095	3130	3135	3145	3151
+#also consider 2200 and 2300
+ggplot(planets, aes(x=founding_year))+
+  geom_histogram(col="grey10", fill="grey70", binwidth=5)+
+  facet_wrap(~faction_type, scales="free")+
+  theme_bw()
+```
+
+A lot of heaping on some specific founding years. This appears to be a result of using a map data as the founding date if system did not appear on a previous map. We need to distribute those founding years and consider them to be non-canon.
+
+```{r founding_table, echo=FALSE}
+tab_found <- table(planets$founding_year)
+knitr::kable(tab_found)
+```
+
+```{r map_distance, echo=FALSE}
+ggplot(planets, aes(x=x, y=y, color=distance_terra))+
+  geom_point(alpha=0.5)+
+  scale_color_gradient(low="red",high="blue")+
+  theme_minimal()+
+  ggtitle("Founding year")
+```
+
+Now, we cycle through every single planet and generate a system complete with astronomical and social data.
+
+```{r generate_systems, echo=FALSE}
+#fix founding year heaping
+# The following dates showed evidence of heaping and need to be corrected. We ignore
+# some potential small heaping cases for small year intervals.
+
+# 2172 - 131 cases. not from known SUCS map change, but clear heaping, distibute these
+#cases between 2118 and 2172
+# 2200 - 42 cases. not from known SUCS map change, but clear heaping, distribute these cases
+# between 2173 and 2200
+# 2271 - 232 cases. First SUCS map. Distributed these cases between 2118 and 2271. 
+# 2300 - 212 cases. not from known SUCS map change, but clear heaping, distribute these cases 
+# between 2201 and 2300
+# 2317 - 49 cases. SUCS map. Distribute these cases between 2272 and 2317.
+# 2367 - 43 cases. SUCS map. Distribute these cases between 2342 and 2367.
+# 2571 - 238 cases. SUCS map. Distribute these cases between 2368 and 2571.
+# 2750 - 531 cases. SUCS map. Distributed these cases between 2597 and 2750.
+
+#remaining heaps seem to be clans, hanseatic league, and back part of TC, not
+#adjusting them for now. 
+
+planets[planets$founding_year==2172,"founding_year"] <- sample(2118:2172, 
+                                                               sum(planets$founding_year==2172), 
+                                                               replace=TRUE)
+planets[planets$founding_year==2200,"founding_year"] <- sample(2173:2200,
+                                                               sum(planets$founding_year==2200), 
+                                                               replace=TRUE)
+planets[planets$founding_year==2300,"founding_year"] <- sample(2201:2300, 
+                                                               sum(planets$founding_year==2300), 
+                                                               replace=TRUE)
+planets[planets$founding_year==2271,"founding_year"] <- sample(2118:2271, 
+                                                               sum(planets$founding_year==2271), 
+                                                               replace=TRUE)
+planets[planets$founding_year==2317,"founding_year"] <- sample(2272:2317, 
+                                                               sum(planets$founding_year==2317), 
+                                                               replace=TRUE)
+planets[planets$founding_year==2367,"founding_year"] <- sample(2342:2367, 
+                                                               sum(planets$founding_year==2367), 
+                                                               replace=TRUE)
+planets[planets$founding_year==2571,"founding_year"] <- sample(2368:2571, 
+                                                               sum(planets$founding_year==2571), 
+                                                               replace=TRUE)
+planets[planets$founding_year==2750,"founding_year"] <- sample(2597:2750, 
+                                                               sum(planets$founding_year==2750), 
+                                                               replace=TRUE)
+
+planet <- planets[1,]
+
+system <- add_colonization(generate_system(), planet$distance_terra, 3047, planet$founding_year, planet$faction_type)
+habitable_systems <- subset(system$planets, inhabitable)
+#in case more than one pick the one with most population
+generated_systems <- subset(habitable_systems, population==max(habitable_systems$population))[1,]
+rownames(generated_systems) <- NULL
+
+for(i in 2:nrow(planets)) {
+  planet <- planets[i,]
+  system <- add_colonization(generate_system(), planet$distance_terra, 3047, planet$founding_year, planet$faction_type)
+  habitable_systems <- subset(system$planets, inhabitable)
+  #in case more than one pick the one with most population
+  temp <- subset(habitable_systems, population==max(habitable_systems$population))[1,]
+  rownames(temp) <- NULL
+  generated_systems <- rbind(generated_systems, temp)
+}
+
+generated_systems <- cbind(planets[,c("name","x","y","faction","faction_type",
+                                      "founding_year","distance_terra")],
+                           generated_systems)
+
+
+#create a combined dataset for comparison to planets with some canon data
+temp1 <- planets
+temp1$population <- NA
+temp1$creation <- "Canon"
+temp2 <- generated_systems
+temp2$creation <- "Generated"
+temp2 <- temp2[,colnames(temp1)]
+combined_data <- rbind(temp1, temp2)
+
+#do population projections for a given planet
+#create a dataset to hold all of this
+projected_populations <- matrix(NA, nrow(generated_systems), length(2100:3145))
+colnames(projected_populations) <- paste(2100:3145)
+rownames(projected_populations) <- paste(generated_systems$name)
+for(i in 1:nrow(generated_systems)) {
+  system <- generated_systems[i,]
+  proj_pop <- project_population(system$population, system$founding_year, system$faction_type,
+                                 distance_to_border(system$x, system$y, system$faction),
+                                 system$agriculture)
+  projected_populations[i,names(proj_pop)] <- proj_pop
+}
+```
+
+## Analysis of Generated Results
+
+### Tech Rating
+
+```{r tech, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y, color=tech))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+  scale_color_brewer(palette="Accent")+
+  ggtitle("Generated tech ratings in 3047")
+
+tab <- na.omit(as.data.frame.table(prop.table(table(combined_data$tech, combined_data$faction_type, 
+                                            combined_data$creation),c(2,3))))
+ggplot(tab, aes(x=Var1, y=Freq, fill=Var3))+
+  geom_col()+
+  theme_bw()+
+  facet_grid(Var3~Var2)+
+  xlab("tech level")+
+  ylab("proportion")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Tech rating distribution by faction type")
+
+ggplot(subset(combined_data, !is.na(tech)), aes(x=tech, y=distance_terra, fill=creation))+
+  geom_boxplot()+
+  theme_bw()+
+  facet_grid(faction_type~creation, scales="free")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Relationship between tech rating and distance from terra, by faction type")
+```
+
+### Industry Rating
+
+```{r industry, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y, color=industry))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+  scale_color_brewer(palette="Set1")+
+  ggtitle("Generated industry ratings in 3047")
+
+tab <- na.omit(as.data.frame.table(prop.table(table(combined_data$industry, combined_data$faction_type, 
+                                            combined_data$creation),c(2,3))))
+ggplot(tab, aes(x=Var1, y=Freq, fill=Var3))+
+  geom_col()+
+  theme_bw()+
+  facet_grid(Var3~Var2)+
+  xlab("industry level")+
+  ylab("proportion")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Industry rating distribution by faction type")
+
+ggplot(subset(combined_data, !is.na(industry)), aes(x=industry, y=distance_terra, fill=creation))+
+  geom_boxplot()+
+  theme_bw()+
+  facet_grid(faction_type~creation, scales="free")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Relationship between industry rating and distance from terra, by faction type")
+```
+
+### Output Rating
+
+```{r output, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y, color=output))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+  scale_color_brewer(palette="Set1")+
+  ggtitle("Generated output ratings in 3047")
+
+tab <- na.omit(as.data.frame.table(prop.table(table(combined_data$output, combined_data$faction_type, 
+                                            combined_data$creation),c(2,3))))
+ggplot(tab, aes(x=Var1, y=Freq, fill=Var3))+
+  geom_col()+
+  theme_bw()+
+  facet_grid(Var3~Var2)+
+  xlab("output level")+
+  ylab("proportion")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Output rating distribution by faction type")
+
+ggplot(subset(combined_data, !is.na(output)), aes(x=output, y=distance_terra, fill=creation))+
+  geom_boxplot()+
+  theme_bw()+
+  facet_grid(faction_type~creation, scales="free")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Relationship between output rating and distance from terra, by faction type")
+```
+
+### Raw Materials Rating
+
+```{r raw, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y, color=raw))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+  scale_color_brewer(palette="Set1")+
+  ggtitle("Generated raw material ratings in 3047")
+
+tab <- na.omit(as.data.frame.table(prop.table(table(combined_data$raw, combined_data$faction_type, 
+                                            combined_data$creation),c(2,3))))
+ggplot(tab, aes(x=Var1, y=Freq, fill=Var3))+
+  geom_col()+
+  theme_bw()+
+  facet_grid(Var3~Var2)+
+  xlab("raw material level")+
+  ylab("proportion")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Raw materials rating distribution by faction type")
+
+ggplot(subset(combined_data, !is.na(raw)), aes(x=raw, y=distance_terra, fill=creation))+
+  geom_boxplot()+
+  theme_bw()+
+  facet_grid(faction_type~creation, scales="free")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Relationship between raw material rating and distance from terra, by faction type")
+```
+
+### Agriculture Rating
+
+```{r agriculture, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y, color=agriculture))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+  scale_color_brewer(palette="Set1")+
+  ggtitle("Generated agriculture ratings in 3047")
+
+tab <- na.omit(as.data.frame.table(prop.table(table(combined_data$agriculture, combined_data$faction_type, 
+                                            combined_data$creation),c(2,3))))
+ggplot(tab, aes(x=Var1, y=Freq, fill=Var3))+
+  geom_col()+
+  theme_bw()+
+  facet_grid(Var3~Var2)+
+  xlab("agriculture level")+
+  ylab("proportion")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Agriculture rating distribution by faction type")
+
+ggplot(subset(combined_data, !is.na(agriculture)), aes(x=agriculture, y=distance_terra, fill=creation))+
+  geom_boxplot()+
+  theme_bw()+
+  facet_grid(faction_type~creation, scales="free")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("Relationship between agriculture rating and distance from terra, by faction type")
+```
+
+### Population
+
+```{r population_graphs, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y, 
+                              color=cut(population,breaks=quantile(generated_systems$population))))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+  scale_color_brewer(palette="BuGn", name="Population Quartiles")+
+  ggtitle("Generated population level")
+
+ggplot(generated_systems, aes(x=distance_terra, y=population))+
+  geom_point(alpha=0.4)+
+  geom_smooth()+
+  scale_y_log10()+
+  theme_bw()+
+  facet_wrap(~faction_type, scales = "free")+
+  ggtitle("Relationship between population and distance from Terra, by faction type")+
+  xlab("distance from terra")+
+  ylab("population (log-scale)")
+
+ggplot(generated_systems, aes(x=distance_terra, y=population, color=faction_type))+
+  geom_point(alpha=0.4)+
+  scale_y_log10()+
+  theme_bw()+
+  scale_color_brewer(palette = "Set1")+
+  ggtitle("Relationship between population and distance from Terra")+
+  xlab("distance from terra")+
+  ylab("population (log-scale)")
+
+#now without logs
+ggplot(generated_systems, aes(x=distance_terra, y=population))+
+  geom_point(alpha=0.4)+
+  geom_smooth()+
+  theme_bw()+
+  facet_wrap(~faction_type, scales = "free")+
+  ggtitle("Relationship between population and distance from Terra, by faction type")+
+  xlab("distance from terra")
+
+ggplot(generated_systems, aes(x=distance_terra, y=population, color=faction_type))+
+  geom_point(alpha=0.4)+
+  theme_bw()+
+  scale_color_brewer(palette = "Set1")+
+  ggtitle("Relationship between population and distance from Terra")+
+  xlab("distance from terra")
+```
+
+### HPG
+
+```{r hpg, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y, color=hpg))+
+  geom_point(alpha=0.8)+
+  theme_minimal()+
+  scale_color_brewer(palette="Set1")+
+  ggtitle("Generated HPG Systems by faction type")
+
+tab <- na.omit(as.data.frame.table(prop.table(table(combined_data$hpg, combined_data$faction_type, 
+                                            combined_data$creation),c(2,3))))
+ggplot(tab, aes(x=Var1, y=Freq, fill=Var3))+
+  geom_col()+
+  theme_bw()+
+  facet_grid(Var3~Var2)+
+  xlab("HPG type")+
+  ylab("proportion")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ggtitle("HPG rating distribution by faction type")
+
+ggplot(subset(combined_data, !is.na(hpg)), aes(x=hpg, y=distance_terra, fill=creation))+
+  geom_boxplot()+
+  theme_bw()+
+  facet_grid(faction_type~creation, scales="free")+
+  scale_fill_brewer(name="Creation", palette="Set1")+
+  ylab("Distance from Terra")+
+  ggtitle("Relationship between HPG rating and distance from terra, by faction type")
+```
+
+### Population Projections
+
+```{r pop_growth, echo=FALSE}
+total_pop <- apply(projected_populations, 2, sum, na.rm=TRUE)
+plot(2100:3145, total_pop, type="l", lwd=3, xlab="year", ylab="total human population")
+```
+
+```{r sw_decline, echo=FALSE}
+sw_decline <- 100*(projected_populations[,"3028"]/projected_populations[,"2750"]-1)
+hist(sw_decline[sw_decline<50], col="red",
+     main="Histogram of population decline during Succession Wars",
+     xlab="Population change from 3028 to 2750")
+```
+
+```{r map_sw_decline, echo=FALSE}
+ggplot(generated_systems, aes(x=x, y=y,
+                              color=cut(sw_decline,breaks=quantile(sw_decline[sw_decline<50],
+                                                                   na.rm=TRUE))))+
+  geom_point(alpha=0.5)+
+  theme_minimal()+
+    scale_color_brewer(palette="Reds", name="Depopulation Quartiles", direction=-1)+
+  ggtitle("Decline during Succession wars")
+```
+
+```{r colony_size, echo=FALSE}
+indx <- apply(projected_populations, 1, function(x) {min(which(!is.na(x)))})
+starting_size <- projected_populations[1:nrow(projected_populations) + nrow(projected_populations) * (indx - 1)]
+hist(starting_size[starting_size<1000000], col="darkgreen",
+     main="Histogram of starting colony size", xlab="starting colony size")
+```
+
+```{r max_pop, echo=FALSE}
+max_pop <- apply(projected_populations, 1, max, na.rm=TRUE)
+hist(max_pop, 
+     main="Histogram of maximum population size for each planet",
+     xlab="Maximum population size on planet", col="skyblue")
+```
+
+```{r founding_year, echo=FALSE}
+ggplot(planets, aes(x=founding_year))+
+  geom_histogram(col="grey10", fill="grey70", binwidth=5)+
+  facet_wrap(~faction_type, scales="free")+
+  theme_bw()+
+  ggtitle("Founding year after heaping correction")
+```

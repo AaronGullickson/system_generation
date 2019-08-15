@@ -7,13 +7,14 @@
 library(xml2)
 library(magrittr)
 library(rlist)
-source("system_creation_functions.R")
-source("data_functions.R")
+library(here)
+source(here("functions","system_creation_functions.R"))
+source(here("functions","data_functions.R"))
 
-planets <- read_xml("output/planets_initial.xml")
-events <- read_xml("output/planetevents_initial.xml")
-name_changes <- read_xml("input/0999_namechanges.xml")
-canon_populations <- read.csv("input/canon_populations.csv", row.names=1)
+planets <- read_xml(here("output","planets_initial.xml"))
+events <- read_xml(here("output","planetevents_initial.xml"))
+name_changes <- read_xml(here("input","0999_namechanges.xml"))
+canon_populations <- read.csv(here("input","canon_populations.csv"), row.names=1)
 
 planet.table <- NULL
 target.year <- 3047
@@ -625,9 +626,9 @@ for(i in 1:xml_length(planets)) {
   cat("\n\tdone\n")
 }
 
-cat(as.character(systems), file = "systems.xml")
-cat(as.character(systems_events), file = "system_events.xml")
-cat(as.character(systems_name_changes), file = "system_namechanges.xml")
+cat(as.character(systems), file = here("output","systems.xml"))
+cat(as.character(systems_events), file = here("output","system_events.xml"))
+cat(as.character(systems_name_changes), file = here("output","system_namechanges.xml"))
 
 #TODO: a similar for-loop for connectors but no need to force habitation
 

@@ -1,6 +1,6 @@
 #so messy, UN
 
-un <- read.csv("input/un_languages_country.csv")
+un <- read.csv(here("name_generation","input","un_languages_country.csv"))
 colnames(un) <- c("country","year","area","sex","language","record.type","reliability","source_year","value")
 un <- subset(un, sex=="Both Sexes" & area=="Total" & record.type!="Sample survey - de jure")
 

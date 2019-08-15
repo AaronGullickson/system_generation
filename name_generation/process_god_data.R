@@ -1,4 +1,4 @@
-gods <- read.csv("input/gods.csv")
+gods <- read.csv(here("name_generation","input","gods.csv"))
 
 gods$name <- as.character(gods$name)
 #remove everything in parenthesis
@@ -11,4 +11,4 @@ gods$pantheon <- gsub("Hindu And Indian","Hindu", gods$pantheon)
 gods <- subset(gods, !duplicated(name))
 myth_sample <- gods
 
-save(myth_sample, file="output/myth_sample.RData")
+save(myth_sample, file=here("name_generation","output","myth_sample.RData"))

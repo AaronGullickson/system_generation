@@ -3,12 +3,13 @@
 library(xml2)
 library(magrittr)
 library(opencage)
-source("../data_functions.R")
+library(here)
+source(here("functions","data_functions.R"))
 
-planets <- read_xml("../output/planets_initial.xml")
-events <- read_xml("../output/planetevents_initial.xml")
-name_changes <- read_xml("../input/0999_namechanges.xml")
-stars <-read.csv("../input/real_star_data.csv")
+planets <- read_xml(here("output","planets_initial.xml"))
+events <- read_xml(here("output","planetevents_initial.xml"))
+name_changes <- read_xml(here("input","0999_namechanges.xml"))
+stars <-read.csv(here("input","real_star_data.csv"))
 star_names <- subset(as.character(stars$ProperName), stars$ProperName!="")
 
 #figure out what names to search on
@@ -122,4 +123,4 @@ names(correspondence) <- temp[,1]
 name_data$country_name <- correspondence[paste(name_data$country_iso)]
 name_data$country_name[is.na(name_data$country_iso)] <- NA
   
-write.csv(name_data, file="output/name_nationality.csv")
+write.csv(name_data, file=here("name_generation","output","name_nationality.csv"))

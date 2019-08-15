@@ -1,12 +1,15 @@
+# Read in the raw XML dta for planets from MHQ and do some cleaning before producing systems
+
 library(xml2)
 library(magrittr)
 library(rlist)
-source("system_creation_functions.R")
-source("data_functions.R")
+library(here)
+source(here("functions","system_creation_functions.R"))
+source(here("functions","data_functions.R"))
 
-planets <- read_xml("input/planets.xml")
-events <- read_xml("input/0002_planetevents.xml")
-connectors <- read_xml("input/1000_connectors.xml")
+planets <- read_xml(here("input","planets.xml"))
+events <- read_xml(here("input","0002_planetevents.xml"))
+connectors <- read_xml(here("input","1000_connectors.xml"))
 
 #now run through planets first time and add all of the events
 #TODO: clean up this events file, remove non-canon and re-identify
@@ -50,8 +53,8 @@ for(i in 1:xml_length(planets)) {
   cat("\n")
 }
 
-cat(as.character(new_planets), file = "output/planets_initial.xml")
-cat(as.character(events), file = "output/planetevents_initial.xml")
+cat(as.character(new_planets), file = here("output","planets_initial.xml"))
+cat(as.character(events), file = here("output","planetevents_initial.xml"))
 
 #ok clean up connectors now
 new_connectors <- xml_new_document() %>% xml_add_child("planets")
@@ -65,4 +68,4 @@ for(i in 1:xml_length(connectors)) {
   }
 }
 
-cat(as.character(new_connectors), file = "output/connectors_initial.xml")
+cat(as.character(new_connectors), file = here("output","connectors_initial.xml"))

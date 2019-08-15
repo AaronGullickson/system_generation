@@ -1,6 +1,6 @@
 #readr package to the rescue
 library(readr)
-place_names <- read_delim("output/place_names.tsv.gz", 
+place_names <- read_delim(here("name_generation","output","place_names.tsv.gz"), 
                           "\t", escape_double = FALSE, col_names = FALSE, 
                           trim_ws = TRUE,
                           progress = TRUE)
@@ -56,4 +56,4 @@ TF <- places$feature_code=="ADM4"
 places$weight[TF] <- 2*places$weight[TF]
 
 places_sample <- as.data.frame(subset(places, select = c("name","country","weight")))
-save(places_sample, file="output/places_sample.RData")
+save(places_sample, file=here("name_generation","output","places_sample.RData"))
