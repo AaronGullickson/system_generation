@@ -53,7 +53,7 @@ generate_system <- function(star=NULL, habitable=TRUE) {
   stype <- paste(spectral_class, subtype, star_size, sep="")
   
   #table only has V stars, so feed that in. We will override below
-  stype_data <- read.csv("input/solar_type.csv", 
+  stype_data <- read.csv(here("input","solar_type.csv"), 
                          row.names=1)[paste(spectral_class, subtype, "V", sep=""),]
   
   if(star_size != "V") {
@@ -883,7 +883,7 @@ add_colonization <- function(system, distance_terra, current_year,
     
     #output
     output <- 3
-    if(faction=="Clan") {
+    if(faction_type=="Clan") {
       output <- output+0.75
     } else if(planet$population>(1*10^9)) {
       output <- output+1
