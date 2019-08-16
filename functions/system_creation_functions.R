@@ -1366,10 +1366,10 @@ project_sics <- function(tech, industry, raw, output, agriculture,
     #we need a year of SL peak, and a first and second SW decline date
     #assign these somewhat randomly by drawing from exponential distribution
     
-    #SL peak year (target 2700-2750, mean 2710)
-    year_sl <- round(2700+rexp(1,.1))
+    #SL peak year (target 2600-2750, mean 2650)
+    year_sl <- round(max(2600, founding_year+10)+rexp(1,.02))
     while(year_sl>2750) {
-      year_sl <- round(2700+rexp(1,.1))
+      year_sl <- round(max(2600, founding_year+10)+rexp(1,.02))
     }
     #1st SW drop (target 2840-2880, mean 2850)
     year_1sw <- round(2840+rexp(1,.1))
@@ -1387,10 +1387,16 @@ project_sics <- function(tech, industry, raw, output, agriculture,
     #close to the SL peak values. Derive SL peak values by allowing for
     #a little bit of wiggle. 
     odds_drop <- c(0,0,0.05,0.05,0.1,0.1)
-    odds_increase <- c(4,2,0.7,0.7,0.3,0)
+    odds_increase <- c(4,2,1,1,1,0)
     sics_sl <- adjust_sics(sics, odds_drop, odds_increase,
                            pop_ratio = pop[paste(year_sl)]/pop[paste(current_year)],
                            year_sl-founding_year)
+    #allow for small chance (10%) of a double-move
+    if(sample(1:10, 1)==1) {
+      sics_sl <- adjust_sics(sics_sl, odds_drop, odds_increase,
+                             pop_ratio = pop[paste(year_sl)]/pop[paste(current_year)],
+                             year_sl-founding_year)
+    }
     
     #now roll for diminished SICS twice during SW period
     odds_drop <- c(0,0,0.3,0.7,3,100000)
@@ -1407,11 +1413,27 @@ project_sics <- function(tech, industry, raw, output, agriculture,
                          data.frame(year=year_1sw, sics=combine_sics(sics_sw1)), 
                          interpolate_sics(sics_sw2, sics, year_2sw, current_year, 
                                           3025))
-    return(sic_changes)
+    sic_changes
   } else {
     #just interpolate between colony and now 
-    return(interpolate_sics(sics_colony, sics, founding_year, current_year))
+    sic_changes <- interpolate_sics(sics_colony, sics, founding_year, current_year)
   }
+  
+  #forward project to 3145 with relatively small chance of change
+  year_da <- round(3090+rexp(1,.04))
+  while(year_da>3145) {
+    year_da <- round(3090+rexp(1,.04))
+  }
+  odds_drop <- c(0,0,0.05,0.05,0.05,0.05)
+  odds_increase <- c(0.5,0.4,0.3,0.25,0.15,0)
+  sics_da <- adjust_sics(sics, odds_drop, odds_increase,
+                         pop_ratio = pop["3145"]/pop[paste(current_year)],
+                         3145-founding_year)
+  sic_changes <- rbind(sic_changes,
+                       interpolate_sics(sics, sics_da, current_year, year_da)[-1,])
+  
+  
+  return(sic_changes)
 }
 
 get_colony_sics <- function(sics, founding_year, current_year, faction_type) {

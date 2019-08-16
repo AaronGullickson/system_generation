@@ -185,6 +185,11 @@ Base Balue=3 (C)
 
 ## Changes to HPG Generation
 
+TBD
+
+## Generating Systems
+
+
 ```{r read_planets_xml, echo=FALSE}
 planets <- read_xml(here("input","planets.xml"))
 planet.table <- NULL
@@ -273,8 +278,6 @@ planets[(planets$faction=="TC" | planets$faction=="OA" | planets$faction=="MOC" 
         "faction_type"] <- "Periphery"
 planets$faction_type <- factor(planets$faction_type)
 ```
-
-## Generating Systems
 
 First, we read in the XML file. In order to assign colonization variables, we need to know the:
 
@@ -429,12 +432,19 @@ combined_data <- rbind(temp1, temp2)
 projected_populations <- matrix(NA, nrow(generated_systems), length(2100:3145))
 colnames(projected_populations) <- paste(2100:3145)
 rownames(projected_populations) <- paste(generated_systems$name)
+projected_sics <- list()
 for(i in 1:nrow(generated_systems)) {
   system <- generated_systems[i,]
   proj_pop <- project_population(system$population, system$founding_year, system$faction_type,
                                  distance_to_border(system$x, system$y, system$faction),
                                  system$agriculture)
   projected_populations[i,names(proj_pop)] <- proj_pop
+  projected_sics[[i]] <- data.frame(project_sics(system$tech, system$industry, system$raw, 
+                                                 system$output, system$agriculture,
+                                                 system$founding_year, proj_pop, system$faction_type),
+                                    faction_type=system$faction_type,
+                                    x=system$x,
+                                    y=system$y)
 }
 ```
 
@@ -699,4 +709,168 @@ ggplot(planets, aes(x=founding_year))+
   facet_wrap(~faction_type, scales="free")+
   theme_bw()+
   ggtitle("Founding year after heaping correction")
+```
+
+### USILR Projections
+
+```{r echo=FALSE}
+#how do I get distribution of codes for a certain point in time?
+extract_sics <- function(x, chosen_year) {
+  temp <- x$year<=chosen_year
+  if(sum(temp)==0) {
+    return(rep(NA,8))
+  }
+  sics <- x$sics[max(which(temp))]
+  sics <- separate_sics(as.character(sics))
+  sics <- c(as.character(sics$tech), 
+            as.character(sics$industry), 
+            as.character(sics$raw), 
+            as.character(sics$output), 
+            as.character(sics$agriculture),
+            as.character(x$faction_type[1]),
+            x$x[1],
+            x$y[1])
+  return(sics)
+}
+
+get_sics_in_year <- function(chosen_year) {
+  temp <- as.data.frame(na.omit(t(sapply(projected_sics, extract_sics, chosen_year))))
+  colnames(temp) <- c("tech","industry","raw","output","agriculture","faction_type","x","y")
+  temp$tech <- factor(temp$tech,
+                      levels=c("X","F","D","C","B","A"),
+                      ordered=TRUE)
+  temp$industry <- factor(temp$industry,
+                          levels=c("F","D","C","B","A"),
+                          ordered=TRUE)
+  temp$raw <- factor(temp$raw,
+                     levels=c("F","D","C","B","A"),
+                     ordered=TRUE)
+  temp$output <- factor(temp$output,
+                        levels=c("F","D","C","B","A"),
+                        ordered=TRUE)
+  temp$agriculture <- factor(temp$agriculture,
+                             levels=c("F","D","C","B","A"),
+                             ordered=TRUE)
+  temp$x <- as.numeric(as.character(temp$x))
+  temp$y <- as.numeric(as.character(temp$y))
+  
+  return(temp)
+}
+
+full_sics <- NULL
+for(y in seq(from=2200, to=3150, by=50)) {
+  temp <- get_sics_in_year(y)
+  temp$year <- y
+  full_sics <- rbind(full_sics, temp)
+}
+```
+
+```{r tech-project, echo=FALSE}
+ggplot(full_sics, 
+       aes(x=tech, y=..prop.., fill=year, group=year))+
+  geom_bar(position = "dodge")+
+  facet_wrap(~faction_type)+
+  theme_bw()+
+  labs(x="tech rating", y="proportion",
+       title="Distribution of tech rating over time")
+```
+
+```{r tech-project-map, echo=FALSE}
+ggplot(subset(full_sics, year %in% c(2200, 2400, 2600, 2650, 2700, 2750, 2900, 3000, 3050, 3100)), 
+       aes(x=x, y=y, color=tech))+
+  geom_point(alpha=0.2)+
+  theme_minimal()+
+  facet_wrap(~year)+
+  scale_color_brewer(palette="Set1")+
+  labs(title="Tech ratings over time", x=NULL, y=NULL)+
+  theme(axis.ticks=element_blank(),
+        axis.text = element_blank())
+```
+
+```{r industry-project, echo=FALSE}
+ggplot(full_sics, 
+       aes(x=industry, y=..prop.., fill=year, group=year))+
+  geom_bar(position = "dodge")+
+  facet_wrap(~faction_type)+
+  theme_bw()+
+  labs(x="industry rating", y="proportion",
+       title="Distribution of industry rating over time")
+```
+
+```{r industry-project-map, echo=FALSE}
+ggplot(subset(full_sics, year %in% c(2200, 2400, 2600, 2650, 2700, 2750, 2900, 3000, 3050, 3100)), 
+       aes(x=x, y=y, color=industry))+
+  geom_point(alpha=0.2)+
+  theme_minimal()+
+  facet_wrap(~year)+
+  scale_color_brewer(palette="Set1")+
+  labs(title="Industry ratings over time", x=NULL, y=NULL)+
+  theme(axis.ticks=element_blank(),
+        axis.text = element_blank())
+```
+
+```{r raw-project, echo=FALSE}
+ggplot(full_sics, 
+       aes(x=raw, y=..prop.., fill=year, group=year))+
+  geom_bar(position = "dodge")+
+  facet_wrap(~faction_type)+
+  theme_bw()+
+  labs(x="raw material rating", y="proportion",
+       title="Distribution of raw material rating over time")
+```
+
+```{r raw-project-map, echo=FALSE}
+ggplot(subset(full_sics, year %in% c(2200, 2400, 2600, 2650, 2700, 2750, 2900, 3000, 3050, 3100)), 
+       aes(x=x, y=y, color=raw))+
+  geom_point(alpha=0.2)+
+  theme_minimal()+
+  facet_wrap(~year)+
+  scale_color_brewer(palette="Set1")+
+  labs(title="Raw material ratings over time", x=NULL, y=NULL)+
+  theme(axis.ticks=element_blank(),
+        axis.text = element_blank())
+```
+
+```{r output-project, echo=FALSE}
+ggplot(full_sics, 
+       aes(x=output, y=..prop.., fill=year, group=year))+
+  geom_bar(position = "dodge")+
+  facet_wrap(~faction_type)+
+  theme_bw()+
+  labs(x="output rating", y="proportion",
+       title="Distribution of output rating over time")
+```
+
+```{r output-project-map, echo=FALSE}
+ggplot(subset(full_sics, year %in% c(2200, 2400, 2600, 2650, 2700, 2750, 2900, 3000, 3050, 3100)), 
+       aes(x=x, y=y, color=output))+
+  geom_point(alpha=0.2)+
+  theme_minimal()+
+  facet_wrap(~year)+
+  scale_color_brewer(palette="Set1")+
+  labs(title="Output ratings over time", x=NULL, y=NULL)+
+  theme(axis.ticks=element_blank(),
+        axis.text = element_blank())
+```
+
+```{r ag-project, echo=FALSE}
+ggplot(full_sics, 
+       aes(x=agriculture, y=..prop.., fill=year, group=year))+
+  geom_bar(position = "dodge")+
+  facet_wrap(~faction_type)+
+  theme_bw()+
+  labs(x="agriculture rating", y="proportion",
+       title="Distribution of agriculture rating over time")
+```
+
+```{r ag-project-map, echo=FALSE}
+ggplot(subset(full_sics, year %in% c(2200, 2400, 2600, 2650, 2700, 2750, 2900, 3000, 3050, 3100)), 
+       aes(x=x, y=y, color=tech))+
+  geom_point(alpha=0.2)+
+  theme_minimal()+
+  facet_wrap(~year)+
+  scale_color_brewer(palette="Set1")+
+  labs(title="Agriculture ratings over time", x=NULL, y=NULL)+
+  theme(axis.ticks=element_blank(),
+        axis.text = element_blank())
 ```
