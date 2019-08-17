@@ -10,6 +10,8 @@ library(rlist)
 library(here)
 source(here("functions","system_creation_functions.R"))
 source(here("functions","data_functions.R"))
+source(here("functions","naming_functions.R"))
+
 
 planets <- read_xml(here("output","planets_initial.xml"))
 events <- read_xml(here("output","planetevents_initial.xml"))
@@ -25,7 +27,10 @@ systems <- xml_new_document() %>% xml_add_child("systems")
 systems_events <- xml_new_document() %>% xml_add_child("systems")
 systems_name_changes <- xml_new_document() %>% xml_add_child("systems")
 
-for(i in 1:xml_length(planets)) {
+small_sample <- sample(1:xml_length(planets), 200)
+
+#for(i in 1:xml_length(planets)) {
+for(i in small_sample) {
   
   #### Read in a planet's data ####
   
@@ -249,8 +254,10 @@ for(i in 1:xml_length(planets)) {
   
   cat("done\n\tGenerating base system and colonization data...")
   
-  system <- add_colonization(generate_system(star=star), distance_terra, 3047, founding_year,
-                             faction_type)
+  system <- generate_system_names(add_colonization(generate_system(star=star), 
+                                                   distance_terra, 3047, founding_year,
+                                                   faction_type), 
+                                  id)
   primary_slot <- which(system$planets$population==max(system$planets$population, na.rm=TRUE))[1]
   
   #### Output XML ####
@@ -288,7 +295,7 @@ for(i in 1:xml_length(planets)) {
       xml_add_child(planet_node, "name", name, source="canon")
     } else {
       planet_node <- xml_add_child(system_node, "planet")
-      xml_add_child(planet_node, "name", "Unnamed Planet")
+      xml_add_child(planet_node, "name", system$planets$name[j])
     }
     
     xml_add_child(planet_node, "type", 
@@ -399,10 +406,11 @@ for(i in 1:xml_length(planets)) {
     } else if(!is.na(planet$continents) & planet$continents>0) {
       #pick random one to have capital
       capital <- sample(1:planet$continents, 1)
+      continent_names <- strsplit(planet$continent_names, ",")[[1]]
       for(k in 1:planet$continents) {
-        landmass_name <- "Unnamed Landmass"
-        if(j==capital) {
-          landmass_name <- "Unnamed Landmass (Unnamed Capital)"
+        landmass_name <- continent_names[k]
+        if(k==capital & !is.na(planet$population)) {
+          landmass_name <- paste(continent_names[k], " (", planet$capitol_name, ")", sep="")
         }
         xml_add_child(planet_node, "landMass",
                       landmass_name)
@@ -412,6 +420,9 @@ for(i in 1:xml_length(planets)) {
     cat("\tmoon info")
     #we will detail all moons except small moons where we will just list number
     #assume named moons are never small
+    if(!is.na(planet$moon_names)) {
+      moon_names <- strsplit(planet$moon_names, ",")[[1]]
+    }
     if(j==primary_slot & !is.null(moons)) {
       for(moon in moons) {
         moon_size <- c("giant",rep("large",5),rep("medium",9))[sample(1:15,1)]
@@ -423,19 +434,22 @@ for(i in 1:xml_length(planets)) {
       if(planet$moons_giant>0) {
         for(k in 1:planet$moons_giant) {
           xml_add_child(planet_node, "satellite", size="giant",
-                        "Unnamed Moon")
+                        moon_names[1])
+          moon_names <- moon_names[-1]
         }
       }
       if(planet$moons_large>0) {
         for(k in 1:planet$moons_large) {
           xml_add_child(planet_node, "satellite", size="large",
-                        "Unnamed Moon")
+                        moon_names[1])
+          moon_names <- moon_names[-1]
         }
       }
       if(planet$moons_medium>0) {
         for(k in 1:planet$moons_medium) {
           xml_add_child(planet_node, "satellite", size="medium",
-                        "Unnamed Moon")
+                        moon_names[1])
+          moon_names <- moon_names[-1]
         }
       }
       if(planet$moons_small>0) {
@@ -549,7 +563,7 @@ for(i in 1:xml_length(planets)) {
         sics_projection <- sics_projections[i,]
         sics_event <- xml_add_child(current_planet_event_node, "event")
         xml_add_child(sics_event, "date", paste(sics_projection$year,"01","01",sep="-"))
-        if(i == nrow(sics_projections) & !is.na(sic)) {
+        if(!is.na(sic) & (sics_projection$year>=3040 & sics_projection$year<3050)) {
           xml_add_child(sics_event, "socioIndustrial", paste(sics_projection$sics), 
                         source="canon")
         } else {
@@ -561,39 +575,6 @@ for(i in 1:xml_length(planets)) {
       
     }
   }
-  
-  
-  
-  #I am thinking the following plan for SIC codes. First, we will
-  #start by determining a peak Star League SIC code. This should be quite
-  #similar to generated SIC codes but allow for some movements both up and down,
-  #but more up and related shifts across the code. This SL code will be set up
-  #as the code at 2700. Then forward and backward project from here at certain
-  #intervalus. intervals. Within each of these time intervals, there will be a
-  #certain probability of dropping/increasing a SIC level by the existing SIC
-  #level. This probability may be affected by things like depopulation and the
-  #contemporaneous loss of SIC for other characteristics, as well as faction.
-  #Then cycle backwards and test for loss in each time period. The actual date
-  #of the change will be randomly distributed within the time period so that
-  #there is more of a natural progression of progress and decline.
-  
-  # Here are the time periods I am currently thinking about:
-  #
-  # 2800-2900. The Succession Wars. All planets should be dropped to a B tech at
-  # most and some may even suffer double drops. Pobability of drops throughout
-  # the rest of the distribution as well. This loss of tech should have
-  # potential effects on other SIC codes as well, particularly industry and
-  # output. I might do this in two groups with a smaller chance of a drop on the second
-  # interval, but allowing for possibility of multiple drops during the time period.
-  #
-  # 3040-3055. This is the period of the IS reinassance. This should just give
-  # the codes actually generated. If a particular code did drop by more than
-  # one, then I may want to allow for two changes during this time period, to
-  # get a smoother change.
-  # 
-  # TODO: Work out what to do going the other direction. 
-
-  
   
   #get existing planet events and move them over
   planet_events <- get_planet_id(events, id)
@@ -631,4 +612,3 @@ cat(as.character(systems_events), file = here("output","system_events.xml"))
 cat(as.character(systems_name_changes), file = here("output","system_namechanges.xml"))
 
 #TODO: a similar for-loop for connectors but no need to force habitation
-

@@ -47,14 +47,80 @@ library(here)
 load(here("name_generation","output","myth_sample.RData"))
 load(here("name_generation","output","places_sample.RData"))
 
-generate_system_names(system) {
+generate_system_names <- function(system, id) {
   
+  nationalities <- read.csv(here("name_generation/output/name_nationality.csv"))
+
+  nationality <- nationalities$country_iso[nationalities$id==id]
+  
+  system$planets$name <- sample_names(nrow(system$planets), "planet", nationality)
+  system$planets$continent_names <- NA
+  system$planets$capitol_name <- NA
+  system$planets$moon_names <- NA
+  
+  for(i in 1:nrow(system$planets)) {
+    #the correct name for focal planet will be corrected when we check canon data
+    nmoons <- (system$planets$moons_giant+system$planets$moons_large+
+                 system$planets$moons_medium)[i]
+    if(nmoons > 0) {
+      system$planets$moon_names[i] <- paste(sample_names(nmoons, "moon", nationality), 
+                                            collapse=",")
+    }
+    if(!is.na(system$planets$continents[i])) {
+      system$planets$continent_names[i] <- paste(sample_names(system$planets$continents[i],
+                                                              "continent", nationality), 
+                                                 collapse=",")
+    }
+    if(!is.na(system$planets$population[i])) {
+      system$planets$capitol_name[i] <- sample_names(1, "city", nationality)
+    }
+  }
+  
+  return(system)
 }
 
-generate_name <- function() {
+sample_names <- function(n, object_type, nationality, continuity=0.8) {
   
+  #probability of name type by object type
+  #name types are place, surname, mythological, sequence
+  #types of object are planet, moon, landmass, city
+  #TODO: distinguish habitable planets from non, for naming purposes
+  probs <- cbind(c(0.55,0.3,0.15,0),
+                 c(0.2,0.3,0.4,0),
+                 c(0.55,0.4,0.05,0),
+                 c(0.55,0.4,0.05,0))
   
+  colnames(probs) <- c("planet","moon","continent","city")
+  rownames(probs) <- c("place","surname","mythological","sequence")
+
+  sources <- NULL
+  for(i in 1:n) {
+    if(!is.null(sources) & 
+                sample(c(FALSE,TRUE), 1, prob=c(1-continuity, continuity))) {
+      #maintain continuity by sampling from available sources
+      sources <- c(sources, sample(sources, 1))      
+    } else {
+      #pick a source unconditionally
+      sources <- c(sources, sample(rownames(probs), 1, prob = probs[,object_type]))
+    }
+  }
+    
+  names <- NULL
   
+  for(source in sources) {
+    if(source=="place") {
+      names <- c(names, sample_place_name("US"))
+    } else if(source=="surname") {
+      names <- c(names, "Smith")
+    } else if(source=="mythological") {
+      names <- c(names, sample_myth_name("Greek"))
+    } else {
+      #sequence 
+      #TODO: allow this for moons but force perfect continuity
+    }
+  }
+  
+  return(names)
 }
 
 
@@ -70,6 +136,7 @@ sample_place_name <- function(c, n=1) {
   sample_idx <- sample_int_expj(nrow(sample_country),
                                 n,
                                 prob=sample_country$weight)
+  #TODO: Add some probability of a qualifier like "New"
   return(as.character(sample_country$name[sample_idx]))
 }
 

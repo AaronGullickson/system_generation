@@ -4,6 +4,8 @@
 
 generate_system <- function(star=NULL, habitable=TRUE) {
   
+  library(here)
+  
   if(!is.null(star)) {
     #break apart stype to make sure it makes sense
     spectral_class <- substr(star,1,1)
