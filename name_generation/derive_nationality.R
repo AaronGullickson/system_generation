@@ -57,7 +57,7 @@ clean_name <- function(name) {
 }
 
 name_data$search_name <- clean_name(name_data$founding_name)
-#write.csv(name_data, file="search_name.csv", fileEncoding = "UTF-8")
+#write.csv(name_data, file=here("name_generation","output","search_name.csv"), fileEncoding = "UTF-8")
 
 #check for star names
 name_data$country_iso <- NA
