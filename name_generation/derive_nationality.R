@@ -67,16 +67,13 @@ name_data$country_iso[name_data$search_name %in% star_names] <- "STAR"
 #sampled_idx <- sample(1:nrow(name_data), 500, replace=FALSE)
 full_matches <- NULL
 for(i in 1:nrow(name_data)) {
-  if(!is.na(name_data$country_match[i])) {
-    next
-  }
   id <- name_data$id[i]
   search_name <- name_data$search_name[i]
   cat(search_name)
   cat("....")
   #delay for one second to make sure we don't make too many calls too fast
   Sys.sleep(1)
-  results <- opencage_forward(search_name)
+  results <- opencage_forward(search_name, key = opencage_key())
   if(!is.null(results$results)) {
     cat(paste(" found", nrow(results$results), "possible matches"))
     #TODO: include language info
