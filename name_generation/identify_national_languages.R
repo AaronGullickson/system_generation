@@ -31,10 +31,57 @@ languages$language <- trimws(gsub("Castilian|less than|Standard|Creole and|Malte
 languages <- languages[,c(1,3)]
 
 #need to translate these into the categories of surnames_masterancestry as best as possible
-#for missing values use US. I think the big missing category here is Persian
+#for missing values use US. I think the big missing category here is Persian and Hebrew
 sort(unique(languages$language))
 
+languages$lgroup <- NA
+languages$lgroup[languages$language %in% c("English","Bislama","Tok Pisin")] <- "English"
+languages$lgroup[languages$language %in% c("German","Luxermbourgish")] <- "German"
+languages$lgroup[languages$language %in% c("Dutch")] <- "Dutch"
+languages$lgroup[languages$language %in% c("German")] <- "German"
+languages$lgroup[languages$language %in% c("Danish","Swedish","Norwegian","Icelandic")] <- "Scandinavian"
+languages$lgroup[languages$language %in% c("French","Seselwa Creole")] <- "French"
+languages$lgroup[languages$language %in% c("Italian")] <- "Italian"
+languages$lgroup[languages$language %in% c("Spanish")] <- "Hispanic"
+languages$lgroup[languages$language %in% c("Portuguese")] <- "Portugese"
+languages$lgroup[languages$language %in% c("Russian","Belorussian","Ukrainian","Latvian","Lithuanian")] <- "Russian"
+languages$lgroup[languages$language %in% c("Bulgarian","Bosnian","Croatian","Czech","Slovak","Slovenian","Macedonian")] <- "Slavic"
+languages$lgroup[languages$language %in% c("Polish")] <- "Polish"
+languages$lgroup[languages$language %in% c("Romanian","Moldovan")] <- "Romanian"
+languages$lgroup[languages$language %in% c("Finnish","Estonian","Magyar")] <- "Finnish"
+languages$lgroup[languages$language %in% c("Albanian")] <- "Albanian"
+languages$lgroup[languages$language %in% c("Serbian","Serbian/Montenegrin")] <- "Serbian"
+languages$lgroup[languages$language %in% c("Greek")] <- "Greek"
+languages$lgroup[languages$language %in% c("Turkic","Turkish","Turkmen","Kazak","Kyrgyz","Uzbek")] <- "Turkish"
+languages$lgroup[languages$language %in% c("Armenian")] <- "Armenian"
+languages$lgroup[languages$language %in% c("Arabic","Amharic")] <- "Arabic"
+languages$lgroup[languages$language %in% c("Swahili","Chichewa","IsiZulu","Kinyarwanda")] <- "Afican"
+languages$lgroup[languages$language %in% c("Urdu")] <- "Pakistani"
+languages$lgroup[languages$language %in% c("Hindi","Nepali","Maldivian Dhivehi","Sinhala","Bangla")] <- "Indian"
+languages$lgroup[languages$language %in% c("Japanese")] <- "Japanese"
+languages$lgroup[languages$language %in% c("Korean")] <- "Korean"
+languages$lgroup[languages$language %in% c("Chinese","Mandarin")] <- "Chinese"
+languages$lgroup[languages$language %in% c("Vietnamese","Khmer")] <- "Vietnamese"
+languages$lgroup[languages$language %in% c("Bahasa Indonesia")] <- "Indonesian"
+languages$lgroup[languages$language %in% c("Samoan","Marshallese","Nauruan","Palauan","Tetum","Tongan","Tuvaluan")] <- "Polynesian"
+languages$lgroup[languages$language %in% c("Filipino")] <- "Filipino"
 
+#whats left
+sort(unique(languages$language[is.na(languages$lgroup)]))
+
+# Big missing cases:
+# Persian (and Tajik)
+# Hebrew
+# Malay languages (Bahasa Melayu, Malay)
+# Sino-Tibetan (Burmese, Dzongkha)
+# Thai (and related Lao)
+# Mongolian
+# Afar and Somali
+
+languages$lgroup[is.na(languages$lgroup)] <- "US"
+
+
+#TODO: switch scottish and Irish later based on country, as well as US to US
 
 #name_data <- read.csv(here("name_generation","output","name_nationality.csv"))
 
