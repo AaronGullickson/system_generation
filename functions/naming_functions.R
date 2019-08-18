@@ -46,12 +46,16 @@ library(wrswoR)
 library(here)
 load(here("name_generation","output","myth_sample.RData"))
 load(here("name_generation","output","places_sample.RData"))
+load(here("name_generation","output","surnames.RData"))
+load(here("name_generation","output","name_corr.RData"))
+nationalities <- read.csv(here("name_generation/output/name_nationality.csv"))
 
 generate_system_names <- function(system, id) {
   
-  nationalities <- read.csv(here("name_generation/output/name_nationality.csv"))
-
-  nationality <- nationalities$country_iso[nationalities$id==id]
+  nationality <- name_corr[name_corr$id==id,]
+  if(is.na(nationality$country_iso)) {
+    nationality <- sample_nationality()
+  }
   
   system$planets$name <- sample_names(nrow(system$planets), "planet", nationality)
   system$planets$continent_names <- NA
@@ -105,27 +109,47 @@ sample_names <- function(n, object_type, nationality, continuity=0.8) {
     }
   }
     
-  names <- NULL
+  names <- rep(NA, length(sources))
   
-  for(source in sources) {
+  #TODO: sort these by type and then sample in groups, then sort back to the original
+  # order
+  tab <- table(sources)
+  for(i in 1:length(tab)) {
+    source <- names(tab)[i]
     if(source=="place") {
-      names <- c(names, sample_place_name("US"))
+      names[which(sources==source)] <- sample_place_name(tab[i], 
+                                                         as.character(nationality$country_iso))
     } else if(source=="surname") {
-      names <- c(names, "Smith")
+      names[which(sources==source)] <- sample_surname(tab[i], 
+                                                      as.character(nationality$lgroup))
     } else if(source=="mythological") {
-      names <- c(names, sample_myth_name("Greek"))
+      names[which(sources==source)] <- sample_myth_name(tab[i])
     } else {
       #sequence 
       #TODO: allow this for moons but force perfect continuity
     }
+    
   }
   
   return(names)
 }
 
+sample_nationality <- function() {
+  #sample a country from ones with non-NA country ISO
+  temp <- na.omit(name_corr, !is.na(country_iso))
+  return(temp[sample(1:nrow(temp),1),])
+}
 
-sample_place_name <- function(c, n=1) {
+
+sample_place_name <- function(n=1, c=NULL) {
+  if(is.null(c) || is.na(c)) {
+    #when country is missing, we will assume the same distribution
+    #as for when countries are present
+    tab <- table(name_corr$country_iso)
+    c <- sample(names(tab), 1, prob = tab)
+  }
   sample_country <- subset(places_sample, country==c)
+  
   if(nrow(sample_country)==0) {
     warning(paste("No country named",c))
     return(NA)
@@ -140,12 +164,14 @@ sample_place_name <- function(c, n=1) {
   return(as.character(sample_country$name[sample_idx]))
 }
 
-sample_myth_name <- function(p, n=1) {
-  sample_pantheon <- subset(myth_sample, pantheon==p)
-  if(nrow(sample_pantheon)==0) {
-    warning(paste("No pantheon named",p))
-    return(NA)
+sample_myth_name <- function(n=1, c=NULL) {
+  #we will use relative odds to sample pantheons. 
+  odds <- c(5,1,3,3,10,15,5,10,1,3,5,25,15,5,10,5,10,5,5,20,5,20,10,5,5,5,1)
+  if(!is.null(c) && !is.na(c)) {
+    #TODO: Based on correspondence tables, some odds may be increased
   }
+  p <- sample(unique(myth_sample$pantheon), 1, prob = odds)
+  sample_pantheon <- subset(myth_sample, pantheon==p)
   if(n > nrow(sample_pantheon)) {
     n <- nrow(sample_pantheon)
   }
@@ -153,4 +179,25 @@ sample_myth_name <- function(p, n=1) {
                                 n,
                                 prob=sample_pantheon$popularity)
   return(as.character(sample_pantheon$name[sample_idx]))
+}
+
+sample_surname <- function(n=1, l=NULL) {
+  if(is.null(l) || is.na(l)) {
+    #when lgroup is missing, we will assume the same distribution
+    #as for when its present
+    tab <- table(name_corr$lgroup)
+    l <- sample(names(tab), 1, prob = tab)
+  }
+  surname_sample <- subset(surnames, lgroup==l)
+  if(nrow(surname_sample)==0) {
+    warning(paste("No language group named",l))
+    return(NA)
+  }
+  if(n > nrow(surname_sample)) {
+    n <- nrow(surname_sample)
+  }
+  sample_idx <- sample_int_expj(nrow(surname_sample),
+                                n,
+                                prob=surname_sample$weight)
+  return(surname_sample$surname[sample_idx])
 }

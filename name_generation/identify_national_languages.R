@@ -1,4 +1,4 @@
-# read in data on primary languages by country and add to our name_data.
+# read in data on primary languages by country and link it to our surname lists by language group
 
 library(here)
 library(htmltab)
@@ -39,7 +39,7 @@ languages$lgroup[languages$language %in% c("English","Bislama","Tok Pisin")] <- 
 languages$lgroup[languages$language %in% c("German","Luxermbourgish")] <- "German"
 languages$lgroup[languages$language %in% c("Dutch")] <- "Dutch"
 languages$lgroup[languages$language %in% c("German")] <- "German"
-languages$lgroup[languages$language %in% c("Danish","Swedish","Norwegian","Icelandic")] <- "Scandinavian"
+languages$lgroup[languages$language %in% c("Danish","Swedish","Norwegian","Icelandic")] <- "Scandanavian"
 languages$lgroup[languages$language %in% c("French","Seselwa Creole")] <- "French"
 languages$lgroup[languages$language %in% c("Italian")] <- "Italian"
 languages$lgroup[languages$language %in% c("Spanish")] <- "Hispanic"
@@ -55,7 +55,7 @@ languages$lgroup[languages$language %in% c("Greek")] <- "Greek"
 languages$lgroup[languages$language %in% c("Turkic","Turkish","Turkmen","Kazak","Kyrgyz","Uzbek")] <- "Turkish"
 languages$lgroup[languages$language %in% c("Armenian")] <- "Armenian"
 languages$lgroup[languages$language %in% c("Arabic","Amharic")] <- "Arabic"
-languages$lgroup[languages$language %in% c("Swahili","Chichewa","IsiZulu","Kinyarwanda")] <- "Afican"
+languages$lgroup[languages$language %in% c("Swahili","Chichewa","IsiZulu","Kinyarwanda")] <- "African"
 languages$lgroup[languages$language %in% c("Urdu")] <- "Pakistani"
 languages$lgroup[languages$language %in% c("Hindi","Nepali","Maldivian Dhivehi","Sinhala","Bangla")] <- "Indian"
 languages$lgroup[languages$language %in% c("Japanese")] <- "Japanese"
@@ -78,13 +78,6 @@ sort(unique(languages$language[is.na(languages$lgroup)]))
 # Mongolian
 # Afar and Somali
 
-languages$lgroup[is.na(languages$lgroup)] <- "US"
+languages$lgroup[is.na(languages$lgroup)] <- "U.S."
 
-
-#TODO: switch scottish and Irish later based on country, as well as US to US
-
-#name_data <- read.csv(here("name_generation","output","name_nationality.csv"))
-
-#temp <- data.frame(country=unique(name_data$country_name))
-
-#temp <- merge(temp, languages, all=TRUE)
+save(languages, file=here("name_generation", "output", "languages.RData"))
