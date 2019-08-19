@@ -76,6 +76,8 @@ generate_system_names <- function(system, id) {
                                                  collapse=",")
     }
     if(!is.na(system$planets$population[i])) {
+      #some chance that you just inherit the planet name plus "City"
+      #also some chance you get "<Landmass> City"
       system$planets$capitol_name[i] <- sample_names(1, "city", nationality)
     }
   }
@@ -117,13 +119,16 @@ sample_names <- function(n, object_type, nationality, continuity=0.8) {
   for(i in 1:length(tab)) {
     source <- names(tab)[i]
     if(source=="place") {
-      names[which(sources==source)] <- sample_place_name(tab[i], 
-                                                         as.character(nationality$country_iso))
+      names[which(sources==source)] <- add_flavor(sample_place_name(tab[i], 
+                                                                    as.character(nationality$country_iso)),
+                                                  object_type, "place")
     } else if(source=="surname") {
-      names[which(sources==source)] <- sample_surname(tab[i], 
-                                                      as.character(nationality$lgroup))
+      names[which(sources==source)] <- add_flavor(sample_surname(tab[i], 
+                                                                 as.character(nationality$lgroup)),
+                                                  object_type, "surname")
     } else if(source=="mythological") {
-      names[which(sources==source)] <- sample_myth_name(tab[i])
+      names[which(sources==source)] <- add_flavor(sample_myth_name(tab[i]),
+                                                  object_type, "mythological")
     } else {
       #sequence 
       #TODO: allow this for moons but force perfect continuity
@@ -200,4 +205,28 @@ sample_surname <- function(n=1, l=NULL) {
                                 n,
                                 prob=surname_sample$weight)
   return(surname_sample$surname[sample_idx])
+}
+
+
+#A function that adds flavor to the random names by source and type
+add_flavor <- function(names, type, source) {
+  
+  #some ideas so far
+  #attach New in front of place names
+  #Attach "City" or something similar on the end of capital cities
+  #use a duplicate landmass name, but one is Big and the other Small
+  #Turn surnames into possessives followed by things like Mistake, Meridian, Hold, etc.
+  #I could even use a translation package to translate into other languages
+  
+  
+  for(i in 1:length(names)) {
+    if(type=="City") {
+      if(sample(1:10, 1)<=2) {
+        names[i] <- paste(names[i], "City", sep=" ")
+      }
+    }
+  }
+  
+  return(names)
+  
 }
