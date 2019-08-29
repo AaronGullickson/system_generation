@@ -1,0 +1,1298 @@
+Aaravin,1,61
+Aban,2,61
+Abas,9,61
+Abba,1,61
+Abd Ghani,1,61
+Abd Hamid,1,61
+Abd Haziq,1,61
+Abd Latif,1,61
+Abd Rahman,1,61
+Abdul,1,61
+Abdul Ajid,1,61
+Abdul Aziz,9,61
+Abdul Fattah,1,61
+Abdul Gany,1,61
+Abdul Gapor,1,61
+Abdul Ghani,7,61
+Abdul Hadi,2,61
+Abdul Hakim,2,61
+Abdul Halim,6,61
+Abdul Hameed,1,61
+Abdul Hamid,6,61
+Abdul Haziq,1,61
+Abdul Isha,1,61
+Abdul Jabar,1,61
+Abdul Jalil,1,61
+Abdul Jamil,1,61
+Abdul Kadir,1,61
+Abdul Kalam,1,61
+Abdul Karim,3,61
+Abdul Khalil,1,61
+Abdul Latif,9,61
+Abdul Majid,5,61
+Abdul Manaf,1,61
+Abdul Moin,1,61
+Abdul Mutalib,1,61
+Abdul Muthalib,1,61
+Abdul Nasir,2,61
+Abdul Rahim,7,61
+Abdul Rahman,11,61
+Abdul Rajum,1,61
+Abdul Rani,2,61
+Abdul Rashid,2,61
+Abdul Razak,4,61
+Abdul Salamat,1,61
+Abdul Salim,1,61
+Abdul Samat,1,61
+Abdul Talib,1,61
+Abdul Wahab,2,61
+Abdul Wahaid,1,61
+Abdul Wahid,2,61
+Abdullad,1,61
+Abdullah,70,61
+Abidin,15,61
+Abu,12,61
+Abu Bakar,17,61
+Abu Haniffah,1,61
+Abu Hassan,2,61
+Abu Sahit,1,61
+Abu Salim,6,61
+Abu Samah,3,61
+Abu Shah,3,61
+Abu Zahar,1,61
+Abu Zarim,1,61
+Adan,3,61
+Adenan,2,61
+Adha,9,61
+Adli,2,61
+Adnan,12,61
+Adney,1,61
+Adzha,3,61
+Adzhar,3,61
+Adzman,2,61
+Afandi,2,61
+Affendi,3,61
+Afidah,2,61
+Afif,2,61
+Afifi,2,61
+Afiq,5,61
+Afiq Ali,2,61
+Ahkuan,1,61
+Ahmad,52,61
+Ahmad Fuzi,1,61
+Ahmad Kamal,1,61
+Aiman,2,61
+Ain Zamri,1,61
+Aizad,2,61
+Aizat,4,61
+Aizuddin,2,61
+Ajid,3,61
+Ajui,1,61
+Akbar,7,61
+Akhbar,2,61
+Akhyar,2,61
+Akil,5,61
+Akim,2,61
+Akin,1,61
+Akmal,3,61
+Akram,3,61
+Al-Aafiz,1,61
+Al-Haj,3,61
+Ali,24,61
+Ali Hassan,2,61
+Ali Rahman,1,61
+Alia,1,61
+Alias,4,61
+Alif,6,61
+Alifan,2,61
+Alwi,4,61
+Alyas,1,61
+Aman,6,61
+Amar,5,61
+Amil,4,61
+Amin,21,61
+Amir,2,61
+Amiruddin,2,61
+Amirullah,5,61
+Amirzafran,2,61
+Ampon,1,61
+Amran,3,61
+Amri,2,61
+Amzar,2,61
+Anafi,2,61
+Anak,2,61
+Andik,4,61
+Ang,1,61
+Ani,1,61
+Anil,2,61
+Annuar,1,61
+Anuar,11,61
+Anugrah,1,61
+Anwar,4,61
+Apandi,3,61
+Arasad,2,61
+Arif,3,61
+Ariff,7,61
+Ariffin,6,61
+Aripin,2,61
+Aris,6,61
+Armaiyn,1,61
+Arumugam,2,61
+Arunasalam,2,61
+Ashraf,4,61
+Asimin,1,61
+Asli,2,61
+Asnan,2,61
+Asokan,2,61
+Asraf,2,61
+Asri,4,61
+Asyraf,4,61
+Attah,2,61
+Awal,2,61
+Awang,4,61
+Ayob,6,61
+Ayub,4,61
+Azahar,6,61
+Azalli,4,61
+A'zalli,2,61
+Azam,3,61
+Azeman,1,61
+Azfar,2,61
+Azhad,3,61
+Azhan,2,61
+Azhar,11,61
+Azhari,2,61
+Azidin,3,61
+Azih,2,61
+Azim,3,61
+Aziq,3,61
+Aziz,22,61
+Azizan,8,61
+Azizi,8,61
+Azizul,8,61
+Azlan,4,61
+Azlen,1,61
+Azli,2,61
+Azlin,2,61
+Azly,2,61
+Azman,27,61
+Azmari,2,61
+Azmi,18,61
+Azmizan,1,61
+Aznan,2,61
+Azohar,2,61
+Azraie,1,61
+Azram,5,61
+Azri,8,61
+Azuan,4,61
+Azudi,2,61
+Azuhar,4,61
+Azwadi,2,61
+Azwar,2,61
+Azzahari,2,61
+Baba,3,61
+Babakhanov,1,61
+Baderon,2,61
+Bahadoran,2,61
+Bahari,2,61
+Baharom,10,61
+Baharuddin,9,61
+Baharudin,3,61
+Baharum,2,61
+Baharun,2,61
+Bakar,7,61
+Bakhtiar,4,61
+Bakri,6,61
+Baksin,2,61
+Bakti,2,61
+Balagumaran,1,61
+Balakrishnan,1,61
+Balang,2,61
+Baliya,2,61
+Balwant,2,61
+Bana,2,61
+Bandi,2,61
+Bandong,1,61
+Barudin,3,61
+Bashah,2,61
+Basharuddin,3,61
+Basharudin,2,61
+Bashir,3,61
+Basir,2,61
+Baskeran,2,61
+Basri,3,61
+Batuil,2,61
+Bazree,2,61
+Bhagawat,1,61
+Billah,2,61
+bin Ahmad,2,61
+bin Akim,2,61
+bin Alipah,1,61
+bin Aziz,2,61
+bin Basru,1,61
+bin Desa,1,61
+bin Effendi,2,61
+bin Fahrur,1,61
+bin Farizuan,2,61
+bin Gany,1,61
+bin Haji,2,61
+bin Hakim,2,61
+bin Hussin,1,61
+bin Iskandar,2,61
+bin Johari,1,61
+bin Kassim,2,61
+bin Katon,1,61
+bin Khairi,2,61
+bin Lani,2,61
+bin Matin,2,61
+bin Mohamad,3,61
+bin Musa,2,61
+bin Omar,2,61
+bin Rashid,2,61
+bin Saharo,1,61
+bin Said,2,61
+bin Saleh,2,61
+bin Samat,1,61
+bin Sawit,1,61
+bin Sazali,1,61
+bin Sehat,2,61
+bin Siraj,1,61
+bin Yusof,2,61
+bin Zainuddin,1,61
+Bokhari,4,61
+Boon,1,61
+Buhari,2,61
+Bujang,2,61
+Burhan,3,61
+Bustaman,4,61
+Buyong,3,61
+Chai,1,61
+Chan,1,61
+Chandran,3,61
+Chang,1,61
+Chanteran,1,61
+Che Lah,2,61
+Che Mat,2,61
+Che Su,1,61
+Chee,1,61
+Chen,1,61
+Cher,2,61
+Chew,1,61
+Chia,1,61
+Chin,1,61
+Chitrikar,1,61
+Chong,1,61
+Choo,1,61
+Chow,1,61
+Chua,1,61
+Chuchu,3,61
+Dahari,4,61
+Damanhuri,1,61
+Daud,15,61
+Deli,1,61
+Deraman,2,61
+Derus,1,61
+Desa,6,61
+Devan,6,61
+Devi,1,61
+Dewan,3,61
+Diman,2,61
+Din,6,61
+Dinesh,2,61
+Dol,3,61
+Dollah,2,61
+Dorahim,2,61
+Doresamy,2,61
+Dormad,2,61
+Dudala,2,61
+Durum,2,61
+Dzahir,3,61
+Dzulkifli,4,61
+Edenan,2,61
+Effandi,3,61
+Effendi,2,61
+Effendy,6,61
+Elavarasan,4,61
+Eliza,2,61
+Elphi,2,61
+Emmran,2,61
+Erwinshah,4,61
+Erzal,2,61
+Eunos,2,61
+Eusoff,3,61
+Ezrein,2,61
+Fadzil,5,61
+Fadzim,8,61
+Faeez,2,61
+Fahmi,8,61
+Fahmy,2,61
+Fahrin,2,61
+Fairuz,3,61
+Faisal,3,61
+Faiz,6,61
+Faizal,5,61
+Fakhrullah,3,61
+Fandi,4,61
+Farhan,8,61
+Farid,3,61
+Faridudin,3,61
+Farizat,3,61
+Farizuan,4,61
+Faron,2,61
+Farran,2,61
+Faruk,4,61
+Fatah,3,61
+Faudzi,4,61
+Fausi,4,61
+Fauzi,14,61
+Fazail,2,61
+Fazil,4,61
+Fazreen,2,61
+Fazrin,2,61
+Feisal,2,61
+Felix,1,61
+Fikri,6,61
+Firdaus,3,61
+Fitri,3,61
+Foo,1,61
+Fuad,2,61
+Fuzi,2,61
+Gan,1,61
+Ganasan,2,61
+Ganassan,1,61
+Gapor,1,61
+Gati,2,61
+Gazali,3,61
+Gaznavi,2,61
+Ghaddar,2,61
+Ghani,11,61
+Ghazali,13,61
+Ghazli,2,61
+Ghent,1,61
+Ghoth,1,61
+Goh,1,61
+Gopalkrishnan,1,61
+Gul,2,61
+Gulam,2,61
+Gunalan,3,61
+Gunasegaran,1,61
+Gurusamy,1,61
+Hadi,7,61
+Hafiq,3,61
+Hafiz,18,61
+Hafizan,3,61
+Hafizuddin,4,61
+Haikal,3,61
+Haili,2,61
+Haini,3,61
+Haiqel,1,61
+Haj,3,61
+Haji,10,61
+Haji Mat,1,61
+Hakeem,4,61
+Hakim,20,61
+Hakim Ahmad,1,61
+Hakimi,6,61
+Halim,13,61
+Halimi,3,61
+Hamat,2,61
+Hamdan,3,61
+Hamer,2,61
+Hamid,22,61
+Hamidi,6,61
+Hamir,1,61
+Hamizikri,2,61
+Hamzah,14,61
+Hamzam,1,61
+Han,1,61
+Hanafi,4,61
+Hanapi,2,61
+Hanif,2,61
+Haniff,2,61
+Haniffah,2,61
+Hanipah,2,61
+Haris,3,61
+Harman,2,61
+Haron,3,61
+Harun,20,61
+Hasan,6,61
+Hashim,14,61
+Hasnan,1,61
+Hasni,2,61
+Hasnol,2,61
+Hasrin,2,61
+Hassan,52,61
+Haszaime,1,61
+Hatta,6,61
+Haziq,8,61
+Hazmi,6,61
+Hazrul,4,61
+Helmi,1,61
+Herlambang,1,61
+Herman,1,61
+Hidzan,2,61
+Hiralal,2,61
+Hisham,4,61
+Hisyam,6,61
+Hizam,5,61
+Hossain,2,61
+Husin,13,61
+Husni,2,61
+Hussain,4,61
+Hussan,2,61
+Hussein,7,61
+Hussin,4,61
+Ibni,3,61
+Ibrahim,45,61
+Idlan,4,61
+Idris,24,61
+Idros,1,61
+Ifendi,1,61
+Igbal,2,61
+Igwan,1,61
+Ihsan,2,61
+Ikhsan,4,61
+Ikhwan,4,61
+Ikmanizar,2,61
+Ilham,2,61
+Iman,3,61
+Insa,2,61
+Irfan,4,61
+Irffan,2,61
+Irudianathan,1,61
+Irwan,2,61
+Isa,16,61
+Isa Sham,2,61
+Isha,2,61
+Ishak,18,61
+Iskandar,17,61
+Iskandariah,2,61
+Ismail,75,61
+Izaidi,2,61
+Izham,3,61
+Izhan,3,61
+Izram,3,61
+Izuan,2,61
+Izwan,7,61
+Izzuddin,4,61
+Jaafar,12,61
+Ja'afar,1,61
+Jabidin,3,61
+Jabun,2,61
+Jagan,4,61
+Jailani,6,61
+Jaini,2,61
+Jainudin,3,61
+Jais,2,61
+Jakaira,2,61
+Jalal,3,61
+Jalil,13,61
+Jamal,5,61
+Jamalludin,4,61
+Jamaluddin,6,61
+Jamaludin,5,61
+Jamari,2,61
+Jambu,2,61
+Jamian,1,61
+Jamil,14,61
+Jamlus,4,61
+Jan,1,61
+Janasekaran,1,61
+Jantan,2,61
+Janudin,5,61
+Japri,3,61
+Jasini,4,61
+Jasman,2,61
+Jasmi,3,61
+Jasni,2,61
+Jasuli,4,61
+Jaymic,1,61
+Jeffrey,1,61
+Joha,3,61
+Johadi,3,61
+Johan,4,61
+Johar,5,61
+Johari,12,61
+Juhari,2,61
+Jukup,2,61
+Jumaat,2,61
+Juma'at,1,61
+Junimin,2,61
+Junit,3,61
+Jupri,1,61
+Jusit,2,61
+Jusof,2,61
+Kadar,3,61
+Kadir,7,61
+Kalam,4,61
+Kamal,13,61
+Kamaludin,3,61
+Kamaruddin,10,61
+Kamarudin,6,61
+Kamarulzaman,6,61
+Kamaruzaman,1,61
+Kamirun,2,61
+Kamis,3,61
+Kamsah,2,61
+Kanapathy,2,61
+Kandasamy,1,61
+Kannan,2,61
+Karathu,6,61
+Karib,2,61
+Karim,7,61
+Karuppan,2,61
+Kasim,4,61
+Kasman,3,61
+Kassim,10,61
+Katon,2,61
+Kaur,1,61
+Kee,1,61
+Kemaluddin,4,61
+Khaidzir,3,61
+Khaimi,3,61
+Khairuddin,5,61
+Khairudin,2,61
+Khairul,2,61
+Khairullah,4,61
+Khaizan,3,61
+Khalid,12,61
+Khalidi,10,61
+Khalif,3,61
+Khalil,7,61
+Khamis,3,61
+Khan,15,61
+Khawarizmi,3,61
+Khirudin,3,61
+Khoo,1,61
+Khor,9,61
+Khusnin,2,61
+Koh,1,61
+Kok,1,61
+Kong,1,61
+Kooty,1,61
+Kow,2,61
+Krishnan,3,61
+Krisnamoorthy,1,61
+Kuan,1,61
+Kugan,4,61
+Kumar,10,61
+Kunanlan,2,61
+Kuppan,3,61
+Kutty,2,61
+Lah,1,61
+Lai,1,61
+Lam,1,61
+Lani,4,61
+Latif,7,61
+Latpi,1,61
+Lau,1,61
+Lawadin,3,61
+Lazim,5,61
+Lee,1,61
+Legan,1,61
+Leh,1,61
+Leong,1,61
+Lestaluhu,1,61
+Letchumanan,1,61
+Li,1,61
+Liew,1,61
+Lim,2,61
+Limbu,1,61
+Lin,2,61
+Ling,1,61
+Loganathan,1,61
+Loh,1,61
+Lokman,5,61
+Loo,1,61
+Low,1,61
+Lowa,2,61
+Lupiamir,1,61
+Luqman,3,61
+Madarsa,1,61
+Madlan,2,61
+Mahadi,5,61
+Mahadzir,3,61
+Mahamud,3,61
+Mahayuddin,10,61
+Maher,2,61
+Mahinan,2,61
+Mahmood,3,61
+Mahmud,7,61
+Mahrim,2,61
+Mahsun,2,61
+Mahusin,2,61
+Mahzan,3,61
+Maideen,2,61
+Maidin,2,61
+Majid,10,61
+Mamat,4,61
+Man,6,61
+Manaf,3,61
+Manan,2,61
+Maniam,2,61
+Mansor,7,61
+Marajeh,3,61
+Maran,4,61
+Mardzuki,2,61
+Marimuthu,1,61
+Marjan,6,61
+Marjoni,2,61
+Marlias,1,61
+Marzuki,5,61
+Masri,8,61
+Mat,10,61
+Mat Arif,1,61
+Mat Aris,2,61
+Mat Hamidi,1,61
+Mat Lazim,1,61
+Mat Nayan,2,61
+Mat Noor,3,61
+Mat Radi,1,61
+Mat Rani,1,61
+Mat Rodzi,1,61
+Mat Sah,1,61
+Mat Salleh,1,61
+Mat Sharif,1,61
+Mat Yaacob,1,61
+Mat Yunus,1,61
+Mathiazgan,2,61
+Matin,3,61
+Matlan,2,61
+Matusin,4,61
+Maudoode,1,61
+Mazafar,5,61
+Mazali,3,61
+Mazir,3,61
+Mazlan,26,61
+Maznan,3,61
+Mazni,2,61
+Mazuki,2,61
+Mifdhal,2,61
+Milhan,2,61
+Min,2,61
+Minhat,3,61
+Misran,2,61
+Miswan,7,61
+Mizalan,2,61
+Mizei,1,61
+Mohamad,21,61
+Mohamad Ali,1,61
+Mohamed,24,61
+Mohammad,12,61
+Mohammed,5,61
+Mohan,8,61
+Mohana,2,61
+Mohd Ali,3,61
+Mohd Alif,1,61
+Mohd Amin,1,61
+Mohd Ani,1,61
+Mohd Anuar,1,61
+Mohd Ariffin,1,61
+Mohd Asri,1,61
+Mohd Ayub,1,61
+Mohd Azizul,1,61
+Mohd Azmi,1,61
+Mohd Desa,1,61
+Mohd Fadzil,1,61
+Mohd Fausi,1,61
+Mohd Fauzi,2,61
+Mohd Fazil,1,61
+Mohd Ghoth,1,61
+Mohd Hamdan,1,61
+Mohd Hanafi,1,61
+Mohd Hasni,1,61
+Mohd Hisyam,1,61
+Mohd Isa,3,61
+Mohd Jaymic,1,61
+Mohd Johari,1,61
+Mohd Lokman,1,61
+Mohd Muhyiddin,1,61
+Mohd Nasir,1,61
+Mohd Nizam,1,61
+Mohd Noor,5,61
+Mohd Nor,3,61
+Mohd Nordin,1,61
+Mohd Radzi,1,61
+Mohd Rafiz,1,61
+Mohd Rashid,1,61
+Mohd Rodzi,1,61
+Mohd Roslan,1,61
+Mohd Saadon,1,61
+Mohd Saidi,1,61
+Mohd Salleh,2,61
+Mohd Shahrin,1,61
+Mohd Sham,1,61
+Mohd Shamsuri,1,61
+Mohd Sofian,1,61
+Mohd Som,1,61
+Mohd Subri,1,61
+Mohd Sufian,1,61
+Mohd Tarmizi,1,61
+Mohd Tawil,1,61
+Mohd Yamin,1,61
+Mohd Yassin,1,61
+Mohd Yunus,1,61
+Mohd Yusof,3,61
+Mohd Yusoff,1,61
+Mohd Zabawi,1,61
+Mohd Zaidi,1,61
+Mohd Zailani,1,61
+Mohd Zain,2,61
+Mohd Zin,1,61
+Mohni,2,61
+Mohtar,3,61
+Moin,2,61
+Mokhtar,10,61
+Moliki,1,61
+Momin,2,61
+Muda,4,61
+Muhamad,15,61
+Muhammad,26,61
+Muhd Adnan,1,61
+Muhd Ali,2,61
+Muhd Anuar,1,61
+Muhd Hatta,1,61
+Muhd Isa,2,61
+Muhd Ramlee,1,61
+Muhd Zain,1,61
+Muhimian,2,61
+Muhyiddin,6,61
+Muhymeen,2,61
+Muiz,2,61
+Mukarim,3,61
+Mukhtar,3,61
+Muniandy,3,61
+Munusamy,5,61
+Murgayah,1,61
+Murshariza,2,61
+Murugam,2,61
+Murugan,1,61
+Musa,15,61
+Muslim,4,61
+Mustafa,5,61
+Mustaffa,13,61
+Mustafic,1,61
+Mustakim,2,61
+Mustapa,2,61
+Mustapha,3,61
+Mutalib,5,61
+Muthalib,2,61
+Nadarajah,4,61
+Nadesan,1,61
+Nadzer,3,61
+Nadzir,7,61
+Nadzli,2,61
+Naemat,1,61
+Nagaraja,1,61
+Nagarajan,2,61
+Nagoorgani,2,61
+Naguran,2,61
+Naidu,3,61
+Naim,6,61
+Nair,3,61
+Naizali,2,61
+Najeeb,3,61
+Naji,5,61
+Nalathamby,1,61
+Namathevan,2,61
+Nan,2,61
+Nanthakumar,1,61
+Napi,1,61
+Narawi,3,61
+Narayan,2,61
+Nasaruddin,4,61
+Nasharuddin,6,61
+Nasir,17,61
+Nasrulhaq,2,61
+Nawab,3,61
+Nawas,3,61
+Nawawi,2,61
+Nawaz,4,61
+Nawi,3,61
+Nayan,4,61
+Nazarene,1,61
+Nazari,3,61
+Nazaruddin,4,61
+Nazlin,2,61
+Nazmi,5,61
+Nazmy,3,61
+Nazri,15,61
+Nazrullah,4,61
+Nekmat,2,61
+Ng,1,61
+Ngah,1,61
+Nidzam,3,61
+Nik,5,61
+Nik Leh,1,61
+Nik Min,1,61
+Nin,2,61
+Nin Mazlan,1,61
+Ninggal,10,61
+Nithiya,2,61
+Nizam,23,61
+Nizwan,4,61
+Noh,3,61
+Noor,42,61
+Noor Rosdy,2,61
+Noorazmi,3,61
+Noorghani,2,61
+Nor,13,61
+Nor Afandi,1,61
+Nor Asli,2,61
+Nor Azli,2,61
+Nor Azri,2,61
+Norbit,2,61
+Nordin,26,61
+Norhisham,6,61
+Norhisyam,2,61
+Norinukartapati,1,61
+Norizan,5,61
+Norli,1,61
+Norman,2,61
+Norsam,2,61
+Norsyabil,2,61
+Norsyam,2,61
+Nourdin,2,61
+Nuatim,4,61
+Nyaring,1,61
+Oftawan,2,61
+Omar,48,61
+Ong,1,61
+Onn,2,61
+Osman,16,61
+Othman,25,61
+Paat,1,61
+Paharudin,3,61
+Paijan,2,61
+Pairol,2,61
+Pallraj,1,61
+Paneer,1,61
+Parthasaraty,1,61
+Partiban,1,61
+Pauzi,2,61
+Pendi,1,61
+Pengiran,1,61
+Perianan,1,61
+Periasamy,2,61
+Perumal,2,61
+Petara,2,61
+Piee,1,61
+Pilus,3,61
+Poh,1,61
+Poobathy,1,61
+Posari,2,61
+Prakash,2,61
+Puaneswaran,1,61
+Puat,2,61
+Putera,6,61
+Putra,4,61
+Qamah,2,61
+Rabisanthran,1,61
+Radi,3,61
+Radzi,11,61
+Radzmi,2,61
+Radzwan,3,61
+Raffi,2,61
+Rafi,5,61
+Rafiz,3,61
+Ragu,1,61
+Rahim,18,61
+Rahman,31,61
+Rahmat,8,61
+Raibi,2,61
+Raj,11,61
+Raja,8,61
+Raja Ahmad,1,61
+Raja Radzmi,1,61
+Rajagopal,1,61
+Rajah,2,61
+Rajak,2,61
+Rajasingam,2,61
+Raju,2,61
+Rajum,2,61
+Rakhli,6,61
+Ramachandra,1,61
+Ramachandran,2,61
+Ramasamy,2,61
+Ramdan,3,61
+Ramdzan,6,61
+Ramlan,2,61
+Ramlee,10,61
+Ramli,29,61
+Rani,8,61
+Rapi,2,61
+Rasdi,3,61
+Rashid,25,61
+Rashidi,3,61
+Rasib,5,61
+Rasid,3,61
+Rasmizal,2,61
+Rasol,2,61
+Rasyid,2,61
+Ravichandran,2,61
+Ravindran,2,61
+Rayyan,3,61
+Razak,10,61
+Razali,26,61
+Razi,5,61
+Razzali,1,61
+Recha,1,61
+Redzawan,3,61
+Rehab,1,61
+Ridwan,6,61
+Ridzuan,3,61
+Ridzuwan,2,61
+Rifqi,2,61
+Rizal,4,61
+Rizam,4,61
+Rizuan,6,61
+Robbat,1,61
+Roddin,2,61
+Rodiarjat,1,61
+Rodzi,10,61
+Rohaizad,2,61
+Rohaizat,2,61
+Rohim,2,61
+Rohmat,2,61
+Romli,5,61
+Romzi,2,61
+Ronedin,1,61
+Roomai,2,61
+Ros,8,61
+Rosdi,3,61
+Rosdin,6,61
+Rosdy,4,61
+Roselin,2,61
+Rosielin,1,61
+Roslan,38,61
+Rosli,24,61
+Roslim,6,61
+Roslisam,4,61
+Rosman,5,61
+Rosnidin,2,61
+Rostam,2,61
+Roya,4,61
+Rozailan,2,61
+Rozak,2,61
+Rozali,3,61
+Rudy,1,61
+Ruslan,6,61
+Rusli,6,61
+Ruslih,2,61
+Rustam,4,61
+Rusydi,2,61
+Ruzi,2,61
+Ruzuan,2,61
+Saad,14,61
+Sa'ad,1,61
+Saadon,1,61
+Saarani,3,61
+Saari,4,61
+Saa'ri,1,61
+Sa'ari,1,61
+Sabaruddin,4,61
+Saberin,2,61
+Sabri,8,61
+Sadun,2,61
+Safar,3,61
+Safari,4,61
+Safee,4,61
+Safwan,4,61
+Sah,3,61
+Sahar,3,61
+Saharo,2,61
+Sahat,3,61
+Sahdan,2,61
+Sahit,3,61
+Sahizah,2,61
+Sahmat,3,61
+Sahri,3,61
+Said,13,61
+Saidi,3,61
+Saidon,5,61
+Saidun,5,61
+Saied,4,61
+Saifuddin,4,61
+Saiful,6,61
+Saiket,2,61
+Saim,2,61
+Saiman,2,61
+Saipul,2,61
+Sairudin,3,61
+Salahuddin,6,61
+Salamat,3,61
+Saleh,8,61
+Salehuddin,3,61
+Sali,7,61
+Salihin,5,61
+Salim,24,61
+Salime,2,61
+Sallah,3,61
+Salleh,30,61
+Salwana,2,61
+Samah,6,61
+Samail,2,61
+Samat,3,61
+Samli,2,61
+Samsudin,8,61
+Samy,3,61
+Sanbagamaran,1,61
+Sani,7,61
+Sapri,3,61
+Sarkunan,5,61
+Sathianathan,1,61
+Sathivelu,1,61
+Saw,1,61
+Sazali,8,61
+Sazan,3,61
+Sehat,6,61
+Seherzan,3,61
+Seini,1,61
+Selamat,2,61
+Selat,3,61
+Selvam,2,61
+Selvamohan,1,61
+Selvaraj,4,61
+Selvarajah,1,61
+Senawi,2,61
+Shaari,4,61
+Sha'ari,4,61
+Shafie,6,61
+Shafik,3,61
+Shafiq,6,61
+Shah,34,61
+Shah Hassan,1,61
+Shaharudin,7,61
+Shahdan,4,61
+Shahimi,3,61
+Shahiran,3,61
+Shahlan,2,61
+Shahril,2,61
+Shahrin,5,61
+Shahruddin,4,61
+Sham,11,61
+Shamim,2,61
+Shamsuddin,6,61
+Shamsudin,11,61
+Shamsuri,11,61
+Shari,5,61
+Sharif,8,61
+Shariff,5,61
+Shariman,2,61
+Sharin,6,61
+Sharudin,3,61
+Shas,1,61
+Shazrin,3,61
+Sheikh,3,61
+Sheikh Ahmad,1,61
+Shuhaimi,3,61
+Shuhairi,3,61
+Shuhor,2,61
+Shukor,2,61
+Shukri,6,61
+Siedin,1,61
+Siew,1,61
+Sim,1,61
+Sin,1,61
+Singh,7,61
+Sino,1,61
+Sipil,2,61
+Siraj,3,61
+Sisa,6,61
+Sithamparam,1,61
+Sivaji,2,61
+Sivakumar,2,61
+Sivanesan,2,61
+Sobar,2,61
+Sobri,3,61
+Sofian,6,61
+Soh,1,61
+So'ib,1,61
+Som,2,61
+Sonkurnain,2,61
+Soo,1,61
+Stepanus,1,61
+Stibin,1,61
+Su,2,61
+Subramaniam,3,61
+Subri,3,61
+Sufian,3,61
+Sugeng,1,61
+Suhaimi,25,61
+Suhaini,2,61
+Sujad,3,61
+Sukri,6,61
+Sukumaran,2,61
+Sulaiman,28,61
+Sulau,2,61
+Sulong,4,61
+Sultan,3,61
+Sumareh,2,61
+Sundram,3,61
+Sundramoorthy,2,61
+Supandri,2,61
+Suparman,2,61
+Suppiah,1,61
+Surendran,2,61
+Sutohmoh,1,61
+Suzhaimi,2,61
+Suzliman,5,61
+Swandi,2,61
+Syafeeq,5,61
+Syaffiq,2,61
+Syah,3,61
+Syahin,3,61
+Syahir,3,61
+Syahiran,3,61
+Syaihul,4,61
+Syakir,3,61
+Syamsul,3,61
+Syaqirin,2,61
+Syarin,3,61
+Syazmin,3,61
+Syazwan,6,61
+Syed,11,61
+Syirhan,3,61
+Syukri,2,61
+Tabarani,2,61
+Taha,6,61
+Tahar,3,61
+Tahir,3,61
+Tai,1,61
+Taib,8,61
+Taj,5,61
+Tajuddin,8,61
+Tajudin,8,61
+Talaha,3,61
+Talib,12,61
+Tamit,2,61
+Tan,2,61
+Tang,1,61
+Tarif,3,61
+Tarmizi,7,61
+Tarmugi,2,61
+Tasman,5,61
+Taufik,3,61
+Tawil,6,61
+Tay,1,61
+Tengah,2,61
+Tengku,1,61
+Teo,1,61
+Teoh,1,61
+Termize,1,61
+Termizi,4,61
+Tham,1,61
+Thayanathan,2,61
+Ting,1,61
+Tinnadkaran,1,61
+Titinigan,1,61
+Toh,1,61
+Torairaju,1,61
+Toyo,1,61
+Tuan,2,61
+Tyasin,2,61
+Udom,2,61
+Uji,2,61
+Umar,3,61
+Uwais,2,61
+Vedhamuthu,1,61
+Veenod,1,61
+Vermansyah,2,61
+Vichal,1,61
+Vijayan,2,61
+Vispanathan,1,61
+Wahab,8,61
+Wahaid,2,61
+Wahi,2,61
+Wahid,8,61
+Waie,1,61
+Wan,2,61
+Wan Ahmad,1,61
+Wan Ali,2,61
+Wan Gati,1,61
+Wan Hassan,2,61
+Wan Ismail,2,61
+Wan Nazri,1,61
+Waras,2,61
+Wari,2,61
+Wong,1,61
+Woo,1,61
+Yaacob,10,61
+Yaakob,9,61
+Yaakub,5,61
+Yahaya,11,61
+Yahya,24,61
+Yahyah,7,61
+Yakin,2,61
+Yaman,3,61
+Yamin,2,61
+Yap,1,61
+Yassin,3,61
+Yaziz,3,61
+Yee,1,61
+Yen,1,61
+Yeo,1,61
+Yeoh,1,61
+Yew,1,61
+Yogeswaran,1,61
+Yong,1,61
+Yunos,11,61
+Yusman,3,61
+Yusof,41,61
+Yusoff,18,61
+Yusop,2,61
+Yusri,12,61
+Yussof,3,61
+Zabawi,3,61
+Zafri,3,61
+Zafuan,3,61
+Zahari,11,61
+Zaharudin,10,61
+Zahid,3,61
+Zahir,3,61
+Zaid,6,61
+Zaidi,11,61
+Zaidin,3,61
+Zailani,5,61
+Zain,12,61
+Zainal,30,61
+Zaini,11,61
+Zainon,2,61
+Zainuddin,8,61
+Zainudin,9,61
+Zakaria,45,61
+Zakariar,2,61
+Zaki,9,61
+Zalani,3,61
+Zaman,3,61
+Zambery,2,61
+Zambin,2,61
+Zambri,6,61
+Zamri,10,61
+Zamrisham,2,61
+Zamzuri,3,61
+Zanggi,2,61
+Zaqy,4,61
+Zarim,2,61
+Zarudin,3,61
+Zawawi,5,61
+Zeky,3,61
+Zikri,3,61
+Zin,6,61
+Zinin,5,61
+Zohdi,3,61
+Zuhair,6,61
+Zuki,6,61
+Zul,3,61
+Zulkafli,3,61
+Zulkafulee,3,61
+Zulkapli,2,61
+Zulkarnaen,3,61
+Zulkarnain,2,61
+Zulkepli,2,61
+Zulkeply,2,61
+Zulkhairi,5,61
+Zulkifli,14,61
+Zulkifly,2,61
+Zullkifli,2,61
+Zurkurnain,1,61

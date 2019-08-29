@@ -42,7 +42,7 @@ languages$lgroup[languages$language %in% c("German")] <- "German"
 languages$lgroup[languages$language %in% c("Danish","Swedish","Norwegian","Icelandic")] <- "Scandanavian"
 languages$lgroup[languages$language %in% c("French","Seselwa Creole")] <- "French"
 languages$lgroup[languages$language %in% c("Italian")] <- "Italian"
-languages$lgroup[languages$language %in% c("Spanish")] <- "Hispanic"
+languages$lgroup[languages$language %in% c("Spanish","Catalán")] <- "Hispanic"
 languages$lgroup[languages$language %in% c("Portuguese")] <- "Portugese"
 languages$lgroup[languages$language %in% c("Russian","Belorussian","Ukrainian","Latvian","Lithuanian")] <- "Russian"
 languages$lgroup[languages$language %in% c("Bulgarian","Bosnian","Croatian","Czech","Slovak","Slovenian","Macedonian")] <- "Slavic"
@@ -65,18 +65,18 @@ languages$lgroup[languages$language %in% c("Vietnamese","Khmer")] <- "Vietnamese
 languages$lgroup[languages$language %in% c("Bahasa Indonesia")] <- "Indonesian"
 languages$lgroup[languages$language %in% c("Samoan","Marshallese","Nauruan","Palauan","Tetum","Tongan","Tuvaluan")] <- "Polynesian"
 languages$lgroup[languages$language %in% c("Filipino")] <- "Filipino"
+languages$lgroup[languages$language %in% c("Persian","Tajik")] <- "Persian"
+languages$lgroup[languages$language %in% c("Hebrew")] <- "Hebrew"
+languages$lgroup[languages$language %in% c("Bahasa Melayu","Malay")] <- "Malay"
+languages$lgroup[languages$language %in% c("Burmese","Dzongkha")] <- "Burmese"
+languages$lgroup[languages$language %in% c("Thai","Lao")] <- "Thai"
+languages$lgroup[languages$language %in% c("Mongolian")] <- "Mongolian"
+
 
 #whats left
 sort(unique(languages$language[is.na(languages$lgroup)]))
 
-# Big missing cases:
-# Persian (and Tajik)
-# Hebrew
-# Malay languages (Bahasa Melayu, Malay)
-# Sino-Tibetan (Burmese, Dzongkha)
-# Thai (and related Lao)
-# Mongolian
-# Afar and Somali
+#got most of them
 
 languages$lgroup[is.na(languages$lgroup)] <- "U.S."
 
