@@ -31,7 +31,6 @@ surnames <- rbind(surnames,
                   add_surnames("names_persian.txt","Persian"),
                   add_surnames("names_burmese.txt","Burmese"),
                   add_surnames("names_israeli.txt","Hebrew"),
-                  add_surnames("names_jewish.txt","Hebrew"),
                   add_surnames("names_mongolian.txt","Mongolian"),
                   add_surnames("names_thai.txt","Thai"),
                   add_surnames("names_malay.txt","Malay"))
