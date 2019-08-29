@@ -113,8 +113,6 @@ sample_names <- function(n, object_type, nationality, continuity=0.8) {
     
   names <- rep(NA, length(sources))
   
-  #TODO: sort these by type and then sample in groups, then sort back to the original
-  # order
   tab <- table(sources)
   for(i in 1:length(tab)) {
     source <- names(tab)[i]
@@ -165,7 +163,6 @@ sample_place_name <- function(n=1, c=NULL) {
   sample_idx <- sample_int_expj(nrow(sample_country),
                                 n,
                                 prob=sample_country$weight)
-  #TODO: Add some probability of a qualifier like "New"
   return(as.character(sample_country$name[sample_idx]))
 }
 
@@ -218,12 +215,39 @@ add_flavor <- function(names, type, source) {
   #Turn surnames into possessives followed by things like Mistake, Meridian, Hold, etc.
   #I could even use a translation package to translate into other languages
   
-  
   for(i in 1:length(names)) {
-    if(type=="City") {
-      if(sample(1:10, 1)<=2) {
-        names[i] <- paste(names[i], "City", sep=" ")
+    if(source=="place" & (type=="city" | type=="continent")) {
+      roll <- sample(1:100,1)
+      if(roll <= 33) {
+        names[i] <- paste("New", names[i], sep=" ")
+      } else if(roll <= 38) {
+        names[i] <- paste("Neo", names[i], sep="-")
       }
+    }
+    if(type=="city") {
+      if(sample(1:10, 1)<=3) {
+        names[i] <- paste(names[i], "City", sep=" ")
+      } else if(sample(1:10,1)<=1) {
+        if(!grepl("\\s", names[i]) & sample(1:10,1)<=5) {
+          names[i] <- paste(names[i], "town", sep="")
+        } else {
+          names[i] <- paste(names[i], "Town", sep=" ")
+        }
+      }
+    }
+  }
+  
+  # change landmass names to big/small
+  if(type=="landmass" & length(names)>=2 & sample(1:10, 1)<=1) {
+    idx <- sample(1:length(names), 2, replace = FALSE)
+    dupe_name <- names[idx[1]]
+    roll <- sample(1:3, 1)
+    if(roll==1) {
+      names[idx] <- paste(c("Big","Little"), dupe_name, sep=" ")
+    } else if(roll==2) {
+      names[idx] <- paste(c("Larger","Smaller"), dupe_name, sep=" ")
+    } else {
+      names[idx] <- paste(c("Greater","Lesser"), dupe_name, sep=" ")
     }
   }
   
