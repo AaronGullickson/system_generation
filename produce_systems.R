@@ -27,10 +27,10 @@ systems <- xml_new_document() %>% xml_add_child("systems")
 systems_events <- xml_new_document() %>% xml_add_child("systems")
 systems_name_changes <- xml_new_document() %>% xml_add_child("systems")
 
-small_sample <- sample(1:xml_length(planets), 200)
+small_sample <- sample(1:xml_length(planets), 5)
 
-#for(i in 1:xml_length(planets)) {
-for(i in small_sample) {
+for(i in 1:xml_length(planets)) {
+#for(i in small_sample) {
   
   #### Read in a planet's data ####
   
@@ -508,7 +508,7 @@ for(i in small_sample) {
         #the [[1]] ensures that we only grab the correct node
         pop_event <- xml_add_child(current_planet_event_node, "event")
         xml_add_child(pop_event, "date", paste(census_years[k],"01","01",sep="-"))
-        xml_add_child(pop_event, "population", census_pop[k], source="noncanon")
+        xml_add_child(pop_event, "population", paste(census_pop[k]), source="noncanon")
       }
       #add in canon populations
       if(!is.null(p2750)) {
