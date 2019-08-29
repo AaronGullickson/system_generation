@@ -238,7 +238,7 @@ add_flavor <- function(names, type, source) {
   }
   
   # change landmass names to big/small
-  if(type=="landmass" & length(names)>=2 & sample(1:10, 1)<=1) {
+  if(type=="continent" & length(names)>=2 & sample(1:10, 1)<=1) {
     idx <- sample(1:length(names), 2, replace = FALSE)
     dupe_name <- names[idx[1]]
     roll <- sample(1:3, 1)
