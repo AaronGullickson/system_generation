@@ -54,3 +54,10 @@ get_closest_event <- function(event_table, chosen_date, min_date=NA) {
 get_year <- function(date) {
   as.numeric(format(date,'%Y'))
 }
+
+#### Functions for post processing into systems ####
+
+get_system_id <- function(full_xml, id) {
+  systems <- xml_find_all(full_xml, "system")
+  systems[which(xml_text(xml_find_first(systems, "id"))==id)]
+}
