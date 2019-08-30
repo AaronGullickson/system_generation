@@ -26,16 +26,12 @@ for(i in 1:xml_length(planets)) {
   
   ## Pull out all events and add them to the events XML
   new_events <- xml_find_all(planet, "event")
-  existing_planet <- get_planet_id(events, id)
-  if(length(existing_planet)>0) {
-    xml_add_child(existing_planet, new_events)
-  } else {
-    #need to add a new planet 
-    planet_node <- xml_add_child(new_events, "planet")
-    xml_add_child(planet_node, "id", id)
-    for(new_event in new_events) {
-      xml_add_child(planet_node, new_event)
-    }
+  
+  #need to add a new planet to events
+  planet_node <- xml_add_child(new_events, "planet")
+  xml_add_child(planet_node, "id", id)
+  for(new_event in new_events) {
+    xml_add_child(planet_node, new_event)
   }
   
   # Check for connector
