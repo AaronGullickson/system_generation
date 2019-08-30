@@ -30,7 +30,11 @@ for(i in 1:xml_length(planets)) {
   pevent_node <- xml_add_child(new_events, "planet")
   xml_add_child(pevent_node, "id", id)
   for(event in events) {
-     xml_add_child(planet_node, event)
+    #ignore HPGs in events - I dont trust them
+    if(!is.na(xml_find_first(event, "hpg"))) {
+      next
+    }
+    xml_add_child(pevent_node, event)
   }
    
   # Check for connector
