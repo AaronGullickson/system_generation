@@ -66,5 +66,5 @@ get_planet_in_system <- function(full_xml, id, pos) {
   systems <- xml_find_all(full_xml, "system")
   system <- systems[which(xml_text(xml_find_first(systems, "id"))==id)]
   planets <- xml_find_all(system, "planet")
-  return(planets[which(xml_text(xml_find_first(planets, "sysPos"))==pos)])
+  return(planets[which(xml_text(xml_find_first(planets, "sysPos"))==pos)][[1]])
 }
