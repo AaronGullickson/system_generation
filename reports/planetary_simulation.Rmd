@@ -640,7 +640,7 @@ ggplot(generated_systems, aes(x=distance_terra, y=population, color=faction_type
 
 ```{r hpg, echo=FALSE}
 ggplot(generated_systems, aes(x=x, y=y, color=hpg))+
-  geom_point(alpha=0.8)+
+  geom_point(alpha=0.2)+
   theme_minimal()+
   scale_color_brewer(palette="Set1")+
   ggtitle("Generated HPG Systems by faction type")

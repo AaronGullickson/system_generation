@@ -988,10 +988,15 @@ add_colonization <- function(system, distance_terra, current_year,
     #results. However, its worth noting that almost any LY penalty
     #will result in minor periphery powers having no HPG exclusively
     
+    #After testing this out, the penalties are still too severe for distant
+    #planets, so that you don't get a connected circuit. Ideally, there should
+    #be some interaction with tech, so that high tech worlds are more likely to
+    #get an HPG the further out they get.
+    
     hpg_roll <- roll_d6(2)-floor(distance_terra/250)
     if(planet$population<(1*10^9)) {
       hpg_roll <- hpg_roll-1
-    } else if(hpg_roll>(2*10^9)) {
+    } else if(planet$population>(2*10^9)) {
       hpg_roll <- hpg_roll+1
     }
     if(planet$tech<="D") {
@@ -1000,9 +1005,18 @@ add_colonization <- function(system, distance_terra, current_year,
     if(planet$industry<="D") {
       hpg_roll <- hpg_roll-1
     }
+    if(planet$tech>="B" & distance_terra>250) {
+      hpg_roll <- hpg_roll+1
+      if(planet$tech>="A") {
+        #remove distance penalty for A-rated planets
+        hpg_roll <- hpg_roll+floor(distance_terra/250)
+      }
+    }
     if(current_year<2800) {
       hpg_roll <- hpg_roll+2
     }
+    
+    
     hpg_roll <- max(min(hpg_roll,12),1)
     
     hpg_table_is <- c(3,rep(4,9),rep(5,2))
@@ -1019,9 +1033,15 @@ add_colonization <- function(system, distance_terra, current_year,
       hpg <- hpg_table_minor[hpg_roll] 
     } 
     
+    #if a planet was founded after 2700, then don't allow
+    #it to be a member of the first circuit
+    if(founding_year>2700 & hpg==5 & faction_type!="Clan") {
+      hpg==4
+    } 
+    
     planet$hpg <- factor(hpg,
                          levels=1:5,
-                         labels=c("None","D","C","B","A"), 
+                         labels=c("X","D","C","B","A"), 
                          ordered=TRUE)
     
     #ok, ready to update the planet
@@ -1627,6 +1647,89 @@ interpolate_sics <- function(sics_start, sics_end, start_year, end_year,
   data.frame(year=years,
              sics=apply(total, 1, combine_sics))
   
+}
+
+#### HPG Projection Functions ####
+
+# First HPG was on Terra, New Year's Day 2630. According to Sarna.net, HPG system expanded to 
+# all IS and Periphery planets by Amaris coup. Major damage during the war, partially repaired by
+# Comstar. 
+
+# First, project from current value back to SL era. All periphery and IS should at least have B. Some
+# chance of upgrading to A. This will be most likely on old Hegemony worlds. Its possible we may want to 
+# do this with some kind of search function that ensures all places connected to A at peak rather than 
+# randomly. Should be about 50 A-circuits in IS.
+
+# From there, reverse project the founding date. Assume all planets linked between 2630 and 2730. 
+# Use some kind of hazard function to get exact date with planets closer to Terra more likely to get 
+# early dates, unless A-rated in which case earlier. 
+
+# From there, check for destruction of HPG networks during the war and then rebuilding after the war.
+# any current B rated that were A-rated before the war should be destroyed and then rebuilt as B-rated.
+# some A-rated should also be destroyed and rebuilt as A-rated. According to Sarna, First Circuit is 
+# rebuilt by 2785. By 2788, Comstar has assured neutrality of most HPGs so no destruction after this.
+
+# Clans should be handled differently. All Clans should be A from date of colony founding. Also might
+# need to check some periphery dates. 
+
+## Ok, thinking this through some more and I think we should probably just see what A-rated HPGs we 
+## have in Canon currently and then use some kind of different technique entirely to find remaining A-rated
+## HPGs to get to 50 with good coverage in Inner Sphere/Periphery. Then downgrade all generated HPGs 
+## to B-rated in automatic generation if they came in as A-rated. Then, the following:
+## 1. Upgrade pre-selected planets to A-rated. 
+## 2. Find founding date of HPG for all planets. All Periphery and IS planets get B-rated Should depend on range from Terra, but First Circuit will 
+##    be faster
+## 3. Some chance of destruction during Amaris Coup inside Hegemony and during 1SW outside Hegemony. If 
+##    less than B now, then force destruction and figure out timing of C and D rated courier services. 
+##    Otherwise rebuild First Circuit by 2785 and all others by 2800. 
+
+## Then need to figure out Dark Age blackout
+
+project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type) {
+  
+  #minimum build time (average will be +1 to thiss)
+  building_time <- 0.5
+  
+  #assume base HPG applies to right before Clan era
+  initial_hpg <- base_hpg
+
+  if(faction_type=="Clan") {
+    #A-rated forever so just assign at founding_year
+    hpg_table <- data.frame(date=founding_year+building_time+rexp(1,1), hpg="A")
+  } else {
+    if(faction_type!="Minor" & founding_year<2765) {
+      #if not minor periphery and SL era founding or earlier, 
+      #then upgrade anything less than B to B for its initial HPG
+      if(initial_hpg!="B" & initial_hpg!="A") {
+        initial_hpg <- "B"
+      }
+    }
+    #assume all building between 2630 and 2730
+    
+    #if founding later than 2730 then assume built at start
+    if(founding_year>2730) {
+      build_year <- founding_year+building_time+rexp(1,1)
+    } else {
+      #otherwise, get hazard rate and then apply
+      #baseline hazard will be 20 years
+      hazard <- 1/20
+      #decrease hazard by distance to Terra
+      hazard <- hazard * 125/distance_terra
+      #increase hazard by five for first circuit
+      if(initial_hpg=="A") {
+        hazard <- 5*hazard
+      }
+      build_year <- 2630+rexp(1, hazard)
+      if(build_year>2735) {
+        build_year <- founding_year+building_time+rexp(1,1)
+      }
+    }
+    hpg_table <- data.frame(date=build_year, hpg="A")
+    
+    
+  }
+  
+  return(hpg_table)
 }
 
 #### Utility Functions ####
