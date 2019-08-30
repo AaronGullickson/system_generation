@@ -18,29 +18,28 @@ connectors <- read_xml(here("input","1000_connectors.xml"))
 new_planets <- xml_new_document() %>% xml_add_child("planets")
 new_events <- xml_new_document() %>% xml_add_child("planets")
 
-
 for(i in 1:xml_length(planets)) {
   planet <- xml_children(planets)[[i]]
   id <- xml_text(xml_find_first(planet, "id"))
   cat(id)
   
   ## Pull out all events and add them to the events XML
-  new_events <- xml_find_all(planet, "event")
+  events <- xml_find_all(planet, "event")
   
   #need to add a new planet to events
-  planet_node <- xml_add_child(new_events, "planet")
-  xml_add_child(planet_node, "id", id)
-  for(new_event in new_events) {
-    xml_add_child(planet_node, new_event)
+  pevent_node <- xml_add_child(new_events, "planet")
+  xml_add_child(pevent_node, "id", id)
+  for(event in events) {
+     xml_add_child(planet_node, event)
   }
-  
+   
   # Check for connector
   name <- xml_text(xml_find_first(planet, "name"))
   if(grepl("^(DPR|ER|KC|TFS|NP|NC|HL)", name)) {
-    xml_add_child(connectors, planet)
-    next
+     xml_add_child(connectors, planet)
+     next
   }
-  
+  # 
   # If we are still here cycle through nodes and spit out results to the 
   # new file
   planet_node <- xml_add_child(new_planets, "planet")
