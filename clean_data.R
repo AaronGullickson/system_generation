@@ -8,13 +8,16 @@ source(here("functions","system_creation_functions.R"))
 source(here("functions","data_functions.R"))
 
 planets <- read_xml(here("input","planets.xml"))
-events <- read_xml(here("input","0002_planetevents.xml"))
+# We are no longer going to read in the existing planet events file
+# because it just a bunch of non-canon junk
+#events <- read_xml(here("input","0002_planetevents.xml"))
 connectors <- read_xml(here("input","1000_connectors.xml"))
 
-#now run through planets first time and add all of the events
-#TODO: clean up this events file, remove non-canon and re-identify
-#all existing events as canon
+#now run through planets and separate out the events as well
+#as connectors
 new_planets <- xml_new_document() %>% xml_add_child("planets")
+new_events <- xml_new_document() %>% xml_add_child("planets")
+
 
 for(i in 1:xml_length(planets)) {
   planet <- xml_children(planets)[[i]]
@@ -28,7 +31,7 @@ for(i in 1:xml_length(planets)) {
     xml_add_child(existing_planet, new_events)
   } else {
     #need to add a new planet 
-    planet_node <- xml_add_child(events, "planet")
+    planet_node <- xml_add_child(new_events, "planet")
     xml_add_child(planet_node, "id", id)
     for(new_event in new_events) {
       xml_add_child(planet_node, new_event)
@@ -54,7 +57,7 @@ for(i in 1:xml_length(planets)) {
 }
 
 cat(as.character(new_planets), file = here("output","planets_initial.xml"))
-cat(as.character(events), file = here("output","planetevents_initial.xml"))
+cat(as.character(new_events), file = here("output","planetevents_initial.xml"))
 
 #ok clean up connectors now
 new_connectors <- xml_new_document() %>% xml_add_child("planets")
