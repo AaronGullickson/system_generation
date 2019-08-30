@@ -11,6 +11,7 @@ library(here)
 source(here("functions","system_creation_functions.R"))
 source(here("functions","data_functions.R"))
 source(here("functions","naming_functions.R"))
+source(here("functions","network_functions.R"))
 
 
 planets <- read_xml(here("output","planets_initial.xml"))
@@ -22,12 +23,22 @@ planet.table <- NULL
 target.year <- 3047
 target_date <- as.Date(paste(target.year,"01","01",sep="-"))
 
+hpg_data <- data.frame(id=character(),
+                       x=numeric(),
+                       y=numeric(),
+                       hpg=character(),
+                       faction_type=character(),
+                       tech=character(),
+                       pop=numeric(),
+                       founding_year=numeric(),
+                       canon=logical())
+
 #prepare the XML systems output
 systems <- xml_new_document() %>% xml_add_child("systems")
 systems_events <- xml_new_document() %>% xml_add_child("systems")
 systems_name_changes <- xml_new_document() %>% xml_add_child("systems")
 
-small_sample <- sample(1:xml_length(planets), 5)
+small_sample <- sample(1:xml_length(planets), 50)
 
 for(i in 1:xml_length(planets)) {
 #for(i in small_sample) {
@@ -461,14 +472,15 @@ for(i in 1:xml_length(planets)) {
     #### Project Social Data in Time ####
     #figure out where to add these events
     
-    #population
-    cat("\tpopulation projection")
+    cat("\tprojections")
     if(!is.na(planet$population)) {
       
       current_planet_event_node <- xml_add_child(system_event_node, "planet")
       xml_add_child(current_planet_event_node, "sysPos", j)
       
       border_distance <- distance_to_border(x, y, faction)
+      
+      #population
       p2750 <- NULL
       p3025 <- NULL
       p3067 <- NULL
@@ -548,7 +560,6 @@ for(i in 1:xml_length(planets)) {
       output <- planet$output
       agriculture <- planet$agriculture
       if(!is.na(sic)) {
-        #TODO: adjust for canon SIC entries for different time periods
         canon_sics <- separate_sics(sic)
         tech <- canon_sics$tech
         industry <- canon_sics$industry
@@ -572,7 +583,26 @@ for(i in 1:xml_length(planets)) {
         }
       }
       
-      
+      # HPG - We need to do some extra work below to make sure the 
+      # first circuit is connected so for the moment, we just want
+      # to build a dataset of HPG information for later
+      if((!is.na(planet$hpg) | !is.na(hpg)) & j==primary_slot) {
+        canon <- TRUE
+        if(is.na(hpg)) {
+          hpg <- planet$hpg
+          canon <- FALSE
+        }
+        hpg_data <- rbind(hpg_data,
+                          data.frame(id=as.character(id),
+                                     x=as.numeric(x),
+                                     y=as.numeric(y),
+                                     hpg=as.character(hpg),
+                                     faction_type=as.character(faction_type),
+                                     tech=as.character(tech),
+                                     pop=planet$population,
+                                     founding_year=founding_year,
+                                     canon=canon))
+      }
     }
   }
   
@@ -607,8 +637,110 @@ for(i in 1:xml_length(planets)) {
   cat("\n\tdone\n")
 }
 
+#### Fill in HPG Network ####
+
+cat("\nFilling in gaps in HPG First Circuit...")
+
+#hpg_data_backup <- hpg_data
+hpg_data <- hpg_data[order(hpg_data$pop, decreasing = TRUE),]
+hpg_data <- subset(hpg_data, !duplicated(hpg_data$id))
+hpg_data$tech <- factor(hpg_data$tech,
+                        levels=c("X","F","D","C","B","A"),
+                        ordered = TRUE)
+hpg_data$hpg <- toupper(as.character(hpg_data$hpg))
+hpg_data$hpg[hpg_data$hpg=="NONE"] <- "X"
+
+hpg_network <- get_network(hpg_data)
+
+## Connect the First Circuit
+#we grab the nearest system not connected to the terra network and then identify
+#its whole network. We then take the two closest planets from each network and
+#try to find a set of candidates that are within 50LY of each and select the
+#best one by tech and population. If we can't connect the two with one
+#intermediate, then we select from candidates that get the isolated network
+#closer to the Terra network. We then reconstruct the network and do this all
+#over again, until we have no more isolates. All of this is only done for IS
+#systems.
+while(sum(hpg_network$first$connect_terra==FALSE)>0) {
+  #get the isolated network of the first unconnected planet
+  isolate <- which(!hpg_network$first$connect_terra)[1]
+  temp <- get_all_connected_nodes(hpg_network$network, isolate)
+  if(!is.na(temp[1])) {
+    isolate <- c(isolate, temp)
+  }
+  isolated_network <- hpg_network$first[isolate, c("id","x","y")]
+  terra_network <- hpg_network$first[hpg_network$first$connect_terra,
+                                     c("id","x","y")]
+  closest_points <- find_closest_points(terra_network, isolated_network)
+  candidates <- find_all_overlaps(closest_points)
+
+  #if we have candidates, then pick one (for now randomly)
+  if(nrow(candidates)>0) {
+    #choose highest tech and use population as tiebreaker
+    nominee <- candidates[order(candidates$tech, candidates$pop,
+                                decreasing = TRUE),"id"][1]
+  } else {
+    candidates <- find_closer_planets(closest_points)
+    if(nrow(candidates)>0) {
+      #generally we want to choose higher tech, but first set up a
+      #tier of 20 or more from ego system so that they are not piled up to close
+      candidates$far_enough <- candidates$distance_iso>=20
+      nominee <- candidates[order(candidates$far_enough, candidates$tech,
+                                  candidates$pop, decreasing = TRUE),"id"][1]
+    } else {
+      #If we can't find anyway to connect this, then the closest point
+      #should not be on the First Circuit
+      hpg_data$hpg[hpg_data$id==closest_points$iso$id[1]] <- "B"
+      hpg_network <- get_network(hpg_data)
+      next
+    }
+  }
+
+  #you have been promoted!
+  hpg_data$hpg[hpg_data$id==nominee] <- "A"
+  hpg_network <- get_network(hpg_data)
+}
+cat("done\n")
+
+#once this is done then we can loop through hpg_data and use it to 
+#project HPG events for each system
+
+cat("\nAdding HPG information to planet events\n")
+hpg_data$id <- as.character(hpg_data$id)
+for(i in 1:nrow(hpg_data)) {
+  hpg <- hpg_data[i,]
+  cat("\t")
+  cat(hpg$id)
+  cat("....")
+  #retrieve events for this system and planet - assume primary 
+  #planet has the HPG
+  primary <- as.numeric(xml_text(xml_find_first(get_system_id(systems, hpg$id), 
+                                                "primarySlot")))
+  planet_event_node <- get_planet_in_system(systems_events, hpg$id, primary)
+
+  #write out the HPG information
+  hpg_event <- xml_add_child(planet_event_node, "event")
+  hpg_history <- project_hpg(hpg$hpg, sqrt(hpg$x^2+hpg$y^2),
+                             hpg$founding_year, 
+                             as.character(hpg$faction_type))
+  for(i in 1:nrow(hpg_history)) {
+    xml_add_child(hpg_event, "date", paste(hpg_history$year[i],"01","01",sep="-"))
+    if(hpg$canon) {
+      xml_add_child(hpg_event, "hpg", paste(hpg_history$hpg[i]), source="canon")
+    } else {
+      xml_add_child(hpg_event, "hpg", paste(hpg_history$hpg[i]), source="noncanon")
+    }
+  }
+  cat("done\n")
+}
+
+#loop through all systems in events file
+
+#TODO: a similar for-loop for connectors but no need to force habitation
+
+#### Write Out XML Data ####
+
 cat(as.character(systems), file = here("output","systems.xml"))
 cat(as.character(systems_events), file = here("output","system_events.xml"))
 cat(as.character(systems_name_changes), file = here("output","system_namechanges.xml"))
 
-#TODO: a similar for-loop for connectors but no need to force habitation
