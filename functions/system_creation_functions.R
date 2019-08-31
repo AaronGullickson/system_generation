@@ -1737,7 +1737,7 @@ project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type) {
     destroy_year <- round(min(2766+rexp(1,1/50),2900))
     hpg_table <- rbind(hpg_table, 
                        data.frame(year=destroy_year, hpg=base_hpg))
-  } else if(initial_hpg=="A" | initial_hpg=="B" & distance_terra>1) {
+  } else if((initial_hpg=="A" | initial_hpg=="B") & distance_terra>1) {
     #otherwise apply some chance of destruction during Amaris Coup/1SW and then rebuilding
     #strong chance of destruction close to core
     odds <- 0.7/sqrt(distance_terra)
