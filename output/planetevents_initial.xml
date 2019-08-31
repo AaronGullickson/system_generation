@@ -736,11 +736,6 @@
       <date>2750-01-01</date>
       <faction>MOC</faction>
     </event>
-    <event>
-      <date>3040-01-01</date>
-      <message>Adhara renamed to Trip</message>
-      <name>Trip</name>
-    </event>
   </planet>
   <planet>
     <id>Adherlwin</id>
@@ -818,11 +813,6 @@
     <event>
       <date>2750-01-01</date>
       <faction>CC</faction>
-    </event>
-    <event>
-      <date>2822-01-01</date>
-      <message>Aer renamed to Finnalon</message>
-      <name>Finnalon</name>
     </event>
     <event>
       <date>2864-01-01</date>
@@ -925,12 +915,6 @@
     <event>
       <date>2900-01-01</date>
       <faction>ABN</faction>
-    </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Agmond renamed to Bornal</message>
-      <name>Bornal</name>
-      <faction>FS</faction>
     </event>
   </planet>
   <planet>
@@ -3043,11 +3027,6 @@
       <date>3095-01-01</date>
       <faction>RT</faction>
     </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Anatolia renamed to Pillory</message>
-      <name>Pillory</name>
-    </event>
   </planet>
   <planet>
     <id>Ancha</id>
@@ -3130,12 +3109,6 @@
     <event>
       <date>2864-01-01</date>
       <faction>ABN</faction>
-    </event>
-    <event>
-      <date>3025-01-01</date>
-      <message>Helbrent renamed to Andiron</message>
-      <name>Andiron</name>
-      <faction>CIR</faction>
     </event>
     <event>
       <date>3081-05-01</date>
@@ -4386,12 +4359,6 @@
       <date>2915-01-01</date>
       <faction>ABN</faction>
     </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Arn renamed to Jia Tian</message>
-      <name>Jia Tian</name>
-      <faction>CC</faction>
-    </event>
   </planet>
   <planet>
     <id>Arnaudville</id>
@@ -5330,11 +5297,6 @@
       <date>3087-06-01</date>
       <faction>RT</faction>
     </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Austerlitz renamed to Scauld</message>
-      <name>Scauld</name>
-    </event>
   </planet>
   <planet>
     <id>Australia</id>
@@ -6027,11 +5989,6 @@
       <faction>CIR</faction>
     </event>
     <event>
-      <date>3025-01-01</date>
-      <message>Himmels renamed to Baltazar III</message>
-      <name>Baltazar III</name>
-    </event>
-    <event>
       <date>3081-05-01</date>
       <faction>PIND</faction>
     </event>
@@ -6308,11 +6265,6 @@
     <event>
       <date>2821-01-01</date>
       <faction>DC</faction>
-    </event>
-    <event>
-      <date>2864-01-01</date>
-      <message>Cussar renamed to Barlow's Folly</message>
-      <name>Barlow's Folly</name>
     </event>
   </planet>
   <planet>
@@ -6935,11 +6887,6 @@
     <event>
       <date>2750-01-01</date>
       <faction>CC</faction>
-    </event>
-    <event>
-      <date>2822-01-01</date>
-      <message>Belamor renamed to Zanzor</message>
-      <name>Zanzor</name>
     </event>
     <event>
       <date>2864-01-01</date>
@@ -8247,12 +8194,6 @@
     </event>
     <event>
       <date>3003-06-01</date>
-      <faction>LL</faction>
-    </event>
-    <event>
-      <date>3025-01-01</date>
-      <message>Dersidatz renamed to Blantleff</message>
-      <name>Blantleff</name>
       <faction>LL</faction>
     </event>
     <event>
@@ -11424,11 +11365,6 @@
       <faction>CM</faction>
     </event>
     <event>
-      <date>3063-01-01</date>
-      <message>Carver V renamed to Liberty</message>
-      <name>Liberty</name>
-    </event>
-    <event>
       <date>3068-08-22</date>
       <faction>CM,WOB</faction>
     </event>
@@ -13008,12 +12944,6 @@
     <event>
       <date>2864-01-01</date>
       <faction>ABN</faction>
-    </event>
-    <event>
-      <date>3025-01-01</date>
-      <message>Green Stone renamed to Clayborne II</message>
-      <name>Clayborne II</name>
-      <faction>CIR</faction>
     </event>
     <event>
       <date>3081-05-01</date>
@@ -16791,12 +16721,6 @@
       <faction>CIR</faction>
     </event>
     <event>
-      <date>3025-01-01</date>
-      <message>Iolas renamed to Diedre's Den</message>
-      <name>Diedre's Den</name>
-      <faction>CIR</faction>
-    </event>
-    <event>
       <date>3081-05-01</date>
       <faction>PIND</faction>
     </event>
@@ -17764,11 +17688,6 @@
       <date>2815-01-01</date>
       <faction>ABN</faction>
     </event>
-    <event>
-      <date>2822-01-01</date>
-      <message>Dunklewälderdunklerflüssenschattenwelt renamed to Bob</message>
-      <name>Bob</name>
-    </event>
   </planet>
   <planet>
     <id>Durabon</id>
@@ -18313,11 +18232,6 @@
       <date>3087-06-01</date>
       <faction>RT</faction>
     </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Edirne renamed to Brank</message>
-      <name>Brank</name>
-    </event>
   </planet>
   <planet>
     <id>Edmondson</id>
@@ -18677,11 +18591,6 @@
     <event>
       <date>2821-01-01</date>
       <faction>CC</faction>
-    </event>
-    <event>
-      <date>2878-01-01</date>
-      <message>Chisholm renamed to Elgin</message>
-      <name>Elgin</name>
     </event>
     <event>
       <date>3029-01-01</date>
@@ -24018,11 +23927,6 @@
       <faction>FC</faction>
     </event>
     <event>
-      <date>3057-01-01</date>
-      <message>Commonwealth Mining Outpost 26 renamed to Gulf Breeze</message>
-      <name>Gulf Breeze</name>
-    </event>
-    <event>
       <date>3057-09-18</date>
       <faction>LA</faction>
     </event>
@@ -25012,11 +24916,6 @@
     <event>
       <date>2750-01-01</date>
       <faction>CC</faction>
-    </event>
-    <event>
-      <date>2822-01-01</date>
-      <message>Hansii renamed to Itsbur</message>
-      <name>Itsbur</name>
     </event>
     <event>
       <date>2864-01-01</date>
@@ -26753,11 +26652,6 @@
       <faction>CCC</faction>
     </event>
     <event>
-      <date>2850-01-01</date>
-      <message>Zara renamed to Homer</message>
-      <name>Homer</name>
-    </event>
-    <event>
       <date>2864-01-01</date>
       <faction>CCC</faction>
     </event>
@@ -27191,12 +27085,6 @@
     <event>
       <date>2822-12-31</date>
       <faction>ABN</faction>
-    </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Huanghuadian renamed to Tincalunas</message>
-      <name>Tincalunas</name>
-      <faction>FR</faction>
     </event>
   </planet>
   <planet>
@@ -27906,11 +27794,6 @@
     <event>
       <date>2355-01-01</date>
       <faction>FS</faction>
-    </event>
-    <event>
-      <date>2750-01-01</date>
-      <message>Sanurcha renamed to Ildrong</message>
-      <name>Ildrong</name>
     </event>
     <event>
       <date>2864-01-01</date>
@@ -29168,11 +29051,6 @@
     <event>
       <date>2821-01-01</date>
       <faction>CS</faction>
-    </event>
-    <event>
-      <date>2822-01-01</date>
-      <message>Jardine renamed to Herakleion</message>
-      <name>Herakleion</name>
     </event>
     <event>
       <date>3057-09-01</date>
@@ -32003,11 +31881,6 @@
       <faction>CC</faction>
     </event>
     <event>
-      <date>2822-01-01</date>
-      <message>Kirkvåg renamed to Toch Zu</message>
-      <name>Toch Zu</name>
-    </event>
-    <event>
       <date>2864-01-01</date>
       <faction>ABN</faction>
     </event>
@@ -33779,11 +33652,6 @@
       <faction>CC</faction>
     </event>
     <event>
-      <date>2822-01-01</date>
-      <message>Lamu renamed to Tunlmar</message>
-      <name>Tunlmar</name>
-    </event>
-    <event>
       <date>2864-01-01</date>
       <faction>ABN</faction>
     </event>
@@ -34604,11 +34472,6 @@
     <event>
       <date>2189-01-01</date>
       <faction>LR</faction>
-    </event>
-    <event>
-      <date>2202-01-01</date>
-      <message>Cynthiana renamed to Liao</message>
-      <name>Liao</name>
     </event>
     <event>
       <date>2315-01-01</date>
@@ -35857,11 +35720,6 @@
       <date>3087-06-01</date>
       <faction>RT</faction>
     </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Lushun renamed to Jibbet</message>
-      <name>Jibbet</name>
-    </event>
   </planet>
   <planet>
     <id>Luthien</id>
@@ -36090,11 +35948,6 @@
     <event>
       <date>3087-06-01</date>
       <faction>RT</faction>
-    </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Lywick renamed to Ferreusvirgo</message>
-      <name>Ferreusvirgo</name>
     </event>
   </planet>
   <planet>
@@ -41112,23 +40965,12 @@
       <date>2765-01-01</date>
       <faction>ABN</faction>
     </event>
-    <event>
-      <date>3025-01-01</date>
-      <message>Richmond's World renamed to Murrain</message>
-      <name>Murrain</name>
-      <faction>IE</faction>
-    </event>
   </planet>
   <planet>
     <id>Murris (Kalindam 2822+)</id>
     <event>
       <date>2750-01-01</date>
       <faction>CC</faction>
-    </event>
-    <event>
-      <date>2822-01-01</date>
-      <message>Murris renamed to Kalindam</message>
-      <name>Kalindam</name>
     </event>
     <event>
       <date>2864-01-01</date>
@@ -41996,11 +41838,6 @@
       <faction>FS</faction>
     </event>
     <event>
-      <date>3025-01-01</date>
-      <message>Jodipur renamed to Neukirchen</message>
-      <name>Neukirchen</name>
-    </event>
-    <event>
       <date>3040-01-19</date>
       <faction>FC</faction>
     </event>
@@ -42464,11 +42301,6 @@
   </planet>
   <planet>
     <id>New Earth (Tau Ceti 2116-)</id>
-    <event>
-      <date>2116-01-01</date>
-      <message>Tau Ceti renamed to New Earth</message>
-      <name>New Earth</name>
-    </event>
     <event>
       <date>2116-03-18</date>
       <faction>TA</faction>
@@ -45265,11 +45097,6 @@
       <faction>ABN</faction>
     </event>
     <event>
-      <date>3075-01-01</date>
-      <message>Oporto renamed to Veil</message>
-      <name>Veil</name>
-    </event>
-    <event>
       <date>3087-06-01</date>
       <faction>RT</faction>
     </event>
@@ -45571,12 +45398,6 @@
       <date>2925-01-01</date>
       <faction>ABN</faction>
     </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Ouagadougou renamed to Silence</message>
-      <name>Silence</name>
-      <faction>DC</faction>
-    </event>
   </planet>
   <planet>
     <id>Ourem</id>
@@ -45813,11 +45634,6 @@
     <event>
       <date>2900-01-01</date>
       <faction>PIND</faction>
-    </event>
-    <event>
-      <date>3050-01-01</date>
-      <message>Dijonne renamed to Pain</message>
-      <name>Pain</name>
     </event>
     <event>
       <date>3087-06-01</date>
@@ -47272,12 +47088,6 @@
       <date>2597-03-21</date>
       <faction>TC</faction>
     </event>
-    <event>
-      <date>3025-01-01</date>
-      <message>Badlands Cluster (50) renamed to Pirates Haven (50)</message>
-      <name>Pirates Haven (50)</name>
-      <faction>IND</faction>
-    </event>
   </planet>
   <planet>
     <id>Piriapolis</id>
@@ -48566,12 +48376,6 @@
       <faction>ABN</faction>
     </event>
     <event>
-      <date>3130-01-01</date>
-      <message>Qualip renamed to Kerensky's Vision</message>
-      <name>Kerensky's Vision</name>
-      <faction>CW</faction>
-    </event>
-    <event>
       <date>3145-01-01</date>
       <faction>CJF</faction>
     </event>
@@ -48795,12 +48599,6 @@
     <event>
       <date>2925-01-01</date>
       <faction>ABN</faction>
-    </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Quimper renamed to Chirac</message>
-      <name>Chirac</name>
-      <faction>FS</faction>
     </event>
   </planet>
   <planet>
@@ -49259,11 +49057,6 @@
     <event>
       <date>2750-01-01</date>
       <faction>IND</faction>
-    </event>
-    <event>
-      <date>2988-01-01</date>
-      <message>Hope IV renamed to Randis IV</message>
-      <name>Randis IV</name>
     </event>
     <event>
       <date>2989-01-01</date>
@@ -49960,11 +49753,6 @@
     <event>
       <date>2750-01-01</date>
       <faction>CC</faction>
-    </event>
-    <event>
-      <date>2822-01-01</date>
-      <message>Rhodos renamed to Runrig</message>
-      <name>Runrig</name>
     </event>
     <event>
       <date>2864-01-01</date>
@@ -52435,12 +52223,6 @@
       <date>2925-01-01</date>
       <faction>ABN</faction>
     </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Sartu renamed to Bastille</message>
-      <name>Bastille</name>
-      <faction>FS</faction>
-    </event>
   </planet>
   <planet>
     <id>Satalice</id>
@@ -53368,11 +53150,6 @@
       <date>3087-06-01</date>
       <faction>RT</faction>
     </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Seven Lands renamed to Garotte</message>
-      <name>Garotte</name>
-    </event>
   </planet>
   <planet>
     <id>Sevon</id>
@@ -53525,12 +53302,6 @@
       <date>2864-01-01</date>
       <faction>ABN</faction>
     </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Shaobuon renamed to Liu's Memory</message>
-      <name>Liu's Memory</name>
-      <faction>CC</faction>
-    </event>
   </planet>
   <planet>
     <id>Shardayne</id>
@@ -53552,12 +53323,6 @@
     <event>
       <date>2850-01-01</date>
       <faction>ABN</faction>
-    </event>
-    <event>
-      <date>3025-01-01</date>
-      <message>Sharpe renamed to Obeedah</message>
-      <name>Obeedah</name>
-      <faction>CS</faction>
     </event>
     <event>
       <date>3057-09-01</date>
@@ -53620,12 +53385,6 @@
       <faction>DC</faction>
     </event>
     <event>
-      <date>3025-01-01</date>
-      <message>Perrot renamed to Shaula</message>
-      <name>Shaula</name>
-      <faction>LA,DC</faction>
-    </event>
-    <event>
       <date>3030-01-01</date>
       <faction>LA</faction>
     </event>
@@ -53651,11 +53410,6 @@
     <event>
       <date>2750-01-01</date>
       <faction>CC</faction>
-    </event>
-    <event>
-      <date>2822-01-01</date>
-      <message>Shaun renamed to Burl</message>
-      <name>Burl</name>
     </event>
     <event>
       <date>2864-01-01</date>
@@ -57825,12 +57579,6 @@
       <date>2915-01-01</date>
       <faction>ABN</faction>
     </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Takata renamed to New Start</message>
-      <name>New Start</name>
-      <faction>DC</faction>
-    </event>
   </planet>
   <planet>
     <id>Talcott</id>
@@ -58191,11 +57939,6 @@
       <faction>CS</faction>
     </event>
     <event>
-      <date>2822-01-01</date>
-      <message>Tangerz renamed to Mayadi</message>
-      <name>Mayadi</name>
-    </event>
-    <event>
       <date>2935-01-01</date>
       <faction>ABN</faction>
     </event>
@@ -58289,11 +58032,6 @@
   </planet>
   <planet>
     <id>Tanis (Radulov 2600-)</id>
-    <event>
-      <date>2600-01-01</date>
-      <message>Radulov renamed to Tanis</message>
-      <name>Tanis</name>
-    </event>
     <event>
       <date>2750-01-01</date>
       <faction>IND</faction>
@@ -59173,12 +58911,6 @@
       <date>2905-01-01</date>
       <faction>ABN</faction>
     </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Thamel renamed to Wyeth's Glory</message>
-      <name>Wyeth's Glory</name>
-      <faction>CC</faction>
-    </event>
   </planet>
   <planet>
     <id>Thannhausen</id>
@@ -59311,11 +59043,6 @@
     <event>
       <date>2900-01-01</date>
       <faction>PIND</faction>
-    </event>
-    <event>
-      <date>3050-01-01</date>
-      <message>Port Vail renamed to The Rack</message>
-      <name>The Rack</name>
     </event>
     <event>
       <date>3087-06-01</date>
@@ -61908,11 +61635,6 @@
       <faction>CC</faction>
     </event>
     <event>
-      <date>2822-01-01</date>
-      <message>Untran renamed to Achtur</message>
-      <name>Achtur</name>
-    </event>
-    <event>
       <date>2864-01-01</date>
       <faction>ABN</faction>
     </event>
@@ -62986,11 +62708,6 @@
       <faction>CS</faction>
     </event>
     <event>
-      <date>2822-01-01</date>
-      <message>Versailles renamed to Taussen</message>
-      <name>Taussen</name>
-    </event>
-    <event>
       <date>3057-09-01</date>
       <faction>WOB</faction>
     </event>
@@ -63129,11 +62846,6 @@
     <event>
       <date>2340-01-01</date>
       <faction>FS</faction>
-    </event>
-    <event>
-      <date>2537-01-01</date>
-      <message>Meglan renamed to Victoria</message>
-      <name>Victoria</name>
     </event>
     <event>
       <date>2797-01-01</date>
@@ -63499,11 +63211,6 @@
     <event>
       <date>2779-01-01</date>
       <faction>PIND</faction>
-    </event>
-    <event>
-      <date>2830-01-01</date>
-      <message>Erin renamed to Von Strang's World</message>
-      <name>Von Strang's World</name>
     </event>
     <event>
       <date>3049-08-17</date>
@@ -64898,11 +64605,6 @@
     <event>
       <date>2779-01-01</date>
       <faction>LA</faction>
-    </event>
-    <event>
-      <date>2863-01-01</date>
-      <message>Treeline renamed to Winfield</message>
-      <name>Winfield</name>
     </event>
     <event>
       <date>3040-01-19</date>
@@ -66598,12 +66300,6 @@
     <event>
       <date>2890-01-01</date>
       <faction>ABN</faction>
-    </event>
-    <event>
-      <date>3130-01-01</date>
-      <message>Zhaomaon renamed to Cluff's Stand</message>
-      <name>Cluff's Stand</name>
-      <faction>CC</faction>
     </event>
   </planet>
   <planet>

@@ -34,6 +34,11 @@ for(i in 1:xml_length(planets)) {
     if(!is.na(xml_find_first(event, "hpg"))) {
       next
     }
+    #ignore name changes in events - they should already
+    #be in the name change file
+    if(!is.na(xml_find_first(event, "name"))) {
+      next
+    }
     xml_add_child(pevent_node, event)
   }
    
