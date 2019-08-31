@@ -91,6 +91,9 @@ for(i in 1:xml_length(planets)) {
   if(!is.null(faction_table)) {
     founding_year <- get_year(faction_table$date[1])
     #take the first faction in cases of multiple factions
+    #TODO: turn allow_later on to get post 3047 foundings, but wait until 
+    #HPG is worked out
+    #temp <- get_closest_event(faction_table, target_date, allow_later = TRUE)
     temp <- get_closest_event(faction_table, target_date)
     if(!is.na(temp)) {
       faction <- strsplit(temp,",")[[1]][1]
@@ -132,6 +135,9 @@ for(i in 1:xml_length(planets)) {
   # ignore abandoned places or those with UND or NONE factions (mostly highways which
   # should be in the connector file not here)
   if(is.na(faction) | faction=="UND" | faction=="NONE") {
+    #TODO: I am losing some cases here of systems that were founded after the 
+    #date I am checking on, so I should probably always take the first faction in the 
+    #faction table in these cases even if it is after
     cat(paste("ERROR:", id, "has a missing or unknown faction. Skipping.\n"))
     next
   }
@@ -209,10 +215,7 @@ for(i in 1:xml_length(planets)) {
   # determined in many cases by changes between maps with the faction change only 
   # occurring at the latter date. We want to allow these founding dates to vary between
   # the map dates, probably by drawing from uniform distribution. 
-  
-  #TODO: Ultimately, we will will also need to correct the faction change event and mark
-  # it as non-canon
-  
+ 
   # The following dates showed evidence of heaping and need to be corrected. We ignore
   # some potential small heaping cases for small year intervals.
   
@@ -230,30 +233,38 @@ for(i in 1:xml_length(planets)) {
   
   #remaining heaps seem to be clans, hanseatic league, and back part of TC, not
   #adjusting them for now. 
-  
+  founding_year_canon <- TRUE
   if(founding_year==2172) {
     founding_year <- sample(2118:2172, 1)
+    founding_year_canon <- FALSE
   }
   if(founding_year==2200) {
     founding_year <- sample(2173:2200, 1)
+    founding_year_canon <- FALSE
   }
   if(founding_year==2300) {
     founding_year <- sample(2201:2300, 1)
+    founding_year_canon <- FALSE
   }
   if(founding_year==2271) {
     founding_year <- sample(2118:2271, 1)
+    founding_year_canon <- FALSE
   }
   if(founding_year==2317) {
     founding_year <- sample(2272:2317, 1)
+    founding_year_canon <- FALSE
   }
   if(founding_year==2367) {
     founding_year <- sample(2342:2367, 1)
+    founding_year_canon <- FALSE
   }
   if(founding_year==2571) {
     founding_year <- sample(2368:2571, 1)
+    founding_year_canon <- FALSE
   }
   if(founding_year==2750) {
     founding_year <- sample(2597:2750, 1)
+    founding_year_canon <- FALSE
   }
   
   #read in canon population data
@@ -471,12 +482,28 @@ for(i in 1:xml_length(planets)) {
         
     #### Project Social Data in Time ####
     #figure out where to add these events
-    
+  
     cat("\tprojections")
     if(!is.na(planet$population)) {
       
       current_planet_event_node <- xml_add_child(system_event_node, "planet")
       xml_add_child(current_planet_event_node, "sysPos", j)
+      
+      if(founding_year_canon) {
+        xml_add_child(current_planet_event_node, "foundYear", paste(founding_year))
+      }  else {
+        xml_add_child(current_planet_event_node, "foundYear", paste(founding_year),
+                      source="noncanon")
+      }
+      
+      if(!is.null(faction_table)) {
+        faction_table$date[1] <- paste(founding_year,"01","01",sep="-")
+        for(i in 1:nrow(faction_table)) {
+          faction_event <- xml_add_child(current_planet_event_node, "event")
+          xml_add_child(faction_event, "date", paste(faction_table$date[i]))
+          xml_add_child(faction_event, "faction", paste(faction_table$event[i]))
+        }
+      }
       
       border_distance <- distance_to_border(x, y, faction)
       
@@ -606,22 +633,6 @@ for(i in 1:xml_length(planets)) {
     }
   }
   
-  #get existing planet events and move them over
-  planet_events <- get_planet_id(events, id)
-  primary_planet_events <- get_planet_syspos(system_event_node, primary_slot)
-  for(event in xml_find_all(planet_events, "event")) {
-    #all events except nadir and zenith charge should go into planet I think
-    if(grepl("noncanon", xml_text(event))) {
-      next
-    }
-    if(any(grepl("nadirCharge",xml_contents(event))) | 
-       any(grepl("zenithCharge",xml_contents(event)))) {
-      xml_add_child(system_event_node, event)
-    } else {
-      xml_add_child(primary_planet_events, event)
-    }
-  }
-  
   #get name changes and move them over
   planet_name_changes <- get_planet_id(name_changes, id)
   if(length(planet_name_changes)>0) {
@@ -712,16 +723,16 @@ for(i in 1:nrow(hpg_data)) {
   cat("\t")
   cat(hpg$id)
   cat("....")
-  #retrieve events for this system and planet - assume primary 
+  #retrieve events for this system and planet - assume primary
   #planet has the HPG
-  primary <- as.numeric(xml_text(xml_find_first(get_system_id(systems, hpg$id), 
+  primary <- as.numeric(xml_text(xml_find_first(get_system_id(systems, hpg$id),
                                                 "primarySlot")))
   planet_event_node <- get_planet_in_system(systems_events, hpg$id, primary)
 
   #write out the HPG information
   hpg_event <- xml_add_child(planet_event_node, "event")
   hpg_history <- project_hpg(hpg$hpg, sqrt(hpg$x^2+hpg$y^2),
-                             hpg$founding_year, 
+                             hpg$founding_year,
                              as.character(hpg$faction_type))
   for(i in 1:nrow(hpg_history)) {
     xml_add_child(hpg_event, "date", paste(hpg_history$year[i],"01","01",sep="-"))
