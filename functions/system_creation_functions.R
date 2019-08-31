@@ -734,7 +734,7 @@ add_colonization <- function(system, distance_terra, current_year,
   
   system$planets$hpg <- factor(NA,
                                levels=1:5,
-                               labels=c("None","D","C","B","A"), 
+                               labels=c("X","D","C","B","A"), 
                                ordered=TRUE)
   
   system$recharge <- list(nadir=FALSE, zenith=FALSE)
@@ -1683,19 +1683,22 @@ interpolate_sics <- function(sics_start, sics_end, start_year, end_year,
 ##    less than B now, then force destruction and figure out timing of C and D rated courier services. 
 ##    Otherwise rebuild First Circuit by 2785 and all others by 2800. 
 
-## Then need to figure out Dark Age blackout
+## TODO: Then need to figure out Dark Age blackout
 
 project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type) {
   
-  #minimum build time (average will be +1 to thiss)
-  building_time <- 0.5
+  #build rate for things built right at start. Average build time is one over this
+  building_time <- 0.33
   
+  base_hpg <- as.character(base_hpg)
   #assume base HPG applies to right before Clan era
   initial_hpg <- base_hpg
 
   if(faction_type=="Clan") {
     #A-rated forever so just assign at founding_year
-    hpg_table <- data.frame(date=founding_year+building_time+rexp(1,1), hpg="A")
+    hpg_table <- data.frame(year=round(founding_year+rexp(1, building_time)), 
+                            hpg="A")
+    return(hpg_table)
   } else {
     if(faction_type!="Minor" & founding_year<2765) {
       #if not minor periphery and SL era founding or earlier, 
@@ -1708,7 +1711,7 @@ project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type) {
     
     #if founding later than 2730 then assume built at start
     if(founding_year>2730) {
-      build_year <- founding_year+building_time+rexp(1,1)
+      build_year <- round(founding_year+rexp(1, building_time))
     } else {
       #otherwise, get hazard rate and then apply
       #baseline hazard will be 20 years
@@ -1719,13 +1722,40 @@ project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type) {
       if(initial_hpg=="A") {
         hazard <- 5*hazard
       }
-      build_year <- 2630+rexp(1, hazard)
+      build_year <- round(2630+rexp(1, hazard))
       if(build_year>2735) {
-        build_year <- founding_year+building_time+rexp(1,1)
+        build_year <- round(2735+rexp(1,1))
       }
     }
-    hpg_table <- data.frame(date=build_year, hpg="A")
-    
+    hpg_table <- data.frame(year=build_year, hpg=initial_hpg)
+  }
+  
+  #if initial and base are different, then must have been downgraded
+  #at some point
+  if(initial_hpg!=base_hpg) {
+    #lets assume it got destroyed at some point during Amaris Coup/1SW
+    destroy_year <- round(min(2766+rexp(1,1/50),2900))
+    hpg_table <- rbind(hpg_table, 
+                       data.frame(year=destroy_year, hpg=base_hpg))
+  } else if((initial_hpg=="A" | initial_hpg=="B") & distance_terra>1) {
+    #otherwise apply some chance of destruction during Amaris Coup/1SW and then rebuilding
+    #strong chance of destruction close to core
+    odds <- 0.7/sqrt(distance_terra)
+    prob <- odds/(1+odds)
+    if(sample(1:100, 1)<=(prob*100)) {
+      #gets destroyed
+      destroy_year <- round(min(2766+rexp(1,1/7),2800))
+      hpg_table <- rbind(hpg_table, 
+                         data.frame(year=destroy_year, hpg="X"))
+      #when is it rebuilt. Starting 2780 or immediately after destruction
+      start_year <- 2780
+      if(start_year<destroy_year) {
+        start_year <- destroy_year+5
+      }
+      rebuild_year <- round(start_year+rexp(1,1/3))
+      hpg_table <- rbind(hpg_table, 
+                         data.frame(year=start_year, hpg=initial_hpg))
+    }
     
   }
   
