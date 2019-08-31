@@ -132,8 +132,8 @@ for(i in 1:xml_length(planets)) {
   # ignore abandoned places or those with UND or NONE factions (mostly highways which
   # should be in the connector file not here)
   if(is.na(faction) | faction=="UND" | faction=="NONE") {
-    next
     cat(paste("ERROR:", id, "has a missing or unknown faction. Skipping.\n"))
+    next
   }
   
   #TODO: need to generate data for abandoned planets too
@@ -734,8 +734,6 @@ for(i in 1:nrow(hpg_data)) {
   cat("done\n")
 }
 
-#loop through all systems in events file
-
 #TODO: a similar for-loop for connectors but no need to force habitation
 
 #### Write Out XML Data ####
@@ -743,4 +741,3 @@ for(i in 1:nrow(hpg_data)) {
 cat(as.character(systems), file = here("output","systems.xml"))
 cat(as.character(systems_events), file = here("output","system_events.xml"))
 cat(as.character(systems_name_changes), file = here("output","system_namechanges.xml"))
-
