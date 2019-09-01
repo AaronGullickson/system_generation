@@ -1110,8 +1110,20 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
     base_pop <- p3067
   } 
   
+  if(found_year>base_year) {
+    #a very small number of cases but we need to handle them separately
+    #assume population is 3145 and go back to founding size of 50000
+    full_growth_rates <- get_gompertz_rates(base_pop, 50000, 3145-found_year+1)
+    #reverse project
+    len <- length(full_growth_rates)
+    full_pop <- base_pop/exp(c(cumsum(full_growth_rates[len:1])[len:1],0))
+    names(full_pop) <- paste(found_year:3145)
+    return(full_pop)
+  }
+  
   #get growth to end of DA first. If there are valid 3079 or 3145 dates, but not
   #3067, then ignore current base pop and reassign at the end.
+  ##TODO: need to deal with some post 3067 foundings
   growth <- 0.001
   if(!is.null(p3079)) {
     if(!is.null(p3067)) {
@@ -1722,7 +1734,16 @@ project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type) {
       if(initial_hpg=="A") {
         hazard <- 5*hazard
       }
-      build_year <- round(2630+rexp(1, hazard))
+      start_year <- 2630
+      if(founding_year>start_year) {
+        share <- 1-(founding_year-start_year)/(2730-start_year)
+        if(share<0.1) {
+          share <- 0.1
+        }
+        hazard <- hazard/share
+        start_year <- founding_year
+      }
+      build_year <- round(start_year+rexp(1, hazard))
       if(build_year>2735) {
         build_year <- round(2735+rexp(1,1))
       }
