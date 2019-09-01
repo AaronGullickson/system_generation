@@ -6,8 +6,10 @@
 
 library(xml2)
 library(magrittr)
+library(dplyr)
 library(rlist)
 library(here)
+library(tibble)
 source(here("functions","system_creation_functions.R"))
 source(here("functions","data_functions.R"))
 source(here("functions","naming_functions.R"))
@@ -32,6 +34,20 @@ hpg_data <- data.frame(id=character(),
                        pop=numeric(),
                        founding_year=numeric(),
                        canon=logical())
+
+#all events will now go into the master event table and then
+#be processed after the initial looping. This is because MHQ
+#doesn't allow for separate events with the same date and will
+#just overwrite earlier ones with later ones. So we need to 
+#collect all events before writing them to identify ones with the
+#same date. This is especially important for the founding date because
+#that will always have faction, population, and SIC.
+event_table <- tibble(id=character(),
+                      sys_pos=numeric(),
+                      date=character(),
+                      etype=character(),
+                      event=character(),
+                      canon=logical())
 
 #prepare the XML systems output
 systems <- xml_new_document() %>% xml_add_child("systems")
@@ -124,7 +140,7 @@ for(i in 1:xml_length(planets)) {
   desc <- xml_text(xml_find_first(planet, "desc"))
   
   # do some checks, if fail then skip for now
-  # TODO: fix problems
+  # TODO: turn these into warnings so that we can see them at the end of sourcing
   
   #drop if they are missing x or y coordinates (shouldnt happen)
   if(is.na(x) | is.na(y)) {
@@ -159,7 +175,7 @@ for(i in 1:xml_length(planets)) {
   #### Generate the System ####
   
   distance_terra <- sqrt(x^2+y^2)
-  #TODO: better way to get faction type
+  #this would be easier to do with an %in% but not going to mess with it now
   faction_type <- "Minor"
   if(faction=="CC" | faction=="DC" | faction=="FS" | faction=="LA" |
      faction=="FWL" |
@@ -483,25 +499,29 @@ for(i in 1:xml_length(planets)) {
     #### Project Social Data in Time ####
     #figure out where to add these events
   
-    cat("\tprojections")
+    
     if(!is.na(planet$population)) {
       
-      current_planet_event_node <- xml_add_child(system_event_node, "planet")
-      xml_add_child(current_planet_event_node, "sysPos", j)
+      cat("\tprojections")
       
-      if(founding_year_canon) {
-        xml_add_child(current_planet_event_node, "foundYear", paste(founding_year))
-      }  else {
-        xml_add_child(current_planet_event_node, "foundYear", paste(founding_year),
-                      source="noncanon")
-      }
+      #TODO: add this back into the new way events are written to XML
+      #if(founding_year_canon) {
+        #xml_add_child(current_planet_event_node, "foundYear", paste(founding_year))
+      #}  else {
+        #xml_add_child(current_planet_event_node, "foundYear", paste(founding_year),
+        #              source="noncanon")
+      #}
       
       if(!is.null(faction_table)) {
         faction_table$date[1] <- paste(founding_year,"01","01",sep="-")
         for(i in 1:nrow(faction_table)) {
-          faction_event <- xml_add_child(current_planet_event_node, "event")
-          xml_add_child(faction_event, "date", paste(faction_table$date[i]))
-          xml_add_child(faction_event, "faction", paste(faction_table$event[i]))
+          event_table <- event_table %>% 
+            bind_rows(tibble(id=as.character(id),
+                             sys_pos=j,
+                             date=as.character(faction_table$date[i]),
+                             etype="faction",
+                             event=as.character(faction_table$event[i]),
+                             canon=TRUE))
         }
       }
       
@@ -542,45 +562,66 @@ for(i in 1:xml_length(planets)) {
       #TODO: not safe if colony quickly died
       census_years <- c(founding_year, seq(from=first_census_year, to=last_census_year, by=10), last_year)
       census_pop <- round(pop[paste(census_years)])
-      for(k in 1:length(census_years)) {
-        #I don't know why its popping up a node for the root document, but
-        #the [[1]] ensures that we only grab the correct node
-        pop_event <- xml_add_child(current_planet_event_node, "event")
-        xml_add_child(pop_event, "date", paste(census_years[k],"01","01",sep="-"))
-        xml_add_child(pop_event, "population", paste(census_pop[k]), source="noncanon")
-      }
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+             sys_pos=j,
+             date=paste(census_years,"01","01",sep="-"),
+             etype="population",
+             event=paste(census_pop),
+             canon=FALSE))
+      
       #add in canon populations
       if(!is.null(p2750)) {
-        pop_event <- xml_add_child(current_planet_event_node, "event")
         sl_peak <- 2785
         if(terran_hegemony) {
           sl_peak <- 2767
         }
-        xml_add_child(pop_event, "date", paste(sl_peak,"01","01",sep="-"))
-        xml_add_child(pop_event, "population", p2750, source="canon")
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=j,
+                           date=paste(sl_peak,"01","01",sep="-"),
+                           etype="population",
+                           event=paste(p2750),
+                           canon=FALSE))
       }
       if(!is.null(p3025)) {
-        pop_event <- xml_add_child(current_planet_event_node, "event")
-        xml_add_child(pop_event, "date", paste(3025,"01","01",sep="-"))
-        xml_add_child(pop_event, "population", p3025, source="canon")
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=j,
+                           date=paste(3025,"01","01",sep="-"),
+                           etype="population",
+                           event=paste(p3025),
+                           canon=FALSE))
       }
       if(!is.null(p3067)) {
-        pop_event <- xml_add_child(current_planet_event_node, "event")
-        xml_add_child(pop_event, "date", paste(3067,"01","01",sep="-"))
-        xml_add_child(pop_event, "population", p3067, source="canon")
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=j,
+                           date=paste(3067,"01","01",sep="-"),
+                           etype="population",
+                           event=paste(p3067),
+                           canon=FALSE))
       }
       if(!is.null(p3079)) {
-        pop_event <- xml_add_child(current_planet_event_node, "event")
-        xml_add_child(pop_event, "date", paste(3079,"01","01",sep="-"))
-        xml_add_child(pop_event, "population", p3079, source="canon")
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=j,
+                           date=paste(3079,"01","01",sep="-"),
+                           etype="population",
+                           event=paste(p3079),
+                           canon=FALSE))
       }
       if(!is.null(p3145)) {
-        pop_event <- xml_add_child(current_planet_event_node, "event")
-        xml_add_child(pop_event, "date", paste(3145,"01","01",sep="-"))
-        xml_add_child(pop_event, "population", p3145, source="canon")
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=j,
+                           date=paste(3145,"01","01",sep="-"),
+                           etype="population",
+                           event=paste(p3145),
+                           canon=FALSE))
       }
       
-      #SIC Codes 
+      #SIC Codes
       tech <- planet$tech
       industry <- planet$industry
       raw <- planet$raw
@@ -596,19 +637,14 @@ for(i in 1:xml_length(planets)) {
       }
       sics_projections <- project_sics(tech, industry, raw, output, agriculture, 
                                        founding_year, pop, faction_type)
-      
-      for(i in 1:nrow(sics_projections)) {
-        sics_projection <- sics_projections[i,]
-        sics_event <- xml_add_child(current_planet_event_node, "event")
-        xml_add_child(sics_event, "date", paste(sics_projection$year,"01","01",sep="-"))
-        if(!is.na(sic) & (sics_projection$year>=3040 & sics_projection$year<3050)) {
-          xml_add_child(sics_event, "socioIndustrial", paste(sics_projection$sics), 
-                        source="canon")
-        } else {
-          xml_add_child(sics_event, "socioIndustrial", paste(sics_projection$sics), 
-                       source="noncanon")
-        }
-      }
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=j,
+                         date=paste(sics_projections$year,"01","01",sep="-"),
+                         etype="socioIndustrial",
+                         event=paste(sics_projections$sics),
+                         canon=!is.na(sic) & 
+                           (sics_projections$year>=3040 & sics_projections$year<3050)))
       
       # HPG - We need to do some extra work below to make sure the 
       # first circuit is connected so for the moment, we just want
@@ -711,12 +747,12 @@ while(sum(hpg_network$first$connect_terra==FALSE)>0) {
   hpg_data$hpg[hpg_data$id==nominee] <- "A"
   hpg_network <- get_network(hpg_data)
 }
+
 cat("done\n")
 
 #once this is done then we can loop through hpg_data and use it to 
-#project HPG events for each system
-
-cat("\nAdding HPG information to planet events\n")
+#project HPG events for each system and then add to event_table
+cat("\nAdding HPG information to event data\n")
 hpg_data$id <- as.character(hpg_data$id)
 for(i in 1:nrow(hpg_data)) {
   hpg <- hpg_data[i,]
@@ -727,23 +763,66 @@ for(i in 1:nrow(hpg_data)) {
   #planet has the HPG
   primary <- as.numeric(xml_text(xml_find_first(get_system_id(systems, hpg$id),
                                                 "primarySlot")))
-  planet_event_node <- get_planet_in_system(systems_events, hpg$id, primary)
 
-  #write out the HPG information
-  hpg_event <- xml_add_child(planet_event_node, "event")
+  #project the HPG information
   hpg_history <- project_hpg(hpg$hpg, sqrt(hpg$x^2+hpg$y^2),
                              hpg$founding_year,
                              as.character(hpg$faction_type))
-  for(i in 1:nrow(hpg_history)) {
-    xml_add_child(hpg_event, "date", paste(hpg_history$year[i],"01","01",sep="-"))
-    if(hpg$canon) {
-      xml_add_child(hpg_event, "hpg", paste(hpg_history$hpg[i]), source="canon")
-    } else {
-      xml_add_child(hpg_event, "hpg", paste(hpg_history$hpg[i]), source="noncanon")
-    }
-  }
+  
+  #add to event_table
+  event_table <- event_table %>% 
+    bind_rows(tibble(id=as.character(hpg$id),
+                     sys_pos=primary,
+                     date=paste(hpg_history$year,"01","01",sep="-"),
+                     etype="hpg",
+                     event=paste(hpg_history$hpg),
+                     canon=hpg$canon))
   cat("done\n")
 }
+
+#### Write Event Data to XML ####
+
+cat("\nWriting event data to XML\n")
+
+#sort event data by id and then date
+event_table$date <- as.Date(event_table$date)
+event_table <- event_table[order(event_table$id, event_table$sys_pos, 
+                                 event_table$date, event_table$etype),]
+#in case there are duplicates, remove
+event_table <- event_table[!duplicated(event_table[,c("id","sys_pos","date","etype")]),]
+
+unique_ids <- unique(event_table$id)
+for(uid in unique_ids) {
+  unique_pos <- unique(subset(event_table, id==uid)$sys_pos)
+  for(upos in unique_pos) {
+    system_event_node <- get_system_id(systems_events, uid)[[1]]
+    current_planet_event_node <- xml_add_child(system_event_node, "planet")
+    xml_add_child(current_planet_event_node, "sysPos", upos)
+    pevent_table <- subset(event_table, id==uid & sys_pos==upos)
+    event_group <- NULL
+    for(i in 1:nrow(pevent_table)) {
+      event_group <- event_group %>% bind_rows(pevent_table[i,])
+      #check to see if the next date is the same
+      if(i==nrow(pevent_table) || pevent_table$date[i]==pevent_table$date[i+1]) {
+        #keep building the event group
+        next
+      } else {
+        #write the event group to XML
+        event <- xml_add_child(current_planet_event_node, "event")
+        xml_add_child(event, "date", as.character(event_group$date[1]))
+        for(j in 1:nrow(event_group)) {
+          if(event_group$canon[j]) {
+            xml_add_child(event, event_group$etype[j], event_group$event[j], source="canon")
+          } else {
+            xml_add_child(event, event_group$etype[j], event_group$event[j], source="noncanon")
+          }
+        }
+        event_group <- NULL
+      }
+    }
+  }
+}
+cat("done\n")
 
 #TODO: a similar for-loop for connectors but no need to force habitation
 
@@ -752,3 +831,4 @@ for(i in 1:nrow(hpg_data)) {
 cat(as.character(systems), file = here("output","systems.xml"))
 cat(as.character(systems_events), file = here("output","system_events.xml"))
 cat(as.character(systems_name_changes), file = here("output","system_namechanges.xml"))
+write.csv(event_table, file=here("output","event_table.csv"))
