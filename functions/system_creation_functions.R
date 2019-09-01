@@ -1727,9 +1727,9 @@ project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type) {
     } else {
       #otherwise, get hazard rate and then apply
       #baseline hazard will be 20 years
-      hazard <- 1/20
+      hazard <- 1/15
       #decrease hazard by distance to Terra
-      hazard <- hazard * 125/distance_terra
+      hazard <- hazard * 150/distance_terra
       #increase hazard by five for first circuit
       if(initial_hpg=="A") {
         hazard <- 5*hazard
@@ -1744,8 +1744,8 @@ project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type) {
         start_year <- founding_year
       }
       build_year <- round(start_year+rexp(1, hazard))
-      if(build_year>2735) {
-        build_year <- round(2735+rexp(1,1))
+      if(build_year>2730) {
+        build_year <- round(2730+rexp(1,1))
       }
     }
     hpg_table <- data.frame(year=build_year, hpg=initial_hpg)
@@ -1761,7 +1761,7 @@ project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type) {
   } else if((initial_hpg=="A" | initial_hpg=="B") & distance_terra>1) {
     #otherwise apply some chance of destruction during Amaris Coup/1SW and then rebuilding
     #strong chance of destruction close to core
-    odds <- 0.7/sqrt(distance_terra)
+    odds <- 0.7/(distance_terra^(1/4))
     prob <- odds/(1+odds)
     if(sample(1:100, 1)<=(prob*100)) {
       #gets destroyed
