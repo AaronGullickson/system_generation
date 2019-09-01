@@ -37,10 +37,16 @@ get_event_data <- function(events, id, event_type) {
 
 #get the closest event to the given date that is not later than the 
 #given date and not before the min_date (ignore min_date if NA)
-get_closest_event <- function(event_table, chosen_date, min_date=NA) {
+get_closest_event <- function(event_table, chosen_date, min_date=NA, allow_later=FALSE) {
   date_diff <- event_table$date-chosen_date
   if(sum(date_diff<=0)==0) {
-    return(NA)
+    ##all the dates are later than the target date
+    if(allow_later) {
+      #it should already be sorted from earliest to latest, so take the first
+      return(as.character(event_table$event[1]))
+    } else {
+      return(NA)
+    }
   }
   if(!is.na(min_date)) {
     if(sum(abs(date_diff[date_diff<0])<(chosen_date-min_date))==0) {
