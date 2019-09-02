@@ -321,27 +321,6 @@ for(i in 1:xml_length(planets)) {
   
   xml_add_child(system_node, "primarySlot", primary_slot)
 
-  # project recharge stations and write to event data
-  # sys_pos is zero for system-wide events
-  if(system$recharge$nadir) {
-    event_table <- event_table %>% 
-      bind_rows(tibble(id=as.character(id),
-                       sys_pos=0,
-                       date=paste(founding_year,"01","01",sep="-"),
-                       etype="rechargeNadir",
-                       event=paste(system$recharge$nadir),
-                       canon=FALSE))
-  }
-  if(system$recharge$zenith) {
-    event_table <- event_table %>% 
-      bind_rows(tibble(id=as.character(id),
-                       sys_pos=0,
-                       date=paste(founding_year,"01","01",sep="-"),
-                       etype="rechargeZenith",
-                       event=paste(system$recharge$zenith),
-                       canon=FALSE))
-  }
-  
   #now cycle through planets and create planet nodes
   for(j in 1:nrow(system$planets)) {
     cat(paste("\n",j))
@@ -685,6 +664,20 @@ for(i in 1:xml_length(planets)) {
                                      pop=planet$population,
                                      founding_year=founding_year,
                                      canon=canon))
+      }
+      
+      #Recharge Stations - this should only be checked on the primary slot, 
+      #but should have a sys_pos of zero so it will be written to the system
+      if(j==primary_slot) {
+        recharge_data <- project_recharge(system$recharge, faction_type, 
+                                          founding_year, sics_projections)
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=0,
+                           date=paste(recharge_data$year,"01","01",sep="-"),
+                           etype=recharge_data$etype,
+                           event=paste(recharge_data$event),
+                           canon=FALSE))
       }
     }
   }
