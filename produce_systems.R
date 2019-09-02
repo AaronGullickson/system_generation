@@ -320,6 +320,27 @@ for(i in 1:xml_length(planets)) {
   }
   
   xml_add_child(system_node, "primarySlot", primary_slot)
+
+  # project recharge stations and write to event data
+  # sys_pos is zero for system-wide events
+  if(system$recharge$nadir) {
+    event_table <- event_table %>% 
+      bind_rows(tibble(id=as.character(id),
+                       sys_pos=0,
+                       date=paste(founding_year,"01","01",sep="-"),
+                       etype="rechargeNadir",
+                       event=paste(system$recharge$nadir),
+                       canon=FALSE))
+  }
+  if(system$recharge$zenith) {
+    event_table <- event_table %>% 
+      bind_rows(tibble(id=as.character(id),
+                       sys_pos=0,
+                       date=paste(founding_year,"01","01",sep="-"),
+                       etype="rechargeZenith",
+                       event=paste(system$recharge$zenith),
+                       canon=FALSE))
+  }
   
   #now cycle through planets and create planet nodes
   for(j in 1:nrow(system$planets)) {
@@ -498,7 +519,6 @@ for(i in 1:xml_length(planets)) {
         
     #### Project Social Data in Time ####
     #figure out where to add these events
-  
     
     if(!is.na(planet$population)) {
       
@@ -794,21 +814,28 @@ event_table <- event_table[!duplicated(event_table[,c("id","sys_pos","date","ety
 unique_ids <- unique(event_table$id)
 for(uid in unique_ids) {
   unique_pos <- unique(subset(event_table, id==uid)$sys_pos)
+  system_event_node <- get_system_id(systems_events, uid)[[1]]
   for(upos in unique_pos) {
-    system_event_node <- get_system_id(systems_events, uid)[[1]]
-    current_planet_event_node <- xml_add_child(system_event_node, "planet")
-    xml_add_child(current_planet_event_node, "sysPos", upos)
+    if(upos==0) {
+      #overall system events go in position zero, the only events here 
+      #are recharge stations
+      top_node <- system_event_node      
+    } else {
+      #otherwise they go in planets
+      top_node <- xml_add_child(system_event_node, "planet")
+      xml_add_child(top_node, "sysPos", upos)
+    }
     pevent_table <- subset(event_table, id==uid & sys_pos==upos)
     event_group <- NULL
     for(i in 1:nrow(pevent_table)) {
       event_group <- event_group %>% bind_rows(pevent_table[i,])
       #check to see if the next date is the same
-      if(i==nrow(pevent_table) || pevent_table$date[i]==pevent_table$date[i+1]) {
+      if(i!=nrow(pevent_table) && pevent_table$date[i]==pevent_table$date[i+1]) {
         #keep building the event group
         next
       } else {
         #write the event group to XML
-        event <- xml_add_child(current_planet_event_node, "event")
+        event <- xml_add_child(top_node, "event")
         xml_add_child(event, "date", as.character(event_group$date[1]))
         for(j in 1:nrow(event_group)) {
           if(event_group$canon[j]) {
