@@ -1,4 +1,5 @@
 #This script contains functions for creating systems and planets
+library(tibble)
 
 #### System Generation Functions ####
 
@@ -1050,17 +1051,27 @@ add_colonization <- function(system, distance_terra, current_year,
   }
   
   #Recharge stations
+  #we follow the table closely here but found it produced about 10% of IS systems
+  #with a recharge stations whereas CamOps suggests a higher number less than 25% but
+  #closer to it. So we added a positive modifier for planets with an industry rating of B
+  #or higher
   recharge_roll <- roll_d6(2)
-  if(max(system$planets$population,na.rm=TRUE)<(1*10^9)) {
-    recharge_roll <- recharge_roll-1
-  } else if(max(system$planets$population,na.rm=TRUE)<(2*10^9)) {
+  if(max(system$planets$population,na.rm=TRUE)>=(2*10^9)) {
     recharge_roll <- recharge_roll+1
+  } else if(max(system$planets$population,na.rm=TRUE)<(1*10^9)) {
+    recharge_roll <- recharge_roll-1
   }
   if(max(system$planets$tech, na.rm=TRUE)<="D") {
     recharge_roll <- recharge_roll-1
   }
+  if(max(system$planets$tech, na.rm=TRUE)>="A") {
+    recharge_roll <- recharge_roll+1
+  }
   if(max(system$planets$industry, na.rm=TRUE)<="D") {
     recharge_roll <- recharge_roll-1
+  }
+  if(max(system$planets$industry, na.rm=TRUE)>="B") {
+    recharge_roll <- recharge_roll+1
   }
   if(current_year<2800) {
     recharge_roll <- recharge_roll+2
@@ -1781,6 +1792,184 @@ project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type) {
   }
   
   return(hpg_table)
+}
+
+#### Recharge Station Projection ####
+
+#Lets stry doing this by just applying the CamOps method to a star league peak year. If we get 
+#less or the same stations, we ignore. If we get more stations, then we assign. Choose a starting 
+#date for stations. Then if it goes down from SL high to now, choose extinction dates, mostly by
+#end of 1SW (2820).
+
+# Simulations suggest that would get us to about 33% of planets in IS having at least one recharge
+# station at SL peak. My sense is that it should be higher than this, so lets try adding a +3 rather
+# than +2 to the adjustment.
+
+project_recharge <- function(recharge_current, faction_type, founding_year, sics_project) {
+  
+  #default to about 50 years after colonization, on average
+  build_rate <- 0.02
+  #clans build much faster, about 5 years on average
+  if(faction_type=="Clan") {
+    build_rate <- 0.2
+  }
+  #if getting close to end of SL era then speed up build rate (20 years on average)
+  if(founding_year>2650) {
+    build_rate <- 0.05
+  }
+  if(founding_year>2750) {
+    build_rate <- 0.2
+  }
+  
+  recharge_history <- tibble(year=numeric(),
+                             etype=character(),
+                             event=logical())
+  
+  nrecharge_current <- recharge_current$nadir+recharge_current$zenith
+  
+  if(faction_type=="Clan") {
+    if(recharge_current$zenith) {
+      build_year <- founding_year+round(rexp(1, build_rate))
+      recharge_history <- recharge_history %>% 
+        bind_rows(tibble(year=build_year,
+                         etype="rechargeZenith",
+                         event=TRUE))
+    }
+    if(recharge_current$nadir) {
+      build_year <- founding_year+round(rexp(1, build_rate))
+      recharge_history <- recharge_history %>% 
+        bind_rows(tibble(year=build_year,
+                         etype="rechargeNadir",
+                         event=TRUE))
+    }
+    return(recharge_history)
+  }
+  
+  
+  #if founding year after 2765, then no chance for building recharge stations
+  if(founding_year>2765) {
+    return(recharge_history)
+  }
+  
+  #get best tech and industry rating from the sics_projection  
+  tech <- factor("X",
+                 levels=c("X","F","D","C","B","A"),
+                 ordered = TRUE)
+  industry <- factor("F",
+                     levels=c("F","D","C","B","A"),
+                     ordered=TRUE)
+  sics_project$sics <- as.character(sics_project$sics)
+  for(i in 1:nrow(sics_project)) {
+    sics <- separate_sics(sics_project$sics[i])
+    if(sics$tech>tech) {tech <- sics$tech}
+    if(sics$industry>industry) {industry <- sics$industry}
+  }
+
+  recharge_roll <- roll_d6(2)
+  if(max(system$planets$population,na.rm=TRUE)>=(2*10^9)) {
+    recharge_roll <- recharge_roll+1
+  } else if(max(system$planets$population,na.rm=TRUE)<(1*10^9)) {
+    recharge_roll <- recharge_roll-1
+  }
+  if(max(tech, na.rm=TRUE)<="D") {
+    recharge_roll <- recharge_roll-1
+  }
+  if(max(tech, na.rm=TRUE)>="A") {
+    recharge_roll <- recharge_roll+1
+  }
+  if(max(industry, na.rm=TRUE)<="D") {
+    recharge_roll <- recharge_roll-1
+  }
+  if(max(industry, na.rm=TRUE)>="B") {
+    recharge_roll <- recharge_roll+1
+  }
+  #bonus for star league peak to put us around 50%
+  if(faction_type=="IS") {
+    recharge_roll <- recharge_roll+3
+  } else {
+    recharge_roll <- recharge_roll+2
+  }
+
+  recharge_roll <- max(min(recharge_roll-1,11),1)
+  
+  recharge_is <- c(rep(0,8),rep(1,2),2)
+  recharge_periphery <- c(rep(0,8),rep(1,3))
+  recharge_minor <- c(rep(0,10),1)
+  
+  nrecharge_sl <- recharge_is[recharge_roll] 
+  if(faction_type=="Periphery") {
+    nrecharge_sl <- recharge_periphery[recharge_roll] 
+  } else if(faction_type=="Minor") {
+    nrecharge_sl <- recharge_minor[recharge_roll] 
+  } 
+  
+  if(nrecharge_sl<=nrecharge_current) {
+    if(recharge_current$zenith) {
+      build_year <- founding_year+round(rexp(1, build_rate))
+      recharge_history <- recharge_history %>% 
+        bind_rows(tibble(year=build_year,
+                         etype="rechargeZenith",
+                         event=TRUE))
+    }
+    if(recharge_current$nadir) {
+      build_year <- founding_year+round(rexp(1, build_rate))
+      recharge_history <- recharge_history %>% 
+        bind_rows(tibble(year=build_year,
+                         etype="rechargeNadir",
+                         event=TRUE))
+    } 
+  } else {
+    #more stations, so decide on initial creation date(s) and then destruction date(s)
+    hadZenith <- FALSE
+    hadNadir <- FALSE
+    if(nrecharge_sl==2) {
+      #build both
+      build_year <- founding_year+round(rexp(1, build_rate))
+      recharge_history <- recharge_history %>% 
+        bind_rows(tibble(year=build_year,
+                         etype="rechargeZenith",
+                         event=TRUE))
+      build_year <- founding_year+round(rexp(1, build_rate))
+      recharge_history <- recharge_history %>% 
+        bind_rows(tibble(year=build_year,
+                         etype="rechargeNadir",
+                         event=TRUE))
+      hadZenith = TRUE
+      hadNadir = TRUE
+    } else if(nrecharge_sl==1) {
+      #build one
+      if(sample(1:2,1)==1) {
+        recharge_history <- recharge_history %>% 
+          bind_rows(tibble(year=build_year,
+                           etype="rechargeZenith",
+                           event=TRUE))
+        hadZenith = TRUE
+      } else {
+        recharge_history <- recharge_history %>% 
+          bind_rows(tibble(year=build_year,
+                           etype="rechargeNadir",
+                           event=TRUE))
+        hadNadir = TRUE
+      }
+    }
+    #now check for destruction
+    if(hadZenith & !recharge_current$zenith) {
+      #destroy station
+      recharge_history <- recharge_history %>% 
+        bind_rows(tibble(year=min(2785+round(rexp(1,1/20)), 2850),
+                         etype="rechargeZenith",
+                         event=FALSE))
+    }
+    if(hadNadir & !recharge_current$nadir) {
+      #destroy station
+      recharge_history <- recharge_history %>% 
+        bind_rows(tibble(year=min(2785+round(rexp(1,1/20)), 2850),
+                         etype="rechargeNadir",
+                         event=FALSE))
+    }
+  }
+  
+  return(recharge_history)
 }
 
 #### Utility Functions ####
