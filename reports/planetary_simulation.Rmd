@@ -401,6 +401,9 @@ system <- add_colonization(generate_system(), planet$distance_terra, 3047, plane
 habitable_systems <- subset(system$planets, inhabitable)
 #in case more than one pick the one with most population
 generated_systems <- subset(habitable_systems, population==max(habitable_systems$population))[1,]
+#add number of recharge stations
+generated_systems$recharge <- system$recharge$nadir+system$recharge$zenith
+
 rownames(generated_systems) <- NULL
 
 for(i in 2:nrow(planets)) {
@@ -410,6 +413,7 @@ for(i in 2:nrow(planets)) {
   #in case more than one pick the one with most population
   temp <- subset(habitable_systems, population==max(habitable_systems$population))[1,]
   rownames(temp) <- NULL
+  temp$recharge <- system$recharge$nadir+system$recharge$zenith
   generated_systems <- rbind(generated_systems, temp)
 }
 
@@ -663,6 +667,20 @@ ggplot(subset(combined_data, !is.na(hpg)), aes(x=hpg, y=distance_terra, fill=cre
   scale_fill_brewer(name="Creation", palette="Set1")+
   ylab("Distance from Terra")+
   ggtitle("Relationship between HPG rating and distance from terra, by faction type")
+```
+
+### Recharge Stations
+
+We were getting around 10% for the Inner Shere whereas CamOps says it should be "under 25%" by 2820 so we added a +1 to the roll if planet was B or above in industry rating and a +1 if the planet was A-rated in tech. That gave us about 16%.
+
+For projection, we added +3 to the roll for Start league peak, which gave us about 50% of worlds in the Inner Sphere with at least one recharge station and about 25% of major periphery planets with at least one recharge station.
+
+```{r recharge, echo=FALSE}
+tapply(generated_systems$recharge>0, generated_systems$faction_type, mean)
+ggplot(generated_systems, aes(x=recharge>0, y=..prop.., 
+                              group=faction_type, fill=faction_type))+
+  geom_bar(position = "dodge")+
+  theme_bw()
 ```
 
 ### Population Projections
