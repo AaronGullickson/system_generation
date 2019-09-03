@@ -50,11 +50,6 @@ generate_system <- function(star=NULL, habitable=TRUE) {
   
     spectral_class <- star_type[star_roll-1]
     subtype <- sample(0:9,1)
-    ##A tweak here. Classes M6V and M9V have no planets in habitable zone, so 
-    ##leave them out of substype sample if habitable==TRUE
-    if(habitable & spectral_class=="M") {
-      subtype <- sample(c(0,1,2,3,4,5,7,8),1)
-    }
     star_size <- "V"
     
   }

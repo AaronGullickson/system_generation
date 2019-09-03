@@ -209,13 +209,6 @@ for(i in 1:xml_length(planets)) {
       star <- NULL
     }
     
-    #TODO: until we hack it M6V and M9V also produce no habitable planets
-    if(!is.null(star)) {
-      if(star=="M9V" | star=="M6V") {
-        star <- NULL
-      }
-    }
-    
   } else {
     star <- NULL
   }
