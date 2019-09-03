@@ -1834,15 +1834,15 @@ project_recharge <- function(recharge_current, faction_type, founding_year, sics
       build_year <- founding_year+round(rexp(1, build_rate))
       recharge_history <- recharge_history %>% 
         bind_rows(tibble(year=build_year,
-                         etype="rechargeZenith",
-                         event=TRUE))
+                         etype="zenithCharge",
+                         event="true"))
     }
     if(recharge_current$nadir) {
       build_year <- founding_year+round(rexp(1, build_rate))
       recharge_history <- recharge_history %>% 
         bind_rows(tibble(year=build_year,
-                         etype="rechargeNadir",
-                         event=TRUE))
+                         etype="nadirCharge",
+                         event="true"))
     }
     return(recharge_history)
   }
@@ -1912,15 +1912,15 @@ project_recharge <- function(recharge_current, faction_type, founding_year, sics
       build_year <- founding_year+round(rexp(1, build_rate))
       recharge_history <- recharge_history %>% 
         bind_rows(tibble(year=build_year,
-                         etype="rechargeZenith",
-                         event=TRUE))
+                         etype="zenithCharge",
+                         event="true"))
     }
     if(recharge_current$nadir) {
       build_year <- founding_year+round(rexp(1, build_rate))
       recharge_history <- recharge_history %>% 
         bind_rows(tibble(year=build_year,
-                         etype="rechargeNadir",
-                         event=TRUE))
+                         etype="nadirCharge",
+                         event="true"))
     } 
   } else {
     #more stations, so decide on initial creation date(s) and then destruction date(s)
@@ -1931,13 +1931,13 @@ project_recharge <- function(recharge_current, faction_type, founding_year, sics
       build_year_zenith <- founding_year+round(rexp(1, build_rate))
       recharge_history <- recharge_history %>% 
         bind_rows(tibble(year=build_year_zenith,
-                         etype="rechargeZenith",
-                         event=TRUE))
+                         etype="zenithCharge",
+                         event="true"))
       build_year_nadir <- founding_year+round(rexp(1, build_rate))
       recharge_history <- recharge_history %>% 
         bind_rows(tibble(year=build_year_nadir,
-                         etype="rechargeNadir",
-                         event=TRUE))
+                         etype="nadirCharge",
+                         event="true"))
       hadZenith = TRUE
       hadNadir = TRUE
     } else if(nrecharge_sl==1) {
@@ -1946,15 +1946,15 @@ project_recharge <- function(recharge_current, faction_type, founding_year, sics
         build_year_zenith <- founding_year+round(rexp(1, build_rate))
         recharge_history <- recharge_history %>% 
           bind_rows(tibble(year=build_year_zenith,
-                           etype="rechargeZenith",
-                           event=TRUE))
+                           etype="zenithCharge",
+                           event="true"))
         hadZenith = TRUE
       } else {
         build_year_nadir <- founding_year+round(rexp(1, build_rate))
         recharge_history <- recharge_history %>% 
           bind_rows(tibble(year=build_year_nadir,
-                           etype="rechargeNadir",
-                           event=TRUE))
+                           etype="nadirCharge",
+                           event="true"))
         hadNadir = TRUE
       }
     }
@@ -1964,16 +1964,16 @@ project_recharge <- function(recharge_current, faction_type, founding_year, sics
       recharge_history <- recharge_history %>% 
         bind_rows(tibble(year=max(min(2785+round(rexp(1,1/20)), 2850), 
                                   build_year_zenith+5),
-                         etype="rechargeZenith",
-                         event=FALSE))
+                         etype="zenithCharge",
+                         event="false"))
     }
     if(hadNadir & !recharge_current$nadir) {
       #destroy station
       recharge_history <- recharge_history %>% 
         bind_rows(tibble(year=max(min(2785+round(rexp(1,1/20)), 2850), 
                                   build_year_nadir+5),
-                         etype="rechargeNadir",
-                         event=FALSE))
+                         etype="nadirCharge",
+                         event="false"))
     }
   }
   
