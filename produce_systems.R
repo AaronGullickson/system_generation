@@ -56,8 +56,8 @@ systems_name_changes <- xml_new_document() %>% xml_add_child("systems")
 
 small_sample <- sample(1:xml_length(planets), 50)
 
-#for(i in 1:xml_length(planets)) {
-for(i in small_sample) {
+for(i in 1:xml_length(planets)) {
+#for(i in small_sample) {
   
   #### Read in a planet's data ####
   
@@ -670,7 +670,8 @@ for(i in small_sample) {
       #but should have a sys_pos of zero so it will be written to the system
       if(j==primary_slot) {
         recharge_data <- project_recharge(system$recharge, faction_type, 
-                                          founding_year, sics_projections)
+                                          founding_year, sics_projections,
+                                          pop)
         event_table <- event_table %>% 
           bind_rows(tibble(id=as.character(id),
                            sys_pos=0,
@@ -710,7 +711,7 @@ hpg_data$tech <- factor(hpg_data$tech,
 hpg_data$hpg <- toupper(as.character(hpg_data$hpg))
 hpg_data$hpg[hpg_data$hpg=="NONE"] <- "X"
 
-#hpg_network <- get_network(hpg_data)
+hpg_network <- get_network(hpg_data)
 
 ## Connect the First Circuit
 #we grab the nearest system not connected to the terra network and then identify
@@ -721,45 +722,45 @@ hpg_data$hpg[hpg_data$hpg=="NONE"] <- "X"
 #closer to the Terra network. We then reconstruct the network and do this all
 #over again, until we have no more isolates. All of this is only done for IS
 #systems.
-# while(sum(hpg_network$first$connect_terra==FALSE)>0) {
-#   #get the isolated network of the first unconnected planet
-#   isolate <- which(!hpg_network$first$connect_terra)[1]
-#   temp <- get_all_connected_nodes(hpg_network$network, isolate)
-#   if(!is.na(temp[1])) {
-#     isolate <- c(isolate, temp)
-#   }
-#   isolated_network <- hpg_network$first[isolate, c("id","x","y")]
-#   terra_network <- hpg_network$first[hpg_network$first$connect_terra,
-#                                      c("id","x","y")]
-#   closest_points <- find_closest_points(terra_network, isolated_network)
-#   candidates <- find_all_overlaps(closest_points)
-# 
-#   #if we have candidates, then pick one (for now randomly)
-#   if(nrow(candidates)>0) {
-#     #choose highest tech and use population as tiebreaker
-#     nominee <- candidates[order(candidates$tech, candidates$pop,
-#                                 decreasing = TRUE),"id"][1]
-#   } else {
-#     candidates <- find_closer_planets(closest_points)
-#     if(nrow(candidates)>0) {
-#       #generally we want to choose higher tech, but first set up a
-#       #tier of 20 or more from ego system so that they are not piled up to close
-#       candidates$far_enough <- candidates$distance_iso>=20
-#       nominee <- candidates[order(candidates$far_enough, candidates$tech,
-#                                   candidates$pop, decreasing = TRUE),"id"][1]
-#     } else {
-#       #If we can't find anyway to connect this, then the closest point
-#       #should not be on the First Circuit
-#       hpg_data$hpg[hpg_data$id==closest_points$iso$id[1]] <- "B"
-#       hpg_network <- get_network(hpg_data)
-#       next
-#     }
-#   }
-# 
-#   #you have been promoted!
-#   hpg_data$hpg[hpg_data$id==nominee] <- "A"
-#   hpg_network <- get_network(hpg_data)
-# }
+while(sum(hpg_network$first$connect_terra==FALSE)>0) {
+  #get the isolated network of the first unconnected planet
+  isolate <- which(!hpg_network$first$connect_terra)[1]
+  temp <- get_all_connected_nodes(hpg_network$network, isolate)
+  if(!is.na(temp[1])) {
+    isolate <- c(isolate, temp)
+  }
+  isolated_network <- hpg_network$first[isolate, c("id","x","y")]
+  terra_network <- hpg_network$first[hpg_network$first$connect_terra,
+                                     c("id","x","y")]
+  closest_points <- find_closest_points(terra_network, isolated_network)
+  candidates <- find_all_overlaps(closest_points)
+
+  #if we have candidates, then pick one (for now randomly)
+  if(nrow(candidates)>0) {
+    #choose highest tech and use population as tiebreaker
+    nominee <- candidates[order(candidates$tech, candidates$pop,
+                                decreasing = TRUE),"id"][1]
+  } else {
+    candidates <- find_closer_planets(closest_points)
+    if(nrow(candidates)>0) {
+      #generally we want to choose higher tech, but first set up a
+      #tier of 20 or more from ego system so that they are not piled up to close
+      candidates$far_enough <- candidates$distance_iso>=20
+      nominee <- candidates[order(candidates$far_enough, candidates$tech,
+                                  candidates$pop, decreasing = TRUE),"id"][1]
+    } else {
+      #If we can't find anyway to connect this, then the closest point
+      #should not be on the First Circuit
+      hpg_data$hpg[hpg_data$id==closest_points$iso$id[1]] <- "B"
+      hpg_network <- get_network(hpg_data)
+      next
+    }
+  }
+
+  #you have been promoted!
+  hpg_data$hpg[hpg_data$id==nominee] <- "A"
+  hpg_network <- get_network(hpg_data)
+}
 
 cat("done\n")
 

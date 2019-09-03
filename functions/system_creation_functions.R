@@ -1,5 +1,7 @@
 #This script contains functions for creating systems and planets
 library(tibble)
+library(magrittr)
+library(dplyr)
 
 #### System Generation Functions ####
 
@@ -1805,7 +1807,7 @@ project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type) {
 # station at SL peak. My sense is that it should be higher than this, so lets try adding a +3 rather
 # than +2 to the adjustment.
 
-project_recharge <- function(recharge_current, faction_type, founding_year, sics_project) {
+project_recharge <- function(recharge_current, faction_type, founding_year, sics_project, pop) {
   
   #default to about 50 years after colonization, on average
   build_rate <- 0.02
@@ -1864,11 +1866,13 @@ project_recharge <- function(recharge_current, faction_type, founding_year, sics
     if(sics$tech>tech) {tech <- sics$tech}
     if(sics$industry>industry) {industry <- sics$industry}
   }
+  
+  population_sl <- pop["2765"]
 
   recharge_roll <- roll_d6(2)
-  if(max(system$planets$population,na.rm=TRUE)>=(2*10^9)) {
+  if(population_sl>=(2*10^9)) {
     recharge_roll <- recharge_roll+1
-  } else if(max(system$planets$population,na.rm=TRUE)<(1*10^9)) {
+  } else if(population_sl<(1*10^9)) {
     recharge_roll <- recharge_roll-1
   }
   if(max(tech, na.rm=TRUE)<="D") {
