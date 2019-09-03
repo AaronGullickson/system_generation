@@ -3,6 +3,9 @@ library(tibble)
 library(magrittr)
 library(dplyr)
 
+#a bunch of constants by star type for use in calculations
+solar_types <- read.csv(here("input","solar_type.csv"), row.names=1)
+
 #### System Generation Functions ####
 
 generate_system <- function(star=NULL, habitable=TRUE) {
@@ -58,8 +61,7 @@ generate_system <- function(star=NULL, habitable=TRUE) {
   stype <- paste(spectral_class, subtype, star_size, sep="")
   
   #table only has V stars, so feed that in. We will override below
-  stype_data <- read.csv(here("input","solar_type.csv"), 
-                         row.names=1)[paste(spectral_class, subtype, "V", sep=""),]
+  stype_data <- solar_types[paste(spectral_class, subtype, "V", sep=""),]
   
   if(star_size != "V") {
     #according to CamOps pg 116, mulitiply luminosity by four and double the life 
