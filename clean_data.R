@@ -44,10 +44,11 @@ for(i in 1:xml_length(planets)) {
    
   # Check for connector
   name <- xml_text(xml_find_first(planet, "name"))
-  if(grepl("^(DPR|ER|KC|TFS|NP|NC|HL)", name)) {
+  if(grepl("^(DPR|ER|KC|TFS|NP|NC|HL|JF|Interstellar Expeditions|Cambridge Perimeter Defense)", name)) {
      xml_add_child(connectors, planet)
      next
   }
+
   # 
   # If we are still here cycle through nodes and spit out results to the 
   # new file
