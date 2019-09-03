@@ -402,7 +402,8 @@ habitable_systems <- subset(system$planets, inhabitable)
 #in case more than one pick the one with most population
 generated_systems <- subset(habitable_systems, population==max(habitable_systems$population))[1,]
 #add number of recharge stations
-generated_systems$recharge <- system$recharge$nadir+system$recharge$zenith
+generated_systems$recharge_nadir <- system$recharge$nadir
+generated_systems$recharge_zenith <- system$recharge$zenith
 
 rownames(generated_systems) <- NULL
 
@@ -413,7 +414,8 @@ for(i in 2:nrow(planets)) {
   #in case more than one pick the one with most population
   temp <- subset(habitable_systems, population==max(habitable_systems$population))[1,]
   rownames(temp) <- NULL
-  temp$recharge <- system$recharge$nadir+system$recharge$zenith
+  temp$recharge_nadir <- system$recharge$nadir
+  temp$recharge_zenith <- system$recharge$zenith
   generated_systems <- rbind(generated_systems, temp)
 }
 
@@ -437,18 +439,36 @@ projected_populations <- matrix(NA, nrow(generated_systems), length(2100:3145))
 colnames(projected_populations) <- paste(2100:3145)
 rownames(projected_populations) <- paste(generated_systems$name)
 projected_sics <- list()
+projected_recharge <- list()
 for(i in 1:nrow(generated_systems)) {
   system <- generated_systems[i,]
   proj_pop <- project_population(system$population, system$founding_year, system$faction_type,
                                  distance_to_border(system$x, system$y, system$faction),
                                  system$agriculture)
   projected_populations[i,names(proj_pop)] <- proj_pop
-  projected_sics[[i]] <- data.frame(project_sics(system$tech, system$industry, system$raw, 
-                                                 system$output, system$agriculture,
-                                                 system$founding_year, proj_pop, system$faction_type),
+  psics <- project_sics(system$tech, system$industry, system$raw, 
+                        system$output, system$agriculture,
+                        system$founding_year, proj_pop, system$faction_type)
+  projected_sics[[i]] <- data.frame(psics,
                                     faction_type=system$faction_type,
                                     x=system$x,
                                     y=system$y)
+  recharge <- project_recharge(list(nadir=system$recharge_nadir,
+                                    zenith=system$recharge_zenith),
+                               system$faction_type,
+                               system$founding_year, psics,
+                               proj_pop)
+  if(nrow(recharge)>0) {
+    projected_recharge[[i]] <- data.frame(recharge,
+                                          faction_type=system$faction_type,
+                                          x=system$x,
+                                          y=system$y)
+  } else {
+   projected_recharge[[i]] <- data.frame(year=NA,etype=NA,event=NA,
+                                         faction_type=system$faction_type,
+                                          x=system$x,
+                                          y=system$y)
+  }
 }
 ```
 
@@ -676,11 +696,66 @@ We were getting around 10% for the Inner Shere whereas CamOps says it should be 
 For projection, we added +3 to the roll for Start league peak, which gave us about 50% of worlds in the Inner Sphere with at least one recharge station and about 25% of major periphery planets with at least one recharge station.
 
 ```{r recharge, echo=FALSE}
-tapply(generated_systems$recharge>0, generated_systems$faction_type, mean)
-ggplot(generated_systems, aes(x=recharge>0, y=..prop.., 
-                              group=faction_type, fill=faction_type))+
-  geom_bar(position = "dodge")+
+extract_recharge <- function(x, chosen_year, type) {
+  x <- na.omit(x)
+  x <- subset(x, etype==type & year<=chosen_year)
+  if(nrow(x)==0) {
+    return(FALSE)
+  }
+  x <- x[order(x$year),]
+  return(x[nrow(x),"event"])
+}
+
+recharge_data <- data.frame(stations=sapply(projected_recharge, extract_recharge,
+                                            2750,"rechargeNadir")+
+                              sapply(projected_recharge, extract_recharge, 
+                                     2750,"rechargeZenith"),
+                            year=2750,
+                            faction_type=sapply(projected_recharge, function(x){x$faction_type[1]}),
+                            x=sapply(projected_recharge, function(x){x$x[1]}),
+                            y=sapply(projected_recharge, function(x){x$y[1]}))
+recharge_data <- rbind(recharge_data,
+                       data.frame(stations=sapply(projected_recharge, extract_recharge,
+                                            2800,"rechargeNadir")+
+                              sapply(projected_recharge, extract_recharge, 
+                                     2800,"rechargeZenith"),
+                            year=2800,
+                            faction_type=sapply(projected_recharge, function(x){x$faction_type[1]}),
+                            x=sapply(projected_recharge, function(x){x$x[1]}),
+                            y=sapply(projected_recharge, function(x){x$y[1]})))
+recharge_data <- rbind(recharge_data,
+                       data.frame(stations=sapply(projected_recharge, extract_recharge,
+                                            2850,"rechargeNadir")+
+                              sapply(projected_recharge, extract_recharge, 
+                                     2850,"rechargeZenith"),
+                            year=2850,
+                            faction_type=sapply(projected_recharge, function(x){x$faction_type[1]}),
+                            x=sapply(projected_recharge, function(x){x$x[1]}),
+                            y=sapply(projected_recharge, function(x){x$y[1]})))
+recharge_data <- rbind(recharge_data,
+                       data.frame(stations=sapply(projected_recharge, extract_recharge,
+                                            2900,"rechargeNadir")+
+                              sapply(projected_recharge, extract_recharge, 
+                                     2900,"rechargeZenith"),
+                            year=2900,
+                            faction_type=sapply(projected_recharge, function(x){x$faction_type[1]}),
+                            x=sapply(projected_recharge, function(x){x$x[1]}),
+                            y=sapply(projected_recharge, function(x){x$y[1]})))
+recharge_data <- rbind(recharge_data,
+                       data.frame(stations=sapply(projected_recharge, extract_recharge,
+                                            3050,"rechargeNadir")+
+                              sapply(projected_recharge, extract_recharge, 
+                                     3050,"rechargeZenith"),
+                            year=3050,
+                            faction_type=sapply(projected_recharge, function(x){x$faction_type[1]}),
+                            x=sapply(projected_recharge, function(x){x$x[1]}),
+                            y=sapply(projected_recharge, function(x){x$y[1]})))
+
+ggplot(recharge_data, aes(x=stations, y=..prop.., group=faction_type, fill=faction_type))+
+  geom_bar(position="dodge")+
+  facet_wrap(~year)+
   theme_bw()
+
 ```
 
 ### Population Projections
