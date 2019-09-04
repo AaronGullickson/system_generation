@@ -708,6 +708,44 @@ for(i in 1:xml_length(planets)) {
     xml_add_child(primary_planet_name_node, "sysPos", primary_slot)
     for(planet_name_change in xml_find_all(planet_name_changes, "event")) {
       xml_add_child(primary_planet_name_node, planet_name_change)
+      
+      #check to see if changed to numeric style
+      date <- xml_text(xml_find_first(planet_name_change, "date"))
+      temp <- xml_text(xml_find_first(planet_name_change, "name"))
+      roman <- grepl("\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV)$", 
+                     temp)
+      arabic <- grepl("\\s+\\d+$", temp)
+      if(roman || arabic) {
+        #change all the remaining system names except asteroid belts
+        base_name <- ""
+        if(roman) {
+          base_name <- trimws(gsub("\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV)$", 
+                                   "", temp))
+        }
+        if(arabic) {
+          base_name <- trimws(gsub("\\s+\\d+$", "", temp))
+        }
+        pos <- 1
+        for(j in 1:nrow(system$planets)) {
+          if(j==primary_slot) {
+            pos <- pos+1
+            next
+          }
+          if(system$planets$type[j]=="Asteroid Belt") {
+            next
+          }
+          planet_node <- xml_add_child(system_name_node, "planet")
+          xml_add_child(planet_node, "sysPos", j)
+          event <- xml_add_child(planet_node, "event")
+          xml_add_child(event, "date", date)
+          if(roman) {
+            xml_add_child(event, "name", paste(base_name, convert_arabic2roman(pos)), source="noncanon")
+          } else {
+            xml_add_child(event, "name", paste(base_name, pos), source="noncanon")
+          }
+          pos <- pos+1
+        }
+      }
     }
   }
     
