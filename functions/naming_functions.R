@@ -41,7 +41,6 @@
 # Landmasses similarly and capital city should be tied in, but may have different probs. 
 
 
-
 library(wrswoR)
 library(here)
 load(here("name_generation","output","myth_sample.RData"))
@@ -53,6 +52,7 @@ nationalities <- read.csv(here("name_generation/output/name_nationality.csv"))
 generate_system_names <- function(system, id) {
   
   nationality <- name_corr[name_corr$id==id,]
+  
   #determine if this system has a numbering system and if so, number the planets
   use_roman_planet_numbering <- grepl("\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV)$", 
                                       nationality$founding_name)
@@ -66,19 +66,21 @@ generate_system_names <- function(system, id) {
     base_name <- trimws(gsub("\\s+\\d+$", "", nationality$founding_name))
   }
   
+  #if no country iso for this planet, then resample to get nationality
   if(is.na(nationality$country_iso)) {
     nationality <- sample_nationality()
   }
   
+  ### Planets have some special things about naming
+  isAsteroid <- system$planets$type=="Asteroid Belt"
   system$planets$name <- sample_names(nrow(system$planets), "planet", nationality)
   if(use_roman_planet_numbering) {
-    toName <- system$planets$type!="Asteroid Belt"
-    system$planets$name[toName] <- paste(base_name, convert_arabic2roman(1:sum(toName)))
+    system$planets$name[!isAsteroid] <- paste(base_name, convert_arabic2roman(1:sum(!isAsteroid)))
   }
   if(use_arabic_planet_numbering) {
-    toName <- system$planets$type!="Asteroid Belt"
-    system$planets$name[toName] <- paste(base_name, 1:sum(toName))
+    system$planets$name[!isAsteroid] <- paste(base_name, 1:sum(!isAsteroid))
   }
+  system$planets$name[isAsteroid] <- paste(system$planets$name[isAsteroid], "Belt")
   
   system$planets$continent_names <- NA
   system$planets$capitol_name <- NA
