@@ -4,6 +4,7 @@ library(xml2)
 library(magrittr)
 library(rlist)
 library(here)
+library(stringr)
 source(here("functions","system_creation_functions.R"))
 source(here("functions","data_functions.R"))
 
@@ -54,9 +55,33 @@ for(i in 1:xml_length(planets)) {
   # new file
   planet_node <- xml_add_child(new_planets, "planet")
   for(node in xml_children(planet)) {
-    if(xml_name(node)!="event" & xml_name(node)!="pop") {
+    #run a check on names to get rid of parenthetical stuff for planet number 
+    #or name changes
+    new_name <- NULL
+    if(xml_name(node)=="name") {
+      current_name <- xml_text(node)
+      #if it ends in "+)" then take the part not in parenthesis
+      if(grepl("\\+\\)$",current_name)) {
+        new_name <- trimws(gsub("\\(.*\\)", "", current_name))
+      }
+      #if it ends in "-)" take the part in parenthesis minus any numbers and the -
+      if(grepl("\\-\\)$",current_name)) {
+        new_name <- trimws(gsub("(\\(|\\)|\\-|\\d+)", "", str_extract(current_name, "\\(.*\\)")))
+      }
+      #roman numerals
+      if(grepl("\\w\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV)\\)", current_name)) {
+        new_name <- trimws(gsub("(\\(|\\))", "", str_extract(current_name, "\\(.*\\)")))
+      }
+    }
+    
+    if(!is.null(new_name)) {
+      #write the new name
+      new_name_node <- xml_add_child(planet_node, "name", new_name)
+    } else if(xml_name(node)!="event" & xml_name(node)!="pop") {
+      #write the existing node
       xml_add_child(planet_node, node)
     }
+    
   }
   cat("\n")
 }
