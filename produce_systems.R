@@ -19,6 +19,8 @@ source(here("functions","network_functions.R"))
 #set a seed to allow for reproducing the results
 #set.seed(20)
 
+options(nwarnings = 1000)
+
 planets <- read_xml(here("output","planets_initial.xml"))
 events <- read_xml(here("output","planetevents_initial.xml"))
 name_changes <- read_xml(here("input","0999_namechanges.xml"))
@@ -112,11 +114,10 @@ for(i in 1:xml_length(planets)) {
     #take the first faction in cases of multiple factions
     #TODO: check for abandoned faction. If we find it then, record the abandoned by date
     #and a boolean for being abandoned, then remove the abandoned line from faction_table
-    #so we don't grab it, but rather the one right before it. 
-    #TODO: turn allow_later on to get post 3047 foundings, but wait until 
-    #HPG is worked out
-    #temp <- get_closest_event(faction_table, target_date, allow_later = TRUE)
-    temp <- get_closest_event(faction_table, target_date)
+    #so we don't grab it, but rather the one right before it. Don't actually remove the line 
+    #from faction table itself though as we use that later to create system_events
+    #we allow_later=TRUE so we don't lose planets with founding dates later than target_date
+    temp <- get_closest_event(faction_table, target_date, allow_later = TRUE)
     if(!is.na(temp)) {
       faction <- strsplit(temp,",")[[1]][1]
     }
@@ -171,8 +172,8 @@ for(i in 1:xml_length(planets)) {
 
   #drop if they are missing founding year
   if(is.na(founding_year)) {
-    next
     warning(paste("ERROR:", id, "has a missing founding year. Skipping.\n"))
+    next
   }
   
   cat("done\n\tOrganizing data...")
