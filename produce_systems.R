@@ -174,17 +174,18 @@ for(i in 1:xml_length(planets)) {
     next
   }
   
+  #drop if they are missing founding year
+  if(is.na(founding_year)) {
+    warning(paste("ERROR:", id, "has a missing founding year. Skipping.\n"))
+    next
+  }
+  
   #TODO: need to generate data for abandoned planets too
   if(faction=="ABN") {
     cat(paste(id, "is abandoned. Skipping.\n"))
     next
   }
 
-  #drop if they are missing founding year
-  if(is.na(founding_year)) {
-    warning(paste("ERROR:", id, "has a missing founding year. Skipping.\n"))
-    next
-  }
   
   cat("done\n\tOrganizing data...")
   
