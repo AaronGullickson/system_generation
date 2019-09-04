@@ -2,15 +2,15 @@
 library(tibble)
 library(magrittr)
 library(dplyr)
+library(here)
 
 #a bunch of constants by star type for use in calculations
 solar_types <- read.csv(here("input","solar_type.csv"), row.names=1)
+load(here("output","habitable_zones.RData"))
 
 #### System Generation Functions ####
 
-generate_system <- function(star=NULL, habitable=TRUE) {
-  
-  library(here)
+generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
   
   if(!is.null(star)) {
     #break apart stype to make sure it makes sense
@@ -20,65 +20,97 @@ generate_system <- function(star=NULL, habitable=TRUE) {
     
     if(is.na(star_size) | !(spectral_class %in% c("A","B","F","G","K","M"))) {
       warning("Invalid spectral class provided.")
-      return(NULL)
+      star <- NULL
     }
     if(is.na(subtype) | subtype <0 | subtype>9) {
       warning("Invalid subtype provided.")
-      return(NULL)
+      star <- NULL
     }
     if(is.na(star_size) | nchar(star_size)==0 | 
        !(star_size %in% c("Ia","Ib","II","III","IV","V","VI","VII"))) {
       warning("Invalid star size provided.")
-      return(NULL)
+      star <- NULL
     }
     
-  } else {
+    #check if the habitable position is possible for this star type
+    if(!is.null(star) & !is.na(habit_pos) & habitable) {
+      if((star_size=="V" & !(habit_pos %in% which(habitable_zones$main[,star]))) |
+         (star_size!="V" & !(habit_pos %in% which(habitable_zones$nonmain[,paste(spectral_class, 
+                                                                                    subtype, sep="")])))) { 
+        warning(paste("Star type ", star, " is not a valid star type for a habitable planet in position ", habit_pos,
+                      ". Star type randomly generated instead.", sep=""))
+        star <- NULL
+      }
+    }
+  }
   
-    #if no star type provided, then roll one up from life-friendly column
-    #in CamOps
-    star_roll <- roll_d6(2)
-    
-    # Star Type
-    star_type <- c("F","M","G","K",rep("M",6),"F")
-    if(habitable) {
-      star_type <- c(rep("M",3),"K","K","G","G",rep("F",4))
-    } else if(star_roll==12) {
-      #hot stars!
-      star_type <- c(rep("B",2),rep("A",7),"B","F")
+  ## Sample a star type
+  #if the habitable position is selected we need to resample until we get a star type 
+  #that will work for the possible habitable positions
+  
+  done <- FALSE
+  while(!done) {
+    if(is.null(star)) {
+      
+      #if habit_pos is greater than 7, its impossible so ignore
+      if(!is.na(habit_pos) && habit_pos>7) {
+        warning(paste("Habitable planet suggested in position", 
+                      habit_pos, "is impossible in life zone. Ignoring position."))
+        habit_pos <- NA
+      }
+      
+      #if no star type provided, then roll one up from life-friendly column
+      #in CamOps
       star_roll <- roll_d6(2)
+      
+      # Star Type
+      star_type <- c("F","M","G","K",rep("M",6),"F")
+      if(habitable) {
+        star_type <- c(rep("M",3),"K","K","G","G",rep("F",4))
+      } else if(star_roll==12) {
+        #hot stars!
+        star_type <- c(rep("B",2),rep("A",7),"B","F")
+        star_roll <- roll_d6(2)
+      }
+      
+      spectral_class <- star_type[star_roll-1]
+      subtype <- sample(0:9,1)
+      star_size <- "V"
+      
     }
-  
-    spectral_class <- star_type[star_roll-1]
-    subtype <- sample(0:9,1)
-    star_size <- "V"
+    stype <- paste(spectral_class, subtype, star_size, sep="")
     
+    #table only has V stars, so feed that in. We will override below
+    stype_data <- solar_types[paste(spectral_class, subtype, "V", sep=""),]
+    
+    if(star_size != "V") {
+      #according to CamOps pg 116, mulitiply luminosity by four and double the life 
+      #zone values
+      stype_data$luminosity <- stype_data$luminosity*4
+      stype_data$distance_inner_au <- stype_data$distance_inner_au*2
+      stype_data$distance_outer_au <- stype_data$distance_outer_au*2
+    }
+    
+    #orbital slots
+    orbital_slots <- 3+roll_d6(2)
+    
+    placement_constants <- c(0.4,0.7,1.0,1.6,2.8,5.2,10,19.6,
+                             38.8,77.2,154,307.6,614.8,1229.2,
+                             2458)
+    orbital_placement <- stype_data$mass*placement_constants
+    
+    #if the system needs to be habitable, then randomly pick one of the habitable slots
+    #and force it to produce a habitable planet
+    life_zone <- orbital_placement>=stype_data$distance_inner_au & 
+      orbital_placement<=stype_data$distance_outer_au
+    #check to see if this selection works for the habitable position
+    if(is.na(habit_pos)) {
+      done <- TRUE
+    } else {
+      #check
+      done <- habit_pos %in% which(life_zone)
+    }
   }
-  stype <- paste(spectral_class, subtype, star_size, sep="")
-  
-  #table only has V stars, so feed that in. We will override below
-  stype_data <- solar_types[paste(spectral_class, subtype, "V", sep=""),]
-  
-  if(star_size != "V") {
-    #according to CamOps pg 116, mulitiply luminosity by four and double the life 
-    #zone values
-    stype_data$luminosity <- stype_data$luminosity*4
-    stype_data$distance_inner_au <- stype_data$distance_inner_au*2
-    stype_data$distance_outer_au <- stype_data$distance_outer_au*2
-  }
-  
-  #orbital slots
-  orbital_slots <- 3+roll_d6(2)
-
-  placement_constants <- c(0.4,0.7,1.0,1.6,2.8,5.2,10,19.6,
-                           38.8,77.2,154,307.6,614.8,1229.2,
-                           2458)
-  orbital_placement <- stype_data$mass*placement_constants
-
-  planets <- NULL
-  #if the system needs to be habitable, then randomly pick one of the habitable slots
-  #and force it to produce a habitable planet
-  life_zone <- orbital_placement>=stype_data$distance_inner_au & 
-    orbital_placement<=stype_data$distance_outer_au
   
   #make sure the number of orbital slots is at least equal to the minimum life zone
   if(habitable) {
@@ -95,6 +127,11 @@ generate_system <- function(star=NULL, habitable=TRUE) {
       habitable_slot <- sample(habitable_slot,1)
     } 
   }
+  if(!is.na(habit_pos)) {
+    habitable_slot <- habit_pos
+  }
+  
+  planets <- NULL
   swept_zone <- FALSE
   previous_inhabitable <- FALSE
   for(slot in 1:orbital_slots) {
