@@ -164,6 +164,12 @@ for(i in 1:xml_length(planets)) {
     next
   }
   
+  #drop if they are missing founding year
+  if(is.na(founding_year)) {
+    warning(paste("ERROR:", id, "has a missing founding year. Skipping.\n"))
+    next
+  }
+  
   # ignore abandoned places or those with UND or NONE factions (mostly highways which
   # should be in the connector file not here)
   if(is.na(faction) | faction=="UND" | faction=="NONE") {
@@ -171,12 +177,6 @@ for(i in 1:xml_length(planets)) {
     #date I am checking on, so I should probably always take the first faction in the 
     #faction table in these cases even if it is after
     warning(paste("ERROR:", id, "has a missing or unknown faction. Skipping.\n"))
-    next
-  }
-  
-  #drop if they are missing founding year
-  if(is.na(founding_year)) {
-    warning(paste("ERROR:", id, "has a missing founding year. Skipping.\n"))
     next
   }
   
