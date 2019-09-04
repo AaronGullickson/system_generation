@@ -55,7 +55,7 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
       #if habit_pos is greater than 7, its impossible so make it 7
       if(!is.na(habit_pos) && habit_pos>7) {
         warning(paste("Habitable planet suggested in position", 
-                      habit_pos, "is impossible in life zone. Ignoring position."))
+                      habit_pos, "is impossible in life zone. Changing to position 7."))
         habit_pos <- 7
       }
       #if the habitable position is between 5 and 7, then we must roll on the 
@@ -1184,13 +1184,27 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
     base_pop <- p3067
   } 
   
-  if(found_year>base_year) {
+  if(found_year>=base_year) {
     #a very small number of cases but we need to handle them separately
-    #assume population is 3145 and go back to founding size of 50000
-    full_growth_rates <- get_gompertz_rates(base_pop, 50000, 3145-found_year+1)
-    #reverse project
-    len <- length(full_growth_rates)
-    full_pop <- base_pop/exp(c(cumsum(full_growth_rates[len:1])[len:1],0))
+    #assume founding size of 50000
+    if(!is.null(p3145)) {
+      full_growth_rates <- get_gompertz_rates(p3145, 50000, 3145-found_year+1)
+      len <- length(full_growth_rates)
+      #reverse project from 3145
+      full_pop <- p3145/exp(c(cumsum(full_growth_rates[len:1])[len:1],0))
+    } else {
+      #lets ignore generated base population and just give some reasonable growth rates
+      #(1.5%) after an initial high period
+      if((3145-found_year)<=10) {
+        full_growth_rates <- growth_simulation(0.1, 3145-found_year)
+      } else {
+        full_growth_rates <- c(growth_simulation(0.1, 10),
+                               growth_simulation(0.015, 3145-found_year-10))
+      }
+      len <- length(full_growth_rates)
+      #forward project
+      full_pop <- 50000 * exp(c(0,cumsum(full_growth_rates)[1:len]))
+    }
     names(full_pop) <- paste(found_year:3145)
     return(full_pop)
   }
