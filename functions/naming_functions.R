@@ -53,11 +53,33 @@ nationalities <- read.csv(here("name_generation/output/name_nationality.csv"))
 generate_system_names <- function(system, id) {
   
   nationality <- name_corr[name_corr$id==id,]
+  #determine if this system has a numbering system and if so, number the planets
+  use_roman_planet_numbering <- grepl("\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV)$", 
+                                      nationality$founding_name)
+  use_arabic_planet_numbering <- grepl("\\s+\\d+$", nationality$founding_name)
+  #get base name for numbering
+  base_name <- ""
+  if(use_roman_planet_numbering) {
+    base_name <- trimws(gsub("\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV)$", "", nationality$founding_name))
+  }
+  if(use_arabic_planet_numbering) {
+    base_name <- trimws(gsub("\\s+\\d+$", "", nationality$founding_name))
+  }
+  
   if(is.na(nationality$country_iso)) {
     nationality <- sample_nationality()
   }
   
   system$planets$name <- sample_names(nrow(system$planets), "planet", nationality)
+  if(use_roman_planet_numbering) {
+    toName <- system$planets$type!="Asteroid Belt"
+    system$planets$name[toName] <- paste(base_name, convert_arabic2roman(1:sum(toName)))
+  }
+  if(use_arabic_planet_numbering) {
+    toName <- system$planets$type!="Asteroid Belt"
+    system$planets$name[toName] <- paste(base_name, 1:sum(toName))
+  }
+  
   system$planets$continent_names <- NA
   system$planets$capitol_name <- NA
   system$planets$moon_names <- NA
@@ -254,3 +276,60 @@ add_flavor <- function(names, type, source) {
   return(names)
   
 }
+
+convert_roman2arabic <- function(roman) {
+  if(roman=="I") {
+    return(1)
+  }
+  if(roman=="II") {
+    return(2)
+  }
+  if(roman=="III") {
+    return(3)
+  }
+  if(roman=="IV") {
+    return(4)
+  }
+  if(roman=="V") {
+    return(5)
+  }
+  if(roman=="VI") {
+    return(6)
+  }
+  if(roman=="VII") {
+    return(7)
+  }
+  if(roman=="VIII") {
+    return(8)
+  }
+  if(roman=="IX") {
+    return(9)
+  }
+  if(roman=="X") {
+    return(10)
+  }
+  if(roman=="XI") {
+    return(11)
+  }
+  if(roman=="XII") {
+    return(12)
+  }
+  if(roman=="XIII") {
+    return(13)
+  }
+  if(roman=="XIV") {
+    return(14)
+  }
+  if(roman=="XV") {
+    return(15)
+  }
+  return(16)
+}
+
+convert_arabic2roman <- function(arabic) {
+  arabic[arabic>20] <- 20
+  roman <- c("I","II","III","IV","V","VI","VII","VIII","IX","X",
+             "XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX","XX")
+  return(roman[arabic])
+}
+  
