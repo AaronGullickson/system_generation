@@ -116,7 +116,7 @@ for(i in 1:xml_length(planets)) {
     #and a boolean for being abandoned, then remove the abandoned line from faction_table
     #so we don't grab it, but rather the one right before it. Don't actually remove the line 
     #from faction table itself though as we use that later to create system_events
-    
+
     #we allow_later=TRUE so we don't lose planets with founding dates later than target_date
     temp <- get_closest_event(faction_table, target_date, allow_later = TRUE)
     if(!is.na(temp)) {
