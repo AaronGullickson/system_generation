@@ -10,11 +10,14 @@ library(dplyr)
 library(rlist)
 library(here)
 library(tibble)
+library(stringr)
 source(here("functions","system_creation_functions.R"))
 source(here("functions","data_functions.R"))
 source(here("functions","naming_functions.R"))
 source(here("functions","network_functions.R"))
 
+#set a seed to allow for reproducing the results
+#set.seed(20)
 
 planets <- read_xml(here("output","planets_initial.xml"))
 events <- read_xml(here("output","planetevents_initial.xml"))
@@ -107,6 +110,9 @@ for(i in 1:xml_length(planets)) {
   if(!is.null(faction_table)) {
     founding_year <- get_year(faction_table$date[1])
     #take the first faction in cases of multiple factions
+    #TODO: check for abandoned faction. If we find it then, record the abandoned by date
+    #and a boolean for being abandoned, then remove the abandoned line from faction_table
+    #so we don't grab it, but rather the one right before it. 
     #TODO: turn allow_later on to get post 3047 foundings, but wait until 
     #HPG is worked out
     #temp <- get_closest_event(faction_table, target_date, allow_later = TRUE)
@@ -140,8 +146,7 @@ for(i in 1:xml_length(planets)) {
   desc <- xml_text(xml_find_first(planet, "desc"))
   
   # do some checks, if fail then skip for now
-  # TODO: turn these into warnings so that we can see them at the end of sourcing
-  
+
   #drop if they are missing x or y coordinates (shouldnt happen)
   if(is.na(x) | is.na(y)) {
     warning(paste("ERROR:", id, "is missing an x or y value. Skipping.\n"))
@@ -213,7 +218,7 @@ for(i in 1:xml_length(planets)) {
     star <- NULL
   }
 
-  #FIXME: This is a bit of a hack, but non-canon star types were generated for pretty much every
+  #This is a bit of a hack, but non-canon star types were generated for pretty much every
   #system at some point. To figure out which are actually canon, we will use sys_pos 
   if(is.na(sys_pos)) {
     star <- NULL
@@ -283,9 +288,26 @@ for(i in 1:xml_length(planets)) {
     canon_population <- NULL
   }
   
+  # use the name of the planet to determine if there is a specific system position to be filled
+  temp <- gsub("\\(.*\\)", "", name)
+  #first look for roman numerals
+  canon_pos <- NA
+  roman <- str_trim(str_extract(temp, "\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV)$"))
+  if(!is.na(roman)) {
+    canon_pos <- convert_roman2arabic(roman)
+  }
+  #now look for arabic numbering
+  arabic <- str_trim(str_extract(temp, "\\s+\\d+$"))
+  if(!is.na(arabic)) {
+    canon_pos <- as.numeric(arabic)
+  }
+  if(!is.na(sys_pos)) {
+    canon_pos <- sys_pos
+  }
+  
   cat("done\n\tGenerating base system and colonization data...")
   
-  system <- generate_system_names(add_colonization(generate_system(star=star), 
+  system <- generate_system_names(add_colonization(generate_system(star=star, habit_pos=canon_pos), 
                                                    distance_terra, 3047, founding_year,
                                                    faction_type), 
                                   id)
@@ -335,7 +357,6 @@ for(i in 1:xml_length(planets)) {
                   planet$orbital_dis)
     
     #TODO: asteroid belts should not count for system position
-    #also what to do we do if this does not match canon system position?
     xml_add_child(planet_node, "sysPos", j)
     
     if(j==primary_slot & !is.na(pressure)) {
