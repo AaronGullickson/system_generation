@@ -104,6 +104,15 @@ for(i in 1:xml_length(planets)) {
   faction <- xml_text(xml_find_first(planet, "faction"))
   hpg <- xml_text(xml_find_first(planet, "hpg"))
   sic <- xml_text(xml_find_first(planet, "socioIndustrial"))
+  nadir_charge <- xml_text(xml_find_first(planet, "nadirCharge"))=="true"
+  zenith_charge <- xml_text(xml_find_first(planet, "zenithCharge"))=="true"
+  #it seems like all planets were given a default FALSE value here, which makes it difficult 
+  #to sort out canon cases of no recharge stations. We will have to assume that where both
+  #are false its non-canon and therefore ignore them
+  if(!is.na(nadir_charge) && !nadir_charge && !is.na(zenith_charge) && !zenith_charge) {
+    nadir_charge <- NA
+    zenith_charge <- NA
+  }
   
   #check for faction change events
   faction_table <- get_event_data(events, id, "faction")
@@ -685,6 +694,15 @@ for(i in 1:xml_length(planets)) {
       #Recharge Stations - this should only be checked on the primary slot, 
       #but should have a sys_pos of zero so it will be written to the system
       if(j==primary_slot) {
+        #first check to see if we have canon data for either recharge station
+        #and replace if so
+        if(!is.na(nadir_charge)) {
+          system$recharge$nadir <- nadir_charge
+        }
+        if(!is.na(zenith_charge)) {
+          system$recharge$zenith <- zenith_charge
+        }
+        
         recharge_data <- project_recharge(system$recharge, faction_type, 
                                           founding_year, sics_projections,
                                           pop)
