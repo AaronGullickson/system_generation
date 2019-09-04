@@ -34,8 +34,8 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
     
     #check if the habitable position is possible for this star type
     if(!is.null(star) & !is.na(habit_pos) & habitable) {
-      if((star_size=="V" & !(habit_pos %in% which(habitable_zones$main[,star]))) |
-         (star_size!="V" & !(habit_pos %in% which(habitable_zones$nonmain[,paste(spectral_class, 
+      if((star_size=="V" && !(habit_pos %in% which(habitable_zones$main[,star]))) |
+         (star_size!="V" && !(habit_pos %in% which(habitable_zones$nonmain[,paste(spectral_class, 
                                                                                     subtype, sep="")])))) { 
         warning(paste("Star type ", star, " is not a valid star type for a habitable planet in position ", habit_pos,
                       ". Star type randomly generated instead.", sep=""))
@@ -52,11 +52,17 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
   while(!done) {
     if(is.null(star)) {
       
-      #if habit_pos is greater than 7, its impossible so ignore
+      #if habit_pos is greater than 7, its impossible so make it 7
       if(!is.na(habit_pos) && habit_pos>7) {
         warning(paste("Habitable planet suggested in position", 
                       habit_pos, "is impossible in life zone. Ignoring position."))
-        habit_pos <- NA
+        habit_pos <- 7
+      }
+      #if the habitable position is between 5 and 7, then we must roll on the 
+      #hot star column to get something habitable
+      hot_star <- FALSE
+      if(!is.na(habit_pos) && habit_pos>4) {
+        hot_star <- TRUE
       }
       
       #if no star type provided, then roll one up from life-friendly column
@@ -65,9 +71,9 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
       
       # Star Type
       star_type <- c("F","M","G","K",rep("M",6),"F")
-      if(habitable) {
+      if(habitable & !hot_star) {
         star_type <- c(rep("M",3),"K","K","G","G",rep("F",4))
-      } else if(star_roll==12) {
+      } else if(star_roll==12 | hot_star) {
         #hot stars!
         star_type <- c(rep("B",2),rep("A",7),"B","F")
         star_roll <- roll_d6(2)
@@ -136,13 +142,19 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
   previous_inhabitable <- FALSE
   for(slot in 1:orbital_slots) {
 
-    planet <- generate_planet(orbital_placement[slot],slot==habitable_slot,stype_data)
+    #If canon system position is chosen, then don't allow empty slots before
+    #the canon system position
+    empty_ok <- is.na(habit_pos) || slot>habit_pos
+    
+    planet <- generate_planet(orbital_placement[slot],slot==habitable_slot,
+                              stype_data, allow_empty = empty_ok)
     
     #If habitable is true, then we need to ensure that at least on habitable
     #slot in the life zone is occupied by terrestrial planet
     if(slot==habitable_slot) {
       while(!planet$inhabitable) {
-        planet <- generate_planet(orbital_placement[slot],TRUE,stype_data)
+        planet <- generate_planet(orbital_placement[slot],TRUE,stype_data,
+                                  allow_empty = empty_ok)
       }
     }
     
@@ -153,7 +165,8 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
     #planet so really it has to be at least two slots above habitable_slot
     if(habitable & slot < (habitable_slot+2)) {
       while(planet$type=="Gas Giant") {
-        planet <- generate_planet(orbital_placement[slot],FALSE,stype_data)
+        planet <- generate_planet(orbital_placement[slot],FALSE,stype_data,
+                                  allow_empty = empty_ok)
       }
     }
     
@@ -162,7 +175,8 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
     if(swept_zone) {
       #no dwarf terrestrials or terrestrial
       while(planet$type=="Terrestrial" | planet$type=="Dwarf Terrestrial") {
-        planet <- generate_planet(orbital_placement[slot],FALSE,stype_data)
+        planet <- generate_planet(orbital_placement[slot],FALSE,stype_data,
+                                  allow_empty = empty_ok)
       }
     }
     
@@ -173,7 +187,8 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
     #swept zone once the gas giant is picked
     if(habitable & slot < (habitable_slot+1)) {
       while(planet$type=="Asteroid Belt" | planet$type=="Gas Giant") {
-        planet <- generate_planet(orbital_placement[slot],FALSE,stype_data)
+        planet <- generate_planet(orbital_placement[slot],FALSE,stype_data,
+                                  allow_empty = empty_ok)
       }
     }
     
@@ -189,7 +204,8 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
           #last slot was an asteroid belt without a Gas Giant on the other side
           #so put a Gas Giant here. 
           while(planet$type!="Gas Giant") {
-            planet <- generate_planet(orbital_placement[slot],FALSE,stype_data)
+            planet <- generate_planet(orbital_placement[slot],FALSE,stype_data,
+                                      allow_empty = empty_ok)
           }
         }
       }
@@ -202,7 +218,8 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
     #was inhabitable.
     if(previous_inhabitable) {
       while(planet$type=="Gas Giant") {
-        planet <- generate_planet(orbital_placement[slot],FALSE,stype_data)
+        planet <- generate_planet(orbital_placement[slot],FALSE,stype_data,
+                                  allow_empty = empty_ok)
       }
     }
     
@@ -248,7 +265,8 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
 }
 
 #TODO: asteroid belt characteristics
-generate_planet <- function(radius, habitable_system, system_data, more_gradation=TRUE) {
+generate_planet <- function(radius, habitable_system, system_data, more_gradation=TRUE,
+                            allow_empty=TRUE) {
  
   life_zone <- radius>=system_data$distance_inner_au & radius<=system_data$distance_outer_au
   outer <- radius > system_data$distance_outer_au
@@ -274,6 +292,15 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
     type <- OuterType[roll_d6(2)-1]
   } else {
     type <- InnerType[roll_d6(2)-1]
+  }
+  
+  #don't allow empties if allow_empty is false
+  while(type=="Empty" & !allow_empty) {
+    if(outer) {
+      type <- OuterType[roll_d6(2)-1]
+    } else {
+      type <- InnerType[roll_d6(2)-1]
+    }
   }
   
   #now fill in stuff
