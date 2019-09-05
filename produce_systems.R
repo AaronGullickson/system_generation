@@ -118,22 +118,32 @@ for(i in 1:xml_length(planets)) {
   faction_table <- get_event_data(events, id, "faction")
   founding_year <- NA
   terran_hegemony <- FALSE
+  abandon_date <- NULL
   if(!is.null(faction_table)) {
     founding_year <- get_year(faction_table$date[1])
-    #take the first faction in cases of multiple factions
     #TODO: check for abandoned faction. If we find it then, record the abandoned by date
     #and a boolean for being abandoned, then remove the abandoned line from faction_table
     #so we don't grab it, but rather the one right before it. Don't actually remove the line 
     #from faction table itself though as we use that later to create system_events
 
     #we allow_later=TRUE so we don't lose planets with founding dates later than target_date
-    temp <- get_closest_event(faction_table, target_date, allow_later = TRUE)
+    #remove any cases of ABN from what we feed in here as well so we get the faction before abandonment
+    temp <- get_closest_event(subset(faction_table, event!="ABN"), 
+                              target_date, allow_later = TRUE)
+    
+    #take the first faction in cases of multiple factions
     if(!is.na(temp)) {
       faction <- strsplit(temp,",")[[1]][1]
     }
     #figure out if this was Terran Hegemony world in 2750
     terran_hegemony <- grepl("(^TH$|TH,|,TH)", 
-                             get_closest_event(faction_table, as.Date(paste(2750,"01","01",sep="-"))))
+                             get_closest_event(subset(faction_table, event!="ABN"), 
+                                               as.Date(paste(2750,"01","01",sep="-"))))
+    if("ABN" %in% faction_table$event) {
+      #TODO: check for heaping on abandonment date
+      #TODO: check for re-colonization
+      abandon_date <- subset(faction_table, event=="ABN")$date
+    }
   }
   
   hpg_table <- get_event_data(events, id, "hpg")
