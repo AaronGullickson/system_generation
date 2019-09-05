@@ -192,7 +192,7 @@ for(i in 1:xml_length(planets)) {
   
   #TODO: need to generate data for abandoned planets too
   if(faction=="ABN") {
-    cat(paste(id, "is abandoned. Skipping.\n"))
+    warning(paste(id, "is abandoned. Skipping.\n"))
     next
   }
 
