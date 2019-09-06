@@ -38,6 +38,7 @@ hpg_data <- data.frame(id=character(),
                        tech=character(),
                        pop=numeric(),
                        founding_year=numeric(),
+                       abandon_year=numeric(),
                        canon=logical())
 
 #all events will now go into the master event table and then
@@ -53,6 +54,9 @@ event_table <- tibble(id=character(),
                       etype=character(),
                       event=character(),
                       canon=logical())
+
+# a list of recolonization faction events for later processing
+recolonization <- list()
 
 #prepare the XML systems output
 systems <- xml_new_document() %>% xml_add_child("systems")
@@ -118,14 +122,32 @@ for(i in 1:xml_length(planets)) {
   faction_table <- get_event_data(events, id, "faction")
   founding_year <- NA
   terran_hegemony <- FALSE
-  abandon_date <- NULL
+  abandon_year <- NA
   if(!is.null(faction_table)) {
     founding_year <- get_year(faction_table$date[1])
-    #TODO: check for abandoned faction. If we find it then, record the abandoned by date
-    #and a boolean for being abandoned, then remove the abandoned line from faction_table
-    #so we don't grab it, but rather the one right before it. Don't actually remove the line 
-    #from faction table itself though as we use that later to create system_events
-
+    
+    if("ABN" %in% faction_table$event) {
+      #in order to handle cases of abandoned planets that are re-founded and potentially abandoned 
+      #again we need to truncate the faction table 
+      #probably a better way to handle this than a for loop but damned if I can figure it out
+      splits <- which(faction_table$event=="ABN")
+      
+      temp <- list()
+      for(j in length(splits):1) {
+        if(splits[j]==nrow(faction_table)) {
+          next
+        }
+        #TODO: check for re-colonization
+        temp[[j]] <- faction_table[(splits[j]+1):nrow(faction_table),]
+        faction_table <- faction_table[1:splits[j],]
+      }
+      if(length(temp)>0) {
+        recolonization[[id]] <- temp
+      }
+      
+      abandon_year <- get_year(subset(faction_table, event=="ABN")$date)
+    }
+      
     #we allow_later=TRUE so we don't lose planets with founding dates later than target_date
     #remove any cases of ABN from what we feed in here as well so we get the faction before abandonment
     temp <- get_closest_event(subset(faction_table, event!="ABN"), 
@@ -141,8 +163,6 @@ for(i in 1:xml_length(planets)) {
                                                as.Date(paste(2750,"01","01",sep="-"))))
     if("ABN" %in% faction_table$event) {
       #TODO: check for heaping on abandonment date
-      #TODO: check for re-colonization
-      abandon_date <- subset(faction_table, event=="ABN")$date
     }
   }
   
@@ -331,7 +351,7 @@ for(i in 1:xml_length(planets)) {
   
   system <- generate_system_names(add_colonization(generate_system(star=star, habit_pos=canon_pos), 
                                                    distance_terra, 3047, founding_year,
-                                                   faction_type), 
+                                                   faction_type, abandon_year), 
                                   id)
   primary_slot <- which(system$planets$population==max(system$planets$population, na.rm=TRUE))[1]
   
@@ -588,22 +608,34 @@ for(i in 1:xml_length(planets)) {
       pop <- project_population(planet$population, founding_year, faction_type,
                                 border_distance, planet$agriculture, 
                                 terran_hegemony = terran_hegemony,
+                                abandon_year = abandon_year,
                                 p2750 = p2750, p3025 = p3025, p3067 = p3067,
                                 p3079 = p3079, p3145 = p3145)
       #collect population values at 10 year intervals, plus the starting and final values.
       first_census_year <- founding_year + 10*(ceiling(founding_year/10)-(founding_year/10))
       last_year <- as.numeric(names(pop)[length(pop)])
       last_census_year <- 10*floor(last_year/10)
-      #TODO: not safe if colony quickly died
-      census_years <- c(founding_year, seq(from=first_census_year, to=last_census_year, by=10), last_year)
-      census_pop <- round(pop[paste(census_years)])
-      event_table <- event_table %>% 
-        bind_rows(tibble(id=as.character(id),
-             sys_pos=j,
-             date=paste(census_years,"01","01",sep="-"),
-             etype="population",
-             event=paste(census_pop),
-             canon=FALSE))
+      if(last_census_year<=first_census_year) {
+        #if colony died quickly or was founded close to 3145, this won't work so just put first population
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=j,
+                           date=paste(founding_year,"01","01",sep="-"),
+                           etype="population",
+                           event=paste(pop[1]),
+                           canon=FALSE))
+      } else {
+        #otherwise add census years to event list 
+        census_years <- c(founding_year, seq(from=first_census_year, to=last_census_year, by=10), last_year)
+        census_pop <- round(pop[paste(census_years)])
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+               sys_pos=j,
+               date=paste(census_years,"01","01",sep="-"),
+               etype="population",
+               event=paste(census_pop),
+               canon=FALSE))
+      }
       
       #add in canon populations
       if(!is.null(p2750)) {
@@ -655,6 +687,16 @@ for(i in 1:xml_length(planets)) {
                            event=paste(p3145),
                            canon=FALSE))
       }
+      #if abandoned, add in abandonment year
+      if(!is.na(abandon_year)) {
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=j,
+                           date=paste(abandon_year,"01","01",sep="-"),
+                           etype="population",
+                           event="0",
+                           canon=TRUE))
+      }
       
       #SIC Codes
       tech <- planet$tech
@@ -671,7 +713,7 @@ for(i in 1:xml_length(planets)) {
         agriculture <- canon_sics$agriculture
       }
       sics_projections <- project_sics(tech, industry, raw, output, agriculture, 
-                                       founding_year, pop, faction_type)
+                                       founding_year, abandon_year, pop, faction_type)
       event_table <- event_table %>% 
         bind_rows(tibble(id=as.character(id),
                          sys_pos=j,
@@ -697,8 +739,9 @@ for(i in 1:xml_length(planets)) {
                                      hpg=as.character(hpg),
                                      faction_type=as.character(faction_type),
                                      tech=as.character(tech),
-                                     pop=planet$population,
+                                     pop=max(pop),
                                      founding_year=founding_year,
+                                     abandon_year=abandon_year,
                                      canon=canon))
       }
       
@@ -716,7 +759,7 @@ for(i in 1:xml_length(planets)) {
         
         recharge_data <- project_recharge(system$recharge, faction_type, 
                                           founding_year, sics_projections,
-                                          pop)
+                                          pop, abandon_year)
         event_table <- event_table %>% 
           bind_rows(tibble(id=as.character(id),
                            sys_pos=0,
@@ -864,7 +907,8 @@ for(i in 1:nrow(hpg_data)) {
   #project the HPG information
   hpg_history <- project_hpg(hpg$hpg, sqrt(hpg$x^2+hpg$y^2),
                              hpg$founding_year,
-                             as.character(hpg$faction_type))
+                             as.character(hpg$faction_type),
+                             hpg$abandon_year)
   
   #add to event_table
   event_table <- event_table %>% 

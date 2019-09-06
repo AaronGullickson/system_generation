@@ -1,7 +1,7 @@
 library(DiagrammeR)
 
 get_network <- function(hpg_data) {
-  first_circuit <- subset(hpg_data, hpg=="A" & faction_type=="IS")
+  first_circuit <- subset(hpg_data, hpg=="A" & faction_type=="IS" & is.na(abandon_year))
   outer_circuit <- subset(hpg_data, hpg!="A" & faction_type=="IS" & founding_year<2700)
   
   x <- matrix(rep(first_circuit$x, nrow(first_circuit)), 
