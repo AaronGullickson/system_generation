@@ -12,6 +12,8 @@ load(here("output","habitable_zones.RData"))
 
 generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
   
+  force_canon_pos <- NA
+  
   if(!is.null(star)) {
     #break apart stype to make sure it makes sense
     spectral_class <- substr(star,1,1)
@@ -32,15 +34,31 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
       star <- NULL
     }
     
-    #check if the habitable position is possible for this star type
-    if(!is.null(star) & !is.na(habit_pos) & habitable) {
-      if((star_size=="V" && !(habit_pos %in% which(habitable_zones$main[,star]))) |
-         (star_size!="V" && !(habit_pos %in% which(habitable_zones$nonmain[,paste(spectral_class, 
-                                                                                    subtype, sep="")])))) { 
-        #warning(paste("Star type ", star, " is not a valid star type for a habitable planet in position ", habit_pos,
-        #              ". Star type randomly generated instead.", sep=""))
-        star <- NULL
-      }
+    #what are the possible habitable positions for this star type?
+    possible_hpos <- NA
+    if(star_size=="V") {
+      possible_hpos <- which(habitable_zones$main[,star])
+    } else {
+      possible_hpos <- which(habitable_zones$nonmain[,paste(spectral_class, subtype, sep="")])
+    }
+    
+    #check to see if we have a mismatch
+    if(!is.na(habit_pos) && habitable && !(habit_pos %in% possible_hpos)) {
+      #mismatch! Damn you FASA!
+      #we want to keep the canonicity here even at the expense of SCIENCE, so
+      #we the plan is to generate a system as normal and then swap one of the
+      #inhabited slots with our canon position. There are two complications to consider
+      #with this.
+      #1 - we need a system with at least as many slots as the canon position, and probably
+      #    a few more to account for asteroid belts
+      #2 - we need to account for asteroid belts as they could occur between the actual
+      #    inhabited slot and the one we want. 
+      
+      #change force_canon_pos to canon_pos
+      force_canon_pos <- habit_pos
+      
+      #turn habit pos off so we generate as normal
+      habit_pos <- NA
     }
   }
   
@@ -50,15 +68,9 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
   
   done <- FALSE
   while(!done) {
+    #we do this until we get a star type that allows for canon position
     if(is.null(star)) {
-      
-      #if habit_pos is greater than 7, its impossible so make it 7
-      if(!is.na(habit_pos) && habit_pos>7) {
-        #warning(paste("Habitable planet suggested in position", 
-        #              habit_pos, "is impossible in life zone. Changing to position 7."))
-        habit_pos <- 7
-      }
-      #if the habitable position is between 5 and 7, then we must roll on the 
+      #if the habitable position is greater than 4, then we must roll on the 
       #hot star column to get something habitable
       hot_star <- FALSE
       if(!is.na(habit_pos) && habit_pos>4) {
@@ -97,9 +109,6 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
       stype_data$distance_outer_au <- stype_data$distance_outer_au*2
     }
     
-    #orbital slots
-    orbital_slots <- 3+roll_d6(2)
-    
     placement_constants <- c(0.4,0.7,1.0,1.6,2.8,5.2,10,19.6,
                              38.8,77.2,154,307.6,614.8,1229.2,
                              2458)
@@ -118,10 +127,16 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
     }
   }
   
+  #orbital slots
+  orbital_slots <- 3+roll_d6(2)
   #make sure the number of orbital slots is at least equal to the minimum life zone
   if(habitable) {
     min_life_zone_slot <- min(which(life_zone))
     orbital_slots <- max(orbital_slots, min_life_zone_slot)
+  }
+  if(!is.na(force_canon_pos)) {
+    #we need to make sure we get enough orbital slots for the canon_position
+    orbital_slots <- max(orbital_slots, force_canon_pos)
   }
   life_zone <- life_zone[1:orbital_slots]
   
@@ -140,11 +155,17 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
   planets <- NULL
   swept_zone <- FALSE
   previous_inhabitable <- FALSE
+  #create a max habit slot to adjust for forced_canon_pos
+  max_habit_slot <- habitable_slot
+  if(!is.na(force_canon_pos)) {
+    max_habit_slot <- force_canon_pos
+  }
   for(slot in 1:orbital_slots) {
 
     #If canon system position is chosen, then don't allow empty slots before
-    #the canon system position
-    empty_ok <- is.na(habit_pos) || slot>habit_pos
+    #the canon system position. Also not before a forced canon position
+    empty_ok <- (is.na(habit_pos) || slot>habit_pos) & 
+      (is.na(force_canon_pos) || slot>force_canon_pos)
     
     planet <- generate_planet(orbital_placement[slot],slot==habitable_slot,
                               stype_data, allow_empty = empty_ok)
@@ -163,7 +184,7 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
     #are forcing habitation, only allow gas giant past the habitable slot. Also,
     #according to camOps a gas giant should not be allowed next to an inhabited
     #planet so really it has to be at least two slots above habitable_slot
-    if(habitable & slot < (habitable_slot+2)) {
+    if(habitable & slot < (max_habit_slot+2)) {
       while(planet$type=="Gas Giant") {
         planet <- generate_planet(orbital_placement[slot],FALSE,stype_data,
                                   allow_empty = empty_ok)
@@ -185,7 +206,7 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
     #then this means that asteroid belts should never be placed closer than the
     #habitable slot+1 because otherwise the habitable slot will end up in a
     #swept zone once the gas giant is picked
-    if(habitable & slot < (habitable_slot+1)) {
+    if(habitable & slot < (max_habit_slot+1)) {
       while(planet$type=="Asteroid Belt" | planet$type=="Gas Giant") {
         planet <- generate_planet(orbital_placement[slot],FALSE,stype_data,
                                   allow_empty = empty_ok)
@@ -260,6 +281,11 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
   planets$moons_medium <- as.numeric(planets$moons_medium)
   planets$moons_small <- as.numeric(planets$moons_small)
   planets$rings <- planets$rings=="TRUE"
+  
+  #ok now if force_canon_pos is not missing, swap the planets
+  if(!is.na(force_canon_pos)) {
+    planets[c(force_canon_pos, habitable_slot),] <- planets[c(habitable_slot, force_canon_pos), ]
+  }
   
   return(list(star=stype, planets=planets))
 }
