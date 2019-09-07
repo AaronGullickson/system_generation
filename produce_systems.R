@@ -22,6 +22,7 @@ source(here("functions","network_functions.R"))
 options(nwarnings = 1000)
 
 planets <- read_xml(here("output","planets_initial.xml"))
+connectors <- read_xml(here("output","connectors_initial.xml"))
 events <- read_xml(here("output","planetevents_initial.xml"))
 name_changes <- read_xml(here("input","0999_namechanges.xml"))
 canon_populations <- read.csv(here("input","canon_populations.csv"), row.names=1)
@@ -65,6 +66,7 @@ recolonized_planets <- list()
 systems <- xml_new_document() %>% xml_add_child("systems")
 systems_events <- xml_new_document() %>% xml_add_child("systems")
 systems_name_changes <- xml_new_document() %>% xml_add_child("systems")
+systems_connectors <- xml_new_document() %>% xml_add_child("systems")
 
 small_sample <- sample(1:xml_length(planets), 100)
 
@@ -204,14 +206,10 @@ for(i in 1:xml_length(planets)) {
   # ignore abandoned places or those with UND or NONE factions (mostly highways which
   # should be in the connector file not here)
   if(is.na(faction) | faction=="UND" | faction=="NONE") {
-    #TODO: I am losing some cases here of systems that were founded after the 
-    #date I am checking on, so I should probably always take the first faction in the 
-    #faction table in these cases even if it is after
     warning(paste("ERROR:", id, "has a missing or unknown faction. Skipping.\n"))
     next
   }
   
-  #TODO: need to generate data for abandoned planets too
   if(faction=="ABN") {
     warning(paste(id, "is abandoned. Skipping.\n"))
     next
@@ -298,425 +296,244 @@ for(i in 1:xml_length(planets)) {
   cat("done\n\tOutputing base data to XML...")
   
   #create a system node
-  system_node <- xml_add_child(systems, "system")
   system_event_node <- xml_add_child(systems_events, "system")
-  
-  xml_add_child(system_node, "id", id)
-  xml_add_child(system_node, "xcood", x)
-  xml_add_child(system_node, "ycood", y)
   xml_add_child(system_event_node, "id", id)
   
-  if(is.null(star)) {
-    xml_add_child(system_node, "spectralType", 
-                  system$star)
-  } else {
-    xml_add_child(system_node, "spectralType", 
-                  system$star, source="canon")
-  }
+  system_node <- xml_add_child(systems, "system")
   
-  xml_add_child(system_node, "primarySlot", primary_slot)
-
-  #now cycle through planets and create planet nodes
-  for(j in 1:nrow(system$planets)) {
-    cat(paste("\n",j))
-    planet <- system$planets[j,]
-    cat("\t\t\tplanet info")
-    
-    if(j==primary_slot) {
-      planet_node <- xml_add_child(system_node, "planet", primary="TRUE", 
-                                   source="canon")
-      xml_add_child(planet_node, "name", name, source="canon")
-    } else {
-      planet_node <- xml_add_child(system_node, "planet")
-      xml_add_child(planet_node, "name", system$planets$name[j])
-    }
-    
-    xml_add_child(planet_node, "type", 
-                  as.character(planet$type))
-    xml_add_child(planet_node, "orbitalDist", 
-                  planet$orbital_dis)
-    
-    xml_add_child(planet_node, "sysPos", j)
-    
-    if(j==primary_slot & !is.na(pressure)) {
-      xml_add_child(planet_node, "pressure", 
-                    as.character(pressure), 
-                    source="canon")
-    } else if(!is.na(planet$pressure)) {
-      xml_add_child(planet_node, "pressure", 
-                    as.character(planet$pressure))
-    }
-    
-    if(!is.na(planet$atmosphere)) {
-      xml_add_child(planet_node, "atmosphere", 
-                    as.character(planet$atmosphere))
-    }
-    
-    if(!is.na(planet$composition)) {
-      xml_add_child(planet_node, "composition", 
-                    as.character(planet$composition))
-    }
-   
-    #if we adjust gravity then we will need to adjust diameter 
-    #and density to. We will just multiply each by the square 
-    #root of the proportional difference. This should also 
-    #maintain correct orbital and escape velocity
-    gravity_multiplier <- 1
-    if(j==primary_slot & !is.na(gravity)) {
-      gravity_multiplier <- gravity/planet$gravity
-      xml_add_child(planet_node, "gravity", 
-                    gravity, 
-                    source="canon")
-    } else if(!is.na(planet$gravity)) {
-      xml_add_child(planet_node, "gravity", 
-                    planet$gravity)
-    }
-    
-    if(j==primary_slot & !is.na(temperature)) {
-      xml_add_child(planet_node, "temperature", 
-                    temperature, 
-                    source="canon")
-    }
-    else if(!is.na(planet$temperature)) {
-      xml_add_child(planet_node, "temperature", 
-                    planet$temperature)
-    }
-    
-    if(j==primary_slot & !is.na(water)) {
-      xml_add_child(planet_node, "water", 
-                    water, 
-                    source="canon")
-    }
-    else if(!is.na(planet$water)) {
-      xml_add_child(planet_node, "water", 
-                    planet$water)
-    }
-    
-    if(j==primary_slot & !is.na(life)) {
-      xml_add_child(planet_node, "life", 
-                    life, 
-                    source="canon")
-    }
-    else if(!is.na(planet$life)) {
-      xml_add_child(planet_node, "life", 
-                    as.character(planet$life))
-    }
-    
-    if(!is.na(planet$day_length)) {
-      xml_add_child(planet_node, "dayLength", 
-                    planet$day_length)
-    }
-    
-    if(!is.na(planet$year_length)) {
-      xml_add_child(planet_node, "yearLength", 
-                    planet$year_length)
-    }
-    
-    if(!is.na(planet$diameter)) {
-      xml_add_child(planet_node, "diameter", 
-                    sqrt(gravity_multiplier) * planet$diameter)
-    }
-    
-    if(!is.na(planet$density)) {
-      xml_add_child(planet_node, "density", 
-                    sqrt(gravity_multiplier) * planet$density)
-    }
-    
-    if(j==primary_slot & !is.na(desc)) {
-      xml_add_child(planet_node, "desc", 
-                    desc, 
-                    source="canon")
-    }
-    
-    if(j==primary_slot & !is.null(continents)) {
-      for(continent in continents) {
-        xml_add_child(planet_node, "landMass", 
-                      continent, 
-                      source="canon")
-      }
-    } else if(!is.na(planet$continents) & planet$continents>0) {
-      #pick random one to have capital
-      capital <- sample(1:planet$continents, 1)
-      continent_names <- strsplit(planet$continent_names, ",")[[1]]
-      for(k in 1:planet$continents) {
-        landmass_name <- continent_names[k]
-        if(k==capital & !is.na(planet$population)) {
-          landmass_name <- paste(continent_names[k], " (", planet$capitol_name, ")", sep="")
-        }
-        xml_add_child(planet_node, "landMass",
-                      landmass_name)
-      }
-    }
-    
-    cat("\tmoon info")
-    #we will detail all moons except small moons where we will just list number
-    #assume named moons are never small
-    if(!is.na(planet$moon_names)) {
-      moon_names <- strsplit(planet$moon_names, ",")[[1]]
-    }
-    if(j==primary_slot & !is.null(moons)) {
-      for(moon in moons) {
-        moon_size <- c("giant",rep("large",5),rep("medium",9))[sample(1:15,1)]
-        xml_add_child(planet_node, "satellite", size=moon_size,
-                      moon, 
-                      source="canon")
-      }
-    } else {
-      if(planet$moons_giant>0) {
-        for(k in 1:planet$moons_giant) {
-          xml_add_child(planet_node, "satellite", size="giant",
-                        moon_names[1])
-          moon_names <- moon_names[-1]
-        }
-      }
-      if(planet$moons_large>0) {
-        for(k in 1:planet$moons_large) {
-          xml_add_child(planet_node, "satellite", size="large",
-                        moon_names[1])
-          moon_names <- moon_names[-1]
-        }
-      }
-      if(planet$moons_medium>0) {
-        for(k in 1:planet$moons_medium) {
-          xml_add_child(planet_node, "satellite", size="medium",
-                        moon_names[1])
-          moon_names <- moon_names[-1]
-        }
-      }
-      if(planet$moons_small>0) {
-        xml_add_child(planet_node, "smallMoons",
-                      planet$moons_small)
-      }
-    }
+  write_system_xml(system_node, system, id, x, y, primary_slot,
+                   star, gravity, pressure, temperature, water, 
+                   life, continents, moons, desc)
+  
         
-    #### Project Social Data in Time ####
-    #figure out where to add these events
+  #### Project Social Data in Time ####
+
+  #we add these events to event_table initially, so we can do some post-processing
+  
+  for(j in which(!is.na(system$planets$population))) {  
     
-    if(!is.na(planet$population)) {
-      
-      cat("\tprojections")
-      
-      if(!is.null(faction_table)) {
-        faction_table$date[1] <- paste(founding_year,"01","01",sep="-")
-        for(i in 1:nrow(faction_table)) {
-          event_table <- event_table %>% 
-            bind_rows(tibble(id=as.character(id),
-                             sys_pos=j,
-                             date=as.character(faction_table$date[i]),
-                             etype="faction",
-                             event=as.character(faction_table$event[i]),
-                             canon=TRUE))
-        }
-      }
-      
-      border_distance <- distance_to_border(x, y, faction)
-      
-      #population
-      p2750 <- NULL
-      p3025 <- NULL
-      p3067 <- NULL
-      p3079 <- NULL
-      p3145 <- NULL
-      if(!is.null(canon_population) & j==primary_slot) {
-        if(!is.na(canon_population$X2750)) {
-          p2750 <- canon_population$X2750
-        }
-        if(!is.na(canon_population$X3025)) {
-          p3025 <- canon_population$X3025
-        }
-        if(!is.na(canon_population$X3067)) {
-          p3067 <- canon_population$X3067
-        }
-        if(!is.na(canon_population$X3079)) {
-          p3079 <- canon_population$X3079
-        }
-        if(!is.na(canon_population$X3145)) {
-          p3145 <- canon_population$X3145
-        }
-      }
-      pop <- project_population(planet$population, founding_year, faction_type,
-                                border_distance, planet$agriculture, 
-                                terran_hegemony = terran_hegemony,
-                                abandon_year = abandon_year,
-                                p2750 = p2750, p3025 = p3025, p3067 = p3067,
-                                p3079 = p3079, p3145 = p3145)
-      #collect population values at 10 year intervals, plus the starting and final values.
-      first_census_year <- founding_year + 10*(ceiling(founding_year/10)-(founding_year/10))
-      last_year <- as.numeric(names(pop)[length(pop)])
-      last_census_year <- 10*floor(last_year/10)
-      if(last_census_year<=first_census_year) {
-        #if colony died quickly or was founded close to 3145, this won't work so just put first population
+    planet <- system$planets[j,]
+    
+    if(!is.null(faction_table)) {
+      faction_table$date[1] <- paste(founding_year,"01","01",sep="-")
+      for(idx in 1:nrow(faction_table)) {
         event_table <- event_table %>% 
           bind_rows(tibble(id=as.character(id),
                            sys_pos=j,
-                           date=paste(founding_year,"01","01",sep="-"),
-                           etype="population",
-                           event=paste(pop[1]),
-                           canon=FALSE))
-      } else {
-        #otherwise add census years to event list 
-        census_years <- c(founding_year, seq(from=first_census_year, to=last_census_year, by=10), last_year)
-        census_pop <- round(pop[paste(census_years)])
-        event_table <- event_table %>% 
-          bind_rows(tibble(id=as.character(id),
-               sys_pos=j,
-               date=paste(census_years,"01","01",sep="-"),
-               etype="population",
-               event=paste(census_pop),
-               canon=FALSE))
-      }
-      
-      #add in canon populations
-      if(!is.null(p2750)) {
-        sl_peak <- 2785
-        if(terran_hegemony) {
-          sl_peak <- 2767
-        }
-        event_table <- event_table %>% 
-          bind_rows(tibble(id=as.character(id),
-                           sys_pos=j,
-                           date=paste(sl_peak,"01","01",sep="-"),
-                           etype="population",
-                           event=paste(p2750),
-                           canon=FALSE))
-      }
-      if(!is.null(p3025)) {
-        event_table <- event_table %>% 
-          bind_rows(tibble(id=as.character(id),
-                           sys_pos=j,
-                           date=paste(3025,"01","01",sep="-"),
-                           etype="population",
-                           event=paste(p3025),
-                           canon=FALSE))
-      }
-      if(!is.null(p3067)) {
-        event_table <- event_table %>% 
-          bind_rows(tibble(id=as.character(id),
-                           sys_pos=j,
-                           date=paste(3067,"01","01",sep="-"),
-                           etype="population",
-                           event=paste(p3067),
-                           canon=FALSE))
-      }
-      if(!is.null(p3079)) {
-        event_table <- event_table %>% 
-          bind_rows(tibble(id=as.character(id),
-                           sys_pos=j,
-                           date=paste(3079,"01","01",sep="-"),
-                           etype="population",
-                           event=paste(p3079),
-                           canon=FALSE))
-      }
-      if(!is.null(p3145)) {
-        event_table <- event_table %>% 
-          bind_rows(tibble(id=as.character(id),
-                           sys_pos=j,
-                           date=paste(3145,"01","01",sep="-"),
-                           etype="population",
-                           event=paste(p3145),
-                           canon=FALSE))
-      }
-      #if abandoned, add in abandonment year
-      if(!is.na(abandon_year)) {
-        event_table <- event_table %>% 
-          bind_rows(tibble(id=as.character(id),
-                           sys_pos=j,
-                           date=paste(abandon_year,"01","01",sep="-"),
-                           etype="population",
-                           event="0",
+                           date=as.character(faction_table$date[idx]),
+                           etype="faction",
+                           event=as.character(faction_table$event[idx]),
                            canon=TRUE))
       }
-      
-      #SIC Codes
-      tech <- planet$tech
-      industry <- planet$industry
-      raw <- planet$raw
-      output <- planet$output
-      agriculture <- planet$agriculture
-      if(!is.na(sic)) {
-        canon_sics <- separate_sics(sic)
-        tech <- canon_sics$tech
-        industry <- canon_sics$industry
-        raw <- canon_sics$raw
-        output <- canon_sics$output
-        agriculture <- canon_sics$agriculture
+    }
+    
+    border_distance <- distance_to_border(x, y, faction)
+    
+    #population
+    p2750 <- NULL
+    p3025 <- NULL
+    p3067 <- NULL
+    p3079 <- NULL
+    p3145 <- NULL
+    if(!is.null(canon_population) & j==primary_slot) {
+      if(!is.na(canon_population$X2750)) {
+        p2750 <- canon_population$X2750
       }
-      sics_projections <- project_sics(tech, industry, raw, output, agriculture, 
-                                       founding_year, abandon_year, pop, faction_type)
+      if(!is.na(canon_population$X3025)) {
+        p3025 <- canon_population$X3025
+      }
+      if(!is.na(canon_population$X3067)) {
+        p3067 <- canon_population$X3067
+      }
+      if(!is.na(canon_population$X3079)) {
+        p3079 <- canon_population$X3079
+      }
+      if(!is.na(canon_population$X3145)) {
+        p3145 <- canon_population$X3145
+      }
+    }
+    pop <- project_population(planet$population, founding_year, faction_type,
+                              border_distance, planet$agriculture, 
+                              terran_hegemony = terran_hegemony,
+                              abandon_year = abandon_year,
+                              p2750 = p2750, p3025 = p3025, p3067 = p3067,
+                              p3079 = p3079, p3145 = p3145)
+    #collect population values at 10 year intervals, plus the starting and final values.
+    first_census_year <- founding_year + 10*(ceiling(founding_year/10)-(founding_year/10))
+    last_year <- as.numeric(names(pop)[length(pop)])
+    last_census_year <- 10*floor(last_year/10)
+    if(last_census_year<=first_census_year) {
+      #if colony died quickly or was founded close to 3145, this won't work so just put first population
       event_table <- event_table %>% 
         bind_rows(tibble(id=as.character(id),
                          sys_pos=j,
-                         date=paste(sics_projections$year,"01","01",sep="-"),
-                         etype="socioIndustrial",
-                         event=paste(sics_projections$sics),
-                         canon=!is.na(sic) & 
-                           (sics_projections$year>=3040 & sics_projections$year<3050)))
-      
-      # HPG - We need to do some extra work below to make sure the 
-      # first circuit is connected so for the moment, we just want
-      # to build a dataset of HPG information for later
-      if((!is.na(planet$hpg) | !is.na(hpg)) & j==primary_slot) {
-        canon <- TRUE
-        if(is.na(hpg)) {
-          hpg <- planet$hpg
-          canon <- FALSE
-        }
-        hpg_data <- rbind(hpg_data,
-                          data.frame(id=as.character(id),
-                                     x=as.numeric(x),
-                                     y=as.numeric(y),
-                                     hpg=as.character(hpg),
-                                     faction_type=as.character(faction_type),
-                                     tech=as.character(tech),
-                                     pop=max(pop),
-                                     founding_year=founding_year,
-                                     abandon_year=abandon_year,
-                                     canon=canon))
+                         date=paste(founding_year,"01","01",sep="-"),
+                         etype="population",
+                         event=paste(pop[1]),
+                         canon=FALSE))
+    } else {
+      #otherwise add census years to event list 
+      census_years <- c(founding_year, seq(from=first_census_year, to=last_census_year, by=10), last_year)
+      census_pop <- round(pop[paste(census_years)])
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=j,
+                         date=paste(census_years,"01","01",sep="-"),
+                         etype="population",
+                         event=paste(census_pop),
+                         canon=FALSE))
+    }
+    
+    #add in canon populations
+    if(!is.null(p2750)) {
+      sl_peak <- 2785
+      if(terran_hegemony) {
+        sl_peak <- 2767
+      }
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=j,
+                         date=paste(sl_peak,"01","01",sep="-"),
+                         etype="population",
+                         event=paste(p2750),
+                         canon=FALSE))
+    }
+    if(!is.null(p3025)) {
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=j,
+                         date=paste(3025,"01","01",sep="-"),
+                         etype="population",
+                         event=paste(p3025),
+                         canon=FALSE))
+    }
+    if(!is.null(p3067)) {
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=j,
+                         date=paste(3067,"01","01",sep="-"),
+                         etype="population",
+                         event=paste(p3067),
+                         canon=FALSE))
+    }
+    if(!is.null(p3079)) {
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=j,
+                         date=paste(3079,"01","01",sep="-"),
+                         etype="population",
+                         event=paste(p3079),
+                         canon=FALSE))
+    }
+    if(!is.null(p3145)) {
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=j,
+                         date=paste(3145,"01","01",sep="-"),
+                         etype="population",
+                         event=paste(p3145),
+                         canon=FALSE))
+    }
+    #if abandoned, add in abandonment year
+    if(!is.na(abandon_year)) {
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=j,
+                         date=paste(abandon_year,"01","01",sep="-"),
+                         etype="population",
+                         event="0",
+                         canon=TRUE))
+    }
+    
+    #SIC Codes
+    tech <- planet$tech
+    industry <- planet$industry
+    raw <- planet$raw
+    output <- planet$output
+    agriculture <- planet$agriculture
+    if(!is.na(sic)) {
+      canon_sics <- separate_sics(sic)
+      tech <- canon_sics$tech
+      industry <- canon_sics$industry
+      raw <- canon_sics$raw
+      output <- canon_sics$output
+      agriculture <- canon_sics$agriculture
+    }
+    sics_projections <- project_sics(tech, industry, raw, output, agriculture, 
+                                     founding_year, abandon_year, pop, faction_type)
+    event_table <- event_table %>% 
+      bind_rows(tibble(id=as.character(id),
+                       sys_pos=j,
+                       date=paste(sics_projections$year,"01","01",sep="-"),
+                       etype="socioIndustrial",
+                       event=paste(sics_projections$sics),
+                       canon=!is.na(sic) & 
+                         (sics_projections$year>=3040 & sics_projections$year<3050)))
+    
+    # HPG - We need to do some extra work below to make sure the 
+    # first circuit is connected so for the moment, we just want
+    # to build a dataset of HPG information for later
+    if((!is.na(planet$hpg) | !is.na(hpg)) & j==primary_slot) {
+      canon <- TRUE
+      if(is.na(hpg)) {
+        hpg <- planet$hpg
+        canon <- FALSE
+      }
+      hpg_data <- rbind(hpg_data,
+                        data.frame(id=as.character(id),
+                                   x=as.numeric(x),
+                                   y=as.numeric(y),
+                                   hpg=as.character(hpg),
+                                   faction_type=as.character(faction_type),
+                                   tech=as.character(tech),
+                                   pop=max(pop),
+                                   founding_year=founding_year,
+                                   abandon_year=abandon_year,
+                                   canon=canon))
+    }
+    
+    #Recharge Stations - this should only be checked on the primary slot, 
+    #but should have a sys_pos of zero so it will be written to the system
+    if(j==primary_slot) {
+      #first check to see if we have canon data for either recharge station
+      #and replace if so
+      if(!is.na(nadir_charge)) {
+        system$recharge$nadir <- nadir_charge
+      }
+      if(!is.na(zenith_charge)) {
+        system$recharge$zenith <- zenith_charge
       }
       
-      #Recharge Stations - this should only be checked on the primary slot, 
-      #but should have a sys_pos of zero so it will be written to the system
-      if(j==primary_slot) {
-        #first check to see if we have canon data for either recharge station
-        #and replace if so
-        if(!is.na(nadir_charge)) {
-          system$recharge$nadir <- nadir_charge
-        }
-        if(!is.na(zenith_charge)) {
-          system$recharge$zenith <- zenith_charge
-        }
-        
-        recharge_data <- project_recharge(system$recharge, faction_type, 
-                                          founding_year, sics_projections,
-                                          pop, abandon_year)
-        event_table <- event_table %>% 
-          bind_rows(tibble(id=as.character(id),
-                           sys_pos=0,
-                           date=paste(recharge_data$year,"01","01",sep="-"),
-                           etype=recharge_data$etype,
-                           event=paste(recharge_data$event),
-                           canon=FALSE))
+      recharge_data <- project_recharge(system$recharge, faction_type, 
+                                        founding_year, sics_projections,
+                                        pop, abandon_year)
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=0,
+                         date=paste(recharge_data$year,"01","01",sep="-"),
+                         etype=recharge_data$etype,
+                         event=paste(recharge_data$event),
+                         canon=FALSE))
+    }
+    
+    if(j==primary_slot && is_recolonized) {
+      #we need to save the planet information so that we can re-access it later for recolonization
+      planet$previous_abandon_year <- abandon_year
+      planet$border_distance <- border_distance
+      planet$terran_hegemony <- terran_hegemony
+      if(!is.na(sic)) {
+        canon_sics <- separate_sics(sic)
+        planet$tech <- canon_sics$tech
+        planet$industry <- canon_sics$industry
+        planet$raw <- canon_sics$raw
+        planet$output <- canon_sics$output
+        planet$agriculture <- canon_sics$agriculture
       }
-      
-      if(j==primary_slot && is_recolonized) {
-        #we need to save the planet information so that we can re-access it later for recolonization
-        planet$previous_abandon_year <- abandon_year
-        planet$border_distance <- border_distance
-        planet$terran_hegemony <- terran_hegemony
-        if(!is.na(sic)) {
-          canon_sics <- separate_sics(sic)
-          planet$tech <- canon_sics$tech
-          planet$industry <- canon_sics$industry
-          planet$raw <- canon_sics$raw
-          planet$output <- canon_sics$output
-          planet$agriculture <- canon_sics$agriculture
-        }
-        planet$nadir <- system$recharge$nadir
-        planet$zenith <- system$recharge$zenith
-        planet$distance_terra <- distance_terra
-        planet$primary_slot <- primary_slot
-        recolonized_planets[[id]] <- planet
-      }
+      planet$nadir <- system$recharge$nadir
+      planet$zenith <- system$recharge$zenith
+      planet$distance_terra <- distance_terra
+      planet$primary_slot <- primary_slot
+      recolonized_planets[[id]] <- planet
     }
   }
   
@@ -769,7 +586,7 @@ for(i in 1:xml_length(planets)) {
       }
     }
   }
-    
+  
   cat("\n\tdone\n")
 }
 
@@ -1052,7 +869,6 @@ cat("done\n")
 
 cat("\nWriting event data to XML\n")
 
-
 #sort event data by id and then date
 event_table$date <- as.Date(event_table$date)
 event_table <- event_table[order(event_table$id, event_table$sys_pos, 
@@ -1100,11 +916,30 @@ for(uid in unique_ids) {
 }
 cat("done\n")
 
-#TODO: a similar for-loop for connectors but no need to force habitation
+#### Create Systems for Connectors ####
+
+cat("Creating System Connectors....")
+for(i in 1:xml_length(connectors)) {
+  #technical identification
+  planet <- xml_children(connectors)[[i]]
+  name <- xml_text(xml_find_first(planet, "name"))
+  x <- as.numeric(xml_text(xml_find_first(planet, "xcood")))
+  y <- as.numeric(xml_text(xml_find_first(planet, "ycood")))
+
+  cat(name)
+  cat("\n")
+  #I can ignore the generated star information, since its all non-canon anyway
+  system <- generate_connector_names(generate_system(habitable = FALSE))
+  system_node <- xml_add_child(systems_connectors, "system")
+  write_system_xml(system_node, system, name, x, y, 0)
+  cat("\n")
+}
+cat("done\n")
 
 #### Write Out XML Data ####
 
 cat(as.character(systems), file = here("output","systems.xml"))
 cat(as.character(systems_events), file = here("output","system_events.xml"))
 cat(as.character(systems_name_changes), file = here("output","system_namechanges.xml"))
+cat(as.character(systems_connectors), file = here("output","system_connectors.xml"))
 write.csv(event_table, file=here("output","event_table.csv"))

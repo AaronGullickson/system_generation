@@ -187,3 +187,199 @@ fix_abandoned_heaping <- function(abandon_year, founding_year) {
   } 
   return(abandon_year)
 }
+
+#### Functions for writing to XML ####
+
+#write the physical system to XML
+write_system_xml <- function(system_node, system, id, x, y, primary_slot=0,
+                             star=NULL, gravity=NA, pressure=NA, temperature=NA,
+                             water=NA, life=NA, continents=NULL, moons=NULL,
+                             desc=NA) {
+  xml_add_child(system_node, "id", id)
+  xml_add_child(system_node, "xcood", x)
+  xml_add_child(system_node, "ycood", y)
+  
+  if(is.null(star)) {
+    xml_add_child(system_node, "spectralType", 
+                  system$star)
+  } else {
+    xml_add_child(system_node, "spectralType", 
+                  system$star, source="canon")
+  }
+  
+  if(primary_slot>0) {
+    xml_add_child(system_node, "primarySlot", primary_slot)
+  }
+  
+  #now cycle through planets and create planet nodes
+  for(j in 1:nrow(system$planets)) {
+    cat(paste("\n",j))
+    planet <- system$planets[j,]
+
+    if(j==primary_slot) {
+      planet_node <- xml_add_child(system_node, "planet", primary="TRUE", 
+                                   source="canon")
+      xml_add_child(planet_node, "name", name, source="canon")
+    } else {
+      planet_node <- xml_add_child(system_node, "planet")
+      xml_add_child(planet_node, "name", system$planets$name[j])
+    }
+    
+    xml_add_child(planet_node, "type", 
+                  as.character(planet$type))
+    xml_add_child(planet_node, "orbitalDist", 
+                  planet$orbital_dis)
+    
+    xml_add_child(planet_node, "sysPos", j)
+    
+    if(j==primary_slot & !is.na(pressure)) {
+      xml_add_child(planet_node, "pressure", 
+                    as.character(pressure), 
+                    source="canon")
+    } else if(!is.na(planet$pressure)) {
+      xml_add_child(planet_node, "pressure", 
+                    as.character(planet$pressure))
+    }
+    
+    if(!is.na(planet$atmosphere)) {
+      xml_add_child(planet_node, "atmosphere", 
+                    as.character(planet$atmosphere))
+    }
+    
+    if(!is.na(planet$composition)) {
+      xml_add_child(planet_node, "composition", 
+                    as.character(planet$composition))
+    }
+    
+    #if we adjust gravity then we will need to adjust diameter 
+    #and density to. We will just multiply each by the square 
+    #root of the proportional difference. This should also 
+    #maintain correct orbital and escape velocity
+    gravity_multiplier <- 1
+    if(j==primary_slot & !is.na(gravity)) {
+      gravity_multiplier <- gravity/planet$gravity
+      xml_add_child(planet_node, "gravity", 
+                    gravity, 
+                    source="canon")
+    } else if(!is.na(planet$gravity)) {
+      xml_add_child(planet_node, "gravity", 
+                    planet$gravity)
+    }
+    
+    if(j==primary_slot & !is.na(temperature)) {
+      xml_add_child(planet_node, "temperature", 
+                    temperature, 
+                    source="canon")
+    }
+    else if(!is.na(planet$temperature)) {
+      xml_add_child(planet_node, "temperature", 
+                    planet$temperature)
+    }
+    
+    if(j==primary_slot & !is.na(water)) {
+      xml_add_child(planet_node, "water", 
+                    water, 
+                    source="canon")
+    }
+    else if(!is.na(planet$water)) {
+      xml_add_child(planet_node, "water", 
+                    planet$water)
+    }
+    
+    if(j==primary_slot & !is.na(life)) {
+      xml_add_child(planet_node, "life", 
+                    life, 
+                    source="canon")
+    }
+    else if(!is.na(planet$life)) {
+      xml_add_child(planet_node, "life", 
+                    as.character(planet$life))
+    }
+    
+    if(!is.na(planet$day_length)) {
+      xml_add_child(planet_node, "dayLength", 
+                    planet$day_length)
+    }
+    
+    if(!is.na(planet$year_length)) {
+      xml_add_child(planet_node, "yearLength", 
+                    planet$year_length)
+    }
+    
+    if(!is.na(planet$diameter)) {
+      xml_add_child(planet_node, "diameter", 
+                    sqrt(gravity_multiplier) * planet$diameter)
+    }
+    
+    if(!is.na(planet$density)) {
+      xml_add_child(planet_node, "density", 
+                    sqrt(gravity_multiplier) * planet$density)
+    }
+    
+    if(j==primary_slot & !is.na(desc)) {
+      xml_add_child(planet_node, "desc", 
+                    desc, 
+                    source="canon")
+    }
+    
+    if(j==primary_slot & !is.null(continents)) {
+      for(continent in continents) {
+        xml_add_child(planet_node, "landMass", 
+                      continent, 
+                      source="canon")
+      }
+    } else if(!is.na(planet$continents) & planet$continents>0) {
+      #pick random one to have capital
+      capital <- sample(1:planet$continents, 1)
+      continent_names <- strsplit(planet$continent_names, ",")[[1]]
+      for(k in 1:planet$continents) {
+        landmass_name <- continent_names[k]
+        if(!is.null(planet$population) && !is.na(planet$population) && k==capital) {
+          landmass_name <- paste(continent_names[k], " (", planet$capitol_name, ")", sep="")
+        }
+        xml_add_child(planet_node, "landMass",
+                      landmass_name)
+      }
+    }
+    
+    #we will detail all moons except small moons where we will just list number
+    #assume named moons are never small
+    if(!is.null(planet$moon_names) && !is.na(planet$moon_names)) {
+      moon_names <- strsplit(planet$moon_names, ",")[[1]]
+    }
+    if(j==primary_slot & !is.null(moons)) {
+      for(moon in moons) {
+        moon_size <- c("giant",rep("large",5),rep("medium",9))[sample(1:15,1)]
+        xml_add_child(planet_node, "satellite", size=moon_size,
+                      moon, 
+                      source="canon")
+      }
+    } else {
+      if(planet$moons_giant>0) {
+        for(k in 1:planet$moons_giant) {
+          xml_add_child(planet_node, "satellite", size="giant",
+                        moon_names[1])
+          moon_names <- moon_names[-1]
+        }
+      }
+      if(planet$moons_large>0) {
+        for(k in 1:planet$moons_large) {
+          xml_add_child(planet_node, "satellite", size="large",
+                        moon_names[1])
+          moon_names <- moon_names[-1]
+        }
+      }
+      if(planet$moons_medium>0) {
+        for(k in 1:planet$moons_medium) {
+          xml_add_child(planet_node, "satellite", size="medium",
+                        moon_names[1])
+          moon_names <- moon_names[-1]
+        }
+      }
+      if(planet$moons_small>0) {
+        xml_add_child(planet_node, "smallMoons",
+                      planet$moons_small)
+      }
+    }
+  }
+}
