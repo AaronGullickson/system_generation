@@ -49,7 +49,29 @@ load(here("name_generation","output","surnames.RData"))
 load(here("name_generation","output","name_corr.RData"))
 nationalities <- read.csv(here("name_generation/output/name_nationality.csv"))
 
-generate_system_names <- function(system, id) {
+generate_system_names <- function(system, id=NA) {
+  
+  if(is.na(id)) {
+    #treat this as a connector and name with a sequence, this for now
+    #TODO: this could be better
+    system$planets$name <- convert_arabic2roman(1:nrow(system$planets))
+    system$planets$continent_names <- NA
+    system$planets$capitol_name <- NA
+    system$planets$moon_names <- NA
+    for(i in 1:nrow(system$planets)) {
+      nmoons <- (system$planets$moons_giant+system$planets$moons_large+
+                   system$planets$moons_medium)[i]
+      if(nmoons > 0) {
+        system$planets$moon_names[i] <- paste(convert_arabic2roman(1:nmoons),
+                                              collapse=",")
+      }
+      if(!is.na(system$planets$continents[i])) {
+        system$planets$continent_names[i] <- paste(convert_arabic2roman(1:system$planets$continents[i]),
+                                                   collapse=",")
+      }
+    }
+    return(system)
+  }
   
   nationality <- name_corr[name_corr$id==id,]
   
@@ -92,12 +114,12 @@ generate_system_names <- function(system, id) {
                  system$planets$moons_medium)[i]
     if(nmoons > 0) {
       system$planets$moon_names[i] <- paste(sample_names(nmoons, "moon", nationality), 
-                                            collapse=",")
+                                            collapse=", ")
     }
     if(!is.na(system$planets$continents[i])) {
       system$planets$continent_names[i] <- paste(sample_names(system$planets$continents[i],
                                                               "continent", nationality), 
-                                                 collapse=",")
+                                                 collapse=", ")
     }
     if(!is.na(system$planets$population[i])) {
       #some chance that you just inherit the planet name plus "City"

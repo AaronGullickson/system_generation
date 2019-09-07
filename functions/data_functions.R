@@ -191,9 +191,9 @@ fix_abandoned_heaping <- function(abandon_year, founding_year) {
 #### Functions for writing to XML ####
 
 #write the physical system to XML
-write_system_xml <- function(system_node, system, id, x, y, primary_slot,
-                             gravity=NA, pressure=NA, temperature=NA,
-                             water=NA, life=NA, continents=NA, moons=NA,
+write_system_xml <- function(system_node, system, id, x, y, primary_slot=0,
+                             star=NULL, gravity=NA, pressure=NA, temperature=NA,
+                             water=NA, life=NA, continents=NULL, moons=NULL,
                              desc=NA) {
   xml_add_child(system_node, "id", id)
   xml_add_child(system_node, "xcood", x)
@@ -207,7 +207,9 @@ write_system_xml <- function(system_node, system, id, x, y, primary_slot,
                   system$star, source="canon")
   }
   
-  xml_add_child(system_node, "primarySlot", primary_slot)
+  if(primary_slot>0) {
+    xml_add_child(system_node, "primarySlot", primary_slot)
+  }
   
   #now cycle through planets and create planet nodes
   for(j in 1:nrow(system$planets)) {
@@ -332,7 +334,7 @@ write_system_xml <- function(system_node, system, id, x, y, primary_slot,
       continent_names <- strsplit(planet$continent_names, ",")[[1]]
       for(k in 1:planet$continents) {
         landmass_name <- continent_names[k]
-        if(k==capital & !is.na(planet$population)) {
+        if(!is.null(planet$population) && !is.na(planet$population) && k==capital) {
           landmass_name <- paste(continent_names[k], " (", planet$capitol_name, ")", sep="")
         }
         xml_add_child(planet_node, "landMass",
@@ -342,7 +344,7 @@ write_system_xml <- function(system_node, system, id, x, y, primary_slot,
     
     #we will detail all moons except small moons where we will just list number
     #assume named moons are never small
-    if(!is.na(planet$moon_names)) {
+    if(!is.null(planet$moon_names) && !is.na(planet$moon_names)) {
       moon_names <- strsplit(planet$moon_names, ",")[[1]]
     }
     if(j==primary_slot & !is.null(moons)) {

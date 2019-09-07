@@ -22,6 +22,7 @@ source(here("functions","network_functions.R"))
 options(nwarnings = 1000)
 
 planets <- read_xml(here("output","planets_initial.xml"))
+connectors <- read_xml(here("output","connectors_initial.xml"))
 events <- read_xml(here("output","planetevents_initial.xml"))
 name_changes <- read_xml(here("input","0999_namechanges.xml"))
 canon_populations <- read.csv(here("input","canon_populations.csv"), row.names=1)
@@ -65,11 +66,12 @@ recolonized_planets <- list()
 systems <- xml_new_document() %>% xml_add_child("systems")
 systems_events <- xml_new_document() %>% xml_add_child("systems")
 systems_name_changes <- xml_new_document() %>% xml_add_child("systems")
+systems_connectors <- xml_new_document() %>% xml_add_child("systems")
 
 small_sample <- sample(1:xml_length(planets), 100)
 
-#for(i in 1:xml_length(planets)) {
-for(i in small_sample) {
+for(i in 1:xml_length(planets)) {
+#for(i in small_sample) {
   
   #### Read in a planet's data ####
   
@@ -300,7 +302,7 @@ for(i in small_sample) {
   system_node <- xml_add_child(systems, "system")
   
   write_system_xml(system_node, system, id, x, y, primary_slot,
-                   gravity, pressure, temperature, water, 
+                   star, gravity, pressure, temperature, water, 
                    life, continents, moons, desc)
   
         
@@ -867,7 +869,6 @@ cat("done\n")
 
 cat("\nWriting event data to XML\n")
 
-
 #sort event data by id and then date
 event_table$date <- as.Date(event_table$date)
 event_table <- event_table[order(event_table$id, event_table$sys_pos, 
@@ -915,11 +916,30 @@ for(uid in unique_ids) {
 }
 cat("done\n")
 
-#TODO: a similar for-loop for connectors but no need to force habitation
+#### Create Systems for Connectors ####
+
+cat("Creating System Connectors....")
+for(i in 1:xml_length(connectors)) {
+  #technical identification
+  planet <- xml_children(connectors)[[i]]
+  name <- xml_text(xml_find_first(planet, "name"))
+  x <- as.numeric(xml_text(xml_find_first(planet, "xcood")))
+  y <- as.numeric(xml_text(xml_find_first(planet, "ycood")))
+
+  cat(name)
+  cat("\n")
+  #I can ignore the generated star information, since its all non-canon anyway
+  system <- generate_system_names(generate_system(habitable = FALSE))
+  system_node <- xml_add_child(systems_connectors, "system")
+  write_system_xml(system_node, system, name, x, y, 0)
+  cat("\n")
+}
+cat("done\n")
 
 #### Write Out XML Data ####
 
 cat(as.character(systems), file = here("output","systems.xml"))
 cat(as.character(systems_events), file = here("output","system_events.xml"))
 cat(as.character(systems_name_changes), file = here("output","system_namechanges.xml"))
+cat(as.character(systems_connectors), file = here("output","system_connectors.xml"))
 write.csv(event_table, file=here("output","event_table.csv"))
