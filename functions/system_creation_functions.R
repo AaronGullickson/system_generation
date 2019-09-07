@@ -157,7 +157,7 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
   previous_inhabitable <- FALSE
   #create a max habit slot to adjust for forced_canon_pos
   max_habit_slot <- habitable_slot
-  if(!is.na(force_canon_pos)) {
+  if(!is.na(force_canon_pos) & force_canon_pos>max_habit_slot) {
     max_habit_slot <- force_canon_pos
   }
   for(slot in 1:orbital_slots) {
@@ -165,7 +165,7 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
     #If canon system position is chosen, then don't allow empty slots before
     #the canon system position. Also not before a forced canon position
     empty_ok <- (is.na(habit_pos) || slot>habit_pos) & 
-      (is.na(force_canon_pos) || slot>force_canon_pos)
+      (is.na(force_canon_pos) || (slot>max_habit_slot))
     
     planet <- generate_planet(orbital_placement[slot],slot==habitable_slot,
                               stype_data, allow_empty = empty_ok)
