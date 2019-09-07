@@ -1181,6 +1181,17 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
                                agriculture, terran_hegemony=FALSE, abandon_year=NULL,
                                p2750=NULL, p3025=NULL, p3067=NULL, p3079=NULL, p3145=NULL) {
   
+  #check to see if we are in the last year of projection
+  if(found_year==3145) {
+    if(!is.null(p3145)) {
+      base_pop <- p3145
+    } else {
+      base_pop <- round(50000*runif(1, 0.95,1.05))
+    }
+    names(base_pop) <- "3145"
+    return(base_pop)
+  }
+  
   #base year is 3067
   base_year <- 3067
   if(!is.null(p3067)) {
