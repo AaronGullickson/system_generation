@@ -37,8 +37,8 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
       if((star_size=="V" && !(habit_pos %in% which(habitable_zones$main[,star]))) |
          (star_size!="V" && !(habit_pos %in% which(habitable_zones$nonmain[,paste(spectral_class, 
                                                                                     subtype, sep="")])))) { 
-        warning(paste("Star type ", star, " is not a valid star type for a habitable planet in position ", habit_pos,
-                      ". Star type randomly generated instead.", sep=""))
+        #warning(paste("Star type ", star, " is not a valid star type for a habitable planet in position ", habit_pos,
+        #              ". Star type randomly generated instead.", sep=""))
         star <- NULL
       }
     }
@@ -54,8 +54,8 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
       
       #if habit_pos is greater than 7, its impossible so make it 7
       if(!is.na(habit_pos) && habit_pos>7) {
-        warning(paste("Habitable planet suggested in position", 
-                      habit_pos, "is impossible in life zone. Changing to position 7."))
+        #warning(paste("Habitable planet suggested in position", 
+        #              habit_pos, "is impossible in life zone. Changing to position 7."))
         habit_pos <- 7
       }
       #if the habitable position is between 5 and 7, then we must roll on the 
@@ -756,7 +756,7 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
 
 #faction type should be either "Clan", "IS", "Periphery", "Minor"
 add_colonization <- function(system, distance_terra, current_year,
-                             founding_year, faction_type) {
+                             founding_year, faction_type, abandon_year) {
   
   faction_type <- factor(faction_type,
                          levels=c("IS","Clan","Periphery","Minor"),
@@ -809,6 +809,10 @@ add_colonization <- function(system, distance_terra, current_year,
     
     #population
     high_roll <- roll_d6(1)
+    #if this planet is abandoned, don't allow a high population 
+    if(!is.na(abandon_year)) {
+      high_roll <- 1
+    }
     
     ##Tweaks: the clan numbers are super low and produce populations of 
     ## around 245,000 on average. Based on existing numbers this is low
@@ -1172,11 +1176,21 @@ add_colonization <- function(system, distance_terra, current_year,
 
 #### Population Projection Functions ####
 
-#TODO: put some hard upper limit on population sizes (i.e. carrying capacity)
 #project population from year 3067 forwards and backwards
 project_population <- function(base_pop, found_year, faction_type, border_distance, 
-                               agriculture, terran_hegemony=FALSE,
+                               agriculture, terran_hegemony=FALSE, abandon_year=NULL,
                                p2750=NULL, p3025=NULL, p3067=NULL, p3079=NULL, p3145=NULL) {
+  
+  #check to see if we are in the last year of projection
+  if(found_year==3145) {
+    if(!is.null(p3145)) {
+      base_pop <- p3145
+    } else {
+      base_pop <- round(50000*runif(1, 0.95,1.05))
+    }
+    names(base_pop) <- "3145"
+    return(base_pop)
+  }
   
   #base year is 3067
   base_year <- 3067
@@ -1211,7 +1225,6 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
   
   #get growth to end of DA first. If there are valid 3079 or 3145 dates, but not
   #3067, then ignore current base pop and reassign at the end.
-  ##TODO: need to deal with some post 3067 foundings
   growth <- 0.001
   if(!is.null(p3079)) {
     if(!is.null(p3067)) {
@@ -1405,6 +1418,76 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
   #abline(v=2785, lty=2, col="red")
   #abline(v=3029, lty=2, col="red")
   
+  if(!is.na(abandon_year)) {
+    full_pop <- project_population_abandon(full_pop, found_year,  abandon_year, faction_type)
+  }
+  
+  return(full_pop)
+}
+
+#rather than try some whole other projection from scracth for abandoned planets, we will
+#take the regular population projection results and then modify them to get abandonment
+#by the expected date. We just truncate the projection based on the abandon_year and then
+#determine how far back the depopulation begins. Once we have that number we just redo all
+#the numbers after the peak to get to zero using the average decline rate.
+project_population_abandon <- function(full_pop, found_year, abandon_year, faction_type) {
+  
+  life_span <- abandon_year-found_year
+  
+  full_pop <- full_pop[paste(found_year:abandon_year)]
+  
+  #last year is always zero
+  full_pop[paste(abandon_year)] <- 0
+  
+  #checks for really short life spans
+  base_pop <- round(50000*runif(1,0.9,1.1))
+  if(life_span==1) {
+    #that was quick
+    full_pop[paste(found_year)] <- base_pop
+    return(full_pop)
+  }
+  
+  #if lifespan is 10 or less, then just do a steady decline from 50000 to 5000 year before and then done
+  if(life_span<=10) {
+    full_pop[paste(found_year)] <- base_pop
+    rates <- c(0,growth_simulation(log(1/10)/(life_span-1),(life_span-1)))
+    full_pop[paste(found_year:abandon_year)] <- c(round(base_pop*exp(cumsum(rates))),0)
+    return(full_pop)
+  }
+  
+  #how far back should we go for the peak? This should be based on some combination of abandonment
+  #date and the life span of the colony. But there are also two scenarios to consider: (1) rapid depopulation
+  #from intense events ala Lone Star, or gradually decline and abandonment. The former will have a much shorter
+  #range between peak and abandonment, and the latter will have much longer. 
+  if(abandon_year<2750 || life_span<100 || faction_type=="Clan" || faction_type=="Minor") {
+    #assume gradual depopulation from some peak between the 25th and 75th percentile of life span
+    go_back <- round(life_span * runif(1, 0.25, 0.75))
+  } else if(abandon_year>2865 & abandon_year<3067) {
+    #3SW era. Assume a gradual decline from around start of 1SW or founding whichever is later
+    go_back <- round(min(life_span, abandon_year-2785))
+  } else if(abandon_year>=3067 & abandon_year<=3081) {
+    #for jihad abandonment the peak is at 3060
+    go_back <- abandon_year-3060
+  } else {
+    #otherwise assume rapid depopulation between 10-40 years
+    go_back <- rnorm(1,25,7)
+    while(go_back<10 || go_back>40) {
+      go_back <- rnorm(1,25,7)
+    }
+  }
+  peak_year <- abandon_year - round(go_back)
+  
+  #calculate the rate of decline
+  #assume that the year before abandonment is about 5K population on average, figure out the average depopulation rate
+  #from the peak
+  rates <- growth_simulation(log(5000/full_pop[paste(peak_year)])/(abandon_year-peak_year-1), 
+                             abandon_year-peak_year-1)
+  
+  #make this a little more gradual
+  rates[1:4] <- rates[1:4]/c(5,4,3,2)
+  
+  full_pop[paste((peak_year+1):(abandon_year-1))] <- full_pop[paste(peak_year)]*exp(cumsum(rates))
+  
   return(full_pop)
 }
 
@@ -1467,7 +1550,7 @@ get_gompertz_rates <- function(ending_pop, start_colony_size, time_length) {
 #### SICS Projection Functions ####
 
 project_sics <- function(tech, industry, raw, output, agriculture,
-                         founding_year, pop, faction_type) {
+                         founding_year, abandon_year, pop, faction_type) {
   
   sics <- list(tech=tech, industry=industry, raw=raw, output=output, 
                agriculture=agriculture)
@@ -1555,6 +1638,15 @@ project_sics <- function(tech, industry, raw, output, agriculture,
                        interpolate_sics(sics, sics_da, current_year, year_da)[-1,])
   
   
+  if(!is.na(abandon_year)) {
+    #remove all sics past the abandonment date
+    sic_changes <- subset(sic_changes, year<=abandon_year)
+    #all X on abandonment
+    sic_changes <- rbind(sic_changes,
+                         data.frame(year=abandon_year, sics="X-X-X-X-X"))
+  }
+  
+  
   return(sic_changes)
 }
 
@@ -1596,6 +1688,11 @@ get_colony_sics <- function(sics, founding_year, current_year, faction_type) {
 #or decrease for each level.
 adjust_sics <- function(sics, odds_drop, odds_increase,
                         pop_ratio=1, colony_age) {
+  
+  if(is.na(pop_ratio)) {
+    #this means no population value for this year, so just return the original sics
+    return(sics)
+  }
   
   tech <- sics$tech[1]
   industry <- sics$industry[1]
@@ -1785,7 +1882,7 @@ interpolate_sics <- function(sics_start, sics_end, start_year, end_year,
 
 ## TODO: Then need to figure out Dark Age blackout
 
-project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type) {
+project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type, abandon_year) {
   
   #build rate for things built right at start. Average build time is one over this
   building_time <- 0.33
@@ -1868,6 +1965,12 @@ project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type) {
     
   }
   
+  if(!is.na(abandon_year)) {
+    hpg_table <- subset(hpg_table, year<abandon_year)
+    hpg_table <- rbind(hpg_table, 
+                       data.frame(year=abandon_year, hpg="X"))
+  }
+  
   return(hpg_table)
 }
 
@@ -1882,7 +1985,11 @@ project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type) {
 # station at SL peak. My sense is that it should be higher than this, so lets try adding a +3 rather
 # than +2 to the adjustment.
 
-project_recharge <- function(recharge_current, faction_type, founding_year, sics_project, pop) {
+project_recharge <- function(recharge_current, faction_type, founding_year, sics_project, pop,
+                             abandon_year) {
+  
+  #remove X-X-X-X-X from sics_projects (due to abandonment) or they will cause problems
+  sics_project <- subset(sics_project, sics!="X-X-X-X-X")
   
   #default to about 50 years after colonization, on average
   build_rate <- 0.02
@@ -1945,10 +2052,15 @@ project_recharge <- function(recharge_current, faction_type, founding_year, sics
   population_sl <- pop["2765"]
 
   recharge_roll <- roll_d6(2)
-  if(population_sl>=(2*10^9)) {
-    recharge_roll <- recharge_roll+1
-  } else if(population_sl<(1*10^9)) {
+  if(is.na(population_sl)) {
+    #didn't make it to star league, so less likely
     recharge_roll <- recharge_roll-1
+  } else {
+    if(population_sl>=(2*10^9)) {
+      recharge_roll <- recharge_roll+1
+    } else if(population_sl<(1*10^9)) {
+      recharge_roll <- recharge_roll-1
+    }
   }
   if(max(tech, na.rm=TRUE)<="D") {
     recharge_roll <- recharge_roll-1
@@ -2050,6 +2162,18 @@ project_recharge <- function(recharge_current, faction_type, founding_year, sics
                          etype="nadirCharge",
                          event="false"))
     }
+  }
+  
+  if(!is.na(abandon_year)) {
+    recharge_history <- subset(recharge_history, year<abandon_year)
+    recharge_history <- recharge_history %>% 
+      bind_rows(tibble(year=abandon_year,
+                       etype="nadirCharge",
+                       event="false"))
+    recharge_history <- recharge_history %>% 
+      bind_rows(tibble(year=abandon_year,
+                       etype="zenithCharge",
+                       event="false"))
   }
   
   return(recharge_history)
