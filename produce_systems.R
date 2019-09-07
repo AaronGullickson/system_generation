@@ -235,6 +235,7 @@ for(i in 1:xml_length(planets)) {
        is.na(star_size) | nchar(star_size)==0 | 
        !(star_size %in% c("Ia","Ib","II","III","IV","V","VI","VII"))) {
       star <- NULL
+      warning(paste("Invalid star information provided for", id, star))
     }
     
   } else {
