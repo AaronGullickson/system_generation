@@ -315,7 +315,12 @@ for(i in 1:xml_length(planets)) {
     planet <- system$planets[j,]
     
     if(!is.null(faction_table)) {
+      #put in a new founding year as it may have been changed for heaping
       faction_table$date[1] <- paste(founding_year,"01","01",sep="-")
+      #if there is an abandonment in the table it may also have changed
+      if("ABN" %in% faction_table$event) {
+        faction_table$date[faction_table$event=="ABN"] <- paste(abandon_year,"01","01",sep="-")
+      }
       for(idx in 1:nrow(faction_table)) {
         event_table <- event_table %>% 
           bind_rows(tibble(id=as.character(id),
@@ -744,7 +749,12 @@ for(recol_id in recol_ids) {
     
     #faction history
     if(!is.null(faction_table)) {
+      #fix founding year in case changed due to heaping
       faction_table$date[1] <- paste(founding_year,"01","01",sep="-")
+      #if there is an abandonment in the table it may also have changed
+      if("ABN" %in% faction_table$event) {
+        faction_table$date[faction_table$event=="ABN"] <- paste(abandon_year,"01","01",sep="-")
+      }
       for(i in 1:nrow(faction_table)) {
         event_table <- event_table %>% 
           bind_rows(tibble(id=as.character(recol_id),
