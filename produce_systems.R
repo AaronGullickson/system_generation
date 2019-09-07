@@ -275,10 +275,13 @@ for(i in 1:xml_length(planets)) {
   if(!is.na(roman)) {
     canon_pos <- convert_roman2arabic(roman)
   }
-  #now look for arabic numbering
-  arabic <- str_trim(str_extract(temp, "\\s+\\d+$"))
-  if(!is.na(arabic)) {
-    canon_pos <- as.numeric(arabic)
+  #now look for arabic numbering - it turns out this is problematic because it is used for 
+  #things like Star Cluster 643. The only valid case we have at the moment is Baker 3 so
+  #lets just look for that specifically
+  #arabic <- str_trim(str_extract(temp, "Baker 3$"))
+  #if(!is.na(arabic)) {
+  if(grepl("^Baker 3$", name)) {
+    canon_pos <- 3
   }
   if(!is.na(sys_pos)) {
     canon_pos <- sys_pos
