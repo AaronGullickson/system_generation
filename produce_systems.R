@@ -929,7 +929,7 @@ for(i in 1:xml_length(connectors)) {
   cat(name)
   cat("\n")
   #I can ignore the generated star information, since its all non-canon anyway
-  system <- generate_system_names(generate_system(habitable = FALSE))
+  system <- generate_connector_names(generate_system(habitable = FALSE))
   system_node <- xml_add_child(systems_connectors, "system")
   write_system_xml(system_node, system, name, x, y, 0)
   cat("\n")

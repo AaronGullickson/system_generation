@@ -43,6 +43,7 @@
 
 library(wrswoR)
 library(here)
+library(stringi)
 load(here("name_generation","output","myth_sample.RData"))
 load(here("name_generation","output","places_sample.RData"))
 load(here("name_generation","output","surnames.RData"))
@@ -50,28 +51,6 @@ load(here("name_generation","output","name_corr.RData"))
 nationalities <- read.csv(here("name_generation/output/name_nationality.csv"))
 
 generate_system_names <- function(system, id=NA) {
-  
-  if(is.na(id)) {
-    #treat this as a connector and name with a sequence, this for now
-    #TODO: this could be better
-    system$planets$name <- convert_arabic2roman(1:nrow(system$planets))
-    system$planets$continent_names <- NA
-    system$planets$capitol_name <- NA
-    system$planets$moon_names <- NA
-    for(i in 1:nrow(system$planets)) {
-      nmoons <- (system$planets$moons_giant+system$planets$moons_large+
-                   system$planets$moons_medium)[i]
-      if(nmoons > 0) {
-        system$planets$moon_names[i] <- paste(convert_arabic2roman(1:nmoons),
-                                              collapse=",")
-      }
-      if(!is.na(system$planets$continents[i])) {
-        system$planets$continent_names[i] <- paste(convert_arabic2roman(1:system$planets$continents[i]),
-                                                   collapse=",")
-      }
-    }
-    return(system)
-  }
   
   nationality <- name_corr[name_corr$id==id,]
   
@@ -301,6 +280,34 @@ add_flavor <- function(names, type, source) {
   
 }
 
+generate_sequence_names <- function(n) {
+  numChars <- sample(1:3, 1)
+  prefix <- stri_rand_strings(1, numChars, "[A-Z0-9]")
+  connector <- sample(c("","","",""," ","-","-","-","-",":"), 1)
+  return(paste(prefix, connector, 1:n, sep=""))
+}
+
+generate_connector_names <- function(system) {
+  isAsteroid <- system$planets$type=="Asteroid Belt"
+  system$planets$name[!isAsteroid] <- generate_sequence_names(sum(!isAsteroid))
+  system$planets$name[isAsteroid] <- paste(generate_sequence_names(sum(isAsteroid)), "Belt")
+  system$planets$continent_names <- NA
+  system$planets$capitol_name <- NA
+  system$planets$moon_names <- NA
+  for(i in 1:nrow(system$planets)) {
+    nmoons <- (system$planets$moons_giant+system$planets$moons_large+
+                 system$planets$moons_medium)[i]
+    if(nmoons > 0) {
+      system$planets$moon_names[i] <- paste(generate_sequence_names(nmoons), collapse=",")
+    }
+    if(!is.na(system$planets$continents[i])) {
+      system$planets$continent_names[i] <- paste(generate_sequence_names(system$planets$continents[i]),
+                                                 collapse=",")
+    }
+  }
+  return(system)
+}  
+
 convert_roman2arabic <- function(roman) {
   if(roman=="I") {
     return(1)
@@ -356,4 +363,3 @@ convert_arabic2roman <- function(arabic) {
              "XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX","XX")
   return(roman[arabic])
 }
-  
