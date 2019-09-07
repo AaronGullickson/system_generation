@@ -286,10 +286,14 @@ for(i in 1:xml_length(planets)) {
   
   cat("done\n\tGenerating base system and colonization data...")
   
-  system <- generate_system_names(add_colonization(generate_system(star=star, habit_pos=canon_pos), 
-                                                   distance_terra, 3047, founding_year,
-                                                   faction_type, abandon_year), 
-                                  id)
+  #base system
+  system <- generate_system(star=star, habitable=TRUE, habit_pos=canon_pos)
+  #add colonization
+  system <- add_colonization(system, distance_terra, 3047, founding_year,
+                             faction_type, abandon_year)
+  #name stuff
+  system <- generate_system_names(system, id)
+  
   primary_slot <- which(system$planets$population==max(system$planets$population, na.rm=TRUE))[1]
   
   #### Output XML ####
