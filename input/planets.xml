@@ -12580,7 +12580,7 @@ During the Word of Blake Jihad, Benjamin was right on the edge of the Word of Bl
         <id>Betelgeuse</id>
         <name>Betelgeuse</name>
         <sysPos>2</sysPos>
-        <spectralType>M2I</spectralType>
+        <spectralType>M2Ib</spectralType>
         <spectralClass>M</spectralClass>
         <subtype>2.0</subtype>
         <luminosity>I</luminosity>
@@ -62622,7 +62622,7 @@ Pinard Protectorates Unlimited</desc>
         <id>Mallory's World</id>
         <name>Mallory's World</name>
         <sysPos>6</sysPos>
-        <spectralType>G2I</spectralType>
+        <spectralType>G2Ib</spectralType>
         <spectralClass>G</spectralClass>
         <subtype>2.0</subtype>
         <luminosity>I</luminosity>

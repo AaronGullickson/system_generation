@@ -85,7 +85,7 @@ for(i in 1:xml_length(planets)) {
   cat(paste(id,"\n\treading in XML data..."))
   
   #system information
-  star <- xml_text(xml_find_first(planet, "spectralType"))
+  star <- toupper(xml_text(xml_find_first(planet, "spectralType")))
   sys_pos <- as.numeric(xml_text(xml_find_first(planet, "sysPos")))
   
   #planetary information - is this all Canon? 
