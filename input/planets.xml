@@ -80131,10 +80131,10 @@ Alphard Trading Corporation [destroyed 3075]</desc>
         <id>Pesht</id>
         <name>Pesht</name>
         <sysPos>3</sysPos>
-        <spectralType>F7v</spectralType>
+        <spectralType>F7V</spectralType>
         <spectralClass>F</spectralClass>
         <subtype>7.0</subtype>
-        <luminosity>v</luminosity>
+        <luminosity>V</luminosity>
         <satellite>Buda</satellite>
         <gravity>1.04</gravity>
         <percentWater>64</percentWater>
@@ -82640,7 +82640,7 @@ The marketing campaign forgot to mention that there were fewer areas with modera
         <id>Proserpina</id>
         <name>Proserpina</name>
         <sysPos>4</sysPos>
-        <spectralType>K2v</spectralType>
+        <spectralType>K2V</spectralType>
         <spectralClass>K</spectralClass>
         <subtype>2.0</subtype>
         <luminosity>v</luminosity>
@@ -101611,8 +101611,8 @@ Earthwerks Incorporated</desc>
         <id>Tigress</id>
         <name>Tigress</name>
         <sysPos>4</sysPos>
-        <spectralType>?7V</spectralType>
-        <spectralClass>?</spectralClass>
+        <spectralType>G7V</spectralType>
+        <spectralClass>G</spectralClass>
         <subtype>7.0</subtype>
         <luminosity>V</luminosity>
         <satellite>Jarvic</satellite>
