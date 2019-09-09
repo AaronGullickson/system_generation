@@ -85,7 +85,7 @@ for(i in 1:xml_length(planets)) {
   cat(paste(id,"\n\treading in XML data..."))
   
   #system information
-  star <- toupper(xml_text(xml_find_first(planet, "spectralType")))
+  star <- xml_text(xml_find_first(planet, "spectralType"))
   sys_pos <- as.numeric(xml_text(xml_find_first(planet, "sysPos")))
   
   #planetary information - is this all Canon? 
@@ -225,19 +225,10 @@ for(i in 1:xml_length(planets)) {
   faction_type <- get_faction_type(faction)
   
   #Check for bad stellar types and correct
-  if(!is.na(star)) {
-    spectral_class <- substr(star,1,1)
-    subtype <- as.numeric(substr(star,2,2))
-    star_size <- substring(star, 3)
-    
-    if(is.na(star_size) | !(spectral_class %in% c("A","B","F","G","K","M")) | 
-       is.na(subtype) | subtype <0 | subtype>9 |
-       is.na(star_size) | nchar(star_size)==0 | 
-       !(star_size %in% c("Ia","Ib","II","III","IV","V","VI","VII"))) {
-      star <- NULL
-    }
-    
-  } else {
+  if(is.na(star)) {
+   star <- NULL
+  } else if(!is_star_valid(star)) {
+    warning(paste("star type of", star, "not valid for", id))
     star <- NULL
   }
 
@@ -274,10 +265,13 @@ for(i in 1:xml_length(planets)) {
   if(!is.na(roman)) {
     canon_pos <- convert_roman2arabic(roman)
   }
-  #now look for arabic numbering
-  arabic <- str_trim(str_extract(temp, "\\s+\\d+$"))
-  if(!is.na(arabic)) {
-    canon_pos <- as.numeric(arabic)
+  #now look for arabic numbering - it turns out this is problematic because it is used for 
+  #things like Star Cluster 643. The only valid case we have at the moment is Baker 3 so
+  #lets just look for that specifically
+  #arabic <- str_trim(str_extract(temp, "Baker 3$"))
+  #if(!is.na(arabic)) {
+  if(grepl("^Baker 3$", name)) {
+    canon_pos <- 3
   }
   if(!is.na(sys_pos)) {
     canon_pos <- sys_pos
@@ -285,10 +279,14 @@ for(i in 1:xml_length(planets)) {
   
   cat("done\n\tGenerating base system and colonization data...")
   
-  system <- generate_system_names(add_colonization(generate_system(star=star, habit_pos=canon_pos), 
-                                                   distance_terra, 3047, founding_year,
-                                                   faction_type, abandon_year), 
-                                  id)
+  #base system
+  system <- generate_system(star=star, habitable=TRUE, habit_pos=canon_pos)
+  #add colonization
+  system <- add_colonization(system, distance_terra, 3047, founding_year,
+                             faction_type, abandon_year)
+  #name stuff
+  system <- generate_system_names(system, id)
+  
   primary_slot <- which(system$planets$population==max(system$planets$population, na.rm=TRUE))[1]
   
   #### Output XML ####

@@ -57,7 +57,11 @@ generate_system_names <- function(system, id=NA) {
   #determine if this system has a numbering system and if so, number the planets
   use_roman_planet_numbering <- grepl("\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV)$", 
                                       nationality$founding_name)
-  use_arabic_planet_numbering <- grepl("\\s+\\d+$", nationality$founding_name)
+  #this is problematic because of things like Star Cluster 643. It turns out only Baker 3 uses
+  #this in our data, so just change that one. 
+  #use_arabic_planet_numbering <- grepl("\\s+\\d+$", nationality$founding_name)
+  use_arabic_planet_numbering <- grepl("^Baker 3$", nationality$founding_name)
+  
   #get base name for numbering
   base_name <- ""
   if(use_roman_planet_numbering) {
