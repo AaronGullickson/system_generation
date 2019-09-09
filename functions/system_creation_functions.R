@@ -2204,6 +2204,24 @@ project_recharge <- function(recharge_current, faction_type, founding_year, sics
 
 #### Utility Functions ####
 
+#choose best planet for a waystation
+
+choose_waystation <- function(system) {
+  giant_idx <- which(system$planets$moons_giant>0 & system$planets$moons_giant==max(system$planets$moons_giant))
+  large_idx <- which(system$planets$moons_large>0 & system$planets$moons_large==max(system$planets$moons_large))
+  medium_idx <- which(system$planets$moons_medium>0 & system$planets$moons_medium==max(system$planets$moons_medium))
+  if(length(giant_idx)>0) {
+    return(sample(giant_idx, 1))
+  } else if(length(large_idx)>0) {
+    return(sample(large_idx, 1))
+  } else if(length(medium_idx)>0) {
+    return(sample(medium_idx, 1))
+  } else {
+    #randomly choose
+    return(sample(1:nrow(system$planets), 1))
+  }
+}
+
 #distance to border for a given faction
 distance_to_border <- function(x0,y0,faction) {
   

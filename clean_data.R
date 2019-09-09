@@ -14,9 +14,13 @@ planets <- read_xml(here("input","planets.xml"))
 #events <- read_xml(here("input","0002_planetevents.xml"))
 connectors <- read_xml(here("input","1000_connectors.xml"))
 
+#load in waystation information for identification
+waystation_id <- as.character(read.csv(here("input","waystations.csv"))$id)
+
 #now run through planets and separate out the events as well
 #as connectors
 new_planets <- xml_new_document() %>% xml_add_child("planets")
+waystations <- xml_new_document() %>% xml_add_child("planets")
 new_events <- xml_new_document() %>% xml_add_child("planets")
 
 for(i in 1:xml_length(planets)) {
@@ -45,7 +49,7 @@ for(i in 1:xml_length(planets)) {
    
   # Check for connector
   name <- xml_text(xml_find_first(planet, "name"))
-  if(grepl("^(DPR|ER|KC|TFS|NP|NC|HL|JF|Interstellar Expeditions|Cambridge Perimeter Defense|RWR Outpost|Transfer Station|Wolf Orbital|Transfer Facility)", name)) {
+  if(grepl("^(DPR|ER|KC|TFS|NP|NC|HL|JF|EC821-387D)", name)) {
      xml_add_child(connectors, planet)
      next
   }
@@ -53,7 +57,12 @@ for(i in 1:xml_length(planets)) {
   # 
   # If we are still here cycle through nodes and spit out results to the 
   # new file
-  planet_node <- xml_add_child(new_planets, "planet")
+  #check to see if its a waystation
+  if(id %in% waystation_id) {
+    planet_node <- xml_add_child(waystations, "planet")
+  } else {
+    planet_node <- xml_add_child(new_planets, "planet")
+  }
   for(node in xml_children(planet)) {
     #run a check on names to get rid of parenthetical stuff for planet number 
     #or name changes
@@ -87,6 +96,7 @@ for(i in 1:xml_length(planets)) {
 }
 
 cat(as.character(new_planets), file = here("output","planets_initial.xml"))
+cat(as.character(waystations), file = here("output","waystations.xml"))
 cat(as.character(new_events), file = here("output","planetevents_initial.xml"))
 
 #ok clean up connectors now
