@@ -85,7 +85,7 @@ for(i in 1:xml_length(planets)) {
   cat(paste(id,"\n\treading in XML data..."))
   
   #system information
-  star <- toupper(xml_text(xml_find_first(planet, "spectralType")))
+  star <- xml_text(xml_find_first(planet, "spectralType"))
   sys_pos <- as.numeric(xml_text(xml_find_first(planet, "sysPos")))
   
   #planetary information - is this all Canon? 
@@ -225,20 +225,10 @@ for(i in 1:xml_length(planets)) {
   faction_type <- get_faction_type(faction)
   
   #Check for bad stellar types and correct
-  if(!is.na(star)) {
-    spectral_class <- substr(star,1,1)
-    subtype <- as.numeric(substr(star,2,2))
-    star_size <- substring(star, 3)
-    
-    if(is.na(star_size) | !(spectral_class %in% c("A","B","F","G","K","M")) | 
-       is.na(subtype) | subtype <0 | subtype>9 |
-       is.na(star_size) | nchar(star_size)==0 | 
-       !(star_size %in% c("Ia","Ib","II","III","IV","V","VI","VII"))) {
-      star <- NULL
-      warning(paste("Invalid star information provided for", id, star))
-    }
-    
-  } else {
+  if(is.na(star)) {
+   star <- NULL
+  } else if(!is_star_valid(star)) {
+    warning(paste("star type of", star, "not valid for", id))
     star <- NULL
   }
 
