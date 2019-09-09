@@ -45,7 +45,7 @@ for(i in 1:xml_length(planets)) {
    
   # Check for connector
   name <- xml_text(xml_find_first(planet, "name"))
-  if(grepl("^(DPR|ER|KC|TFS|NP|NC|HL|JF)", name)) {
+  if(grepl("^(DPR|ER|KC|TFS|NP|NC|HL|JF|EC821-387D)", name)) {
      xml_add_child(connectors, planet)
      next
   }
