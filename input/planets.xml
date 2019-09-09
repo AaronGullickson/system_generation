@@ -41511,6 +41511,10 @@ In the 31st century Greeley gained some importance as the Federated Suns establi
         <zenithCharge>false</zenithCharge>
         <faction>UND</faction>
         <event>
+            <date>2850-01-01</date>
+            <faction>IND</faction>
+        </event>
+        <event>
             <date>3049-01-01</date>
             <faction>CNC</faction>
         </event>
@@ -75826,6 +75830,10 @@ Cosara Weaponries</desc>
         <zenithCharge>false</zenithCharge>
         <faction>UND</faction>
         <event>
+            <date>2900-01-01</date>
+            <faction>IND</faction>
+        </event>
+        <event>
             <date>3049-01-01</date>
             <faction>CSJ</faction>
         </event>
@@ -94828,6 +94836,10 @@ Tengo Aerospace</desc>
         <nadirCharge>false</nadirCharge>
         <zenithCharge>false</zenithCharge>
         <faction>UND</faction>
+        <event>
+            <date>2900-01-01</date>
+            <faction>IND</faction>
+        </event>
         <event>
             <date>3049-01-01</date>
             <faction>CJF</faction>
