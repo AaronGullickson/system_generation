@@ -767,6 +767,26 @@ for(recol_id in recol_ids) {
       }
     }
     
+    if(faction_table$event[1]=="IE") {
+      #this is just an Interstellar Expeditions Archeology site, so
+      #treat it like a waystation
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(recol_id),
+                         sys_pos=planet$primary_slot,
+                         date=paste(founding_year,"01","01",sep="-"),
+                         etype="population",
+                         event=paste(round(sample(c(500,1000), 1)*runif(1, 0.5, 2))),
+                         canon=FALSE))
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(recol_id),
+                         sys_pos=planet$primary_slot,
+                         date=paste(founding_year,"01","01",sep="-"),
+                         etype="socioIndustrial",
+                         event="B-X-X-X-X",
+                         canon=FALSE))
+      next
+    }
+    
     #POPULATION
     p2750 <- NULL
     p3025 <- NULL
