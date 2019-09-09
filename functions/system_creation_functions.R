@@ -12,27 +12,17 @@ load(here("output","habitable_zones.RData"))
 
 generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
   
-  force_canon_pos <- NA
+  if(!is.null(star) && (is.na(star) || !is_star_valid(star))) {
+    warning("Star type of", star, "invalid")
+    star <- NULL
+  }
   
+  #check whether canon position is valid
+  force_canon_pos <- NA
   if(!is.null(star)) {
-    #break apart stype to make sure it makes sense
     spectral_class <- substr(star,1,1)
     subtype <- as.numeric(substr(star,2,2))
     star_size <- substring(star, 3)
-    
-    if(is.na(star_size) | !(spectral_class %in% c("A","B","F","G","K","M"))) {
-      warning("Invalid spectral class provided.")
-      star <- NULL
-    }
-    if(is.na(subtype) | subtype <0 | subtype>9) {
-      warning("Invalid subtype provided.")
-      star <- NULL
-    }
-    if(is.na(star_size) | nchar(star_size)==0 | 
-       !(star_size %in% c("Ia","Ib","II","III","IV","V","VI","VII"))) {
-      warning("Invalid star size provided.")
-      star <- NULL
-    }
     
     #what are the possible habitable positions for this star type?
     possible_hpos <- NA
@@ -46,14 +36,8 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
     if(!is.na(habit_pos) && habitable && !(habit_pos %in% possible_hpos)) {
       #mismatch! Damn you FASA!
       #we want to keep the canonicity here even at the expense of SCIENCE, so
-      #we the plan is to generate a system as normal and then swap one of the
-      #inhabited slots with our canon position. There are two complications to consider
-      #with this.
-      #1 - we need a system with at least as many slots as the canon position, and probably
-      #    a few more to account for asteroid belts
-      #2 - we need to account for asteroid belts as they could occur between the actual
-      #    inhabited slot and the one we want. 
-      
+      #we generate a system as normal and then swap one of the inhabited slots with our canon position. 
+
       #change force_canon_pos to canon_pos
       force_canon_pos <- habit_pos
       
@@ -1199,6 +1183,19 @@ add_colonization <- function(system, distance_terra, current_year,
   return(system)
 }
 
+is_star_valid <- function(star) {
+  spectral_class <- substr(star,1,1)
+  subtype <- as.numeric(substr(star,2,2))
+  star_size <- substring(star, 3)
+  
+  if(is.na(spectral_class) || !(spectral_class %in% c("A","B","F","G","K","M")) | 
+     (is.na(subtype) || subtype <0 || subtype>9) |
+     (is.na(star_size) || nchar(star_size)==0 ||
+      !(star_size %in% c("Ia","Ib","II","III","IV","V","VI","VII")))) {
+    return(FALSE)
+  }
+  return(TRUE)
+}
 
 #### Population Projection Functions ####
 
