@@ -23,9 +23,12 @@ options(nwarnings = 1000)
 
 planets <- read_xml(here("output","planets_initial.xml"))
 connectors <- read_xml(here("output","connectors_initial.xml"))
+waystations <- read_xml(here("output","waystations.xml"))
 events <- read_xml(here("output","planetevents_initial.xml"))
 name_changes <- read_xml(here("input","0999_namechanges.xml"))
 canon_populations <- read.csv(here("input","canon_populations.csv"), row.names=1)
+waystation_data <- read.csv(here("input","waystations.csv"))
+
 
 planet.table <- NULL
 target.year <- 3047
@@ -873,6 +876,198 @@ for(recol_id in recol_ids) {
 }
 cat("done\n")
 
+#### Generate Waystations ####
+
+cat("Generating Waystation Systems")
+
+for(i in 1:xml_length(waystations)) {
+
+  #technical identification
+  planet <- xml_children(waystations)[[i]]
+  id <- xml_text(xml_find_first(planet, "id"))
+  name <- xml_text(xml_find_first(planet, "name"))
+  x <- as.numeric(xml_text(xml_find_first(planet, "xcood")))
+  y <- as.numeric(xml_text(xml_find_first(planet, "ycood")))
+
+  cat(id)
+  
+  #system information
+  star <- xml_text(xml_find_first(planet, "spectralType"))
+  sys_pos <- as.numeric(xml_text(xml_find_first(planet, "sysPos")))
+  
+  #planetary information
+  life <- xml_text(xml_find_first(planet, "lifeForm"))
+  water <- xml_text(xml_find_first(planet, "percentWater"))
+  gravity <- as.numeric(xml_text(xml_find_first(planet, "gravity")))
+  temperature <- xml_text(xml_find_first(planet, "temperature"))
+  pressure <- factor(xml_text(xml_find_first(planet, "pressure")),
+                     levels=0:5,
+                     labels=c("Vacuum","Trace","Low","Normal","High","Very High"))
+  landmasses <- xml_find_all(planet, "landMass")
+  continents <- NULL
+  for(landmass in landmasses) {
+    continents <- c(continents, xml_text(landmass))
+  }
+  moons <- NULL
+  satellites <- xml_find_all(planet, "satellite")
+  for(satellite in satellites) {
+    moons <- c(moons, xml_text(satellite))
+  }
+  
+  #check for faction change events
+  faction_table <- get_event_data(events, id, "faction")
+  desc <- xml_text(xml_find_first(planet, "desc"))
+  
+  #Check for bad stellar types and correct
+  if(is.na(star)) {
+    star <- NULL
+  } else if(!is_star_valid(star)) {
+    warning(paste("star type of", star, "not valid for", id))
+    star <- NULL
+  }
+  
+  #check whether a surface base or orbital
+  surface_base <- FALSE
+  temp <- trimws(as.character(waystation_data[waystation_data$id==id, "type"]))
+  if(length(temp)==1) {
+    surface_base <- temp[1] == "surface"
+  }
+  
+  #if not a surface base then sys_pos is not relevant, but save for primary_slot
+  primary_slot <- NA
+  if(!surface_base) {
+    primary_slot <- sys_pos
+    sys_pos <- NA
+  }
+  
+  ## create the system
+  system <- generate_connector_names(generate_system(star=star, habitable=surface_base, habit_pos=sys_pos))
+  
+  if(surface_base) {
+    primary_slot <- which(system$planets$inhabitable)[1]
+  } else {
+    if(is.na(primary_slot)) {
+      primary_slot <- choose_waystation(system)
+    }
+  }
+  
+  ## write planet information to system
+  system_node <- xml_add_child(systems, "system")
+  write_system_xml(system_node, system, id, x, y, primary_slot,
+                   star, gravity, pressure, temperature, water, 
+                   life, continents, moons, desc)
+  
+  #Now just cycle through faction events and for each one generate events that 
+  #include a population, SIC, HPG, and recharge as appropriate
+  
+  #create a system node
+  system_event_node <- xml_add_child(systems_events, "system")
+  xml_add_child(system_event_node, "id", id)
+  
+  for(i in 1:nrow(faction_table)) {
+    date <- as.character(faction_table$date[i])
+    faction <- faction_table$event[i]
+    
+    event_table <- event_table %>% 
+      bind_rows(tibble(id=as.character(id),
+                       sys_pos=primary_slot,
+                       date=date,
+                       etype="faction",
+                       event=as.character(faction),
+                       canon=TRUE))
+    
+    #check for abandonment
+    if(faction=="ABN") {
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=primary_slot,
+                         date=date,
+                         etype="population",
+                         event="0",
+                         canon=FALSE))
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=primary_slot,
+                         date=date,
+                         etype="socioIndustrial",
+                         event="X-X-X-X-X",
+                         canon=FALSE))
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=primary_slot,
+                         date=date,
+                         etype="hpg",
+                         event="X",
+                         canon=FALSE))
+      #uncomment if we decide to add recharge stations
+      # event_table <- event_table %>% 
+      #   bind_rows(tibble(id=as.character(id),
+      #                    sys_pos=0,
+      #                    date=date,
+      #                    etype="nadirCharge",
+      #                    event="FALSE",
+      #                    canon=FALSE))
+      # event_table <- event_table %>% 
+      #   bind_rows(tibble(id=as.character(id),
+      #                    sys_pos=0,
+      #                    date=date,
+      #                    etype="zenithCharge",
+      #                    event="FALSE",
+      #                    canon=FALSE))
+    } else {
+      faction_type <- get_faction_type(faction)
+      
+      #figure out population
+      pop <- round(sample(c(500,1000,1000,5000), 1)*runif(1, 0.5, 2))
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=primary_slot,
+                         date=date,
+                         etype="population",
+                         event=paste(pop),
+                         canon=FALSE))
+      
+      #figure out SICS
+      if(faction_type=="Clan") {
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=primary_slot,
+                           date=date,
+                           etype="socioIndustrial",
+                           event="A-X-X-X-X",
+                           canon=FALSE))
+      } else {
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=primary_slot,
+                           date=date,
+                           etype="socioIndustrial",
+                           event="B-X-X-X-X",
+                           canon=FALSE))
+      }
+      
+      #figure out HPG
+      #only for Clan and Comstar/WoB
+      if(faction_type=="Clan" | faction=="CS" | faction=="WOB") {
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=primary_slot,
+                           date=date,
+                           etype="hpg",
+                           event="A",
+                           canon=FALSE))
+      }
+      
+      #figure out recharge stations
+      #I am assuming no recharge stations
+      
+    }
+  }
+  cat("\n")
+}
+
+cat("Done\n")
+
 #### Write Event Data to XML ####
 
 cat("\nWriting event data to XML\n")
@@ -886,6 +1081,7 @@ event_table <- event_table[!duplicated(event_table[,c("id","sys_pos","date","ety
 
 unique_ids <- unique(event_table$id)
 for(uid in unique_ids) {
+  cat(uid)
   unique_pos <- unique(subset(event_table, id==uid)$sys_pos)
   system_event_node <- get_system_id(systems_events, uid)[[1]]
   for(upos in unique_pos) {
@@ -921,6 +1117,7 @@ for(uid in unique_ids) {
       }
     }
   }
+  cat("\n")
 }
 cat("done\n")
 
