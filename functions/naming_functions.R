@@ -48,6 +48,7 @@ load(here("name_generation","output","myth_sample.RData"))
 load(here("name_generation","output","places_sample.RData"))
 load(here("name_generation","output","surnames.RData"))
 load(here("name_generation","output","name_corr.RData"))
+load(here("name_generation","output","flavor_data.RData"))
 nationalities <- read.csv(here("name_generation/output/name_nationality.csv"))
 
 generate_system_names <- function(system, id=NA) {
@@ -148,14 +149,14 @@ sample_names <- function(n, object_type, nationality, continuity=0.8) {
     if(source=="place") {
       names[which(sources==source)] <- add_flavor(sample_place_name(tab[i], 
                                                                     as.character(nationality$country_iso)),
-                                                  object_type, "place")
+                                                  object_type, "place", nationality$lgroup)
     } else if(source=="surname") {
       names[which(sources==source)] <- add_flavor(sample_surname(tab[i], 
                                                                  as.character(nationality$lgroup)),
-                                                  object_type, "surname")
+                                                  object_type, "surname", nationality$lgroup)
     } else if(source=="mythological") {
       names[which(sources==source)] <- add_flavor(sample_myth_name(tab[i]),
-                                                  object_type, "mythological")
+                                                  object_type, "mythological", nationality$lgroup)
     } else {
       #sequence 
       #TODO: allow this for moons but force perfect continuity
@@ -234,35 +235,55 @@ sample_surname <- function(n=1, l=NULL) {
 }
 
 
+sub_flavor <- function(name, flavor) {
+  return(sub("\\[NAME\\]",name,sample(flavor$name, 1, prob = flavor$frequency)))
+}
+
 #A function that adds flavor to the random names by source and type
-add_flavor <- function(names, type, source) {
-  
-  #some ideas so far
-  #attach New in front of place names
-  #Attach "City" or something similar on the end of capital cities
-  #use a duplicate landmass name, but one is Big and the other Small
-  #Turn surnames into possessives followed by things like Mistake, Meridian, Hold, etc.
-  #I could even use a translation package to translate into other languages
+add_flavor <- function(names, type, source, language) {
   
   for(i in 1:length(names)) {
-    if(source=="place" & (type=="city" | type=="continent")) {
-      roll <- sample(1:100,1)
-      if(roll <= 33) {
-        names[i] <- paste("New", names[i], sep=" ")
-      } else if(roll <= 38) {
-        names[i] <- paste("Neo", names[i], sep="-")
+    if(type=="planet") {
+      if(source=="surname" && sample(1:3,1)==1) {
+        #1 in 3 chance of addition flavor
+        names[i] <- sub_flavor(names[i], 
+                               subset(surname_flavor, is.na(lgroup) | lgroup==language))
+      }
+      if(source=="place" && sample(1:3,1)==1) {
+        #1 in 3 chance of flavor
+        names[i] <- sub_flavor(names[i], 
+                               subset(new_flavor, is.na(lgroup) | lgroup==language))
+      }
+    }
+    if(type=="continent") {
+      if(source=="surname" && sample(1:4,1)==1) {
+        #1 in 4 chance of addition flavor
+        names[i] <- sub_flavor(names[i], 
+                               subset(surname_flavor, is.na(lgroup) | lgroup==language))
+      }
+      if(source=="place" && sample(1:3,1)==1) {
+        #1 in 3 chance of New flavor
+        names[i] <- sub_flavor(names[i], 
+                               subset(new_flavor, is.na(lgroup) | lgroup==language))
       }
     }
     if(type=="city") {
-      if(sample(1:10, 1)<=3) {
-        names[i] <- paste(names[i], "City", sep=" ")
-      } else if(sample(1:10,1)<=1) {
-        if(!grepl("\\s", names[i]) & sample(1:10,1)<=5) {
-          names[i] <- paste(names[i], "town", sep="")
-        } else {
-          names[i] <- paste(names[i], "Town", sep=" ")
+      if(source=="surname" && sample(1:3,1)>1) {
+        names[i] <- sub_flavor(names[i], 
+                               subset(city_flavor, is.na(lgroup) | lgroup==language))
+        #some additional chance of New flavor as well
+        if(sample(1:5,1)==1) {
+          names[i] <- sub_flavor(names[i], subset(new_flavor, is.na(lgroup) | lgroup==language))
         }
       }
+      if(source=="place"  && sample(1:3,1)>1) {
+        #1 in 3 chance of New flavor
+        names[i] <- sub_flavor(names[i], 
+                               subset(new_flavor, is.na(lgroup) | lgroup==language))
+      }
+    }
+    if(type=="moon") {
+      ##nothing here yet
     }
   }
   
