@@ -1153,7 +1153,14 @@ for(uid in unique_ids) {
       } else {
         #write the event group to XML
         event <- xml_add_child(top_node, "event")
-        xml_add_child(event, "date", as.character(event_group$date[1]))
+        date <- as.character(event_group$date[1])
+        ##dont randomize day and month for singular SIC or population change
+        if(nrow(event_group)>1 || 
+           (event_group$etype[1]!="socioIndustrial" && event_group$etype[1]!="population")) {
+          date <- randomize_date(date)
+          cat(date)
+        }
+        xml_add_child(event, "date", date)
         for(j in 1:nrow(event_group)) {
           if(event_group$canon[j]) {
             xml_add_child(event, event_group$etype[j], event_group$event[j], source="canon")

@@ -384,3 +384,17 @@ write_system_xml <- function(system_node, system, id, x, y, primary_slot=0,
     }
   }
 }
+
+randomize_date <- function(date) {
+  date <- as.character(date)
+  year <- substr(date, 1, 4)
+  month <- substr(date, 6, 7)
+  day <- substr(date, 9, 10)
+  if(day=="01" & month=="01") {
+    #choose a random year within this group
+    return(as.character(sample(seq(as.Date(date), 
+                                   as.Date(paste(year, 12, 31, sep="-")), 
+                                   by = "day"),1)))
+  }
+  return(date)
+}
