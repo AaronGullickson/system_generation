@@ -1,4 +1,3 @@
-#readr package to the rescue
 library(readr)
 library(here)
 library(magrittr)
@@ -7,6 +6,8 @@ library(googlesheets)
 #this is needed to authenticate, but will spit an error
 gs_ls()
 sheets <- gs_title("bad_place_names")
+
+#### Read in place data ####
 
 place_names <- read_delim(here("name_generation","output","place_names.tsv.gz"), 
                           "\t", escape_double = FALSE, col_names = FALSE, 
@@ -58,23 +59,16 @@ places$weight[TF] <- 2*places$weight[TF]
 
 #log the weight
 places$weight <- log(places$weight)
-
-#TODO: check missing values on weight
-
-## Do a bunch of clean up at least on English language stuff to remove excess
-
-#
+places <- subset(places, !is.na(weight))
 
 
+#### Clean up the data ####
 
 #anything with a / get rid of what comes after. 
 places$name <- trimws(gsub("/.*","", places$name))
 
 #remove any cases with numbers, pipe, or comma in them
 places <- places[grepl("\\d+|\\||\\,|\\’|\\‘",places$name)==FALSE,]
-
-places <- places[grepl("Northern|Southern|Western|Eastern|Council|National Capitol|Community|Central",places$name, 
-                       ignore.case = TRUE)==FALSE,]
 
 #remove anything in parenthesis
 places$name <- trimws(gsub("\\(.*?\\)","", places$name))
@@ -90,7 +84,6 @@ places$name <- stri_trim_both(stri_replace_all_regex(places$name, paste(bad_word
 #get rid of any of, and, du, de, di, etc. if they are at the beginning of term
 places$name <- trimws(gsub("^\\s?(and|of|du|di|de|del)", "", places$name))
 
-
 #this one is causing problems in combination
 places$name <- trimws(gsub("\\sSum$",  "", places$name))
 
@@ -100,10 +93,11 @@ places$name <- trimws(places$name)
 #remove any single letters or blanks
 places <- places[nchar(places$name)>1,]
 
+#### Organize and Save the Data #### 
+
 #combine same names together with max of weight
 places <- places[order(places$weight, decreasing = TRUE),]
 places <- places[duplicated(places[,c("name","country")])==FALSE,]
-
 
 places_sample <- as.data.frame(subset(places, select = c("name","country","weight")))
 places_sample <- places_sample[order(places_sample$country, places_sample$name),]
