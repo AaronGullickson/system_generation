@@ -40,8 +40,23 @@ sum(temp=FALSE)
 name_corr$lgroup[name_corr$country_iso=="US"] <- "U.S."
 name_corr$lgroup[name_corr$country_name=="Ireland"] <- "Irish"
 
-name_corr[is.na(name_corr$lgroup) & !is.na(name_corr$country_name),]
-#TODO: fill in languages and language groups for these cases
+## replace missing values for a few language/language groups
+#Cook Islands
+name_corr$language[name_corr$country_iso=="CK"] <- "Maori"
+name_corr$lgroup[name_corr$country_iso=="CK"] <- "Polynesian"
+#French Polynesia
+name_corr$language[name_corr$country_iso=="PF"] <- "French"
+name_corr$lgroup[name_corr$country_iso=="PF"] <- "French"
+#Thule is listed as Greenland, but I think should be left as is (its mythological)
+#Guernsey
+name_corr$language[name_corr$country_iso=="GG"] <- "English"
+name_corr$lgroup[name_corr$country_iso=="GG"] <- "English"
+#Isle of Man
+name_corr$language[name_corr$country_iso=="IM"] <- "English"
+name_corr$lgroup[name_corr$country_iso=="IM"] <- "English"
+#Saint Helena
+name_corr$language[name_corr$country_iso=="SH"] <- "English"
+name_corr$lgroup[name_corr$country_iso=="SH"] <- "English"
 
 #TODO: fill in mythology connection
 
