@@ -211,9 +211,15 @@ sample_place_name <- function(n=1, c=NULL) {
 
 sample_myth_name <- function(n=1, c=NULL) {
   #we will use relative odds to sample pantheons. 
-  odds <- c(5,1,3,3,10,15,5,10,1,3,5,25,15,5,10,5,10,5,5,20,5,20,10,5,5,5,1)
-  if(!is.null(c) && !is.na(c)) {
-    #TODO: Based on correspondence tables, some odds may be increased
+  odds <- c(5,1,3,3,1,15,10,10,1,3,5,25,3,10,10,3,10,5,5,20,5,20,10,5,5,1,1)
+  names(odds) <-unique(myth_sample$pantheon)
+  if(!is.null(c)) {
+    if(!is.na(c$myth1) && c$myth1 %in% names(odds)) {
+      odds[c$myth1] <- odds[c$myth1] * 8
+    }
+    if(!is.na(c$myth2) && c$myth2 %in% names(odds)) {
+      odds[c$myth2] <- odds[c$myth2] * 4
+    }
   }
   p <- sample(unique(myth_sample$pantheon), 1, prob = odds)
   sample_pantheon <- subset(myth_sample, pantheon==p)
