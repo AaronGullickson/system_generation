@@ -4,43 +4,6 @@
 # moons
 # planets
 
-#What resources will we draw on to grab a random name?
-# actual world place names (with some probability of getting the occasional "New")
-# mythological names TODO: add mythological places to this list
-# surnames, perhaps applied with some kind of desriptor (e.g. Jackson's Mistake))
-# TODO: Some sort of numeric coding for things that they never bothered to name
-# TODO: a grab bag of somewhat random easter egg names
-
-#each of the types should probably have a different distribution. For example,
-#planets and moons should be more likely to pull mythological names, while cities and 
-#landmasses should be more likely to be named after actual places or by surname
-
-#There should be some relatively high but not perfect consistency. So if you name 
-#one planet after a god, likely you will name other planets after a god in the same
-#pantheon. If you name one landmass after a place in a given country, more likely to
-#name other landmasses by other places in that country, etc. 
-
-#load the data for the random draws in at the base of this script so it doesn't need
-#to be loaded every time the function is loaded
-
-#I will need to set up some data matrices that allows me to convert country id codes
-#into likely mythological pantheons and surname groups
-
-#some chance for moons to be just named by a number of something. Maybe some chance for 
-#continents to be named like this as well (e.g. "One" and "Two"; "A" and "B")
-
-#basic set up
-# read in country code for a given planet
-# check to see if planet is named by numerals. if so, then just assign all planets the 
-# same numeral system
-# Cycle through and name planets based on some probability of being named in a certain
-# way. Based on first method chosen, give some higher probability to continue using this
-# method.
-# Within each planet, cycle through and name moons. Probably a higher probability of naming
-# in the same way as the planet
-# Landmasses similarly and capital city should be tied in, but may have different probs. 
-
-
 library(wrswoR)
 library(here)
 library(stringi)
@@ -113,6 +76,15 @@ generate_system_names <- function(system, id=NA) {
     }
   }
   
+  # TODO: easter eggs
+  # New Chehalis somewhere
+  # Dortmund's capital city is Neu Schwarzgelben City
+  # Koln's capital city is Beerockxstadt
+  # Somewhere in periphery named Korriban
+  # Something named Easter Egg
+  # colony/city name Tanstaafl - Short of There ain't no such thing as a free lunch
+  # capital named Corsucant
+  
   return(system)
 }
 
@@ -121,8 +93,7 @@ sample_names <- function(n, object_type, nationality, continuity=0.8) {
   #probability of name type by object type
   #name types are place, surname, mythological, sequence
   #types of object are planet, moon, landmass, city
-  #TODO: distinguish habitable planets from non, for naming purposes
-  probs <- cbind(c( 5,35,10, 5),
+  probs <- cbind(c(40,40,15, 5),
                  c(10,25,35,20),
                  c(53,40, 5, 2),
                  c(55,40, 5, 0))
