@@ -681,12 +681,17 @@ for(i in 1:nrow(hpg_data)) {
                              hpg$founding_year,
                              as.character(hpg$faction_type),
                              hpg$abandon_year)
+  hpg_history$day <- "01"
+  hpg_history$month <- "01"
+  #if 3132 and X assume Gray Monday August 7
+  hpg_history$day[hpg_history$year==3132 & hpg_history$hpg=="X"] <- "07"
+  hpg_history$month[hpg_history$year==3132 & hpg_history$hpg=="X"] <- "08"
   
   #add to event_table
   event_table <- event_table %>% 
     bind_rows(tibble(id=as.character(hpg$id),
                      sys_pos=primary,
-                     date=paste(hpg_history$year,"01","01",sep="-"),
+                     date=paste(hpg_history$year, hpg_history$month, hpg_history$day, sep="-"),
                      etype="hpg",
                      event=paste(hpg_history$hpg),
                      canon=hpg$canon))
@@ -869,12 +874,17 @@ for(recol_id in recol_ids) {
                                founding_year,
                                as.character(faction_type),
                                abandon_year)
+    hpg_history$day <- "01"
+    hpg_history$month <- "01"
+    #if 3132 and X assume Gray Monday August 7
+    hpg_history$day[hpg_history$year==3132 & hpg_history$hpg=="X"] <- "07"
+    hpg_history$month[hpg_history$year==3132 & hpg_history$hpg=="X"] <- "08"
     
     #add to event_table
     event_table <- event_table %>% 
       bind_rows(tibble(id=as.character(recol_id),
                        sys_pos=planet$primary_slot,
-                       date=paste(hpg_history$year,"01","01",sep="-"),
+                       date=paste(hpg_history$year, hpg_history$month, hpg_history$day, sep="-"),
                        etype="hpg",
                        event=paste(hpg_history$hpg),
                        canon=FALSE))

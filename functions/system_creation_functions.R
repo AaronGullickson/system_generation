@@ -1891,19 +1891,6 @@ interpolate_sics <- function(sics_start, sics_end, start_year, end_year,
 # Clans should be handled differently. All Clans should be A from date of colony founding. Also might
 # need to check some periphery dates. 
 
-## Ok, thinking this through some more and I think we should probably just see what A-rated HPGs we 
-## have in Canon currently and then use some kind of different technique entirely to find remaining A-rated
-## HPGs to get to 50 with good coverage in Inner Sphere/Periphery. Then downgrade all generated HPGs 
-## to B-rated in automatic generation if they came in as A-rated. Then, the following:
-## 1. Upgrade pre-selected planets to A-rated. 
-## 2. Find founding date of HPG for all planets. All Periphery and IS planets get B-rated Should depend on range from Terra, but First Circuit will 
-##    be faster
-## 3. Some chance of destruction during Amaris Coup inside Hegemony and during 1SW outside Hegemony. If 
-##    less than B now, then force destruction and figure out timing of C and D rated courier services. 
-##    Otherwise rebuild First Circuit by 2785 and all others by 2800. 
-
-## TODO: Then need to figure out Dark Age blackout
-
 project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type, abandon_year) {
   
   #build rate for things built right at start. Average build time is one over this
@@ -1991,6 +1978,14 @@ project_hpg <- function(base_hpg, distance_terra, founding_year, faction_type, a
     hpg_table <- subset(hpg_table, year<abandon_year)
     hpg_table <- rbind(hpg_table, 
                        data.frame(year=abandon_year, hpg="X"))
+  }
+  
+  ## Grey Monday - 90% go down
+  if(founding_year<=3132 && (is.na(abandon_year) || abandon_year>=3132) &&
+     (faction_type=="IS" || faction_type=="Periphery") &&
+     sample(1:10,1)<=9) {
+    hpg_table <- rbind(hpg_table, 
+                       data.frame(year=3132, hpg="X"))
   }
   
   return(hpg_table)
