@@ -68,7 +68,7 @@ generate_system_names <- function(system, id=NA) {
     if(!is.na(system$planets$population[i])) {
       if(sample(1:100,1)<=10) {
         #some chance that you just inherit the planet name plus "City"
-        system$planets$capitol_name[i] <- paste(system$planets$name, "City")
+        system$planets$capitol_name[i] <- paste(system$planets$name[i], "City")
       } else if(sample(1:100,1)<=5 && !is.na(system$planets$continent_names[i]) && 
                 nchar(system$planets$continent_names[i])>0) {
         system$planets$capitol_name[i] <- paste(strsplit(system$planets$continent_names[i], ",")[[1]][1], 
