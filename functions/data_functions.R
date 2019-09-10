@@ -329,8 +329,9 @@ write_system_xml <- function(system_node, system, id, x, y, primary_slot=0,
                       source="canon")
       }
     } else if(!is.na(planet$continents) & planet$continents>0) {
-      #pick random one to have capital
-      capital <- sample(1:planet$continents, 1)
+      #TODO: We need to report capital city when no continents
+      #Assume capital is always on first one
+      capital <- 1
       continent_names <- strsplit(planet$continent_names, ",")[[1]]
       for(k in 1:planet$continents) {
         landmass_name <- continent_names[k]
