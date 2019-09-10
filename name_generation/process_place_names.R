@@ -76,6 +76,10 @@ places$name <- trimws(gsub("D\\.C\\.|Zone|Constituency|Provinsi|Parish|Oblast'|O
 places$name <- trimws(gsub("Municipio|Department|Xã|Phường|Komuna e|Arrondissement|Opština|Cercle|Commune|Kelurahan|Desa|Administrative|Changwat|Région|Tỉnh|Provincia|Cidade|Regierungsbezirk|Peninsula|Województwo|Autonomna|Kabupaten|Ostān-e|Kota Administrasi Jakarta|Administrasi|Kota",
                            "", places$name))
 
+#TODO: I should figure out how to put all the bad words in a file
+places$name <- trimws(gsub("Kommun|socken",
+                           "", places$name))
+
 #this one is causing problems in combination
 places$name <- trimws(gsub("Muḩāfaz̧at",
                            "", places$name))
@@ -90,7 +94,6 @@ places$name <- trimws(gsub("/.*","", places$name))
 #remove any cases with numbers, pipe, or comma in them
 places <- places[grepl("\\d+|\\||\\,|\\’|\\‘",places$name)==FALSE,]
 
-#TODO: some cases to get rid of: Northern, Western, Southern, Eastern, anything with "Council" in it
 places <- places[grepl("Northern|Southern|Western|Eastern|Council|National Capitol|Community|Central",places$name, 
                        ignore.case = TRUE)==FALSE,]
 

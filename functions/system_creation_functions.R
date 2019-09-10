@@ -274,7 +274,6 @@ generate_system <- function(star=NULL, habitable=TRUE, habit_pos=NA) {
   return(list(star=stype, planets=planets))
 }
 
-#TODO: asteroid belt characteristics
 generate_planet <- function(radius, habitable_system, system_data, more_gradation=TRUE,
                             allow_empty=TRUE) {
  

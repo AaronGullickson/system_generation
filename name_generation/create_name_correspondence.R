@@ -40,11 +40,9 @@ sum(temp=FALSE)
 name_corr$lgroup[name_corr$country_iso=="US"] <- "U.S."
 name_corr$lgroup[name_corr$country_name=="Ireland"] <- "Irish"
 
-##TODO: our geocoder did not separate out scotland in the United Kingdom
-
 name_corr[is.na(name_corr$lgroup) & !is.na(name_corr$country_name),]
 #TODO: fill in languages and language groups for these cases
 
-#for mythology the one selected will increase the odds of those selected by a factor of 10. If NA, then just use the default
+#TODO: fill in mythology connection
 
 save(name_corr, file=here("name_generation", "output", "name_corr.RData"))

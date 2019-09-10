@@ -76,7 +76,6 @@ for(i in 1:nrow(name_data)) {
   results <- opencage_forward(search_name, key = opencage_key())
   if(!is.null(results$results)) {
     cat(paste(" found", nrow(results$results), "possible matches"))
-    #TODO: include language info
     full_matches <- rbind(full_matches, cbind(id, search_name, 
                                               results$results[,c("components.ISO_3166-1_alpha-2",
                                                                  "components.country",

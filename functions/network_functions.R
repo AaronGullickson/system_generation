@@ -12,7 +12,7 @@ get_network <- function(hpg_data) {
   edges_matrix <- distance_matrix<=50
   diag(edges_matrix) <- FALSE
   edges <- NULL
-  #TODO: how to do this not in a for-loop
+  #probably a better non-looped way to do this but it works
   for(i in 1:nrow(edges_matrix)) {
     for(j in i:ncol(edges_matrix)) {
       if(edges_matrix[i,j]) {
