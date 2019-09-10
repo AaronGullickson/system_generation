@@ -79,6 +79,7 @@ generate_system_names <- function(system, id=NA) {
   
   ### Planets have some special things about naming
   isAsteroid <- system$planets$type=="Asteroid Belt"
+  #TODO: even for the base naming we should potentially name asteroid belts differently
   system$planets$name <- sample_names(nrow(system$planets), "planet", nationality)
   if(use_roman_planet_numbering) {
     system$planets$name[!isAsteroid] <- paste(base_name, convert_arabic2roman(1:sum(!isAsteroid)))
@@ -121,23 +122,62 @@ sample_names <- function(n, object_type, nationality, continuity=0.8) {
   #name types are place, surname, mythological, sequence
   #types of object are planet, moon, landmass, city
   #TODO: distinguish habitable planets from non, for naming purposes
-  probs <- cbind(c(0.55,0.3,0.15,0),
-                 c(0.2,0.3,0.4,0),
-                 c(0.55,0.4,0.05,0),
-                 c(0.55,0.4,0.05,0))
+  probs <- cbind(c( 5,35,10, 5),
+                 c(10,25,35,20),
+                 c(53,40, 5, 2),
+                 c(55,40, 5, 0))
   
   colnames(probs) <- c("planet","moon","continent","city")
   rownames(probs) <- c("place","surname","mythological","sequence")
 
+  #chance (out of 20) by object type that we just name one thing and then number
+  #everything else
+  #should be zero for planets, because we only do it if named planet does it
+  chance_numbered <- c(0, 10, 3, 0)
+  names(chance_numbered) <- c("planet","moon","continent","city")
+  
   sources <- NULL
-  for(i in 1:n) {
-    if(!is.null(sources) & 
-                sample(c(FALSE,TRUE), 1, prob=c(1-continuity, continuity))) {
-      #maintain continuity by sampling from available sources
-      sources <- c(sources, sample(sources, 1))      
-    } else {
-      #pick a source unconditionally
-      sources <- c(sources, sample(rownames(probs), 1, prob = probs[,object_type]))
+  
+  #choose the first source
+  sources <- sample(rownames(probs), 1, prob = probs[,object_type])
+  
+  if(sources=="sequence") {
+    #if sequence was chosen, then use sequence for everything
+    continuity <- 1
+  } else if(n > 1 & sample(1:20,1)<=chance_numbered[object_type]) {
+    #some chance we just repeat the first name drawn with some counting
+    #qualifier
+    if(sources=="place") {
+      name <- add_flavor(sample_place_name(1, 
+                                           as.character(nationality$country_iso)),
+                         object_type, "place", nationality$lgroup)
+    }
+    if(sources=="surname") {
+      name <- add_flavor(sample_surname(1, 
+                                        as.character(nationality$lgroup)),
+                         object_type, "surname", nationality$lgroup)
+    }
+    if(sources=="mythological") {
+      name <- add_flavor(sample_myth_name(1),
+                         object_type, "mythological", nationality$lgroup)
+    }
+    return(add_counter(name, n))
+  } else {
+    #lower the chance of geting a sequence later
+    probs[4,] <- probs[4,]/4
+  }
+  
+  #if we are still here then loop through and pick other sources with some
+  #likelihood of maintaing continuity
+  if(n>1) {
+    for(i in 2:n) {
+      if(sample(c(FALSE,TRUE), 1, prob=c(1-continuity, continuity))) {
+        #maintain continuity by sampling from available sources
+        sources <- c(sources, sample(sources, 1))
+      } else {
+        #pick a source unconditionally
+        sources <- c(sources, sample(rownames(probs), 1, prob = probs[,object_type]))
+      }
     }
   }
     
@@ -158,8 +198,7 @@ sample_names <- function(n, object_type, nationality, continuity=0.8) {
       names[which(sources==source)] <- add_flavor(sample_myth_name(tab[i]),
                                                   object_type, "mythological", nationality$lgroup)
     } else {
-      #sequence 
-      #TODO: allow this for moons but force perfect continuity
+      names[which(sources==source)] <- generate_sequence_names(tab[i])
     }
     
   }
@@ -288,7 +327,7 @@ add_flavor <- function(names, type, source, language) {
   }
   
   # change landmass names to big/small
-  if(type=="continent" & length(names)>=2 & sample(1:10, 1)<=1) {
+  if(type=="continent" & length(names)>=2 & sample(1:20, 1)<=3) {
     idx <- sample(1:length(names), 2, replace = FALSE)
     dupe_name <- names[idx[1]]
     roll <- sample(1:3, 1)
@@ -333,6 +372,33 @@ generate_connector_names <- function(system) {
   }
   return(system)
 }  
+
+add_counter <- function(name, n, sep=" ") {
+  greek <- c("Alpha","Beta","Gamma","Delta","Epsilon","Zeta",
+             "Eta","Theta","Iota","Kappa","Lambda","Mu","Nu",
+             "Xi","Omicron","Pi","Rho","Sigma","Tau","Upsilon",
+             "Phi","Chi","Psi","Omega")
+  roll <- sample(1:20, 1)
+  if(roll<8 & n<=30) {
+    #use roman
+    return(paste(name, convert_arabic2roman(1:n), sep=sep))
+  }
+  if(roll<12 & n<=length(LETTERS)) {
+    #use capital letters
+    return(paste(name, LETTERS[1:n], sep=sep))
+  }
+  if(roll<13 & n<=length(letters)) {
+    #use capital letters
+    return(paste(name, letters[1:n], sep=sep))
+  }
+  if(roll<15 & n<=length(greek)) {
+    #use greek
+    
+    return(paste(name, greek[1:n], sep=sep))
+  }
+  #if we are still here just use numbers
+  return(paste(name, 1:n, sep=sep))
+}
 
 convert_roman2arabic <- function(roman) {
   if(roman=="I") {
@@ -386,6 +452,7 @@ convert_roman2arabic <- function(roman) {
 convert_arabic2roman <- function(arabic) {
   arabic[arabic>20] <- 20
   roman <- c("I","II","III","IV","V","VI","VII","VIII","IX","X",
-             "XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX","XX")
+             "XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX","XX",
+             "XXI","XXII","XXIII","XXIV","XXV","XXVI","XXVII","XXVIII","XXIX","XXX")
   return(roman[arabic])
 }
