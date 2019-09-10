@@ -308,11 +308,12 @@ add_flavor <- function(names, type, source, language) {
 generate_sequence_names <- function(n) {
   numChars <- sample(1:3, 1)
   prefix <- stri_rand_strings(1, numChars, "[A-Z0-9]")
-  connector <- sample(c("","","",""," ","-","-","-","-",":"), 1)
+  connector <- sample(c("","","",""," ","-","-","-","-",":","."), 1)
   return(paste(prefix, connector, 1:n, sep=""))
 }
 
 generate_connector_names <- function(system) {
+  #TODO: use the same random sequence scheme for asteroid belts but attach something like "a" or ".1"
   isAsteroid <- system$planets$type=="Asteroid Belt"
   system$planets$name[!isAsteroid] <- generate_sequence_names(sum(!isAsteroid))
   system$planets$name[isAsteroid] <- paste(generate_sequence_names(sum(isAsteroid)), "Belt")
