@@ -1019,21 +1019,20 @@ for(i in 1:xml_length(waystations)) {
                          etype="hpg",
                          event="X",
                          canon=FALSE))
-      #uncomment if we decide to add recharge stations
-      # event_table <- event_table %>% 
-      #   bind_rows(tibble(id=as.character(id),
-      #                    sys_pos=0,
-      #                    date=date,
-      #                    etype="nadirCharge",
-      #                    event="FALSE",
-      #                    canon=FALSE))
-      # event_table <- event_table %>% 
-      #   bind_rows(tibble(id=as.character(id),
-      #                    sys_pos=0,
-      #                    date=date,
-      #                    etype="zenithCharge",
-      #                    event="FALSE",
-      #                    canon=FALSE))
+       event_table <- event_table %>% 
+         bind_rows(tibble(id=as.character(id),
+                          sys_pos=0,
+                          date=date,
+                          etype="nadirCharge",
+                          event="FALSE",
+                          canon=FALSE))
+       event_table <- event_table %>% 
+         bind_rows(tibble(id=as.character(id),
+                          sys_pos=0,
+                          date=date,
+                          etype="zenithCharge",
+                          event="FALSE",
+                          canon=FALSE))
     } else {
       faction_type <- get_faction_type(faction)
       
@@ -1079,8 +1078,27 @@ for(i in 1:xml_length(waystations)) {
       }
       
       #figure out recharge stations
-      #I am assuming no recharge stations
-      
+      #assume at least one and 25% chance of two
+      both <- sample(1:4, 1)==1
+      which <- sample(c("nadir","zenith"), 1)
+      if(both | which=="nadir") {
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=0,
+                           date=date,
+                           etype="nadirCharge",
+                           event="TRUE",
+                           canon=FALSE))
+      }
+      if(both | which=="zenith") {
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=0,
+                           date=date,
+                           etype="zenithCharge",
+                           event="TRUE",
+                           canon=FALSE))
+      }
     }
   }
   cat("\n")
