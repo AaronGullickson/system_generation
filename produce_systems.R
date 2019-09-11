@@ -707,9 +707,6 @@ for(recol_id in recol_ids) {
   cat(recol_id)
   recol_attempts <- recolonization[[recol_id]]
   planet <- recolonized_planets[[recol_id]]
-  x <- as.numeric(xml_text(xml_find_first(planet, "xcood")))
-  y <- as.numeric(xml_text(xml_find_first(planet, "ycood")))
-  distance_terra <- sqrt(x^2+y^2)
   #for now just do the first one - figure out the one case of double recolonization later
   for(i in 1:length(recol_attempts)) {
     faction_table <- recol_attempts[[i]]
@@ -741,7 +738,7 @@ for(recol_id in recol_ids) {
     }
     #deal with potential founding year heaping, but be careful
     #not to go back before previous abandonment date
-    founding_corrected <- fix_founding_heaping(founding_year, distance_terra)
+    founding_corrected <- fix_founding_heaping(founding_year, planet$distance_terra)
     if(founding_corrected != founding_year) {
       if(!is.na(planet$previous_abandon_year) && founding_corrected<=planet$previous_abandon_year) {
         #add around 50 years (on average) to the abandon date and take the minimum of this value and 
@@ -1161,7 +1158,6 @@ for(uid in unique_ids) {
         if(nrow(event_group)>1 || 
            (event_group$etype[1]!="socioIndustrial" && event_group$etype[1]!="population")) {
           date <- randomize_date(date)
-          cat(date)
         }
         xml_add_child(event, "date", date)
         for(j in 1:nrow(event_group)) {
