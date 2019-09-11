@@ -39,13 +39,16 @@ generate_system_names <- function(system, id=NA) {
   ### Planets have some special things about naming
   isAsteroid <- system$planets$type=="Asteroid Belt"
   #TODO: even for the base naming we should potentially name asteroid belts differently
-  system$planets$name <- sample_names(nrow(system$planets), "planet", nationality)
   if(use_roman_planet_numbering) {
     system$planets$name[!isAsteroid] <- paste(base_name, convert_arabic2roman(1:sum(!isAsteroid)))
   }
   if(use_arabic_planet_numbering) {
     system$planets$name[!isAsteroid] <- paste(base_name, 1:sum(!isAsteroid))
+  } else {
+    system$planets$name[!isAsteroid] <- sample_names(sum(!isAsteroid), "planet", nationality)
+    system$planets$name[isAsteroid] <- sample_names(sum(isAsteroid), "planet", nationality)
   }
+  #TODO: asteroid should be an object type and this should be flavor
   system$planets$name[isAsteroid] <- paste(system$planets$name[isAsteroid], "Belt")
   
   system$planets$continent_names <- NA
