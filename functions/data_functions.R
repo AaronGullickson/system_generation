@@ -102,7 +102,7 @@ get_faction_type <- function(faction) {
   return(faction_type)
 }
 
-fix_founding_heaping <- function(founding_year) {
+fix_founding_heaping <- function(founding_year, distance_terra) {
   # The following dates showed evidence of heaping and need to be corrected. We ignore
   # some potential small heaping cases for small year intervals.
   
@@ -120,30 +120,96 @@ fix_founding_heaping <- function(founding_year) {
   
   #remaining heaps seem to be clans, hanseatic league, and back part of TC, not
   #adjusting them for now. 
+  
+  #we were originally just randomly sampling a year from the interval before the heaping date. However, I did 
+  #an analysis of the relationship between distance from Terra and founding year and there is a positive relationship
+  #up to 2367. So random sampling works well for 2571 and 2750 heaping, but for the other cases we should use the 
+  #results from the linear models. I ran three sets of linear models. All sets truncated distance to terra at 800 LY.
+  #the first set is up to a founding year of 2200 which can be used for 2172 and 2200 heaping. The intercept and slope
+  #for this model is:
+  #(Intercept) distance_terra 
+  #2133.6018         0.2336 
+  #and the standard deviation of the residual is:
+  #[1] 17.93236
+  distance_terra <- min(800, distance_terra)
+  
   if(founding_year==2172) {
-    founding_year <- sample(2118:2172, 1)
+    founding_year <- round(rnorm(1, 2133.6018+0.2336*distance_terra, 17.93236))
+    #make sure it stays in the range
+    if(founding_year>2172) {
+      founding_year <- 2172-round(rexp(1,1/5))
+    }
+    if(founding_year<=2118) {
+      founding_year <- 2118+round(rexp(1,1/5))
+    }
   }
   if(founding_year==2200) {
-    founding_year <- sample(2173:2200, 1)
+    founding_year <- round(rnorm(1, 2133.6018+0.2336*distance_terra, 17.93236))
+    #make sure it stays in the range
+    if(founding_year>2200) {
+      founding_year <- 2200-round(rexp(1,1/5))
+    }
+    if(founding_year<=2172) {
+      founding_year <- 2173+round(rexp(1,1/2))
+    }
+  }
+  
+  #The next model goes between 2200 and 2317. Its values are:
+  #(Intercept) distance_terra 
+  #2257.1890         0.0398 
+  #sd: 31.87435
+  
+  if(founding_year==2271) {
+    founding_year <- round(rnorm(1, 2257.189+0.0398*distance_terra, 31.87435))
+    if(founding_year>2271) {
+      founding_year <- 2271-round(rexp(1,1/5))
+    }
+    if(founding_year<=2200) {
+      founding_year <- 2201+round(rexp(1,1/2))
+    }
   }
   if(founding_year==2300) {
-    founding_year <- sample(2201:2300, 1)
-  }
-  if(founding_year==2271) {
-    founding_year <- sample(2118:2271, 1)
+    founding_year <- round(rnorm(1, 2257.189+0.0398*distance_terra, 31.87435))
+    if(founding_year>2300) {
+      founding_year <- 2300-round(rexp(1,1/5))
+    }
+    if(founding_year<=2271) {
+      founding_year <- 2272+round(rexp(1,1/2))
+    }  
   }
   if(founding_year==2317) {
-    founding_year <- sample(2272:2317, 1)
+    founding_year <- round(rnorm(1, 2257.189+0.0398*distance_terra, 31.87435))
+    if(founding_year>2317) {
+      founding_year <- 2317-round(rexp(1,1/5))
+    }
+    if(founding_year<=2300) {
+      founding_year <- 2301+round(rexp(1,1/2))
+    } 
   }
+  
+  #the last model is for 2317 to 2367
+  #(Intercept) distance_terra 
+  #2317.5066         0.0662 
+  #sd: 10.30936
   if(founding_year==2367) {
-    founding_year <- sample(2342:2367, 1)
+    founding_year <- round(rnorm(1, 2317.5066+0.0662*distance_terra, 10.30936))
+    if(founding_year>2367) {
+      founding_year <- 2367-round(rexp(1,1/5))
+    }
+    if(founding_year<=2317) {
+      founding_year <- 2318+round(rexp(1,1/2))
+    } 
   }
+  
+  #the remaining two cases showed little relationship between distance from Terra and
+  #founding year so just sample from possible years
   if(founding_year==2571) {
     founding_year <- sample(2368:2571, 1)
   }
   if(founding_year==2750) {
     founding_year <- sample(2597:2750, 1)
   }
+  
   return(founding_year)
 }
 
