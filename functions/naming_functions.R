@@ -94,6 +94,15 @@ generate_system_names <- function(system, id=NA) {
   return(system)
 }
 
+
+generate_archipelago_names <- function(n, id) {
+  nationality <- name_corr[name_corr$id==id,]
+  if(is.na(nationality$country_iso)) {
+    nationality <- sample_nationality()
+  }
+  return(paste(sample_names(n, "continent", nationality), "Archipelagos", sep=" "))
+}
+
 sample_names <- function(n, object_type, nationality, continuity=0.8) {
   
   #probability of name type by object type
