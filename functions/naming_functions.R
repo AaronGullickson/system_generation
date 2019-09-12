@@ -476,13 +476,15 @@ add_easter_eggs <- function(system, id) {
   
   #substitute planet names
   possibles <- which(systems$planets$type!="Asteroid Belt")
-  possibles <- possibles[possibles!=idx]
-  other_planet_idx <- sample(possibles, 1)
-  if(id=="Gant") {
-    systems$planets$name[other_planet_idx] <- "Korriban"
-  }
-  if(id=="Gibbs") {
-    systems$planets$name[other_planet_idx] <- "Easter Egg"
+  if(length(possibles)>1) {
+    possibles <- possibles[possibles!=idx]
+    other_planet_idx <- sample(possibles, 1)
+    if(id=="Gant") {
+      systems$planets$name[other_planet_idx] <- "Korriban"
+    }
+    if(id=="Gibbs") {
+      systems$planets$name[other_planet_idx] <- "Easter Egg"
+    }
   }
   
   return(system)
