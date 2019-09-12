@@ -80,14 +80,7 @@ generate_system_names <- function(system, id=NA) {
     }
   }
   
-  # TODO: easter eggs
-  # New Chehalis somewhere
-  # Dortmund's capital city is Neu Schwarzgelben City
-  # Koln's capital city is Beerockxstadt
-  # Somewhere in periphery named Korriban
-  # Something named Easter Egg
-  # colony/city name Tanstaafl - Short of There ain't no such thing as a free lunch
-  # capital named Corsucant
+  system <- add_easter_eggs(system, id)
   
   return(system)
 }
@@ -453,4 +446,45 @@ convert_arabic2roman <- function(arabic) {
              "XI","XII","XIII","XIV","XV","XVI","XVII","XVIII","XIX","XX",
              "XXI","XXII","XXIII","XXIV","XXV","XXVI","XXVII","XXVIII","XXIX","XXX")
   return(roman[arabic])
+}
+
+add_easter_eggs <- function(system, id) {
+
+  idx <- which(!is.na(system$planets$capitol_name))
+  if(length(idx)==0) {
+    return(system)
+  }
+  if(length(idx>1)) {
+    idx <- idx[1]
+  }
+  
+  # colony/city name Tanstaafl - Short of There ain't no such thing as a free lunch
+
+  #substitute capital cities
+  if(id=="Rochester") {
+    systems$planets$capital_name[idx] <- "New Chehalis"
+  }
+  if(id=="Dortmund") {
+    systems$planets$capital_name[idx] <- "Neu Schwarzgelben City"
+  }
+  if(id=="Köln (HL)") {
+    systems$planets$capital_name[idx] <- "Beerockxstadt"
+  }
+  if(id=="Avior") {
+    systems$planets$capital_name[idx] <- "Corsucant"
+  }
+  
+  #substitute planet names
+  possibles <- which(systems$planets$type!="Asteroid Belt")
+  possibles <- possibles[possibles!=idx]
+  other_planet_idx <- sample(possibles, 1)
+  if(id=="Gant") {
+    systems$planets$name[other_planet_idx] <- "Korriban"
+  }
+  if(id=="Gibbs") {
+    systems$planets$name[other_planet_idx] <- "Easter Egg"
+  }
+  
+  return(system)
+    
 }
