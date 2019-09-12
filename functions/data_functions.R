@@ -467,6 +467,12 @@ write_system_xml <- function(system_node, system, id, x, y, primary_slot=0,
         xml_add_child(planet_node, "smallMoons",
                       planet$moons_small)
       }
+      #add rings too
+      if(planet$rings) {
+        for(k in 1:planet$moons_medium) {
+          xml_add_child(planet_node, "ring", "true")
+        }
+      }
     }
   }
 }
