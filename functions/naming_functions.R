@@ -38,7 +38,6 @@ generate_system_names <- function(system, id=NA) {
   
   ### Planets have some special things about naming
   isAsteroid <- system$planets$type=="Asteroid Belt"
-  #TODO: even for the base naming we should potentially name asteroid belts differently
   if(use_roman_planet_numbering) {
     system$planets$name[!isAsteroid] <- paste(base_name, convert_arabic2roman(1:sum(!isAsteroid)))
   }
@@ -46,9 +45,8 @@ generate_system_names <- function(system, id=NA) {
     system$planets$name[!isAsteroid] <- paste(base_name, 1:sum(!isAsteroid))
   } else {
     system$planets$name[!isAsteroid] <- sample_names(sum(!isAsteroid), "planet", nationality)
-    system$planets$name[isAsteroid] <- sample_names(sum(isAsteroid), "planet", nationality)
+    system$planets$name[isAsteroid] <- sample_names(sum(isAsteroid), "asteroid", nationality)
   }
-  #TODO: asteroid should be an object type and this should be flavor
   system$planets$name[isAsteroid] <- paste(system$planets$name[isAsteroid], "Belt")
   
   system$planets$continent_names <- NA
@@ -111,16 +109,17 @@ sample_names <- function(n, object_type, nationality, continuity=0.8) {
   probs <- cbind(c(40,40,15, 5),
                  c(10,25,35,20),
                  c(53,40, 5, 2),
-                 c(55,40, 5, 0))
+                 c(55,40, 5, 0),
+                 c(10,35,35,20))
   
-  colnames(probs) <- c("planet","moon","continent","city")
+  colnames(probs) <- c("planet","moon","continent","city","asteroid")
   rownames(probs) <- c("place","surname","mythological","sequence")
 
   #chance (out of 20) by object type that we just name one thing and then number
   #everything else
   #should be zero for planets, because we only do it if named planet does it
-  chance_numbered <- c(0, 10, 3, 0)
-  names(chance_numbered) <- c("planet","moon","continent","city")
+  chance_numbered <- c(0, 10, 3, 0, 10)
+  names(chance_numbered) <- c("planet","moon","continent","city","asteroid")
   
   sources <- NULL
   
@@ -316,6 +315,14 @@ add_flavor <- function(names, type, source, language) {
     if(type=="moon") {
       ##nothing here yet
     }
+    if(type=="asteroid") {
+      #if surname, we should add possessive
+      if(source=="surname") {
+        names[i] <- paste(names[i], "'s", sep="")
+      }
+      #add belt
+      names[i] <- paste(names[i], "Belt", sep=" ")
+    }
   }
   
   # change landmass names to big/small
@@ -344,7 +351,6 @@ generate_sequence_names <- function(n) {
 }
 
 generate_connector_names <- function(system) {
-  #TODO: use the same random sequence scheme for asteroid belts but attach something like "a" or ".1"
   isAsteroid <- system$planets$type=="Asteroid Belt"
   system$planets$name[!isAsteroid] <- generate_sequence_names(sum(!isAsteroid))
   system$planets$name[isAsteroid] <- paste(generate_sequence_names(sum(isAsteroid)), "Belt")
