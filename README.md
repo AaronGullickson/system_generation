@@ -64,7 +64,7 @@ system <- generate_system()
 disance_terra <- 200
 founding_year <- 2300
 faction_type <- "IS"
-system <-add_colonzation(system, distance_terra, founding_year, faction_type)
+system <-add_colonization(system, distance_terra, founding_year, faction_type)
 system
 ```
 
