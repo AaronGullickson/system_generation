@@ -196,7 +196,7 @@ sample_nationality <- function() {
 
 sample_place_name <- function(n=1, c=NULL, diversity=0.25) {
   tab <- table(name_corr$country_iso)
-  country_list <- sample(names(tab), n, prob = tab)
+  country_list <- sample(names(tab), n, prob = tab, replace=TRUE)
   
   if(!is.null(c) && !is.na(c$country_iso) && (c$country_iso %in% places_sample$country)) {
     country_list[sample(c(FALSE, TRUE), n, 
@@ -209,9 +209,16 @@ sample_place_name <- function(n=1, c=NULL, diversity=0.25) {
   
   for(ucountry in countries) {
     sample_places <- subset(places_sample, country==ucountry)
-    chosen_names[country_list==ucountry] <- sample_places$name[sample_int_expj(nrow(sample_places), 
-                                                                               sum(country_list==ucountry),
-                                                                               prob=sample_places$weight)]
+    n <- sum(country_list==ucountry)
+    if(nrow(sample_places)<n) {
+      #sample simply with replacement
+      chosen_names[country_list==ucountry] <- sample_places$name[sample(1:nrow(sample_places), n,
+                                                                        replace=TRUE)]
+    } else {
+      #sample w/o replacement and with weights
+      chosen_names[country_list==ucountry] <- sample_places$name[sample_int_expj(nrow(sample_places), n,
+                                                                                 prob=sample_places$weight)]
+    }
   }
   return(chosen_names)
 }
@@ -230,7 +237,7 @@ sample_myth_name <- function(n=1, c=NULL, diversity=0.1) {
       odds[c$myth2] <- odds[c$myth2] * 4
     }
   }
-  pantheon_list <- sample(unique(myth_sample$pantheon), n, prob = odds)
+  pantheon_list <- sample(unique(myth_sample$pantheon), n, prob = odds, replace=TRUE)
   
   #depending on diversity, maybe just repreat the first one in list
   pantheon_list[c(TRUE, sample(c(FALSE, TRUE), n-1, 
@@ -242,16 +249,23 @@ sample_myth_name <- function(n=1, c=NULL, diversity=0.1) {
   
   for(upantheon in pantheons) {
     sample_pantheon <- subset(myth_sample, pantheon==upantheon)
-    chosen_names[pantheon_list==upantheon] <- sample_pantheon$name[sample_int_expj(nrow(sample_pantheon), 
-                                                                                  sum(pantheon_list==upantheon),
-                                                                                  prob=sample_pantheon$popularity)]
+    n <- sum(pantheon_list==upantheon)
+    if(nrow(sample_pantheon)<n) {
+      #sample simply with replacement
+      chosen_names[pantheon_list==upantheon] <- sample_pantheon$name[sample(1:nrow(sample_pantheon), n,
+                                                                      replace=TRUE)]
+    } else {
+      #sample w/o replacement and with weights
+      chosen_names[pantheon_list==upantheon] <- sample_pantheon$name[sample_int_expj(nrow(sample_pantheon), n,
+                                                                                     prob=sample_pantheon$popularity)]
+    }
   }
   return(chosen_names)
 }
 
 sample_surname <- function(n=1, c=NULL, diversity=0.25) {
   tab <- table(name_corr$lgroup)
-  lang_list <- sample(names(tab), n, prob = tab)
+  lang_list <- sample(names(tab), n, prob = tab, replace=TRUE)
   
   if(!is.null(c) && !is.na(c$lgroup) && (c$lgroup %in% surnames$lgroup)) {
     lang_list[sample(c(FALSE, TRUE), n, 
@@ -264,9 +278,16 @@ sample_surname <- function(n=1, c=NULL, diversity=0.25) {
   
   for(ulang in ulangs) {
     surname_sample <- subset(surnames, lgroup==ulang)
-    chosen_names[lang_list==ulang] <- surname_sample$surname[sample_int_expj(nrow(surname_sample), 
-                                                                                 sum(lang_list==ulang),
+    n <- sum(lang_list==ulang)
+    if(nrow(surname_sample)<n) {
+      #sample simply with replacement
+      chosen_names[lang_list==ulang] <- surname_sample$surname[sample(1:nrow(surname_sample), n,
+                                                                        replace=TRUE)]
+    } else {
+      #sample w/o replacement and with weights
+      chosen_names[lang_list==ulang] <- surname_sample$surname[sample_int_expj(nrow(surname_sample), n,
                                                                                  prob=surname_sample$weight)]
+    }
   }
   return(chosen_names)
 }
