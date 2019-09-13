@@ -8,8 +8,8 @@ gs_auth()
 
 #### Flavor Data ####
 
-load(here("name_generation","output","languages.RData"))
-lgroups <- unique(languages$lgroup)
+load(here("name_generation","output","surnames.RData"))
+lgroups <- unique(surnames$lgroup)
 
 sheets <- gs_title("btech system name generation")
 
@@ -49,12 +49,32 @@ check_flavor_data(new_flavor <- replace_lgroups(new_flavor))
 
 save(surname_flavor, city_flavor, new_flavor, file=here("name_generation","output","flavor_data.RData"))
 
+#### Bad Place Names ####
+
+source(here("name_generation","process_place_names.R"))
+
 #### Planet Culture Correspondence ####
 
 sheets <- gs_title("Planet Culture Correspondence")
 name_corr <- gs_read(sheets, "name_corr")
+
+#run some checks
+missing_iso <- !(name_corr$country_iso %in% places_sample$country)
+if(any(missing_iso)) {
+  warning(paste(name_corr$id[missing_iso], "does not have a valid country ISO code"))
+}
+missing_lgroup <- !is.na(name_corr$lgroup) & !(name_corr$lgroup %in% lgroups)
+if(any(missing_lgroup)) {
+  warning(paste(name_corr$id[missing_lgroup], "does not have a valid language group"))
+}
+load(here("name_generation","output","myth_sample.RData"))
+missing_myth1 <- !is.na(name_corr$myth1) & !(name_corr$myth1 %in% unique(myth_sample$pantheon))
+if(any(missing_myth1)) {
+  warning(paste(name_corr$id[missing_myth1], "does not have a valid myth pantheon 1"))
+}
+missing_myth2 <- !is.na(name_corr$myth2) & !(name_corr$myth2 %in% unique(myth_sample$pantheon))
+if(any(missing_myth2)) {
+  warning(paste(name_corr$id[missing_myth2], "does not have a valid myth pantheon 2"))
+}
+
 save(name_corr, file=here("name_generation","output","name_corr.RData"))
-
-#### Bad Place Names ####
-
-source(here("name_generation","process_place_names.R"))
