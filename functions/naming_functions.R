@@ -13,7 +13,18 @@ nationalities <- read.csv(here("name_generation/output/name_nationality.csv"))
 
 generate_system_names <- function(system, id=NA) {
   
-  nationality <- name_corr[name_corr$id==id,]
+  if(is.na(id)) {
+    nationality <- sample_nationality()
+  } else {
+    nationality <- name_corr[name_corr$id==id,]
+    #if no country iso for this planet, then resample to get nationality
+    if(nrow(nationality)==0) {
+      warning(paste("No nationality data found for id", id, sep=" "))
+      nationality <- sample_nationality()
+    }
+  }
+  
+  ### Planets have some special things about naming
   
   #determine if this system has a numbering system and if so, number the planets
   use_roman_planet_numbering <- grepl("\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV)$", 
@@ -30,11 +41,6 @@ generate_system_names <- function(system, id=NA) {
   }
   if(use_arabic_planet_numbering) {
     base_name <- trimws(gsub("\\s+\\d+$", "", nationality$founding_name))
-  }
-  
-  #if no country iso for this planet, then resample to get nationality
-  if(is.na(nationality$country_iso)) {
-    nationality <- sample_nationality()
   }
   
   ### Planets have some special things about naming
@@ -127,17 +133,15 @@ sample_names <- function(n, object_type, nationality, continuity=0.8) {
     #some chance we just repeat the first name drawn with some counting
     #qualifier
     if(sources=="place") {
-      name <- add_flavor(sample_place_name(1, 
-                                           as.character(nationality$country_iso)),
+      name <- add_flavor(sample_place_name(1, nationality),
                          object_type, "place", nationality$lgroup)
     }
     if(sources=="surname") {
-      name <- add_flavor(sample_surname(1, 
-                                        as.character(nationality$lgroup)),
+      name <- add_flavor(sample_surname(1, nationality),
                          object_type, "surname", nationality$lgroup)
     }
     if(sources=="mythological") {
-      name <- add_flavor(sample_myth_name(1),
+      name <- add_flavor(sample_myth_name(1, nationality),
                          object_type, "mythological", nationality$lgroup)
     }
     return(add_counter(name, n))
@@ -166,15 +170,13 @@ sample_names <- function(n, object_type, nationality, continuity=0.8) {
   for(i in 1:length(tab)) {
     source <- names(tab)[i]
     if(source=="place") {
-      names[which(sources==source)] <- add_flavor(sample_place_name(tab[i], 
-                                                                    as.character(nationality$country_iso)),
+      names[which(sources==source)] <- add_flavor(sample_place_name(tab[i], nationality),
                                                   object_type, "place", nationality$lgroup)
     } else if(source=="surname") {
-      names[which(sources==source)] <- add_flavor(sample_surname(tab[i], 
-                                                                 as.character(nationality$lgroup)),
+      names[which(sources==source)] <- add_flavor(sample_surname(tab[i], nationality),
                                                   object_type, "surname", nationality$lgroup)
     } else if(source=="mythological") {
-      names[which(sources==source)] <- add_flavor(sample_myth_name(tab[i]),
+      names[which(sources==source)] <- add_flavor(sample_myth_name(tab[i], nationality),
                                                   object_type, "mythological", nationality$lgroup)
     } else {
       names[which(sources==source)] <- generate_sequence_names(tab[i])
@@ -196,7 +198,7 @@ sample_place_name <- function(n=1, c=NULL, diversity=0.25) {
   tab <- table(name_corr$country_iso)
   country_list <- sample(names(tab), n, prob = tab)
   
-  if(!is.null(c) && !is.na(c) && (c$country_iso %in% places_sample$country)) {
+  if(!is.null(c) && !is.na(c$country_iso) && (c$country_iso %in% places_sample$country)) {
     country_list[sample(c(FALSE, TRUE), n, 
                      replace = TRUE, 
                      prob=c(diversity, 1-diversity))] <- as.character(c$country_iso)
@@ -208,8 +210,8 @@ sample_place_name <- function(n=1, c=NULL, diversity=0.25) {
   for(ucountry in countries) {
     sample_places <- subset(places_sample, country==ucountry)
     chosen_names[country_list==ucountry] <- sample_places$name[sample_int_expj(nrow(sample_places), 
-                                                                            sum(country_list==ucountry),
-                                                                            prob=sample_places$weight)]
+                                                                               sum(country_list==ucountry),
+                                                                               prob=sample_places$weight)]
   }
   return(chosen_names)
 }
@@ -240,21 +242,21 @@ sample_myth_name <- function(n=1, c=NULL, diversity=0.1) {
   
   for(upantheon in pantheons) {
     sample_pantheon <- subset(myth_sample, pantheon==upantheon)
-    chosen_names[pantheon_list==pantheon] <- sample_pantheon$name[sample_int_expj(nrow(sample_pantheon), 
-                                                                                  sum(pantheon_list==pantheon),
+    chosen_names[pantheon_list==upantheon] <- sample_pantheon$name[sample_int_expj(nrow(sample_pantheon), 
+                                                                                  sum(pantheon_list==upantheon),
                                                                                   prob=sample_pantheon$popularity)]
   }
   return(chosen_names)
 }
 
-sample_surname <- function(n=1, l=NULL, diversity=0.25) {
+sample_surname <- function(n=1, c=NULL, diversity=0.25) {
   tab <- table(name_corr$lgroup)
   lang_list <- sample(names(tab), n, prob = tab)
   
-  if(!is.null(l) && !is.na(l) && (l %in% surnames$lgroup)) {
+  if(!is.null(c) && !is.na(c$lgroup) && (c$lgroup %in% surnames$lgroup)) {
     lang_list[sample(c(FALSE, TRUE), n, 
                      replace = TRUE, 
-                     prob=c(diversity, 1-diversity))] <- l
+                     prob=c(diversity, 1-diversity))] <- as.character(c$lgroup)
   }
   
   ulangs <- unique(lang_list)
