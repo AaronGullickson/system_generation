@@ -192,32 +192,34 @@ sample_nationality <- function() {
 }
 
 
-sample_place_name <- function(n=1, c=NULL) {
-  if(is.null(c) || is.na(c)) {
-    #when country is missing, we will assume the same distribution
-    #as for when countries are present
-    tab <- table(name_corr$country_iso)
-    c <- sample(names(tab), 1, prob = tab)
-  }
-  sample_country <- subset(places_sample, country==c)
+sample_place_name <- function(n=1, c=NULL, diversity=0.25) {
+  tab <- table(name_corr$country_iso)
+  country_list <- sample(names(tab), n, prob = tab)
   
-  if(nrow(sample_country)==0) {
-    warning(paste("No country named",c))
-    return(NA)
+  if(!is.null(c) && !is.na(c) && (c$country_iso %in% places_sample$country)) {
+    country_list[sample(c(FALSE, TRUE), n, 
+                     replace = TRUE, 
+                     prob=c(diversity, 1-diversity))] <- as.character(c$country_iso)
   }
-  if(n > nrow(sample_country)) {
-    n <- nrow(sample_country)
+  
+  countries <- unique(country_list)
+  chosen_names <- rep(NA, length(country_list))
+  
+  for(ucountry in countries) {
+    sample_places <- subset(places_sample, country==ucountry)
+    chosen_names[country_list==ucountry] <- sample_places$name[sample_int_expj(nrow(sample_places), 
+                                                                            sum(country_list==ucountry),
+                                                                            prob=sample_places$weight)]
   }
-  sample_idx <- sample_int_expj(nrow(sample_country),
-                                n,
-                                prob=sample_country$weight)
-  return(as.character(sample_country$name[sample_idx]))
+  return(chosen_names)
 }
 
-sample_myth_name <- function(n=1, c=NULL) {
+sample_myth_name <- function(n=1, c=NULL, diversity=0.1) {
   #we will use relative odds to sample pantheons. 
   odds <- c(5,1,3,3,1,15,10,10,1,3,5,25,3,10,10,3,10,5,5,20,5,20,10,5,5,1,1)
   names(odds) <-unique(myth_sample$pantheon)
+  
+  #increase odds based on country of settlers
   if(!is.null(c)) {
     if(!is.na(c$myth1) && c$myth1 %in% names(odds)) {
       odds[c$myth1] <- odds[c$myth1] * 8
@@ -226,15 +228,23 @@ sample_myth_name <- function(n=1, c=NULL) {
       odds[c$myth2] <- odds[c$myth2] * 4
     }
   }
-  p <- sample(unique(myth_sample$pantheon), 1, prob = odds)
-  sample_pantheon <- subset(myth_sample, pantheon==p)
-  if(n > nrow(sample_pantheon)) {
-    n <- nrow(sample_pantheon)
+  pantheon_list <- sample(unique(myth_sample$pantheon), n, prob = odds)
+  
+  #depending on diversity, maybe just repreat the first one in list
+  pantheon_list[c(TRUE, sample(c(FALSE, TRUE), n-1, 
+                               replace = TRUE, 
+                               prob=c(diversity, 1-diversity)))] <- pantheon_list[1]
+  
+  pantheons <- unique(pantheon_list)
+  chosen_names <- rep(NA, length(pantheon_list))
+  
+  for(upantheon in pantheons) {
+    sample_pantheon <- subset(myth_sample, pantheon==upantheon)
+    chosen_names[pantheon_list==pantheon] <- sample_pantheon$name[sample_int_expj(nrow(sample_pantheon), 
+                                                                                  sum(pantheon_list==pantheon),
+                                                                                  prob=sample_pantheon$popularity)]
   }
-  sample_idx <- sample_int_expj(nrow(sample_pantheon),
-                                n,
-                                prob=sample_pantheon$popularity)
-  return(as.character(sample_pantheon$name[sample_idx]))
+  return(chosen_names)
 }
 
 sample_surname <- function(n=1, l=NULL, diversity=0.25) {
