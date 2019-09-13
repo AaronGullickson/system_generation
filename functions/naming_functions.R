@@ -209,6 +209,11 @@ sample_place_name <- function(n=1, c=NULL, diversity=0.25) {
   
   for(ucountry in countries) {
     sample_places <- subset(places_sample, country==ucountry)
+    if(nrow(sample_places)==0) {
+      #just use US
+      sample_places <- subset(places_sample, country=="US")
+      warning(paste("No country code", ucountry, "for place name sampling"))
+    }
     n <- sum(country_list==ucountry)
     if(nrow(sample_places)<n) {
       #sample simply with replacement
