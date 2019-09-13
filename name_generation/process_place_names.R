@@ -3,8 +3,7 @@ library(here)
 library(magrittr)
 library(googlesheets)
 
-#this is needed to authenticate, but will spit an error
-gs_ls()
+#read in bad place name information
 sheets <- gs_title("bad_place_names")
 
 #### Read in place data ####
