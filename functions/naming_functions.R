@@ -3,6 +3,7 @@
 library(wrswoR)
 library(here)
 library(stringi)
+library(magrittr)
 load(here("name_generation","output","myth_sample.RData"))
 load(here("name_generation","output","places_sample.RData"))
 load(here("name_generation","output","surnames.RData"))
@@ -236,25 +237,26 @@ sample_myth_name <- function(n=1, c=NULL) {
   return(as.character(sample_pantheon$name[sample_idx]))
 }
 
-sample_surname <- function(n=1, l=NULL) {
-  if(is.null(l) || is.na(l)) {
-    #when lgroup is missing, we will assume the same distribution
-    #as for when its present
-    tab <- table(name_corr$lgroup)
-    l <- sample(names(tab), 1, prob = tab)
+sample_surname <- function(n=1, l=NULL, diversity=0.25) {
+  tab <- table(name_corr$lgroup)
+  lang_list <- sample(names(tab), n, prob = tab)
+  
+  if(!is.null(l) && !is.na(l) && (l %in% surnames$lgroup)) {
+    lang_list[sample(c(FALSE, TRUE), n, 
+                     replace = TRUE, 
+                     prob=c(diversity, 1-diversity))] <- l
   }
-  surname_sample <- subset(surnames, lgroup==l)
-  if(nrow(surname_sample)==0) {
-    warning(paste("No language group named",l))
-    return(NA)
+  
+  ulangs <- unique(lang_list)
+  chosen_names <- rep(NA, length(lang_list))
+  
+  for(ulang in ulangs) {
+    surname_sample <- subset(surnames, lgroup==ulang)
+    chosen_names[lang_list==ulang] <- surname_sample$surname[sample_int_expj(nrow(surname_sample), 
+                                                                                 sum(lang_list==ulang),
+                                                                                 prob=surname_sample$weight)]
   }
-  if(n > nrow(surname_sample)) {
-    n <- nrow(surname_sample)
-  }
-  sample_idx <- sample_int_expj(nrow(surname_sample),
-                                n,
-                                prob=surname_sample$weight)
-  return(surname_sample$surname[sample_idx])
+  return(chosen_names)
 }
 
 
@@ -467,7 +469,7 @@ add_easter_eggs <- function(system, id) {
   if(id=="Dortmund") {
     systems$planets$capital_name[idx] <- "Neu Schwarzgelben City"
   }
-  if(id=="Köln (HL)") {
+  if(id=="Köln (FWL)") {
     systems$planets$capital_name[idx] <- "Beerockxstadt"
   }
   if(id=="Avior") {
