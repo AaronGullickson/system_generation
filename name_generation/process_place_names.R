@@ -1,6 +1,7 @@
 library(readr)
 library(here)
 library(magrittr)
+library(stringi)
 library(googlesheets)
 
 #read in bad place name information
@@ -78,7 +79,14 @@ places <- places[grepl(paste(wrong_words, collapse="|"), places$name, ignore.cas
 
 #get rid of all the bad words
 bad_words <- gs_read(sheets, "remove words")$phrase
-places$name <- stri_trim_both(stri_replace_all_regex(places$name, paste(bad_words, collapse="|"), "", case_insensitive=TRUE))
+search_term <- paste(bad_words, collapse="|")
+#first look at the beginning
+places$name <- stri_trim_both(stri_replace_all_regex(places$name, paste("^(", search_term, ")\\s", sep=""), "", case_insensitive=TRUE))
+#look in the middle
+places$name <- stri_trim_both(stri_replace_all_regex(places$name, paste("\\s(", search_term, ")\\s", sep=""), "", case_insensitive=TRUE))
+#look at the end
+places$name <- stri_trim_both(stri_replace_all_regex(places$name, paste("\\s(", search_term, ")$", sep=""), "", case_insensitive=TRUE))
+
 
 #get rid of any of, and, du, de, di, etc. if they are at the beginning of term
 places$name <- trimws(gsub("^\\s?(and|of|du|di|de|del)", "", places$name))
