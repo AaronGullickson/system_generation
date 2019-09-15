@@ -306,13 +306,13 @@ add_flavor <- function(names, type, source, language) {
   
   for(i in 1:length(names)) {
     if(type=="planet") {
-      if(source=="surname" && sample(1:3,1)==1) {
-        #1 in 3 chance of addition flavor
+      if(source=="surname" && sample(1:5,1)<=2) {
+        #40% chance of addition flavor
         names[i] <- sub_flavor(names[i], 
                                subset(surname_flavor, is.na(lgroup) | lgroup==language))
       }
       if(source=="place" && sample(1:3,1)==1) {
-        #1 in 3 chance of flavor
+        #1 in 3 chance of New flavor
         names[i] <- sub_flavor(names[i], 
                                subset(new_flavor, is.na(lgroup) | lgroup==language))
       }
@@ -330,7 +330,8 @@ add_flavor <- function(names, type, source, language) {
       }
     }
     if(type=="city") {
-      if(source=="surname" && sample(1:3,1)>1) {
+      #1 in 2 chance of city flavor
+      if(source=="surname" && sample(1:2,1)>1) {
         names[i] <- sub_flavor(names[i], 
                                subset(city_flavor, is.na(lgroup) | lgroup==language))
         #some additional chance of New flavor as well
@@ -338,8 +339,8 @@ add_flavor <- function(names, type, source, language) {
           names[i] <- sub_flavor(names[i], subset(new_flavor, is.na(lgroup) | lgroup==language))
         }
       }
-      if(source=="place"  && sample(1:3,1)>1) {
-        #1 in 3 chance of New flavor
+      if(source=="place"  && sample(1:2,1)>1) {
+        #1 in 2 chance of New flavor
         names[i] <- sub_flavor(names[i], 
                                subset(new_flavor, is.na(lgroup) | lgroup==language))
       }
