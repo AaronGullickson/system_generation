@@ -88,8 +88,10 @@ places$name <- stri_trim_both(stri_replace_all_regex(places$name, paste("\\s(", 
 places$name <- stri_trim_both(stri_replace_all_regex(places$name, paste("\\s(", search_term, ")$", sep=""), "", case_insensitive=TRUE))
 
 
-#get rid of any of, and, du, de, di, etc. if they are at the beginning of term
-places$name <- trimws(gsub("^\\s?(and|of|du|di|de|del)", "", places$name))
+#get rid of any of, and, du, de, di, etc. if they are at the beginning or end of term
+places$name <- trimws(gsub("^\\s?(and|of|du|di|de|del|d\\')", "", places$name))
+places$name <- trimws(gsub("\\s?(and|of|du|di|de|del|d\\')$", "", places$name))
+
 
 #this one is causing problems in combination
 places$name <- trimws(gsub("\\sSum$",  "", places$name))
