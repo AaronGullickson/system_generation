@@ -48,7 +48,7 @@ generate_system_names <- function(system, id=NA) {
   if(use_roman_planet_numbering) {
     system$planets$name[!isAsteroid] <- paste(base_name, convert_arabic2roman(1:sum(!isAsteroid)))
   }
-  if(use_arabic_planet_numbering) {
+  else if(use_arabic_planet_numbering) {
     system$planets$name[!isAsteroid] <- paste(base_name, 1:sum(!isAsteroid))
   } else {
     system$planets$name[!isAsteroid] <- sample_names(sum(!isAsteroid), "planet", nationality)
