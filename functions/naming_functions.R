@@ -52,8 +52,8 @@ generate_system_names <- function(system, id=NA) {
     system$planets$name[!isAsteroid] <- paste(base_name, 1:sum(!isAsteroid))
   } else {
     system$planets$name[!isAsteroid] <- sample_names(sum(!isAsteroid), "planet", nationality)
-    system$planets$name[isAsteroid] <- sample_names(sum(isAsteroid), "asteroid", nationality)
   }
+  system$planets$name[isAsteroid] <- sample_names(sum(isAsteroid), "asteroid", nationality)
   
   system$planets$continent_names <- NA
   system$planets$capitol_name <- NA
