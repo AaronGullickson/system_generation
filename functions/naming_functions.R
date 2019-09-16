@@ -510,7 +510,7 @@ convert_arabic2roman <- function(arabic) {
 
 add_easter_eggs <- function(system, id) {
 
-  idx <- which(!is.na(system$planets$capitol_name))
+  idx <- which(system$planets$inhabitable)
   if(length(idx)==0) {
     return(system)
   }
@@ -520,24 +520,31 @@ add_easter_eggs <- function(system, id) {
   
   # colony/city name Tanstaafl - Short of There ain't no such thing as a free lunch
 
-  #substitute capital cities
+  #substitute capitol cities
+  capitol <- NA
   if(id=="Davisville") {
-    system$planets$capital_name[idx] <- "New Chehalis"
+    capitol <- "New Chehalis"
   }
   if(id=="Dortmund") {
-    system$planets$capital_name[idx] <- "Neu Schwarzgelben City"
+    capitol <- "Neu Schwarzgelben City"
   }
   if(id=="Köln (FWL)") {
-    system$planets$capital_name[idx] <- "Beerockxstadt"
+    capitol <- "Beerockxstadt"
   }
   if(id=="Avior") {
-    system$planets$capital_name[idx] <- "Corsucant"
+    capitol <- "Corsucant"
+  }
+  
+  if(!is.na(capitol)) {
+    system$planets$continent_names[idx] <- sub("\\(.+?\\)", 
+                                               paste("(",capitol,")",sep=""), 
+                                               system$planets$continent_names[idx])
   }
   
   #substitute planet names
-  possibles <- which(systems$planets$type!="Asteroid Belt")
+  possibles <- which(system$planets$type!="Asteroid Belt")
+  possibles <- possibles[possibles!=idx]
   if(length(possibles)>1) {
-    possibles <- possibles[possibles!=idx]
     other_planet_idx <- sample(possibles, 1)
     if(id=="Gant") {
       system$planets$name[other_planet_idx] <- "Korriban"
@@ -546,6 +553,19 @@ add_easter_eggs <- function(system, id) {
       system$planets$name[other_planet_idx] <- "Easter Egg"
     }
   }
+  
+  #Hastur must have Lovecraftian planet names
+  if(id=="Hastur" & length(possibles)>1) {
+    lovecraft_names <- c("Cthulhu","Nyarlathotep","Tsothuggua","Yog-Sothoth","Azathoth")
+    n_possible <- length(possibles)
+    if(n_possible>length(lovecraft_names)) {
+      n_possible <- length(lovecraft_names)
+      possibles <- possibles[1:n_possible]
+    }
+    system$planets$name[possibles] <- sample(lovecraft_names, n_possible, replace = FALSE)
+    
+  }
+  
   
   return(system)
     
