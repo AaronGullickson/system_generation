@@ -399,7 +399,7 @@ write_system_xml <- function(system_node, system, id, x, y, primary_slot=0,
       capital <- 1
       continent_names <- strsplit(planet$continent_names, ",")[[1]]
       for(k in 1:planet$continents) {
-        landmass_name <- continent_names[k]
+        landmass_name <- trimws(continent_names[k])
         if(!is.null(planet$population) && !is.na(planet$population) && k==capital) {
           landmass_name <- paste(continent_names[k], " (", planet$capitol_name, ")", sep="")
         } 
@@ -443,21 +443,21 @@ write_system_xml <- function(system_node, system, id, x, y, primary_slot=0,
       if(planet$moons_giant>0) {
         for(k in 1:planet$moons_giant) {
           xml_add_child(planet_node, "satellite", size="giant",
-                        moon_names[1])
+                        trimws(moon_names[1]))
           moon_names <- moon_names[-1]
         }
       }
       if(planet$moons_large>0) {
         for(k in 1:planet$moons_large) {
           xml_add_child(planet_node, "satellite", size="large",
-                        moon_names[1])
+                        trimws(moon_names[1]))
           moon_names <- moon_names[-1]
         }
       }
       if(planet$moons_medium>0) {
         for(k in 1:planet$moons_medium) {
           xml_add_child(planet_node, "satellite", size="medium",
-                        moon_names[1])
+                        trimws(moon_names[1]))
           moon_names <- moon_names[-1]
         }
       }
@@ -467,9 +467,7 @@ write_system_xml <- function(system_node, system, id, x, y, primary_slot=0,
       }
       #add rings too
       if(planet$rings) {
-        for(k in 1:planet$moons_medium) {
-          xml_add_child(planet_node, "ring", "true")
-        }
+        xml_add_child(planet_node, "ring", "true")
       }
     }
   }
