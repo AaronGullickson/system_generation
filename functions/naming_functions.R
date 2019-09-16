@@ -60,28 +60,53 @@ generate_system_names <- function(system, id=NA) {
   system$planets$moon_names <- NA
   
   for(i in 1:nrow(system$planets)) {
-    #the correct name for focal planet will be corrected when we check canon data
+
+    #moons
     nmoons <- (system$planets$moons_giant+system$planets$moons_large+
                  system$planets$moons_medium)[i]
     if(nmoons > 0) {
       system$planets$moon_names[i] <- paste(sample_names(nmoons, "moon", nationality), 
                                             collapse=", ")
     }
-    if(!is.na(system$planets$continents[i])) {
-      system$planets$continent_names[i] <- paste(sample_names(system$planets$continents[i],
-                                                              "continent", nationality), 
-                                                 collapse=", ")
-    }
-    if(!is.na(system$planets$population[i])) {
+    
+    #capitol city name
+    capitol <- NA
+    if(system$planets$inhabitable[i]) {
       if(sample(1:100,1)<=10) {
         #some chance that you just inherit the planet name plus "City"
-        system$planets$capitol_name[i] <- paste(system$planets$name[i], "City")
-      } else if(sample(1:100,1)<=5 && !is.na(system$planets$continent_names[i]) && 
-                nchar(system$planets$continent_names[i])>0) {
-        system$planets$capitol_name[i] <- paste(strsplit(system$planets$continent_names[i], ",")[[1]][1], 
-                                                "City")
+        capitol <- paste(system$planets$name[i], "City")
       } else {
-        system$planets$capitol_name[i] <- sample_names(1, "city", nationality)
+        capitol <- sample_names(1, "city", nationality)
+      }
+    }
+    
+    #landmass names
+    if(!is.na(system$planets$continents[i])) {
+      if(system$planets$continents[i]==0) {
+        if(system$planets$inhabitable[i]) {
+          #just report capitol city
+          system$planets$continent_names[i] <- paste(capitol, "(capitol city)")
+        }
+      } else {
+        continent_names <- sample_names(system$planets$continents[i], "continent", nationality)
+        if(!is.na(system$planets$water[i]) && system$planets$water[i]>=90) {
+          #then these should be archipelago
+          continent_names <- paste(continent_names, "Archipelago")
+        }
+        
+        #now add in capitol city
+        if(sample(1:100,1)<=5) {
+          #some chance that capitol is just "Landmass City"
+          capitol <- paste(continent_names[1], " City")
+        }
+        
+        #now concatenate first landmass and capitol city
+        if(!is.na(capitol)) {
+          continent_names[1] <- paste(continent_names[1], " (", capitol, ")", sep="")
+        }
+        
+        #now combine
+        system$planets$continent_names[i] <- paste(continent_names, collapse=",")
       }
     }
   }
@@ -97,7 +122,7 @@ generate_archipelago_names <- function(n, id) {
   if(is.na(nationality$country_iso)) {
     nationality <- sample_nationality()
   }
-  return(paste(sample_names(n, "continent", nationality), "Archipelagos", sep=" "))
+  return(paste(sample_names(n, "continent", nationality), "Archipelago", sep=" "))
 }
 
 sample_names <- function(n, object_type, nationality, continuity=0.8) {
@@ -418,11 +443,7 @@ add_counter <- function(name, n, sep=" ") {
     #use capital letters
     return(paste(name, LETTERS[1:n], sep=sep))
   }
-  if(roll<13 & n<=length(letters)) {
-    #use capital letters
-    return(paste(name, letters[1:n], sep=sep))
-  }
-  if(roll<15 & n<=length(greek)) {
+  if(roll<14 & n<=length(greek)) {
     #use greek
     return(paste(name, greek[1:n], sep=sep))
   }

@@ -596,7 +596,7 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
                        pressure=="Vacuum" | pressure=="Trace" |
                        is.na(temperature) | temperature>323)) {
       water <- 0
-      continents <- NA
+      continents <- 0
     } else {
       ##Surface water roll
       water_roll <- round(roll_d6(2)*life_mod*escape_velocity_mod)
@@ -643,8 +643,6 @@ generate_planet <- function(radius, habitable_system, system_data, more_gradatio
       
       #continents
       if(water==0) {
-        continents <- NA
-      } else if(water==100) {
         continents <- 0
       } else {
         continents <- roll_d6(1)

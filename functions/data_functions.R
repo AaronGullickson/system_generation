@@ -1,4 +1,5 @@
 #some useful functions for dealing with data processing
+library(stringi)
 
 #### Functions for processing initial XML data ####
 
@@ -394,36 +395,13 @@ write_system_xml <- function(system_node, system, id, x, y, primary_slot=0,
                       continent, 
                       source="canon")
       }
-    } else if(!is.na(planet$continents) & planet$continents>0) {
+    } else if(!is.na(planet$continent_names)) {
+      #should only be here if we have a number for continents
       #Assume capital is always on first one
       capital <- 1
-      continent_names <- strsplit(planet$continent_names, ",")[[1]]
-      for(k in 1:planet$continents) {
-        landmass_name <- trimws(continent_names[k])
-        if(!is.null(planet$population) && !is.na(planet$population) && k==capital) {
-          landmass_name <- paste(continent_names[k], " (", planet$capitol_name, ")", sep="")
-        } 
-        xml_add_child(planet_node, "landMass",
-                      landmass_name)
-      }
-    } else {
-      if(!is.null(planet$population) && !is.na(planet$population)) {
-        #we need to report a capital city here even though we have no continents
-        #two possibilities: 
-        if(is.na(water) || water==0) {
-          #no water bodies
-          landmass_name <- paste(planet$capitol_name, " (capitol city)", sep="")
-        } else {
-          #all water so create some archipelagos
-          archipelagos <- roll_d6(1)
-          arch_names <-  generate_archipelago_names(min(roll_d6(1), 4), id)
-          for(k in 1:archipelagos) {
-            landmass_name <- arch_names[k]
-            if(k==1) {
-              landmass_name <- paste(arch_names[k], " (", planet$capitol_name, ")", sep="")
-            }
-          }
-        }
+      continent_names <- stri_split_fixed(planet$continent_names, ",")[[1]]
+      for(landmass_name in continent_names) {
+        xml_add_child(planet_node, "landMass", trimws(landmass_name))
       }
     }
     
