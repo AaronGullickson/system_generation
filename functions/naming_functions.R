@@ -346,6 +346,7 @@ add_flavor <- function(names, type, source, language) {
       }
     }
     if(type=="moon") {
+      #TODO: how about the name of the planet plus qualifier (e.g. Caph's Stone)
       ##nothing here yet
     }
     if(type=="asteroid") {
@@ -501,17 +502,17 @@ add_easter_eggs <- function(system, id) {
   # colony/city name Tanstaafl - Short of There ain't no such thing as a free lunch
 
   #substitute capital cities
-  if(id=="Rochester") {
-    systems$planets$capital_name[idx] <- "New Chehalis"
+  if(id=="Davisville") {
+    system$planets$capital_name[idx] <- "New Chehalis"
   }
   if(id=="Dortmund") {
-    systems$planets$capital_name[idx] <- "Neu Schwarzgelben City"
+    system$planets$capital_name[idx] <- "Neu Schwarzgelben City"
   }
   if(id=="Köln (FWL)") {
-    systems$planets$capital_name[idx] <- "Beerockxstadt"
+    system$planets$capital_name[idx] <- "Beerockxstadt"
   }
   if(id=="Avior") {
-    systems$planets$capital_name[idx] <- "Corsucant"
+    system$planets$capital_name[idx] <- "Corsucant"
   }
   
   #substitute planet names
@@ -520,10 +521,10 @@ add_easter_eggs <- function(system, id) {
     possibles <- possibles[possibles!=idx]
     other_planet_idx <- sample(possibles, 1)
     if(id=="Gant") {
-      systems$planets$name[other_planet_idx] <- "Korriban"
+      system$planets$name[other_planet_idx] <- "Korriban"
     }
     if(id=="Gibbs") {
-      systems$planets$name[other_planet_idx] <- "Easter Egg"
+      system$planets$name[other_planet_idx] <- "Easter Egg"
     }
   }
   
