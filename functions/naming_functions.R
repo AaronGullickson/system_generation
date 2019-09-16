@@ -347,7 +347,6 @@ add_flavor <- function(names, type, source, language) {
     }
     if(type=="moon") {
       #TODO: how about the name of the planet plus qualifier (e.g. Caph's Stone)
-      ##nothing here yet
     }
     if(type=="asteroid") {
       #if surname, we should add possessive
@@ -380,8 +379,8 @@ add_flavor <- function(names, type, source, language) {
 generate_sequence_names <- function(n) {
   numChars <- sample(1:3, 1)
   prefix <- stri_rand_strings(1, numChars, "[A-Z0-9]")
-  connector <- sample(c("","","",""," ","-","-","-","-",":","."), 1)
-  return(paste(prefix, connector, 1:n, sep=""))
+  connector <- sample(c(rep("",10), rep(" ",2), rep("-",8), rep(".",1)), 1)
+  return(paste(prefix, 1:n, sep=connector))
 }
 
 generate_connector_names <- function(system) {
@@ -425,7 +424,6 @@ add_counter <- function(name, n, sep=" ") {
   }
   if(roll<15 & n<=length(greek)) {
     #use greek
-    
     return(paste(name, greek[1:n], sep=sep))
   }
   #if we are still here just use numbers
