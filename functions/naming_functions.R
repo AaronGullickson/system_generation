@@ -116,15 +116,6 @@ generate_system_names <- function(system, id=NA) {
   return(system)
 }
 
-
-generate_archipelago_names <- function(n, id) {
-  nationality <- name_corr[name_corr$id==id,]
-  if(is.na(nationality$country_iso)) {
-    nationality <- sample_nationality()
-  }
-  return(paste(sample_names(n, "continent", nationality), "Archipelago", sep=" "))
-}
-
 sample_names <- function(n, object_type, nationality, continuity=0.8) {
   
   #probability of name type by object type
@@ -175,7 +166,7 @@ sample_names <- function(n, object_type, nationality, continuity=0.8) {
   }
   
   #if we are still here then loop through and pick other sources with some
-  #likelihood of maintaing continuity
+  #likelihood of maintaning continuity
   if(n>1) {
     for(i in 2:n) {
       if(sample(c(FALSE,TRUE), 1, prob=c(1-continuity, continuity))) {
@@ -203,7 +194,8 @@ sample_names <- function(n, object_type, nationality, continuity=0.8) {
       names[which(sources==source)] <- add_flavor(sample_myth_name(tab[i], nationality),
                                                   object_type, "mythological", nationality$lgroup)
     } else {
-      names[which(sources==source)] <- generate_sequence_names(tab[i])
+      names[which(sources==source)] <- add_flavor(generate_sequence_names(tab[i]),
+                                                  object_type, "sequence", nationality$lgroup)
     }
     
   }
