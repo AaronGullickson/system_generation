@@ -86,7 +86,7 @@ generate_system_names <- function(system, id=NA) {
       if(system$planets$continents[i]==0) {
         if(system$planets$inhabitable[i]) {
           #just report capitol city
-          system$planets$continent_names[i] <- paste(capitol, "(capitol city)")
+          system$planets$continent_names[i] <- paste("(", capitol, ")", sep="")
         }
       } else {
         continent_names <- sample_names(system$planets$continents[i], "continent", nationality)
@@ -98,7 +98,7 @@ generate_system_names <- function(system, id=NA) {
         #now add in capitol city
         if(sample(1:100,1)<=5) {
           #some chance that capitol is just "Landmass City"
-          capitol <- paste(continent_names[1], " City")
+          capitol <- paste(continent_names[1], "City")
         }
         
         #now concatenate first landmass and capitol city
