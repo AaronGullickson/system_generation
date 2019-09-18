@@ -323,6 +323,10 @@ sub_flavor <- function(name, flavor) {
 add_flavor <- function(names, type, source, language) {
   
   for(i in 1:length(names)) {
+    
+    #first capitalize the first letter
+    names[i] <- capitalize_string(names[i])
+    
     if(type=="planet") {
       if(source=="surname" && sample(1:5,1)<=2) {
         #40% chance of addition flavor
@@ -570,6 +574,6 @@ add_easter_eggs <- function(system, id) {
     
 }
 
-uses_roman_numbering <- function(x) {
-  
+capitalize_string <- function(x) {
+  paste(toupper(substring(x, 1,1)), substring(x, 2), sep="")
 }
