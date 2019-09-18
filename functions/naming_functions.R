@@ -396,8 +396,14 @@ add_flavor <- function(names, type, source, language) {
 
 generate_sequence_names <- function(n) {
   numChars <- sample(1:3, 1)
-  prefix <- stri_rand_strings(1, numChars, "[A-Z0-9]")
-  connector <- sample(c(rep("",10), rep(" ",2), rep("-",8), rep(".",1)), 1)
+  if(numChars==1) {
+    #if only one character then it must be a letter
+    prefix <- stri_rand_strings(1, numChars, "[A-Z]")
+  } else {
+    prefix <- stri_rand_strings(1, numChars, "[A-Z0-9]")
+  }
+    
+  connector <- sample(c(rep("",10), rep("-",8), rep(".",1)), 1)
   return(paste(prefix, 1:n, sep=connector))
 }
 
