@@ -1034,14 +1034,14 @@ for(i in 1:xml_length(waystations)) {
                           sys_pos=0,
                           date=date,
                           etype="nadirCharge",
-                          event="FALSE",
+                          event="false",
                           canon=FALSE))
        event_table <- event_table %>% 
          bind_rows(tibble(id=as.character(id),
                           sys_pos=0,
                           date=date,
                           etype="zenithCharge",
-                          event="FALSE",
+                          event="false",
                           canon=FALSE))
     } else {
       faction_type <- get_faction_type(faction)
@@ -1097,7 +1097,7 @@ for(i in 1:xml_length(waystations)) {
                            sys_pos=0,
                            date=date,
                            etype="nadirCharge",
-                           event="TRUE",
+                           event="true",
                            canon=FALSE))
       }
       if(both | which=="zenith") {
@@ -1106,7 +1106,7 @@ for(i in 1:xml_length(waystations)) {
                            sys_pos=0,
                            date=date,
                            etype="zenithCharge",
-                           event="TRUE",
+                           event="true",
                            canon=FALSE))
       }
     }
