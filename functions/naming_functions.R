@@ -338,6 +338,11 @@ add_flavor <- function(names, type, source, language) {
         names[i] <- sub_flavor(names[i], 
                                subset(new_flavor, is.na(lgroup) | lgroup==language))
       }
+      if(source=="mythological" && sample(1:8,1)==1) {
+        #1 in 8 chance of addition flavor
+        names[i] <- sub_flavor(names[i], 
+                               subset(surname_flavor, is.na(lgroup) | lgroup==language))
+      }
     }
     if(type=="continent") {
       if(source=="surname" && sample(1:4,1)==1) {
@@ -349,6 +354,11 @@ add_flavor <- function(names, type, source, language) {
         #1 in 3 chance of New flavor
         names[i] <- sub_flavor(names[i], 
                                subset(new_flavor, is.na(lgroup) | lgroup==language))
+      }
+      if(source=="mythological" && sample(1:8,1)==1) {
+        #1 in 8 chance of additional surname flavor
+        names[i] <- sub_flavor(names[i], 
+                               subset(surname_flavor, is.na(lgroup) | lgroup==language))
       }
     }
     if(type=="city") {
@@ -365,6 +375,11 @@ add_flavor <- function(names, type, source, language) {
         #1 in 2 chance of New flavor
         names[i] <- sub_flavor(names[i], 
                                subset(new_flavor, is.na(lgroup) | lgroup==language))
+      }
+      if(source=="mythological" && sample(1:10,1)==1) {
+        #1 in 10 chance of additional surname flavor
+        names[i] <- sub_flavor(names[i], 
+                               subset(surname_flavor, is.na(lgroup) | lgroup==language))
       }
     }
     if(type=="moon") {
