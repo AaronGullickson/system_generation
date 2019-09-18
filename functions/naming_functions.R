@@ -130,7 +130,7 @@ sample_names <- function(n, object_type, nationality, continuity=0.8) {
   #probability of name type by object type
   #name types are place, surname, mythological, sequence
   #types of object are planet, moon, landmass, city
-  probs <- cbind(c(40,40,15, 5),
+  probs <- cbind(c(30,40,25, 5),
                  c(10,25,35,20),
                  c(53,40, 5, 2),
                  c(55,40, 5, 0),
@@ -336,8 +336,8 @@ add_flavor <- function(names, type, source, language) {
         names[i] <- sub_flavor(names[i], 
                                subset(surname_flavor, is.na(lgroup) | lgroup==language))
       }
-      if(source=="place" && sample(1:3,1)==1) {
-        #1 in 3 chance of New flavor
+      if(source=="place" && sample(1:10,1)==1) {
+        #1 in 10 chance of New flavor - this seems pretty rare on canon planets
         names[i] <- sub_flavor(names[i], 
                                subset(new_flavor, is.na(lgroup) | lgroup==language))
       }
