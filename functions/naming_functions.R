@@ -13,6 +13,9 @@ nationalities <- read.csv(here("name_generation/output/name_nationality.csv"))
 
 generate_system_names <- function(system, id=NA) {
   
+  use_roman_planet_numbering <- FALSE
+  use_arabic_planet_numbering <- FALSE
+  base_name <- FALSE
   if(is.na(id)) {
     nationality <- sample_nationality()
   } else {
@@ -21,26 +24,24 @@ generate_system_names <- function(system, id=NA) {
     if(nrow(nationality)==0) {
       warning(paste("No nationality data found for id", id, sep=" "))
       nationality <- sample_nationality()
+    } else {
+      #determine if this system has a numbering system and if so, number the planets
+      use_roman_planet_numbering <- grepl("\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV)$", 
+                                          nationality$founding_name)
+      #this is problematic because of things like Star Cluster 643. It turns out only Baker 3 uses
+      #this in our data, so just change that one. 
+      #use_arabic_planet_numbering <- grepl("\\s+\\d+$", nationality$founding_name)
+      use_arabic_planet_numbering <- grepl("^Baker 3$", nationality$founding_name)
+      
+      #get base name for numbering
+      if(use_roman_planet_numbering) {
+        base_name <- trimws(gsub("\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV)$", "", 
+                                 nationality$founding_name))
+      }
+      if(use_arabic_planet_numbering) {
+        base_name <- trimws(gsub("\\s+\\d+$", "", nationality$founding_name))
+      }
     }
-  }
-  
-  ### Planets have some special things about naming
-  
-  #determine if this system has a numbering system and if so, number the planets
-  use_roman_planet_numbering <- grepl("\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV)$", 
-                                      nationality$founding_name)
-  #this is problematic because of things like Star Cluster 643. It turns out only Baker 3 uses
-  #this in our data, so just change that one. 
-  #use_arabic_planet_numbering <- grepl("\\s+\\d+$", nationality$founding_name)
-  use_arabic_planet_numbering <- grepl("^Baker 3$", nationality$founding_name)
-  
-  #get base name for numbering
-  base_name <- ""
-  if(use_roman_planet_numbering) {
-    base_name <- trimws(gsub("\\s+(I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV)$", "", nationality$founding_name))
-  }
-  if(use_arabic_planet_numbering) {
-    base_name <- trimws(gsub("\\s+\\d+$", "", nationality$founding_name))
   }
   
   ### Planets have some special things about naming
@@ -561,4 +562,8 @@ add_easter_eggs <- function(system, id) {
   
   return(system)
     
+}
+
+uses_roman_numbering <- function(x) {
+  
 }
