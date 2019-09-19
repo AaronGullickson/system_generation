@@ -1120,17 +1120,6 @@ cat("Done\n")
 
 cat("\nWriting event data to XML\n")
 
-# Terra has no initial faction until Terran Hegemony take over.
-# according to old DC house book, Western Alliance becomes Terran
-# Alliance in 2086, so we will start there. 
-event_table <- event_table %>% 
-  bind_rows(tibble(id="Terra",
-                   sys_pos=3,
-                   date="2086-01-01",
-                   etype="faction",
-                   event="TA",
-                   canon=TRUE))
-
 #sort event data by id and then date
 event_table$date <- as.Date(event_table$date)
 event_table <- event_table[order(event_table$id, event_table$sys_pos, 

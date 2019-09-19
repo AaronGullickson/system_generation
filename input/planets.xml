@@ -100214,8 +100214,6 @@ Taurus is home to a number of military industries and academies. Magna Metals is
         <landMass>Europe (Geneva)</landMass>
         <landMass>North America</landMass>
         <landMass>South America</landMass>
-        <landMass>Mars - (Koryo)</landMass>
-        <landMass>Luna - (Luna City)</landMass>
         <nadirCharge>true</nadirCharge>
         <zenithCharge>true</zenithCharge>
         <pressure>3</pressure>
@@ -100259,6 +100257,10 @@ The Military Academy of Aphros, the planetary capital, was completed in 2242 and
 
 Since the fall of the Star League, ten of the twenty huge atmosphere reconditioning stations have failed and Venus has slowly reverted to its normal environmental conditions. Only three inhabited cities, Aphros, Kilic and Genny remain. Recent investigations indicate that the planet will no longer be habitable by 3068.</desc>
         <icon>earth</icon>
+        <event>
+            <date>2086-01-01</date>
+            <faction>TA</faction>
+        </event>
         <event>
             <date>2316-01-01</date>
             <faction>TH</faction>
