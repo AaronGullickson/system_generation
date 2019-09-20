@@ -365,7 +365,7 @@ add_flavor <- function(names, type, source, language) {
         names[i] <- sub_flavor(names[i], 
                                subset(surname_flavor, is.na(lgroup) | lgroup==language))
       }
-      if(sample(1:100)==1) {
+      if(sample(1:100,1)==1) {
         #add prime
         names[i] <- paste(names[i], "Prime", sep=" ")
       }
@@ -390,7 +390,7 @@ add_flavor <- function(names, type, source, language) {
         names[i] <- sub_flavor(names[i], 
                                subset(surname_flavor, is.na(lgroup) | lgroup==language))
       }
-      if(sample(1:40)==1) {
+      if(sample(1:40,1)==1) {
         #add prime
         names[i] <- paste(names[i], "Prime", sep=" ")
       }
