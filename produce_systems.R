@@ -363,7 +363,8 @@ for(i in 1:xml_length(planets)) {
                               terran_hegemony = terran_hegemony,
                               abandon_year = abandon_year,
                               p2750 = p2750, p3025 = p3025, p3067 = p3067,
-                              p3079 = p3079, p3145 = p3145)
+                              p3079 = p3079, p3145 = p3145, 
+                              is_terra=(id=="Terra"))
     #collect population values at 10 year intervals, plus the starting and final values.
     first_census_year <- founding_year + 10*(ceiling(founding_year/10)-(founding_year/10))
     last_year <- as.numeric(names(pop)[length(pop)])

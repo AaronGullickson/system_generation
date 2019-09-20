@@ -1199,14 +1199,22 @@ is_star_valid <- function(star) {
 #project population from year 3067 forwards and backwards
 project_population <- function(base_pop, found_year, faction_type, border_distance, 
                                agriculture, terran_hegemony=FALSE, abandon_year=NULL,
-                               p2750=NULL, p3025=NULL, p3067=NULL, p3079=NULL, p3145=NULL) {
+                               p2750=NULL, p3025=NULL, p3067=NULL, p3079=NULL, p3145=NULL,
+                               is_terra=FALSE) {
+  
+  base_colony_size <- 50000
+  if(is_terra) {
+    #don't start terra at 50K!
+    #what is Earth's population in 2086
+    base_colony_size <- 9000000000
+  }
   
   #check to see if we are in the last year of projection
   if(found_year==3145) {
     if(!is.null(p3145)) {
       base_pop <- p3145
     } else {
-      base_pop <- round(50000*runif(1, 0.95,1.05))
+      base_pop <- round(base_colony_size*runif(1, 0.95,1.05))
     }
     names(base_pop) <- "3145"
     return(base_pop)
@@ -1222,7 +1230,7 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
     #a very small number of cases but we need to handle them separately
     #assume founding size of 50000
     if(!is.null(p3145)) {
-      full_growth_rates <- get_gompertz_rates(p3145, 50000, 3145-found_year+1)
+      full_growth_rates <- get_gompertz_rates(p3145, base_colony_size, 3145-found_year+1)
       len <- length(full_growth_rates)
       #reverse project from 3145
       full_pop <- p3145/exp(c(cumsum(full_growth_rates[len:1])[len:1],0))
@@ -1237,7 +1245,7 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
       }
       len <- length(full_growth_rates)
       #forward project
-      full_pop <- 50000 * exp(c(0,cumsum(full_growth_rates)[1:len]))
+      full_pop <- base_colony_size * exp(c(0,cumsum(full_growth_rates)[1:len]))
     }
     names(full_pop) <- paste(found_year:3145)
     return(full_pop)
@@ -1303,7 +1311,7 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
     } else {
       #kerensky cluster
       #Just use a straightforward gompertz curve. assume smaller initial colonization size for clans
-      full_growth_rates <- get_gompertz_rates(base_pop, 10000, base_year-found_year+1)
+      full_growth_rates <- get_gompertz_rates(base_pop, base_colony_size/5, base_year-found_year+1)
       #add noise
       full_growth_rates <- full_growth_rates+growth_simulation(0,base_year-found_year)
       if(found_year<2802) {
@@ -1316,7 +1324,7 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
     #colonies founded right before that period. 
     if(found_year>2700) {
       #just a straightforward gompertz curve
-      full_growth_rates <- get_gompertz_rates(base_pop, 50000, base_year-found_year+1)
+      full_growth_rates <- get_gompertz_rates(base_pop, base_colony_size, base_year-found_year+1)
       #add noise
       full_growth_rates <- full_growth_rates+growth_simulation(0,base_year-found_year)
     } else {
@@ -1340,14 +1348,14 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
 
       #now lets model succession wars depopulation. First sample an overall 
       #depopulation ratio for the whole period.
-      sw_decline <- sample(seq(from=5,to=70,by=1), 1)
+      sw_decline <- sample(seq(from=5,to=60,by=1), 1)
       #adjust by current pop
       if(base_pop>5000000000) {
         sw_decline <- sample(seq(from=1,to=10,by=1), 1)
       } else if(base_pop>1000000000) {
-        sw_decline <- sample(seq(from=5,to=30,by=1), 1)
+        sw_decline <- sample(seq(from=5,to=20,by=1), 1)
       } else if(base_pop>100000000) {
-        sw_decline <- sample(seq(from=5,to=50,by=1), 1)
+        sw_decline <- sample(seq(from=5,to=40,by=1), 1)
       }
       #if terran hegemony or border region then hit harder
       if(terran_hegemony | border_distance<=60) {
@@ -1363,19 +1371,26 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
         sw_decline <- sw_decline-sample(seq(from=5,to=15,by=1), 1)
       } else if(agriculture=="B") {
         sw_decline <- sw_decline-sample(seq(from=0,to=10,by=1), 1)
-      } else if(agriculture=="C") {
-        sw_decline <- sw_decline+sample(seq(from=0,to=15,by=1), 1)
       } else if(agriculture=="D") {
-        sw_decline <- sw_decline+sample(seq(from=10,to=25,by=1), 1)
-      } else {
-        sw_decline <- sw_decline+sample(seq(from=20,to=35,by=1), 1)
+        sw_decline <- sw_decline+sample(seq(from=0,to=10,by=1), 1)
+      } else if(agriculture=="F") {
+        sw_decline <- sw_decline+sample(seq(from=5,to=15,by=1), 1)
       }
       
-      sw_ratio <- 1-min(sw_decline,95)/100
+      sw_ratio <- 1-min(sw_decline,85)/100
       
       #if we have a star league pop size, then use that instead
       if(!is.null(p2750)) {
         sw_ratio <- pop_3sw/p2750
+      } else {
+        #check to make sure we didn't end up with a ridiculous star league population
+        #9 billion is the cutoff, some will still end up higher due to random sampling of annual rates
+        #but should keep us in a more reasonable bounds
+        max_carrying <- 9000000000
+        if((pop_3sw/sw_ratio)>max_carrying) {
+          #then change the ratio
+          sw_ratio <- pop_3sw/max_carrying
+        }
       }
       
       #calculate the end point based on being a part of the Terran Hegemony or not
@@ -1399,10 +1414,10 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
       pop_sl <- pop_3sw/exp(sum(growth_sw))
       if(!is.null(p2750)) {
         pop_sl <- p2750
-      }
+      } 
   
       #from colonization to end of star league, fit a gompertz
-      growth_initial <- get_gompertz_rates(pop_sl, 50000, sl_peak-found_year+1)
+      growth_initial <- get_gompertz_rates(pop_sl, base_colony_size, sl_peak-found_year+1)
       #add noise
       growth_initial <- growth_initial+growth_simulation(0,sl_peak-found_year)
  
