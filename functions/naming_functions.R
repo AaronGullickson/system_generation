@@ -336,6 +336,7 @@ add_flavor <- function(names, type, source, language) {
         #40% chance of addition flavor
         names[i] <- sub_flavor(names[i], 
                                subset(surname_flavor, is.na(lgroup) | lgroup==language))
+        }
       }
       if(source=="place" && sample(1:10,1)==1) {
         #1 in 10 chance of New flavor - this seems pretty rare on canon planets
