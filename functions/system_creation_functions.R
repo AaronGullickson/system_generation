@@ -1432,9 +1432,11 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
   
       #from colonization to end of star league, fit a gompertz
       growth_initial <- get_gompertz_rates(pop_sl, base_colony_size, sl_peak-found_year+1)
-      #add noise
-      growth_initial <- growth_initial+growth_simulation(0,sl_peak-found_year)
- 
+      #add noise if not Terra
+      if(!is_terra) {
+        growth_initial <- growth_initial+growth_simulation(0,sl_peak-found_year)
+      }
+
       #put it all together
       full_growth_rates <- c(growth_initial, growth_sw, growth_post_sw)
     }
