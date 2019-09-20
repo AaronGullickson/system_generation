@@ -1401,15 +1401,29 @@ project_population <- function(base_pop, found_year, faction_type, border_distan
       
       #use overall ratio to calculate average annual rate of decline.
       sw_decline_rate <- log(sw_ratio)/(3025-sl_peak)
+      
+      #messiness should be a function of growth rate. high messiness with high
+      #growth rates can create problems
+      messy <- 3
+      
+      if(abs(sw_decline_rate)>0.035) {
+        messy <- 0.5
+      } else if(abs(sw_decline_rate)>0.02) {
+        messy <- 1
+      } else if(abs(sw_decline_rate)>0.015) {
+        messy <- 2
+      }
+      
       #now random walk it
-      growth_sw <- growth_simulation(sw_decline_rate, 3025-sl_peak, messiness = 3)
+      growth_sw <- growth_simulation(sw_decline_rate, 3025-sl_peak, messiness = messy)
       #resample until I get something in the ballpark of the overall decline
       tolerance <- 0.1
       if(!is.null(p2750)) {
-        tolerance <- 0.01
+        tolerance <- 0.02
       }
-      while(abs(exp(sum(growth_sw))-sw_ratio)>tolerance) {
-        growth_sw <- growth_simulation(sw_decline_rate, 3025-sl_peak, messiness = 3)
+
+      while(abs(sum(growth_sw)-log(sw_ratio))>tolerance) {
+        growth_sw <- growth_simulation(sw_decline_rate, 3025-sl_peak, messiness = messy)
       }
       pop_sl <- pop_3sw/exp(sum(growth_sw))
       if(!is.null(p2750)) {
@@ -1538,7 +1552,7 @@ project_population_abandon <- function(full_pop, found_year, abandon_year, facti
 growth_simulation <- function(average, length, messiness=1) {
   growth <- c(average)
   
-  #increment is equal to 5% of the level times messiness factor
+  #increment is equal to 10% of the level times messiness factor
   increment <- abs(average * 0.1 * messiness)
   if(increment==0) {
     increment <- 0.0002*messiness
