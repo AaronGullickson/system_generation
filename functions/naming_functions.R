@@ -328,7 +328,11 @@ add_flavor <- function(names, type, source, language) {
     names[i] <- capitalize_string(names[i])
     
     if(type=="planet") {
-      if(source=="surname" && sample(1:5,1)<=2) {
+      if(source=="surname") {
+        #some chance of world or planet added
+        if(sample(1:10,1)==1) {
+          names[i] <- paste(names[i], "'s ", sample(c("World","Planet"),1), sep="")
+        } else if(sample(1:5,1)<=2) {
         #40% chance of addition flavor
         names[i] <- sub_flavor(names[i], 
                                subset(surname_flavor, is.na(lgroup) | lgroup==language))
@@ -360,6 +364,10 @@ add_flavor <- function(names, type, source, language) {
         names[i] <- sub_flavor(names[i], 
                                subset(surname_flavor, is.na(lgroup) | lgroup==language))
       }
+      if(sample(1:100)==1) {
+        #add prime
+        names[i] <- paste(names[i], "Prime", sep=" ")
+      }
     }
     if(type=="city") {
       #1 in 2 chance of city flavor
@@ -381,6 +389,10 @@ add_flavor <- function(names, type, source, language) {
         names[i] <- sub_flavor(names[i], 
                                subset(surname_flavor, is.na(lgroup) | lgroup==language))
       }
+      if(sample(1:40)==1) {
+        #add prime
+        names[i] <- paste(names[i], "Prime", sep=" ")
+      }
     }
     if(type=="moon") {
       #TODO: how about the name of the planet plus qualifier (e.g. Caph's Stone)
@@ -399,13 +411,19 @@ add_flavor <- function(names, type, source, language) {
   if(type=="continent" & length(names)>=2 & sample(1:20, 1)<=3) {
     idx <- sample(1:length(names), 2, replace = FALSE)
     dupe_name <- names[idx[1]]
-    roll <- sample(1:3, 1)
+    roll <- sample(1:6, 1)
     if(roll==1) {
       names[idx] <- paste(c("Big","Little"), dupe_name, sep=" ")
     } else if(roll==2) {
       names[idx] <- paste(c("Larger","Smaller"), dupe_name, sep=" ")
-    } else {
+    } else if(roll==3) {
       names[idx] <- paste(c("Greater","Lesser"), dupe_name, sep=" ")
+    } else if(roll==4) {
+      names[idx] <- paste(c("Major","Minor"), dupe_name, sep=" ")
+    } else if(roll==5) {
+      names[idx] <- paste(c("Northern","Southern"), dupe_name, sep=" ")
+    } else if(roll==6) {
+      names[idx] <- paste(c("Eastern","Western"), dupe_name, sep=" ")
     }
   }
   
