@@ -1618,14 +1618,13 @@ project_sics <- function(tech, industry, raw, output, agriculture,
                                  faction_type)
   
   if(founding_year<2700) {
-    
     #we need a year of SL peak, and a first and second SW decline date
     #assign these somewhat randomly by drawing from exponential distribution
     
-    #SL peak year (target 2600-2750, mean 2650)
-    year_sl <- round(max(2600, founding_year+10)+rexp(1,.02))
+    #SL peak year (target 2600-2750, mean 2675)
+    year_sl <- round(max(2601, founding_year+10)+rexp(1,1/75))
     while(year_sl>2750) {
-      year_sl <- round(max(2600, founding_year+10)+rexp(1,.02))
+      year_sl <- round(max(2601, founding_year+10)+rexp(1,1/75))
     }
     #1st SW drop (target 2840-2880, mean 2850)
     year_1sw <- round(2840+rexp(1,.1))
@@ -1664,12 +1663,23 @@ project_sics <- function(tech, industry, raw, output, agriculture,
                             pop_ratio = pop[paste(year_2sw)]/pop[paste(year_1sw)],
                             year_2sw-founding_year)
     
-    sic_changes <- rbind(interpolate_sics(sics_colony, sics_sl, founding_year, 
-                                          year_sl),
+    #interpolate to colony
+    sics_initial <-  interpolate_sics(sics_colony, sics_sl, founding_year, year_sl)
+    #need to ensure that we don't get tech and industrial development before certain possible
+    #thresholds
+    i <- 0
+    while(is_sics_impossible(sics_initial) & i<30) {
+      sics_initial <- interpolate_sics(sics_colony, sics_sl, founding_year, year_sl)
+      i <- i+1
+    }
+    if(i>=30) {
+      warning("could not interpolate SICS to founding with necessary tech cutoffs")
+    }
+    
+    sic_changes <- rbind(sics_initial,
                          data.frame(year=year_1sw, sics=combine_sics(sics_sw1)), 
                          interpolate_sics(sics_sw2, sics, year_2sw, current_year, 
                                           3025))
-    sic_changes
   } else {
     #just interpolate between colony and now 
     sic_changes <- interpolate_sics(sics_colony, sics, founding_year, current_year)
@@ -1701,9 +1711,37 @@ project_sics <- function(tech, industry, raw, output, agriculture,
   return(sic_changes)
 }
 
+is_sics_impossible <- function(sics_projections) {
+  sics_projections$tech <- factor(substr(sics_projections$sics, 1,1),
+                                  levels=c("X","F","D","C","B","A"),
+                                  ordered = TRUE)
+  sics_projections$industry <- factor(substr(sics_projections$sics, 3,3),
+                                       levels=c("X","F","D","C","B","A"),
+                                       ordered = TRUE)
+  
+  #no A tech before 2600
+  if(sum(subset(sics_projections, tech>="A")$year<2600, na.rm=TRUE)>0) {
+    return(TRUE)
+  }
+  #no B tech before 2400
+  if(sum(subset(sics_projections, tech>="B")$year<2400, na.rm=TRUE)>0) {
+    return(TRUE)
+  }
+  if(sum(subset(sics_projections, industry>="A")$year<2400, na.rm=TRUE)>0) {
+    return(TRUE)
+  }
+  return(FALSE)
+}
+
 get_colony_sics <- function(sics, founding_year, current_year, faction_type) {
   
+
   tech_colony <- factor("C", levels=levels(sics$tech), ordered=TRUE)
+  if(founding_year<2400) {
+    #before 2400 C is the best tech you can have so keep colonies a little
+    #lower
+    tech_colony <- factor("D", levels=levels(sics$tech), ordered=TRUE)
+  }
   industry_colony <- factor("D", levels=levels(sics$industry), ordered=TRUE)
   output_colony <- factor("D", levels=levels(sics$output), ordered=TRUE)
   if(faction_type=="Clan") {
@@ -2039,6 +2077,10 @@ project_recharge <- function(recharge_current, faction_type, founding_year, sics
   
   #default to about 50 years after colonization, on average
   build_rate <- 0.02
+  #earliest build year is 2350 because thats about when jump sails became common according
+  #to stellar ops
+  earliest_build_year <- max(2350, founding_year)
+  
   #clans build much faster, about 5 years on average
   if(faction_type=="Clan") {
     build_rate <- 0.2
@@ -2059,14 +2101,14 @@ project_recharge <- function(recharge_current, faction_type, founding_year, sics
   
   if(faction_type=="Clan") {
     if(recharge_current$zenith) {
-      build_year <- founding_year+round(rexp(1, build_rate))
+      build_year <- earliest_build_year+round(rexp(1, build_rate))
       recharge_history <- recharge_history %>% 
         bind_rows(tibble(year=build_year,
                          etype="zenithCharge",
                          event="true"))
     }
     if(recharge_current$nadir) {
-      build_year <- founding_year+round(rexp(1, build_rate))
+      build_year <- earliest_build_year+round(rexp(1, build_rate))
       recharge_history <- recharge_history %>% 
         bind_rows(tibble(year=build_year,
                          etype="nadirCharge",
@@ -2142,14 +2184,14 @@ project_recharge <- function(recharge_current, faction_type, founding_year, sics
   
   if(nrecharge_sl<=nrecharge_current) {
     if(recharge_current$zenith) {
-      build_year <- founding_year+round(rexp(1, build_rate))
+      build_year <- earliest_build_year+round(rexp(1, build_rate))
       recharge_history <- recharge_history %>% 
         bind_rows(tibble(year=build_year,
                          etype="zenithCharge",
                          event="true"))
     }
     if(recharge_current$nadir) {
-      build_year <- founding_year+round(rexp(1, build_rate))
+      build_year <- earliest_build_year+round(rexp(1, build_rate))
       recharge_history <- recharge_history %>% 
         bind_rows(tibble(year=build_year,
                          etype="nadirCharge",
@@ -2161,12 +2203,12 @@ project_recharge <- function(recharge_current, faction_type, founding_year, sics
     hadNadir <- FALSE
     if(nrecharge_sl==2) {
       #build both
-      build_year_zenith <- founding_year+round(rexp(1, build_rate))
+      build_year_zenith <- earliest_build_year+round(rexp(1, build_rate))
       recharge_history <- recharge_history %>% 
         bind_rows(tibble(year=build_year_zenith,
                          etype="zenithCharge",
                          event="true"))
-      build_year_nadir <- founding_year+round(rexp(1, build_rate))
+      build_year_nadir <- earliest_build_year+round(rexp(1, build_rate))
       recharge_history <- recharge_history %>% 
         bind_rows(tibble(year=build_year_nadir,
                          etype="nadirCharge",
@@ -2176,14 +2218,14 @@ project_recharge <- function(recharge_current, faction_type, founding_year, sics
     } else if(nrecharge_sl==1) {
       #build one
       if(sample(1:2,1)==1) {
-        build_year_zenith <- founding_year+round(rexp(1, build_rate))
+        build_year_zenith <- earliest_build_year+round(rexp(1, build_rate))
         recharge_history <- recharge_history %>% 
           bind_rows(tibble(year=build_year_zenith,
                            etype="zenithCharge",
                            event="true"))
         hadZenith = TRUE
       } else {
-        build_year_nadir <- founding_year+round(rexp(1, build_rate))
+        build_year_nadir <- earliest_build_year+round(rexp(1, build_rate))
         recharge_history <- recharge_history %>% 
           bind_rows(tibble(year=build_year_nadir,
                            etype="nadirCharge",
