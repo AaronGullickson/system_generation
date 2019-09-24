@@ -17,7 +17,7 @@ source(here("functions","naming_functions.R"))
 source(here("functions","network_functions.R"))
 
 #set a seed to allow for reproducing the results
-#set.seed(20)
+set.seed(3025)
 
 options(nwarnings = 1000)
 
