@@ -330,6 +330,54 @@ for(i in 1:xml_length(planets)) {
                            etype="faction",
                            event=as.character(faction_table$event[idx]),
                            canon=TRUE))
+        if(id=="Terra") {
+          #add in the same table for mars and venus if within their lifespan
+          year <- get_year(faction_table$date[idx])
+          #check mars
+          if(year>2201) {
+            event_table <- event_table %>% 
+              bind_rows(tibble(id=as.character(id),
+                               sys_pos=4,
+                               date=as.character(faction_table$date[idx]),
+                               etype="faction",
+                               event=as.character(faction_table$event[idx]),
+                               canon=TRUE))
+          }
+          #check venus
+          if(year>2205 & year<3030) {
+            event_table <- event_table %>% 
+              bind_rows(tibble(id=as.character(id),
+                               sys_pos=2,
+                               date=as.character(faction_table$date[idx]),
+                               etype="faction",
+                               event=as.character(faction_table$event[idx]),
+                               canon=TRUE))
+          }
+        }
+      }
+      if(id=="Terra") {
+        #put in starting (and ending) dates for mars and venus
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=4,
+                           date=paste(2201,"01","01",sep="-"),
+                           etype="faction",
+                           event="TA",
+                           canon=FALSE))
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=2,
+                           date=paste(2205,"01","01",sep="-"),
+                           etype="faction",
+                           event="TA",
+                           canon=FALSE))
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=2,
+                           date=paste(3030,"01","01",sep="-"),
+                           etype="faction",
+                           event="ABN",
+                           canon=FALSE))
       }
     }
     
