@@ -365,6 +365,111 @@ for(i in 1:xml_length(planets)) {
                               p2750 = p2750, p3025 = p3025, p3067 = p3067,
                               p3079 = p3079, p3145 = p3145, 
                               is_terra=(id=="Terra"))
+    if(id=="Terra") {
+
+      ## Populate Mars ##
+      #according to SL and JHS: Terra, Mars was founded around 2201
+      #it had a population of "over a million" by the beginning of SL (2571),
+      pop_mars <- (10000 * runif(1, 0.95,1.05)) * 
+        exp(cumsum(c(0, 
+                     get_gompertz_rates(1300000, 10000, 2571-2200)+
+                       growth_simulation(0, 2571-2201, 0.75))))
+      while(pop_mars[length(pop_mars)]<1000000) {
+        pop_mars <- (10000 * runif(1, 0.95,1.05)) * 
+          exp(cumsum(c(0, 
+                       get_gompertz_rates(1000000, 10000, 2571-2200)+
+                         growth_simulation(0, 2571-2201, 0.75))))
+      }
+      #it had a population of 70 million at the height of SL (2765)
+      rate <- log(70000000/pop_mars[length(pop_mars)])/(2765-2571)
+      temp <- pop_mars[length(pop_mars)]* exp(cumsum(growth_simulation(rate, 2765-2571, 0.1)))
+      while(max(temp)>80000000 | max(temp) < 70000000) {
+        temp <- pop_mars[length(pop_mars)]* exp(cumsum(growth_simulation(rate, 2765-2571, 0.1)))
+      }
+      pop_mars <- c(pop_mars, temp)
+      #it had a population of 4.25 million in 3077 - the 1 million figure for 3025 is explicitly
+      #said to be inaccurate in JHS Terra
+      rate <- log(4250000/pop_mars[length(pop_mars)])/(3077-2765)
+      temp <- pop_mars[length(pop_mars)]* exp(cumsum(growth_simulation(rate, 3077-2765, 0.2)))
+      while(temp[length(temp)]>4300000 | temp[length(temp)] < 4200000) {
+        temp <- pop_mars[length(pop_mars)]* exp(cumsum(growth_simulation(rate, 3077-2765, 0.2)))
+      }
+      pop_mars <- c(pop_mars, temp)
+      #assume standard low-growth until 3145
+      pop_mars <- c(pop_mars, 
+                    4250000*exp(cumsum(growth_simulation(0.001, 3145-3077, messiness=2))))
+      names(pop_mars) <- paste(2201:3145)
+      
+      #subtract mars population from tarra pop
+      pop[names(pop_mars)] <- pop[names(pop_mars)]-pop_mars
+      
+      #add Mars population to event table
+      census_years <- c(2201, seq(from=2210, to=3140, by=10), 3145)
+      census_pop <- round(pop_mars[paste(census_years)])
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=4,
+                         date=paste(census_years,"01","01",sep="-"),
+                         etype="population",
+                         event=paste(census_pop),
+                         canon=FALSE))
+      #add in canon 3077 population
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=4,
+                         date=paste(3077,"01","01",sep="-"),
+                         etype="population",
+                         event=paste(pop_mars["3077"]),
+                         canon=TRUE))
+      
+      ## Populate Venus ##
+      #we dont have an exact colonization date for Venus, but should be close
+      #to Mars, lets put it at 2205. 
+      #202.5 million at star league peak
+      pop_venus <- (10000 * runif(1, 0.95,1.05)) * 
+        exp(cumsum(c(0, 
+                     get_gompertz_rates(202500000, 10000, 2765-2204)+
+                       growth_simulation(0, 2765-2205, 0.75))))
+      while(pop_venus[length(pop_venus)]<202500000 | pop_venus[length(pop_venus)]>215000000) {
+        pop_venus <- (10000 * runif(1, 0.95,1.05)) * 
+          exp(cumsum(c(0, 
+                       get_gompertz_rates(202500000, 10000, 2765-2204)+
+                         growth_simulation(0, 2765-2205, 0.75))))
+      }
+      #declines to 9000ish by 3025
+      rate <- log(9000/pop_venus[length(pop_venus)])/(3025-2765)
+      temp <- pop_venus[length(pop_venus)]* exp(cumsum(growth_simulation(rate, 3025-2765, 0.2)))
+      while(temp[length(temp)]>10000 | temp[length(temp)] < 7000) {
+        temp <- pop_venus[length(pop_venus)]* exp(cumsum(growth_simulation(rate, 3025-2765, 0.2)))
+      }
+      pop_venus<- c(pop_venus, temp)
+      names(pop_venus) <- paste(2205:3025)
+      
+      #subtract mars population from tarra pop
+      pop[names(pop_venus)] <- pop[names(pop_venus)]-pop_venus
+      
+      #add Venus population to event table
+      census_years <- c(2205, seq(from=2210, to=3020, by=10))
+      census_pop <- round(pop_venus[paste(census_years)])
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=2,
+                         date=paste(census_years,"01","01",sep="-"),
+                         etype="population",
+                         event=paste(census_pop),
+                         canon=FALSE))
+      
+      #we dont no exact abandonment date, but lets say it was zero by 3030
+      event_table <- event_table %>% 
+        bind_rows(tibble(id=as.character(id),
+                         sys_pos=2,
+                         date=paste("3030","01","01",sep="-"),
+                         etype="population",
+                         event="0",
+                         canon=FALSE))
+      
+    }
+    
     #collect population values at 10 year intervals, plus the starting and final values.
     first_census_year <- founding_year + 10*(ceiling(founding_year/10)-(founding_year/10))
     last_year <- as.numeric(names(pop)[length(pop)])
