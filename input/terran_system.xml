@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<systems>
   <system>
     <id>Terra</id>
     <xcood>0</xcood>
@@ -13,7 +12,7 @@
       <sysPos>1</sysPos>
       <pressure>Trace</pressure>
       <atmosphere>Toxic (Poisonous)</atmosphere>
-      <composition></composition>
+      <composition>Oxygen and Sodium, plus trace gases</composition>
       <gravity>0.38</gravity>
       <temperature>427</temperature>
       <water>0</water>
@@ -30,14 +29,14 @@
       <pressure>Very High</pressure>
       <atmosphere>Toxic (Poisonous)</atmosphere>
       <composition>Carbon Dioxide and Nitrogen, plus trace gases</composition>
-      <gravity>0.90</gravity>
+      <gravity>0.904</gravity>
       <temperature>460</temperature>
       <water>0</water>
       <dayLength>5832</dayLength>
       <yearLength>0.24</yearLength>
       <diameter>12100</diameter>
       <density>5.243</density>
-      <landMass source="canon">Europe (Geneva)</landMass>
+      <landMass source="canon">(Aphros)</landMass>
       <desc source="canon">3028 - The terraforming of Venus began in the 2100s. In 2245, it was discovered that the chemicals that covered the planet's surface made excellent fertilizer. Agribusinesses set up farms using artificial soil and began producing enough food to feed Terra, Mars and Venus and a surplus for other struggling colonies.
 
       The Military Academy of Aphros, the planetary capital, was completed in 2242 and trained soldiers for the SLDF. It was destroyed during the first few months of the Amaris coup by a nuclear device.
@@ -59,6 +58,7 @@
       <yearLength source="canon">1</yearLength>
       <diameter source="canon">12742</diameter>
       <density source="canon">5.514</density>
+      <lifeForm>Mammals</lifeForm>
       <landMass source="canon">Asia</landMass>
       <landMass source="canon">Africa</landMass>
       <landMass source="canon">Antarctica</landMass>
@@ -66,7 +66,7 @@
       <landMass source="canon">Europe (Geneva)</landMass>
       <landMass source="canon">North America</landMass>
       <landMass source="canon">South America</landMass>
-      <satellite size="large" source="canon">Luna</satellite>
+      <satellite size="large" source="canon">Luna (Luna City)</satellite>
       <desc source="canon">The birthplace of humanity, Terra (or Earth), remains a leader in industry and technology over the rest of the Inner Sphere. Terra was the seat of power for the Terran Alliance and then later the Terran Hegemony and by extension the Star League.
 
 Terra was a neutral power controlled by ComStar from 2788 until the planet was taken by the Word of Blake in 3057.
@@ -88,7 +88,7 @@ In addition to Terra herself, colonies exist on the Terran lunar surface, and th
       <atmosphere>Toxic (Poisonous)</atmosphere>
       <composition>Carbon Dioxide, Argon, and Nitrogen, plus trace gases</composition>
       <gravity>0.38</gravity>
-      <temperature>20</temperature>
+      <temperature>12</temperature>
       <water>14</water>
       <dayLength>24.66</dayLength>
       <yearLength>1.88</yearLength>
@@ -200,4 +200,3 @@ In addition to Terra herself, colonies exist on the Terran lunar surface, and th
       <smallMoons>8</smallMoons>
     </planet>
   </system>
-</systems>
