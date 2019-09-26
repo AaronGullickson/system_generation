@@ -354,12 +354,12 @@ write_system_xml <- function(system_node, system, id, x, y, primary_slot=0,
     }
     
     if(j==primary_slot & !is.na(life)) {
-      xml_add_child(planet_node, "life", 
-                    life, 
+      xml_add_child(planet_node, "lifeForm", 
+                    life,
                     source="canon")
     }
     else if(!is.na(planet$life)) {
-      xml_add_child(planet_node, "life", 
+      xml_add_child(planet_node, "lifeForm", 
                     as.character(planet$life))
     }
     
