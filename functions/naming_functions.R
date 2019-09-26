@@ -546,7 +546,11 @@ convert_arabic2roman <- function(arabic) {
 }
 
 add_easter_eggs <- function(system, id) {
-
+  
+  if(is.na(id)) {
+    return(system)
+  }
+  
   idx <- which(system$planets$inhabitable)
   if(length(idx)==0) {
     return(system)
