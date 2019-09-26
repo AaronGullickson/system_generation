@@ -509,7 +509,7 @@ Addicks remains an important world today, though it has lost much of its glory o
     <xcood>-123.314</xcood>
     <ycood>-468.96</ycood>
     <id>Adhara (Trip 3040+)</id>
-    <name>Adhara (Trip 3040+)</name>
+    <name>Adhara</name>
     <spectralType>G0V</spectralType>
     <spectralClass>G</spectralClass>
     <subtype>0.0</subtype>
@@ -587,7 +587,7 @@ Addicks remains an important world today, though it has lost much of its glory o
     <xcood>55.145</xcood>
     <ycood>-187.635</ycood>
     <id>Aer (Finnalon 2822+)</id>
-    <name>Aer (Finnalon 2822+)</name>
+    <name>Aer</name>
     <spectralType>F6V</spectralType>
     <spectralClass>F</spectralClass>
     <subtype>6.0</subtype>
@@ -677,7 +677,7 @@ Addicks remains an important world today, though it has lost much of its glory o
     <xcood>395.843</xcood>
     <ycood>-140.358</ycood>
     <id>Agmond (Bornal 3130+)</id>
-    <name>Agmond (Bornal 3130+)</name>
+    <name>Agmond</name>
     <spectralType>G6V</spectralType>
     <spectralClass>G</spectralClass>
     <subtype>6.0</subtype>
@@ -2326,7 +2326,7 @@ An Ting fell to the 'Curse of Galedon' plague that devastated Galedon V and was 
     <xcood>-432.787</xcood>
     <ycood>276.444</ycood>
     <id>Anatolia (Pillory 3130+)</id>
-    <name>Anatolia (Pillory 3130+)</name>
+    <name>Anatolia</name>
     <spectralType>F2V</spectralType>
     <spectralClass>F</spectralClass>
     <subtype>2.0</subtype>
@@ -2402,7 +2402,7 @@ An Ting fell to the 'Curse of Galedon' plague that devastated Galedon V and was 
     <xcood>-424.484</xcood>
     <ycood>-47.393</ycood>
     <id>Andiron (Helbrent 3025-)</id>
-    <name>Andiron (Helbrent 3025-)</name>
+    <name>Helbrent</name>
     <spectralType>F1V</spectralType>
     <spectralClass>F</spectralClass>
     <subtype>1.0</subtype>
@@ -3424,7 +3424,7 @@ Salvatore Incorporated</desc>
     <xcood>-29.949</xcood>
     <ycood>-419.973</ycood>
     <id>Arn (Jia Tian 3130+)</id>
-    <name>Arn (Jia Tian 3130+)</name>
+    <name>Arn</name>
     <spectralType>G4V</spectralType>
     <spectralClass>G</spectralClass>
     <subtype>4.0</subtype>
@@ -3946,19 +3946,6 @@ The capital and primary spaceport city of Atria Prime, located on the southern p
     <faction>UND</faction>
   </planet>
   <planet>
-    <xcood>-71.766</xcood>
-    <ycood>986.082</ycood>
-    <id>Attenbrooks</id>
-    <name>Attenbrooks</name>
-    <spectralType>G1III</spectralType>
-    <spectralClass>G</spectralClass>
-    <subtype>1.0</subtype>
-    <luminosity>III</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
     <xcood>-377.644</xcood>
     <ycood>-176.567</ycood>
     <id>Atzenbrugg</id>
@@ -4113,7 +4100,7 @@ The primary industries on Augustine involve extracting raw minerals from the pla
     <xcood>-432.673</xcood>
     <ycood>306.258</ycood>
     <id>Austerlitz (Scauld 3130+)</id>
-    <name>Austerlitz (Scauld 3130+)</name>
+    <name>Austerlitz</name>
     <spectralType>K7V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>7.0</subtype>
@@ -4689,7 +4676,7 @@ Babylon is home to the Goliath Scorpion, which were a bane of early settlers.</d
     <xcood>-440.091</xcood>
     <ycood>-59.547</ycood>
     <id>Baltazar III (Himmels 3025-)</id>
-    <name>Baltazar III (Himmels 3025-)</name>
+    <name>Himmels</name>
     <spectralType>K0V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>0.0</subtype>
@@ -4880,7 +4867,7 @@ Babylon is home to the Goliath Scorpion, which were a bane of early settlers.</d
     <xcood>173.189</xcood>
     <ycood>66.905</ycood>
     <id>Barlow's Folly (Cussar 2864-)</id>
-    <name>Barlow's Folly (Cussar 2864-)</name>
+    <name>Cussar</name>
     <spectralType>K2V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>2.0</subtype>
@@ -5198,19 +5185,6 @@ The capital city and primary spaceport of Baxter, Cleopolis, is located on the n
     <faction>UND</faction>
   </planet>
   <planet>
-    <xcood>23.578</xcood>
-    <ycood>754.886</ycood>
-    <id>Bazaar</id>
-    <name>Bazaar</name>
-    <spectralType>G2VI</spectralType>
-    <spectralClass>G</spectralClass>
-    <subtype>2.0</subtype>
-    <luminosity>VI</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
     <xcood>149.39</xcood>
     <ycood>1723.536</ycood>
     <id>Bearclaw</id>
@@ -5379,7 +5353,7 @@ The capital city and primary spaceport of Baxter, Cleopolis, is located on the n
     <xcood>61.806</xcood>
     <ycood>-293.804</ycood>
     <id>Belamor (Zanzor 2822+)</id>
-    <name>Belamor (Zanzor 2822+)</name>
+    <name>Belamor</name>
     <spectralType>M2V</spectralType>
     <spectralClass>M</spectralClass>
     <subtype>2.0</subtype>
@@ -5809,7 +5783,7 @@ During the Word of Blake Jihad, Benjamin was right on the edge of the Word of Bl
     <id>Betelgeuse</id>
     <name>Betelgeuse</name>
     <sysPos>2</sysPos>
-    <spectralType>M2I</spectralType>
+    <spectralType>M2Ib</spectralType>
     <spectralClass>M</spectralClass>
     <subtype>2.0</subtype>
     <luminosity>I</luminosity>
@@ -6273,7 +6247,7 @@ Bithinian Ballistics</desc>
     <xcood>-467.612</xcood>
     <ycood>-115.768</ycood>
     <id>Blantleff (Dersidatz 3025-)</id>
-    <name>Blantleff (Dersidatz 3025-)</name>
+    <name>Dersidatz</name>
     <spectralType>F3V</spectralType>
     <spectralClass>F</spectralClass>
     <subtype>3.0</subtype>
@@ -8228,19 +8202,6 @@ Earthwerks Incorporated</desc>
     <faction>UND</faction>
   </planet>
   <planet>
-    <xcood>-300.827</xcood>
-    <ycood>640.81</ycood>
-    <id>Cambridge Perimeter Defense Station</id>
-    <name>Cambridge Perimeter Defense Station</name>
-    <spectralType>M7V</spectralType>
-    <spectralClass>M</spectralClass>
-    <subtype>7.0</subtype>
-    <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
     <xcood>-157.697</xcood>
     <ycood>-196.793</ycood>
     <id>Cameron (FWL)</id>
@@ -8981,7 +8942,7 @@ During the Jihad, Carsphairn was raided several times by Word of Blake forces as
     <xcood>-5.436</xcood>
     <ycood>-20.722</ycood>
     <id>Carver V (Liberty 3063+)</id>
-    <name>Carver V (Liberty 3063+)</name>
+    <name>Carver V</name>
     <sysPos>5</sysPos>
     <spectralType>M5V</spectralType>
     <spectralClass>M</spectralClass>
@@ -10354,7 +10315,7 @@ This led to a very hostile environment by the mid 3020s with many residents just
     <xcood>-405.913</xcood>
     <ycood>-79.963</ycood>
     <id>Clayborne II (Green Stone 3025-)</id>
-    <name>Clayborne II (Green Stone 3025-)</name>
+    <name>Green Stone</name>
     <spectralType>M2V</spectralType>
     <spectralClass>M</spectralClass>
     <subtype>2.0</subtype>
@@ -10697,26 +10658,6 @@ Honor is the 4th planet in the system and is best described as an arctic planet 
     <nadirCharge>false</nadirCharge>
     <zenithCharge>false</zenithCharge>
     <faction>UND</faction>
-  </planet>
-  <planet>
-    <xcood>405.006</xcood>
-    <ycood>601.855</ycood>
-    <id>Columbus (Epsilon Pegasus)</id>
-    <name>Columbus (Epsilon Pegasus)</name>
-    <sysPos>4</sysPos>
-    <spectralType>G2V</spectralType>
-    <spectralClass>G</spectralClass>
-    <subtype>2.0</subtype>
-    <luminosity>V</luminosity>
-    <satellite>Amor</satellite>
-    <gravity>0.9</gravity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <pressure>3</pressure>
-    <lifeForm>MAMMAL</lifeForm>
-    <hpg>A</hpg>
-    <faction>UND</faction>
-    <desc>Columbus was settled in 2549 by deep exploration crews for the Terran Hegemony. The station continued as a send off point for explorers throughout the Star League and the facilities were eventually upgraded to include a dropship repair facility on Amor, the planets moon. The planet was abandoned in 2780, just prior to Kerensky's Exodus and remained abandoned until Comstar rediscovered the facility in 3023 and began using it as a staging base for their Explorer Corps. The facility was very small until the early 3050s when the need to find the Clan Homeworlds reignited the need for the Explorer Corps.</desc>
   </planet>
   <planet>
     <xcood>-316.194</xcood>
@@ -11538,19 +11479,6 @@ After suffering at the hands of the Combine for decades, the people of Csesztreg
     <faction>UND</faction>
   </planet>
   <planet>
-    <xcood>321.685</xcood>
-    <ycood>1044.936</ycood>
-    <id>Ctesiphon</id>
-    <name>Ctesiphon</name>
-    <spectralType>M2III</spectralType>
-    <spectralClass>M</spectralClass>
-    <subtype>2.0</subtype>
-    <luminosity>III</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
     <xcood>544.081</xcood>
     <ycood>240.757</ycood>
     <id>Culmia</id>
@@ -12159,29 +12087,6 @@ During the First Succession War, the Draconis Combine used over a dozen 100-mega
     <nadirCharge>false</nadirCharge>
     <zenithCharge>false</zenithCharge>
     <faction>UND</faction>
-  </planet>
-  <planet>
-    <xcood>-137.44</xcood>
-    <ycood>424.06</ycood>
-    <id>Dark Nebula</id>
-    <name>Dark Nebula</name>
-    <sysPos>15</sysPos>
-    <spectralType>K8V</spectralType>
-    <spectralClass>K</spectralClass>
-    <subtype>8.0</subtype>
-    <luminosity>V</luminosity>
-    <gravity>0.01</gravity>
-    <percentWater>0</percentWater>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <pressure>0</pressure>
-    <temperature>0</temperature>
-    <climate>ARCTIC</climate>
-    <lifeForm>NONE</lifeForm>
-    <socioIndustrial>B-C-D-D-E</socioIndustrial>
-    <hpg>X</hpg>
-    <faction>UND</faction>
-    <desc>The Dark Nebula Waystation was created as a logistical point for the invading Clans just outside of the Inner Sphere and has traded hands multiple times between the 3050s and 3070s, with multiple attempts made to destroy the station outright. However, the immense size of the station prevented its complete destruction, but eventually all functions beyond using the Dark Nebula as a stopover and possibly storage, were lost.</desc>
   </planet>
   <planet>
     <xcood>311.732</xcood>
@@ -13065,7 +12970,7 @@ Bowie Industries</desc>
     <xcood>-417.614</xcood>
     <ycood>-62.53</ycood>
     <id>Diedre's Den (Iolas 3025-)</id>
-    <name>Diedre's Den (Iolas 3025-)</name>
+    <name>Iolas</name>
     <spectralType>F3V</spectralType>
     <spectralClass>F</spectralClass>
     <subtype>3.0</subtype>
@@ -13875,7 +13780,7 @@ Majesty Metals and Manufacturing</desc>
     <xcood>440.689</xcood>
     <ycood>243.842</ycood>
     <id>Dunklewälderdunklerflüssenschattenwelt (Bob 2822+)</id>
-    <name>Dunklewälderdunklerflüssenschattenwelt (Bob 2822+)</name>
+    <name>Dunklewälderdunklerflüssenschattenwelt</name>
     <sysPos>1</sysPos>
     <spectralType>M2V</spectralType>
     <spectralClass>M</spectralClass>
@@ -14046,19 +13951,6 @@ The capital city of Dyev, Novaya Mensk, is located in the northern hemisphere, o
     <faction>UND</faction>
   </planet>
   <planet>
-    <xcood>-204.8</xcood>
-    <ycood>1732.829</ycood>
-    <id>EC821-387D</id>
-    <name>EC821-387D</name>
-    <spectralType>M2V</spectralType>
-    <spectralClass>M</spectralClass>
-    <subtype>2.0</subtype>
-    <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
     <xcood>-244.105</xcood>
     <ycood>-549.928</ycood>
     <id>Eagle Rest</id>
@@ -14209,7 +14101,7 @@ Edasich Motors</desc>
     <xcood>-462.404</xcood>
     <ycood>290.917</ycood>
     <id>Edirne (Brank 3130+)</id>
-    <name>Edirne (Brank 3130+)</name>
+    <name>Edirne</name>
     <spectralType>G8V</spectralType>
     <spectralClass>G</spectralClass>
     <subtype>8.0</subtype>
@@ -14510,7 +14402,7 @@ Overall the planet is comfortable for human habitation, with the unfortunate pro
     <xcood>1.54</xcood>
     <ycood>-50.974</ycood>
     <id>Elgin (Chisholm 2878-)</id>
-    <name>Elgin (Chisholm 2878-)</name>
+    <name>Chisholm</name>
     <sysPos>2</sysPos>
     <spectralType>G1V</spectralType>
     <spectralClass>G</spectralClass>
@@ -17467,19 +17359,6 @@ In 2315, Genoa became a member of the Liao Protectorate before it was taken by t
     <faction>UND</faction>
   </planet>
   <planet>
-    <xcood>211.24</xcood>
-    <ycood>1164.481</ycood>
-    <id>Ghent</id>
-    <name>Ghent</name>
-    <spectralType>G2III</spectralType>
-    <spectralClass>G</spectralClass>
-    <subtype>2.0</subtype>
-    <luminosity>III</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
     <xcood>10.056</xcood>
     <ycood>-406.489</ycood>
     <id>Ghorepani</id>
@@ -18715,7 +18594,7 @@ In the 31st century Greeley gained some importance as the Federated Suns establi
     <xcood>-304.289</xcood>
     <ycood>203.387</ycood>
     <id>Gulf Breeze (Commonwealth Mining Outpost 26 3057-)</id>
-    <name>Gulf Breeze (Commonwealth Mining Outpost 26 3057-)</name>
+    <name>Commonwealth Mining Outpost</name>
     <sysPos>5</sysPos>
     <spectralType>G9V</spectralType>
     <spectralClass>G</spectralClass>
@@ -19361,7 +19240,7 @@ During their Holy War, the Blakists found ready converts among the technological
     <xcood>64.184</xcood>
     <ycood>-362.85</ycood>
     <id>Hansii (Itsbur 2822+)</id>
-    <name>Hansii (Itsbur 2822+)</name>
+    <name>Hansii</name>
     <spectralType>G2V</spectralType>
     <spectralClass>G</spectralClass>
     <subtype>2.0</subtype>
@@ -19499,19 +19378,6 @@ Entertainment on Hardcore ranges from ballet to bloodsports and is home to a ser
     <spectralClass>F</spectralClass>
     <subtype>8.0</subtype>
     <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
-    <xcood>-141.321</xcood>
-    <ycood>802.486</ycood>
-    <id>Harris</id>
-    <name>Harris</name>
-    <spectralType>G5IV</spectralType>
-    <spectralClass>G</spectralClass>
-    <subtype>5.0</subtype>
-    <luminosity>IV</luminosity>
     <nadirCharge>false</nadirCharge>
     <zenithCharge>false</zenithCharge>
     <faction>UND</faction>
@@ -20719,7 +20585,7 @@ Holloway is home to a Duchy RTC facility, located on the Morristown continent, w
     <xcood>-78.675</xcood>
     <ycood>1799.056</ycood>
     <id>Homer (Zara 2850-)</id>
-    <name>Homer (Zara 2850-)</name>
+    <name>Zara</name>
     <sysPos>2</sysPos>
     <spectralType>K5V</spectralType>
     <spectralClass>K</spectralClass>
@@ -21049,7 +20915,7 @@ During the Star League-era, Hsien prospered as part of the Terran Hegemony, befo
     <xcood>42.347</xcood>
     <ycood>-432.173</ycood>
     <id>Huanghuadian (Tincalunas 3130+)</id>
-    <name>Huanghuadian (Tincalunas 3130+)</name>
+    <name>Huanghuadian</name>
     <spectralType>M3V</spectralType>
     <spectralClass>M</spectralClass>
     <subtype>3.0</subtype>
@@ -22070,45 +21936,6 @@ Ingress‘s temporary military weakness made it an easy target during the Blakis
     <faction>UND</faction>
   </planet>
   <planet>
-    <xcood>-1499.962</xcood>
-    <ycood>326.19</ycood>
-    <id>Interstellar Expeditions Base #14</id>
-    <name>Interstellar Expeditions Base #14</name>
-    <spectralType>K3V</spectralType>
-    <spectralClass>K</spectralClass>
-    <subtype>3.0</subtype>
-    <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
-    <xcood>-734.294</xcood>
-    <ycood>-1753.113</ycood>
-    <id>Interstellar Expeditions Base #22</id>
-    <name>Interstellar Expeditions Base #22</name>
-    <spectralType>G1V</spectralType>
-    <spectralClass>G</spectralClass>
-    <subtype>1.0</subtype>
-    <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
-    <xcood>1285.288</xcood>
-    <ycood>-178.441</ycood>
-    <id>Interstellar Expeditions Base #6</id>
-    <name>Interstellar Expeditions Base #6</name>
-    <spectralType>M4V</spectralType>
-    <spectralClass>M</spectralClass>
-    <subtype>4.0</subtype>
-    <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
     <xcood>-183.568</xcood>
     <ycood>-152.784</ycood>
     <id>Ionus</id>
@@ -22537,48 +22364,6 @@ Apart from the planetary capital of Promise Point, Izar boasts a second major sp
     <faction>UND</faction>
   </planet>
   <planet>
-    <xcood>575.0</xcood>
-    <ycood>510.0</ycood>
-    <id>JF 01</id>
-    <name>JF 01</name>
-    <spectralType>M1V</spectralType>
-    <spectralClass>M</spectralClass>
-    <subtype>1.0</subtype>
-    <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>NONE</faction>
-    <desc>This star is surrounded by an extensive asteroid belt.</desc>
-  </planet>
-  <planet>
-    <xcood>573.0</xcood>
-    <ycood>478.0</ycood>
-    <id>JF 02</id>
-    <name>JF 02</name>
-    <spectralType>sdG4</spectralType>
-    <spectralClass>G</spectralClass>
-    <subtype>4.0</subtype>
-    <luminosity>VI</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>NONE</faction>
-    <desc>This system has a planet with a hostile atmosphere.</desc>
-  </planet>
-  <planet>
-    <xcood>595.0</xcood>
-    <ycood>525.0</ycood>
-    <id>JF 03</id>
-    <name>JF 03</name>
-    <spectralType>M5V</spectralType>
-    <spectralClass>M</spectralClass>
-    <subtype>5.0</subtype>
-    <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>NONE</faction>
-    <desc>This star is surrounded by an extensive asteroid belt.</desc>
-  </planet>
-  <planet>
     <xcood>481.307</xcood>
     <ycood>-212.055</ycood>
     <id>Jaboatao</id>
@@ -22751,7 +22536,7 @@ Taurus Territorial Industries</desc>
     <xcood>-200.944</xcood>
     <ycood>-91.199</ycood>
     <id>Jardine (Herakleion 2822+)</id>
-    <name>Jardine (Herakleion 2822+)</name>
+    <name>Jardine</name>
     <spectralType>K4V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>4.0</subtype>
@@ -24522,7 +24307,7 @@ Wakazashi Industries</desc>
     <xcood>370.161</xcood>
     <ycood>105.677</ycood>
     <id>Kesai (Kesai IV)</id>
-    <name>Kesai (Kesai IV)</name>
+    <name>Kesai IV</name>
     <sysPos>4</sysPos>
     <spectralType>A5II</spectralType>
     <spectralClass>A</spectralClass>
@@ -24926,19 +24711,6 @@ The Combine agreed to cede Kimball II to Devlin Stone‘s Republic of the Sphere
     <faction>UND</faction>
   </planet>
   <planet>
-    <xcood>-396.134</xcood>
-    <ycood>863.646</ycood>
-    <id>Kinbrace</id>
-    <name>Kinbrace</name>
-    <spectralType>K3III</spectralType>
-    <spectralClass>K</spectralClass>
-    <subtype>3.0</subtype>
-    <luminosity>III</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
     <xcood>32.592</xcood>
     <ycood>142.444</ycood>
     <id>Kingtribel</id>
@@ -25110,7 +24882,7 @@ The planet has moderate natural resources and enough arable land to sustain itse
     <xcood>64.325</xcood>
     <ycood>-317.163</ycood>
     <id>Kirkvåg (Toch Zu 2822+)</id>
-    <name>Kirkvåg (Toch Zu 2822+)</name>
+    <name>Kirkvåg</name>
     <spectralType>F2V</spectralType>
     <spectralClass>F</spectralClass>
     <subtype>2.0</subtype>
@@ -25195,7 +24967,7 @@ The planet has moderate natural resources and enough arable land to sustain itse
     <socioIndustrial>D-D-B-C-A</socioIndustrial>
     <hpg>B</hpg>
     <faction>UND</faction>
-    <desc>Kittery is a warm tropical planet that resides on the border of the Capellan Confederation and the Federated Suns. The planet was captured by the Federated Suns in 3005, however Confederation resistance cells operated on the planet for many years after. 
+    <desc>Kittery is a warm tropical planet that resides on the border of the Capellan Confederation and the Federated Suns. The planet was captured by the Federated Suns in 3005, however Confederation resistance cells operated on the planet for many years after.
 Resistance Group: The Kittery Tong
 
 Manufacturing Centers:
@@ -26499,7 +26271,7 @@ Aside from the large island continent of Galapagos in the northern hemisphere of
     <xcood>51.243</xcood>
     <ycood>-233.764</ycood>
     <id>Lamu (Tunlmar 2822+)</id>
-    <name>Lamu (Tunlmar 2822+)</name>
+    <name>Lamu</name>
     <spectralType>M8V</spectralType>
     <spectralClass>M</spectralClass>
     <subtype>8.0</subtype>
@@ -27166,7 +26938,7 @@ The primary industry on Les Halles is the extraction and refining of fuel used i
     <xcood>34.29</xcood>
     <ycood>-68.578</ycood>
     <id>Liao (Cynthiana 2202-)</id>
-    <name>Liao (Cynthiana 2202-)</name>
+    <name>Cynthiana</name>
     <sysPos>3</sysPos>
     <spectralType>K8V</spectralType>
     <spectralClass>K</spectralClass>
@@ -28134,7 +27906,7 @@ Norse Storm</desc>
     <xcood>-412.162</xcood>
     <ycood>326.432</ycood>
     <id>Lushun (Jibbet 3130+)</id>
-    <name>Lushun (Jibbet 3130+)</name>
+    <name>Lushun</name>
     <spectralType>M5V</spectralType>
     <spectralClass>M</spectralClass>
     <subtype>5.0</subtype>
@@ -28172,7 +27944,7 @@ Norse Storm</desc>
     <socioIndustrial>A-A-C-A-C</socioIndustrial>
     <hpg>A</hpg>
     <faction>UND</faction>
-    <desc>Luthien best known as the capital and seat of power of the Draconis Combine. The second most noteable feature of the planet is the abundance of heavy industry, Luthien is home to more manufacturing than any other planet in the entire Combine. The heavy smog and pollution from all the manufacturing have earned the planet the nickname Black Luthien. One of the major sites of untouched wilderness is surrounding the capital, Imperial City, home to the Kurita family and the Imperial Palace. The entire city is surrounded by gardens and virgin wilderness, in stark contrast to the rest of the planet.		
+    <desc>Luthien best known as the capital and seat of power of the Draconis Combine. The second most noteable feature of the planet is the abundance of heavy industry, Luthien is home to more manufacturing than any other planet in the entire Combine. The heavy smog and pollution from all the manufacturing have earned the planet the nickname Black Luthien. One of the major sites of untouched wilderness is surrounding the capital, Imperial City, home to the Kurita family and the Imperial Palace. The entire city is surrounded by gardens and virgin wilderness, in stark contrast to the rest of the planet.
 		</desc>
   </planet>
   <planet>
@@ -28329,7 +28101,7 @@ When the Terran Alliance fell, the people of Lyons hardly felt the loss until th
     <xcood>-439.431</xcood>
     <ycood>334.98</ycood>
     <id>Lywick (Ferreusvirgo 3130+)</id>
-    <name>Lywick (Ferreusvirgo 3130+)</name>
+    <name>Lywick</name>
     <spectralType>F5V</spectralType>
     <spectralClass>F</spectralClass>
     <subtype>5.0</subtype>
@@ -28779,7 +28551,7 @@ Pinard Protectorates Unlimited</desc>
     <id>Mallory's World</id>
     <name>Mallory's World</name>
     <sysPos>6</sysPos>
-    <spectralType>G2I</spectralType>
+    <spectralType>G2Ib</spectralType>
     <spectralClass>G</spectralClass>
     <subtype>2.0</subtype>
     <luminosity>I</luminosity>
@@ -29282,7 +29054,7 @@ Alliance Aerospace Group</desc>
     <faction>UND</faction>
     <desc>3135 - Marcus is a heavy world with an oppressive atmosphere and mountains squashed into rolling hills. However, Marcus was an irresistible colonisation target in the early days of exploration, due to its abundance of radioactive and industrial mineral resources. The city of Zotikos stands again on the northern continent of Montezumia, and is host to the planet's primary spaceport.
 
-Originally part of the Terran Hegemony, Marcus' industries boomed and the planet even became the site for Orguss Industries, a prominent Star League-era BattleMech manufacturer. After the fall of the Star League, the Free Worlds League claimed it, but as an industrial border world, Marcus became the target for raids and invasions launched by the Lyran Commonwealth. The Orguss plants and many of the supporting industries were left devastated by centuries of raids and invasion attempts. During the Fourth Succession War, Marcus became a protectorate of the Federated Commonwealth, but was reclaimed by the Free World League during the invasion of 3057, after a particularly brutal battle. 
+Originally part of the Terran Hegemony, Marcus' industries boomed and the planet even became the site for Orguss Industries, a prominent Star League-era BattleMech manufacturer. After the fall of the Star League, the Free Worlds League claimed it, but as an industrial border world, Marcus became the target for raids and invasions launched by the Lyran Commonwealth. The Orguss plants and many of the supporting industries were left devastated by centuries of raids and invasion attempts. During the Fourth Succession War, Marcus became a protectorate of the Federated Commonwealth, but was reclaimed by the Free World League during the invasion of 3057, after a particularly brutal battle.
 
 The Word of Blake Jihad initially overlooked the planet, but later in the Jihad, Word of Blake troops, hoping to cut off a coalition counteroffensive, smashed the planetary capital of Zotikos and fought a fierce, but doomed, battle for control of the Wahryn uranium mines. Zotikos was subsequently rebuilt after the end of the Jihad.</desc>
   </planet>
@@ -32012,7 +31784,7 @@ Duncan Enterprises</desc>
     <lifeForm>PLANT</lifeForm>
     <hpg>B</hpg>
     <faction>UND</faction>
-    <desc>Mosiro has a climate similar to that of Terra and is overall comfortable for human habitation. The population is primarily muslim and much of the architecture is styled after Northern African and Spanish construction. 
+    <desc>Mosiro has a climate similar to that of Terra and is overall comfortable for human habitation. The population is primarily muslim and much of the architecture is styled after Northern African and Spanish construction.
 
 The major city of Al-Hassam is a commercial hub which is a major trade center in the region. It is also home to the most advanced astrophysical laboratory in the Inner Sphere, outside of Terra.
 
@@ -32166,10 +31938,10 @@ Bagamoyo Aerospace Manufacturing</desc>
     <climate>TEMPERATE</climate>
     <lifeForm>MAMMAL</lifeForm>
     <faction>UND</faction>
-    <desc>A large, populous world blessed with a habitable satellite (Oasis), Murchison was a colonists‘ dream when it was discovered in the early days of spaceflight. Though gravity was slightly greater and the atmosphere somewhat heavier than Terran-normal, 
-Murchison‘s ample water supply, fertile soil, and mineral wealth invited millions of eager colonists to the planet. An assortment of civilian industries grew on Murchison and its satellite, particularly electronics, pharmaceuticals, automotive, and aerospace industries. Cattle farming, which proved more suited to the planet, and agriculture on the primary moon, provided an interesting 
-food-trading network between the dual worlds that kept both populations well fed and virtually self-sufficient. However, this symbiotic balance became disrupted more than a few times during the Succession Wars, when invading troops used the smaller Oasis as a jump-off point for attacks on Murchison itself. Today, much of the surface of Oasis still bears the scars of several 
-battles, and its settlers have mostly relocated to Murchison, leaving the moon a largely military holding of the planetary government. Murchison itself has three main continents, Abla, Haschweld, and Felkra, home to its capital, Murchison City. Oasis‘ two continents, Schultz and Rhinehold, by comparison, are home only to the lunar capital of Fort Wolfe and the principal 
+    <desc>A large, populous world blessed with a habitable satellite (Oasis), Murchison was a colonists‘ dream when it was discovered in the early days of spaceflight. Though gravity was slightly greater and the atmosphere somewhat heavier than Terran-normal,
+Murchison‘s ample water supply, fertile soil, and mineral wealth invited millions of eager colonists to the planet. An assortment of civilian industries grew on Murchison and its satellite, particularly electronics, pharmaceuticals, automotive, and aerospace industries. Cattle farming, which proved more suited to the planet, and agriculture on the primary moon, provided an interesting
+food-trading network between the dual worlds that kept both populations well fed and virtually self-sufficient. However, this symbiotic balance became disrupted more than a few times during the Succession Wars, when invading troops used the smaller Oasis as a jump-off point for attacks on Murchison itself. Today, much of the surface of Oasis still bears the scars of several
+battles, and its settlers have mostly relocated to Murchison, leaving the moon a largely military holding of the planetary government. Murchison itself has three main continents, Abla, Haschweld, and Felkra, home to its capital, Murchison City. Oasis‘ two continents, Schultz and Rhinehold, by comparison, are home only to the lunar capital of Fort Wolfe and the principal
 spaceport of Laubenstein.</desc>
   </planet>
   <planet>
@@ -32215,7 +31987,7 @@ spaceport of Laubenstein.</desc>
     <xcood>896.109</xcood>
     <ycood>28.78</ycood>
     <id>Murrain (Richmond's World 3025-)</id>
-    <name>Murrain (Richmond's World 3025-)</name>
+    <name>Richmond's World</name>
     <sysPos>5</sysPos>
     <spectralType>K2V</spectralType>
     <spectralClass>K</spectralClass>
@@ -32234,7 +32006,7 @@ spaceport of Laubenstein.</desc>
     <xcood>52.218</xcood>
     <ycood>-379.328</ycood>
     <id>Murris (Kalindam 2822+)</id>
-    <name>Murris (Kalindam 2822+)</name>
+    <name>Murris</name>
     <spectralType>G8V</spectralType>
     <spectralClass>G</spectralClass>
     <subtype>8.0</subtype>
@@ -32767,7 +32539,7 @@ Neerabup is divided into provinces that are each ruled by a Publican. The Public
     <xcood>406.348</xcood>
     <ycood>-247.142</ycood>
     <id>Neukirchen (Jodipur 3025-)</id>
-    <name>Neukirchen (Jodipur 3025-)</name>
+    <name>Jodipur</name>
     <spectralType>K2V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>2.0</subtype>
@@ -33128,7 +32900,7 @@ However, the Devil's Brigade had one striking success: they found the ancient st
     <xcood>-12.415</xcood>
     <ycood>3.055</ycood>
     <id>New Earth (Tau Ceti 2116-)</id>
-    <name>New Earth (Tau Ceti 2116-)</name>
+    <name>Tau Ceti</name>
     <sysPos>4</sysPos>
     <spectralType>F0V</spectralType>
     <spectralClass>F</spectralClass>
@@ -35353,7 +35125,7 @@ Brigadier Corporation
     <xcood>-449.954</xcood>
     <ycood>307.611</ycood>
     <id>Oporto (Veil 3075+)</id>
-    <name>Oporto (Veil 3075+)</name>
+    <name>Oporto</name>
     <spectralType>K9V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>9.0</subtype>
@@ -35679,7 +35451,7 @@ Rim Motors</desc>
     <xcood>217.462</xcood>
     <ycood>413.615</ycood>
     <id>Ouagadougou (Silence 3130+)</id>
-    <name>Ouagadougou (Silence 3130+)</name>
+    <name>Ouagadougou</name>
     <spectralType>K2V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>2.0</subtype>
@@ -35894,7 +35666,7 @@ Wunderland Enterprises</desc>
     <xcood>-408.667</xcood>
     <ycood>349.654</ycood>
     <id>Pain (Dijonne 3050-)</id>
-    <name>Pain (Dijonne 3050-)</name>
+    <name>Dijonne</name>
     <spectralType>K8V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>8.0</subtype>
@@ -36689,10 +36461,10 @@ Alphard Trading Corporation [destroyed 3075]</desc>
     <id>Pesht</id>
     <name>Pesht</name>
     <sysPos>3</sysPos>
-    <spectralType>F7v</spectralType>
+    <spectralType>F7V</spectralType>
     <spectralClass>F</spectralClass>
     <subtype>7.0</subtype>
-    <luminosity>v</luminosity>
+    <luminosity>V</luminosity>
     <satellite>Buda</satellite>
     <gravity>1.04</gravity>
     <percentWater>64</percentWater>
@@ -37000,13 +36772,12 @@ Wingman Enterprises</desc>
     <pressure>3</pressure>
     <temperature>22</temperature>
     <lifeForm>REPTILE</lifeForm>
-    <faction>PIND</faction>
   </planet>
   <planet>
     <xcood>424.959</xcood>
     <ycood>-349.827</ycood>
     <id>Pirates Haven (50) (Badlands Cluster 3025-)</id>
-    <name>Pirates Haven (50) (Badlands Cluster 3025-)</name>
+    <name>Badlands Cluster</name>
     <spectralType>G4V</spectralType>
     <spectralClass>G</spectralClass>
     <subtype>4.0</subtype>
@@ -37793,7 +37564,7 @@ The marketing campaign forgot to mention that there were fewer areas with modera
     <id>Proserpina</id>
     <name>Proserpina</name>
     <sysPos>4</sysPos>
-    <spectralType>K2v</spectralType>
+    <spectralType>K2V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>2.0</subtype>
     <luminosity>v</luminosity>
@@ -37978,7 +37749,7 @@ The location of Proserpina on the Federated Suns border requires the DCMS to kee
     <xcood>-72.643</xcood>
     <ycood>189.27</ycood>
     <id>Qualip (Kerensky's Vision 3130+)</id>
-    <name>Qualip (Kerensky's Vision 3130+)</name>
+    <name>Qualip</name>
     <spectralType>K2V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>2.0</subtype>
@@ -38163,7 +37934,7 @@ The location of Proserpina on the Federated Suns border requires the DCMS to kee
     <xcood>380.419</xcood>
     <ycood>-239.333</ycood>
     <id>Quimper (Chirac 3130+)</id>
-    <name>Quimper (Chirac 3130+)</name>
+    <name>Quimper</name>
     <spectralType>K0V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>0.0</subtype>
@@ -38522,19 +38293,6 @@ Even with its extreme weather, Rahne does support native life. A prime example i
     <faction>UND</faction>
   </planet>
   <planet>
-    <xcood>-402.692</xcood>
-    <ycood>1025.944</ycood>
-    <id>Ramsey</id>
-    <name>Ramsey</name>
-    <spectralType>G8V</spectralType>
-    <spectralClass>G</spectralClass>
-    <subtype>8.0</subtype>
-    <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
     <xcood>61.773</xcood>
     <ycood>-175.778</ycood>
     <id>Randar</id>
@@ -38551,7 +38309,7 @@ Even with its extreme weather, Rahne does support native life. A prime example i
     <xcood>621.542</xcood>
     <ycood>-342.98</ycood>
     <id>Randis IV (Hope IV 2988-)</id>
-    <name>Randis IV (Hope IV 2988-)</name>
+    <name>Hope IV</name>
     <sysPos>4</sysPos>
     <spectralType>M1V</spectralType>
     <spectralClass>M</spectralClass>
@@ -39116,7 +38874,7 @@ Magna Metals Incorporated</desc>
     <xcood>48.925</xcood>
     <ycood>-217.144</ycood>
     <id>Rhodos (Runrig 2822+)</id>
-    <name>Rhodos (Runrig 2822+)</name>
+    <name>Rhodos</name>
     <spectralType>G0V</spectralType>
     <spectralClass>G</spectralClass>
     <subtype>0.0</subtype>
@@ -40465,19 +40223,6 @@ As of the 32nd century, this world is little more than an outpost, with no agric
     <faction>UND</faction>
   </planet>
   <planet>
-    <xcood>436.242</xcood>
-    <ycood>973.818</ycood>
-    <id>Salonika</id>
-    <name>Salonika</name>
-    <spectralType>A4V</spectralType>
-    <spectralClass>A</spectralClass>
-    <subtype>4.0</subtype>
-    <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
     <xcood>-310.742</xcood>
     <ycood>-82.508</ycood>
     <id>Saltillo</id>
@@ -41501,7 +41246,7 @@ The capital city, Gambootas, is home not only to the planet‘s sole interstella
     <xcood>-456.51</xcood>
     <ycood>261.635</ycood>
     <id>Seven Lands (Garotte 3130+)</id>
-    <name>Seven Lands (Garotte 3130+)</name>
+    <name>Seven Lands</name>
     <spectralType>K4V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>4.0</subtype>
@@ -41636,7 +41381,7 @@ Sevon was famously the location of the Star League’s first defeat during Opera
     <xcood>-10.824</xcood>
     <ycood>-416.351</ycood>
     <id>Shaobuon (Liu's Memory 3130+)</id>
-    <name>Shaobuon (Liu's Memory 3130+)</name>
+    <name>Shaobuon</name>
     <spectralType>K8V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>8.0</subtype>
@@ -41662,7 +41407,7 @@ Sevon was famously the location of the Star League’s first defeat during Opera
     <xcood>63.639</xcood>
     <ycood>-207.462</ycood>
     <id>Sharpe (Obeedah 3025+)</id>
-    <name>Sharpe (Obeedah 3025+)</name>
+    <name>Sharpe</name>
     <spectralType>K7V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>7.0</subtype>
@@ -41714,7 +41459,7 @@ Sevon was famously the location of the Star League’s first defeat during Opera
     <xcood>-30.648</xcood>
     <ycood>269.788</ycood>
     <id>Shaula (Perrot 3025-)</id>
-    <name>Shaula (Perrot 3025-)</name>
+    <name>Perrot</name>
     <spectralType>F5V</spectralType>
     <spectralClass>F</spectralClass>
     <subtype>5.0</subtype>
@@ -41727,7 +41472,7 @@ Sevon was famously the location of the Star League’s first defeat during Opera
     <xcood>53.27</xcood>
     <ycood>-328.061</ycood>
     <id>Shaun (Burl 2822+)</id>
-    <name>Shaun (Burl 2822+)</name>
+    <name>Shaun</name>
     <spectralType>G2V</spectralType>
     <spectralClass>G</spectralClass>
     <subtype>2.0</subtype>
@@ -42209,7 +41954,7 @@ During the Jihad, Shipka was overlooked by the Word of Blake forces. When Devlin
     <climate>WARM</climate>
     <lifeForm>REPTILE</lifeForm>
     <faction>UND</faction>
-    <desc>3135 - Founded by a group of corporations in the early days of deep-space colonization, Shitara, a world of large landmasses covered with arid mountains, expansive deserts and winding grasslands, was not settled for its appearance but for its potential as a regional commercial hub. Shitara‘s five main continents—Agito, Hokaido, Niijo, Okasaki and Zumi—all fall within the world‘s temperate, tropical and equatorial zones but lack many inland freshwater bodies. The rugged terrain and relative lack of suitable irrigation made colonies difficult to establish, but the corporate engineers who laid out the design for Shitara‘s settlement were less concerned with comfort than with setting up business operations. Several of the planet‘s first colonies, as a result, were large warehouses, spaceports and mining/refining stations. In the decades that followed, as Shitara became a jumping-off point for further colonial expansion and a center for trade, more settlers came to call this world home. Large commercial cities arose, particularly along the river valleys of Okasaki and Zumi, including the present-day capital of Hirotomi. Even a few agricultural communities began to appear to support the local population. Located well within the Draconis Combine‘s borders after that nation expanded to include it and its neighbors, Shitara was spared much of the fighting during the Amaris crisis and the Succession Wars. Raids by the Dragon‘s enemies were rare, and Shitara prospered, its nearly thirty major spaceport cities making it an ideal hub for commercial and military transport. During the Jihad, in fact, Shitara was used as a staging ground for strikes against the Blakists, serving as a logistical linchpin for several major campaigns. Today, Shitara continues to be a transportation and commercial hub, with major cities and spaceports on all five continents. Recently, the planet‘s robust economy and healthy metal resources have attracted the attention of Klein Manufacturing, a small but growing producer of industrial vehicles, including ConstructionMechs and MiningMechs. Klein Manufacturing is currently negotiating with the Shitara government to establish a major factory complex in the foothills of Agito, just outside the commercial city of Galveston. 
+    <desc>3135 - Founded by a group of corporations in the early days of deep-space colonization, Shitara, a world of large landmasses covered with arid mountains, expansive deserts and winding grasslands, was not settled for its appearance but for its potential as a regional commercial hub. Shitara‘s five main continents—Agito, Hokaido, Niijo, Okasaki and Zumi—all fall within the world‘s temperate, tropical and equatorial zones but lack many inland freshwater bodies. The rugged terrain and relative lack of suitable irrigation made colonies difficult to establish, but the corporate engineers who laid out the design for Shitara‘s settlement were less concerned with comfort than with setting up business operations. Several of the planet‘s first colonies, as a result, were large warehouses, spaceports and mining/refining stations. In the decades that followed, as Shitara became a jumping-off point for further colonial expansion and a center for trade, more settlers came to call this world home. Large commercial cities arose, particularly along the river valleys of Okasaki and Zumi, including the present-day capital of Hirotomi. Even a few agricultural communities began to appear to support the local population. Located well within the Draconis Combine‘s borders after that nation expanded to include it and its neighbors, Shitara was spared much of the fighting during the Amaris crisis and the Succession Wars. Raids by the Dragon‘s enemies were rare, and Shitara prospered, its nearly thirty major spaceport cities making it an ideal hub for commercial and military transport. During the Jihad, in fact, Shitara was used as a staging ground for strikes against the Blakists, serving as a logistical linchpin for several major campaigns. Today, Shitara continues to be a transportation and commercial hub, with major cities and spaceports on all five continents. Recently, the planet‘s robust economy and healthy metal resources have attracted the attention of Klein Manufacturing, a small but growing producer of industrial vehicles, including ConstructionMechs and MiningMechs. Klein Manufacturing is currently negotiating with the Shitara government to establish a major factory complex in the foothills of Agito, just outside the commercial city of Galveston.
  </desc>
   </planet>
   <planet>
@@ -44323,19 +44068,6 @@ Tao ‘Mechworks</desc>
     <desc>Styx was aptly named by the first settlers to set up colonies on its storm-ravaged surface. Large oceans and the gravitational effects of its three moons are blamed for the violent storms that rage across the Stygian surface, often causing damage from flash floods and mudslides during the planet‘s rainy seasons. The first colonists, as a result, settled in the open plains of the interior regions of Epimethius, the primary continent, where the storms were least volatile. A few short years after the first towns were established, geologists discovered high quantities of metal and radioactive minerals in the mountain ranges of Epimethius and the smaller, neighboring continent of Perdition. These deposits lured in mining firms, the largest of which was the Styx Mining Company, an interstellar corporation that specialized in mining difficult veins of valuable metals and quality refining processes. Styx came under the sway of the Terran Hegemony more than a century before the birth of the Star League, and its mineral wealth helped bolster the Hegemony‘s economy and military. Perhaps for this reason, the Draconis Combine came to covet Styx, culminating in the first true battle to use the BattleMech. In 2443, a Combine armored company raided Styx, intending to seize and plunder several metal refineries on Perdition while testing the resolve of the Hegemony. The rain-slicked plains slowed the Kuritan tanks, which gave the Hegemony troops plenty of time to ready their new war machines. On the muddy plains outside the city of Barbados, the two forces clashed: a lance of Hegemony ‘Mechs against a full company of Combine tanks and infantry support. The results were so lopsided that few could argue the Hegemony‘s new BattleMech would not be the future king of the battlefield. Styx‘s mineral wealth attracted many raiders over the centuries, including a major engagement between Kurita and Davion forces over the Styx Mining Company‘s Beta facility near the city of Lake Wio. Despite these clashes, the Draconis Combine managed to maintain control over this vital if stormy world until the rise of the Republic in 3081. Styx remains a major exporter of metals and radioactive minerals to the Republic and the Combine today, with the historically pro-Combine Styx Mining Corporation receiving a huge subsidy from the Republic to maintain its operations under the new banner. The Styx Mining Corporation‘s headquarters are in Memphis, on Epimethius. The planetary capital, Sunder Falls, is located 120 kilometers northwest of Memphis. Aside from Epimethius and Perdition, Styx‘s third large landmass is the island continent of Gehenna. Far less populous than the other two regions, Gehenna is home to a large spaceport city, Lindon‘s Folly, which is also home to one of the Styx Mining Company‘s large refineries.</desc>
   </planet>
   <planet>
-    <xcood>245.026</xcood>
-    <ycood>947.691</ycood>
-    <id>Suda Bay</id>
-    <name>Suda Bay</name>
-    <spectralType>F2Ia</spectralType>
-    <spectralClass>F</spectralClass>
-    <subtype>2.0</subtype>
-    <luminosity>Ia</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
     <xcood>-83.471</xcood>
     <ycood>292.084</ycood>
     <id>Sudeten</id>
@@ -44921,7 +44653,7 @@ For most of the planet’s history it was a Lyran Commonwealth planet bordering 
     <xcood>366.201</xcood>
     <ycood>301.521</ycood>
     <id>Takata (New Start 3130+)</id>
-    <name>Takata (New Start 3130+)</name>
+    <name>Takata</name>
     <spectralType>K5V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>5.0</subtype>
@@ -45176,7 +44908,7 @@ Precision Weaponry [Precision Laser Systems prior to the 2nd Succession War]</de
     <xcood>158.383</xcood>
     <ycood>106.747</ycood>
     <id>Tangerz (Mayadi 2822+)</id>
-    <name>Tangerz (Mayadi 2822+)</name>
+    <name>Tangerz</name>
     <spectralType>M6V</spectralType>
     <spectralClass>M</spectralClass>
     <subtype>6.0</subtype>
@@ -45254,7 +44986,7 @@ Precision Weaponry [Precision Laser Systems prior to the 2nd Succession War]</de
     <xcood>-57.373</xcood>
     <ycood>1603.16</ycood>
     <id>Tanis (Radulov 2600-)</id>
-    <name>Tanis (Radulov 2600-)</name>
+    <name>Radulov</name>
     <sysPos>3</sysPos>
     <spectralType>F6V</spectralType>
     <spectralClass>F</spectralClass>
@@ -45789,8 +45521,6 @@ Taurus is home to a number of military industries and academies. Magna Metals is
     <landMass>Europe (Geneva)</landMass>
     <landMass>North America</landMass>
     <landMass>South America</landMass>
-    <landMass>Mars - (Koryo)</landMass>
-    <landMass>Luna - (Luna City)</landMass>
     <nadirCharge>true</nadirCharge>
     <zenithCharge>true</zenithCharge>
     <pressure>3</pressure>
@@ -45987,7 +45717,7 @@ Kajuka (Aerospace division)</desc>
     <xcood>24.526</xcood>
     <ycood>-415.047</ycood>
     <id>Thamel (Wyeth's Glory 3130+)</id>
-    <name>Thamel (Wyeth's Glory 3130+)</name>
+    <name>Thamel</name>
     <spectralType>G6V</spectralType>
     <spectralClass>G</spectralClass>
     <subtype>6.0</subtype>
@@ -46106,7 +45836,7 @@ Tharkad Aerospace Group</desc>
     <xcood>-400.859</xcood>
     <ycood>370.983</ycood>
     <id>The Rack (Port Vail 3050-)</id>
-    <name>The Rack (Port Vail 3050-)</name>
+    <name>Port Vail</name>
     <spectralType>G5V</spectralType>
     <spectralClass>G</spectralClass>
     <subtype>5.0</subtype>
@@ -46466,8 +46196,8 @@ Earthwerks Incorporated</desc>
     <id>Tigress</id>
     <name>Tigress</name>
     <sysPos>4</sysPos>
-    <spectralType>?7V</spectralType>
-    <spectralClass>?</spectralClass>
+    <spectralType>G7V</spectralType>
+    <spectralClass>G</spectralClass>
     <subtype>7.0</subtype>
     <luminosity>V</luminosity>
     <satellite>Jarvic</satellite>
@@ -47058,19 +46788,6 @@ Vengeance Incorporated</desc>
     <desc>No description available.</desc>
   </planet>
   <planet>
-    <xcood>293.32</xcood>
-    <ycood>669.005</ycood>
-    <id>Transfer Facility 4</id>
-    <name>Transfer Facility 4</name>
-    <spectralType>M4II</spectralType>
-    <spectralClass>M</spectralClass>
-    <subtype>4.0</subtype>
-    <luminosity>II</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
     <xcood>-169.004</xcood>
     <ycood>612.206</ycood>
     <id>Transfer Station J239H2</id>
@@ -47079,32 +46796,6 @@ Vengeance Incorporated</desc>
     <spectralClass>K</spectralClass>
     <subtype>7.0</subtype>
     <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
-    <xcood>-112.41</xcood>
-    <ycood>885.647</ycood>
-    <id>Transfer Station P3</id>
-    <name>Transfer Station P3</name>
-    <spectralType>K2V</spectralType>
-    <spectralClass>K</spectralClass>
-    <subtype>2.0</subtype>
-    <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
-    <xcood>-115.441</xcood>
-    <ycood>1037.657</ycood>
-    <id>Transfer Station P9</id>
-    <name>Transfer Station P9</name>
-    <spectralType>G3II</spectralType>
-    <spectralClass>G</spectralClass>
-    <subtype>3.0</subtype>
-    <luminosity>II</luminosity>
     <nadirCharge>false</nadirCharge>
     <zenithCharge>false</zenithCharge>
     <faction>UND</faction>
@@ -47158,19 +46849,6 @@ Vengeance Incorporated</desc>
     <desc>Trell I (aka Trel I or "Trellwan") is an arid, inhospitable planet.  With almost no surface water and planetary days lasting over 30 Terran days the average planetary temperature swings wildly during the day and night cycle (from a high in the 40s during the day at the equator to as low as -80 at night near the poles). Another interesting fact is the short rotation around it’s sun. Trell I’s years are only 45 Standard days.
 
 Due to the lack of water and thus lack of vegetation most of the planet is covered in vast deserts and barren craggy mountains. The local population has long resented the Lyran Commonwealth for what they believe to be inadequate defense against raids by pirates and the Draconis Combine.</desc>
-  </planet>
-  <planet>
-    <xcood>109.262</xcood>
-    <ycood>920.57</ycood>
-    <id>Trelleborg</id>
-    <name>Trelleborg</name>
-    <spectralType>A9II</spectralType>
-    <spectralClass>A</spectralClass>
-    <subtype>9.0</subtype>
-    <luminosity>II</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
   </planet>
   <planet>
     <xcood>-251.263</xcood>
@@ -47285,19 +46963,6 @@ Gutierrez Aerospace</desc>
     <hpg>B</hpg>
     <faction>UND</faction>
     <desc>Trinidad is a hot planet with an abundance of natural resources and water and sufficient arable land to supports its population. The abundance of natural resources have also attracted a sizable, though non-military related industrial base. Trinidad is home to a branch of the Hero Training Institute. However, this branch of the for-profit Hero Training Institute is unique. It was formed by a group of ex-SAFE operatives that wanted to create the first for-profit Special Operations training group, however the program is not formally listed anywhere, called only “logistics studies”, the program only accepts students with permission from the Dean and often requires referrals to get into the program. It is also the most expensive course offered at the Hero Training Institute but uses the best and newest equipment of any of their academies. The HTI branch still offers the traditional courses for any aspiring MechWarriors, Aerospace Pilots and armored infantry that can afford them.</desc>
-  </planet>
-  <planet>
-    <xcood>-248.762</xcood>
-    <ycood>761.402</ycood>
-    <id>Trinity</id>
-    <name>Trinity</name>
-    <spectralType>G4V</spectralType>
-    <spectralClass>G</spectralClass>
-    <subtype>4.0</subtype>
-    <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
   </planet>
   <planet>
     <xcood>199.553</xcood>
@@ -48160,7 +47825,7 @@ After its fall, humans continued to live on Tyrfing at a basic hunter-gatherer l
     <xcood>43.559</xcood>
     <ycood>-421.61</ycood>
     <id>Untran (Achtur 2822+)</id>
-    <name>Untran (Achtur 2822+)</name>
+    <name>Untran</name>
     <spectralType>K4V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>4.0</subtype>
@@ -48839,7 +48504,7 @@ Vega‘s biggest tourist attraction by far, even over the site of the Treaty of 
     <xcood>206.934</xcood>
     <ycood>-81.726</ycood>
     <id>Versailles (Taussen 2822+)</id>
-    <name>Versailles (Taussen 2822+)</name>
+    <name>Versailles</name>
     <spectralType>F6V</spectralType>
     <spectralClass>F</spectralClass>
     <subtype>6.0</subtype>
@@ -48975,7 +48640,7 @@ Tellis Electronics</desc>
     <xcood>225.66</xcood>
     <ycood>-176.869</ycood>
     <id>Victoria (Meglan 2537-)</id>
-    <name>Victoria (Meglan 2537-)</name>
+    <name>Meglan</name>
     <spectralType>F5V</spectralType>
     <spectralClass>F</spectralClass>
     <subtype>5.0</subtype>
@@ -49248,7 +48913,7 @@ Tellis Electronics</desc>
     <xcood>-160.065</xcood>
     <ycood>515.891</ycood>
     <id>Von Strang's World (Erin 2830-)</id>
-    <name>Von Strang's World (Erin 2830-)</name>
+    <name>Erin</name>
     <sysPos>4</sysPos>
     <spectralType>M2V</spectralType>
     <spectralClass>M</spectralClass>
@@ -49600,19 +49265,6 @@ The primary export from Wapakoneta comes from the vast oceans that cover the pla
 The populace of Ward is well known for their skilled construction work and their construction firms take a large number of contracts off-world to construct roads through the most difficult terrain of neighboring star systems. Wardian road construction methods use a material that far exceeds all other known road construction materials in terms of resisting weather, temperature, and stress.  This formula is one of the most closely guarded industrial secrets in the Inner Sphere.
 
 Ward's northern polar cap is the site of a Confederation observation-intelligence post.</desc>
-  </planet>
-  <planet>
-    <xcood>-299.568</xcood>
-    <ycood>694.859</ycood>
-    <id>Wark</id>
-    <name>Wark</name>
-    <spectralType>G0V</spectralType>
-    <spectralClass>G</spectralClass>
-    <subtype>0.0</subtype>
-    <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
   </planet>
   <planet>
     <xcood>120.192</xcood>
@@ -50294,7 +49946,7 @@ Presently, aside from the Games and the Hiring Hall, Westerhand does not feature
     <xcood>-111.711</xcood>
     <ycood>405.264</ycood>
     <id>Winfield (Treeline 2863-)</id>
-    <name>Winfield (Treeline 2863-)</name>
+    <name>Treeline</name>
     <sysPos>5</sysPos>
     <spectralType>G2V</spectralType>
     <spectralClass>G</spectralClass>
@@ -50423,19 +50075,6 @@ Presently, aside from the Games and the Hiring Hall, Westerhand does not feature
     <spectralClass>G</spectralClass>
     <subtype>9.0</subtype>
     <luminosity>V</luminosity>
-    <nadirCharge>false</nadirCharge>
-    <zenithCharge>false</zenithCharge>
-    <faction>UND</faction>
-  </planet>
-  <planet>
-    <xcood>-103.853</xcood>
-    <ycood>683.813</ycood>
-    <id>Wolf Orbital 82</id>
-    <name>Wolf Orbital 82</name>
-    <spectralType>G6IV</spectralType>
-    <spectralClass>G</spectralClass>
-    <subtype>6.0</subtype>
-    <luminosity>IV</luminosity>
     <nadirCharge>false</nadirCharge>
     <zenithCharge>false</zenithCharge>
     <faction>UND</faction>
@@ -51547,7 +51186,7 @@ Today, a trace of Zebeneschamali‘s founding decades can still be seen in the s
     <xcood>1.344</xcood>
     <ycood>-428.929</ycood>
     <id>Zhaomaon (Cluff's Stand 3130+)</id>
-    <name>Zhaomaon (Cluff's Stand 3130+)</name>
+    <name>Zhaomaon</name>
     <spectralType>M0V</spectralType>
     <spectralClass>M</spectralClass>
     <subtype>0.0</subtype>

@@ -3866,6 +3866,19 @@
     <faction>NONE</faction>
   </planet>
   <planet>
+    <xcood>-204.8</xcood>
+    <ycood>1732.829</ycood>
+    <id>EC821-387D</id>
+    <name>EC821-387D</name>
+    <spectralType>M2V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>2.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>UND</faction>
+  </planet>
+  <planet>
     <xcood>-82.0</xcood>
     <ycood>530.0</ycood>
     <id>ER 001</id>
@@ -4874,6 +4887,45 @@
     <spectralType>K6V</spectralType>
     <spectralClass>K</spectralClass>
     <subtype>6.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>575.0</xcood>
+    <ycood>510.0</ycood>
+    <id>JF 01</id>
+    <name>JF 01</name>
+    <spectralType>M1V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>1.0</subtype>
+    <luminosity>V</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>573.0</xcood>
+    <ycood>478.0</ycood>
+    <id>JF 02</id>
+    <name>JF 02</name>
+    <spectralType>sdG4</spectralType>
+    <spectralClass>G</spectralClass>
+    <subtype>4.0</subtype>
+    <luminosity>VI</luminosity>
+    <nadirCharge>false</nadirCharge>
+    <zenithCharge>false</zenithCharge>
+    <faction>NONE</faction>
+  </planet>
+  <planet>
+    <xcood>595.0</xcood>
+    <ycood>525.0</ycood>
+    <id>JF 03</id>
+    <name>JF 03</name>
+    <spectralType>M5V</spectralType>
+    <spectralClass>M</spectralClass>
+    <subtype>5.0</subtype>
     <luminosity>V</luminosity>
     <nadirCharge>false</nadirCharge>
     <zenithCharge>false</zenithCharge>

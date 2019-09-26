@@ -24091,6 +24091,10 @@
   <planet>
     <id>Gwithian</id>
     <event>
+      <date>2850-01-01</date>
+      <faction>IND</faction>
+    </event>
+    <event>
       <date>3049-01-01</date>
       <faction>CNC</faction>
     </event>
@@ -29668,10 +29672,6 @@
   </planet>
   <planet>
     <id>Juniper</id>
-    <event>
-      <date>2271-01-01</date>
-      <faction>UND</faction>
-    </event>
     <event>
       <date>2783-01-01</date>
       <faction>LA</faction>
@@ -44065,6 +44065,10 @@
   <planet>
     <id>Nouveaux Paris</id>
     <event>
+      <date>2900-01-01</date>
+      <faction>IND</faction>
+    </event>
+    <event>
       <date>3049-01-01</date>
       <faction>CSJ</faction>
     </event>
@@ -47073,6 +47077,10 @@
   </planet>
   <planet>
     <id>Pioche</id>
+    <event>
+      <date>2585-01-01</date>
+      <faction>PIND</faction>
+    </event>
   </planet>
   <planet>
     <id>Pirates Haven (50) (Badlands Cluster 3025-)</id>
@@ -51441,10 +51449,6 @@
   <planet>
     <id>Saggina</id>
     <event>
-      <date>2271-01-01</date>
-      <faction>UND</faction>
-    </event>
-    <event>
       <date>3095-01-01</date>
       <faction>IE</faction>
     </event>
@@ -55664,6 +55668,10 @@
   <planet>
     <id>St. Jean</id>
     <event>
+      <date>2900-01-01</date>
+      <faction>IND</faction>
+    </event>
+    <event>
       <date>3049-01-01</date>
       <faction>CJF</faction>
     </event>
@@ -58673,6 +58681,10 @@
   </planet>
   <planet>
     <id>Terra</id>
+    <event>
+      <date>2086-01-01</date>
+      <faction>TA</faction>
+    </event>
     <event>
       <date>2316-01-01</date>
       <faction>TH</faction>
