@@ -46,7 +46,7 @@ generate_system(habitable=FALSE, habit_pos)
 
 In this case, the function will sample from a list of stars that can produce a planet in this life zone. 
 
-You can specify both `star` and `habit_pos` but keep in mind that this may force an inhabited planet outside of the life zone for that star type. Following FASAstronomy, the function will dutifully create you inhabited system in the correct spot. 
+You can specify both `star` and `habit_pos` but keep in mind that this may force an inhabited planet outside of the life zone for that star type. Following FASAstronomy, the function will dutifully put your inhabited system in the requested spot. 
 
 ### Adding Colonization Features 
 
@@ -64,7 +64,7 @@ system <- generate_system()
 disance_terra <- 200
 founding_year <- 2300
 faction_type <- "IS"
-system <-add_colonization(system, distance_terra, founding_year, faction_type)
+system <- add_colonization(system, distance_terra, founding_year, faction_type)
 system
 ```
 
@@ -78,9 +78,28 @@ The social information will be added to the system object.
 
 ### Adding random names
 
-Coming Soon
+You can also add random names for your planets, moons, landmasses, and capitol cities to your generated systems with the `generate_system_names` function:
 
-## Changes From CamOps System
+```r
+system <- generate_system()
+system <- generate_system_names(system)
+system
+```
+
+You can combine this with colonization feature to get the fullest features:
+
+```r
+system <- generate_system()
+disance_terra <- 200
+founding_year <- 2300
+faction_type <- "IS"
+system <- generate_system_names(add_colonization(system, distance_terra, founding_year, faction_type))
+system
+```
+
+Random name generation pulls from a list of surnames for many different languages, a list of place names by country, and a list of mythological features. It samples from these lists based on estimation of what linguistic group and nationality most likely founded a planet based on reverse geo-coding planet names. It adds a variety of flavor components and some cultural variation. When specified without a specific planetary id, as above, it samples from the languages and nationalities of known planets in the battletech universe. 
+
+## Changes From Campaign Ops System
 
 In general, our system generation follows the rule in *Campaign Operations* as closely as possible. Below, we document places where we deviate from the rules. 
 
