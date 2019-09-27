@@ -17,7 +17,7 @@ source(here("functions","naming_functions.R"))
 source(here("functions","network_functions.R"))
 
 #set a seed to allow for reproducing the results
-set.seed(3025)
+set.seed(3050)
 
 options(nwarnings = 1000)
 
@@ -26,6 +26,7 @@ connectors <- read_xml(here("output","connectors_initial.xml"))
 waystations <- read_xml(here("output","waystations.xml"))
 events <- read_xml(here("output","planetevents_initial.xml"))
 name_changes <- read_xml(here("input","0999_namechanges.xml"))
+terran_system <- read_xml(here("input","terran_system.xml"))
 canon_populations <- read.csv(here("input","canon_populations.csv"), row.names=1)
 waystation_data <- read.csv(here("input","waystations.csv"))
 
@@ -71,7 +72,7 @@ systems_events <- xml_new_document() %>% xml_add_child("systems")
 systems_name_changes <- xml_new_document() %>% xml_add_child("systems")
 systems_connectors <- xml_new_document() %>% xml_add_child("systems")
 
-small_sample <- sample(1:xml_length(planets), 100)
+small_sample <- sample(1:xml_length(planets), 10)
 
 for(i in 1:xml_length(planets)) {
 #for(i in small_sample) {
@@ -300,11 +301,15 @@ for(i in 1:xml_length(planets)) {
   system_event_node <- xml_add_child(systems_events, "system")
   xml_add_child(system_event_node, "id", id)
   
-  system_node <- xml_add_child(systems, "system")
-  
-  write_system_xml(system_node, system, id, x, y, primary_slot,
-                   star, gravity, pressure, temperature, water, 
-                   life, continents, moons, desc)
+  if(id=="Terra") {
+    #if Terra, ignore what we generated and put in correct values from file
+    xml_add_child(systems, terran_system)
+  } else {
+    system_node <- xml_add_child(systems, "system")
+    write_system_xml(system_node, system, id, x, y, primary_slot,
+                     star, gravity, pressure, temperature, water, 
+                     life, continents, moons, desc)
+  }
   
         
   #### Project Social Data in Time ####
@@ -378,6 +383,87 @@ for(i in 1:xml_length(planets)) {
                            etype="faction",
                            event="ABN",
                            canon=FALSE))
+        #add terraforming stuff here as well
+        #mars terraforming
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=4,
+                           date=paste(2201,"01","01",sep="-"),
+                           etype="pressure",
+                           event="Thin",
+                           canon=FALSE))
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=4,
+                           date=paste(2201,"01","01",sep="-"),
+                           etype="atmosphere",
+                           event="Breathable",
+                           canon=TRUE))
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=4,
+                           date=paste(2201,"01","01",sep="-"),
+                           etype="water",
+                           event="39",
+                           canon=TRUE))
+        #venus terraforming
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=2,
+                           date=paste(2205,"01","01",sep="-"),
+                           etype="water",
+                           event="30",
+                           canon=TRUE))
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=2,
+                           date=paste(2205,"01","01",sep="-"),
+                           etype="dayLength",
+                           event="48",
+                           canon=TRUE))
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=2,
+                           date=paste(2205,"01","01",sep="-"),
+                           etype="temperature",
+                           event="40",
+                           canon=TRUE))
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=2,
+                           date=paste(2205,"01","01",sep="-"),
+                           etype="atmosphere",
+                           event="Breathable",
+                           canon=TRUE))
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=2,
+                           date=paste(2205,"01","01",sep="-"),
+                           etype="pressure",
+                           event="Standard",
+                           canon=TRUE))
+        #lets assume venus decays by 2950
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=2,
+                           date=paste(2950,"01","01",sep="-"),
+                           etype="temperature",
+                           event="250",
+                           canon=TRUE))
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=2,
+                           date=paste(2950,"01","01",sep="-"),
+                           etype="atmosphere",
+                           event="Toxic (Poisonous)",
+                           canon=TRUE))
+        event_table <- event_table %>% 
+          bind_rows(tibble(id=as.character(id),
+                           sys_pos=2,
+                           date=paste(2950,"01","01",sep="-"),
+                           etype="pressure",
+                           event="Very High",
+                           canon=TRUE))
       }
     }
     
