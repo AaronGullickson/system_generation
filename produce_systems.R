@@ -117,6 +117,7 @@ for(i in 1:xml_length(planets)) {
   faction <- xml_text(xml_find_first(planet, "faction"))
   hpg <- xml_text(xml_find_first(planet, "hpg"))
   sic <- xml_text(xml_find_first(planet, "socioIndustrial"))
+  nadir_charge 
   nadir_charge <- xml_text(xml_find_first(planet, "nadirCharge"))=="true"
   zenith_charge <- xml_text(xml_find_first(planet, "zenithCharge"))=="true"
   #it seems like all planets were given a default FALSE value here, which makes it difficult 
@@ -1212,6 +1213,10 @@ for(i in 1:xml_length(waystations)) {
   
   ## create the system
   system <- generate_connector_names(generate_system(star=star, habitable=surface_base, habit_pos=sys_pos))
+  #if this is a space base we need to make sure we generated a system with enough planets for the primary_slot
+  while(!is.na(primary_slot) && nrow(system$planets)<primary_slot) {
+    system <- generate_connector_names(generate_system(star=star, habitable=surface_base, habit_pos=sys_pos))
+  }
   
   if(surface_base) {
     primary_slot <- which(system$planets$inhabitable)[1]
