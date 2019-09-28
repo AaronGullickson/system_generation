@@ -1,0 +1,185 @@
+---
+title: "Post-System Generation Diagnostics"
+author: "Aaron Gullickson"
+date: "9/26/2019"
+output: 
+  html_document: 
+    self_contained: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load_data, include=FALSE}
+library(xml2)
+library(magrittr)
+library(rlist)
+library(here)
+library(ggplot2)
+library(readr)
+source(here("functions","system_creation_functions.R"))
+source(here("functions","data_functions.R"))
+
+systems <- read_xml(here("output","systems.xml"))
+
+planet_data <- tibble(pressure=character(),
+                      atmosphere=character(),
+                      gravity=numeric(),
+                      temperature=numeric(),
+                      day_length=numeric(),
+                      year_length=numeric(),
+                      water=numeric(),
+                      life_form=character())
+
+for(i in 1:xml_length(systems)) {
+  system <- xml_children(systems)[[i]]
+  id <- xml_text(xml_find_first(system, "id"))
+  x <- as.numeric(xml_text(xml_find_first(system, "xcood")))
+  y <- as.numeric(xml_text(xml_find_first(system, "ycood")))
+  primary_slot <- as.numeric(xml_text(xml_find_first(system, "primarySlot")))
+  
+  primary_planet <- get_planet_in_system(systems, id, primary_slot)
+  pressure <- xml_text(xml_find_first(primary_planet, "pressure"))
+  atmosphere <- xml_text(xml_find_first(primary_planet, "atmosphere"))
+  life_form <- xml_text(xml_find_first(primary_planet, "lifeForm"))
+  gravity <- xml_text(xml_find_first(primary_planet, "gravity"))
+  water <- xml_text(xml_find_first(primary_planet, "water"))
+  temperature <- xml_text(xml_find_first(primary_planet, "temperature"))
+  day_length <- xml_text(xml_find_first(primary_planet, "dayLength"))
+  year_length <- xml_text(xml_find_first(primary_planet, "yearLength"))
+  
+  planet_data <- rbind(planet_data,
+                       tibble(pressure=pressure, 
+                              atmosphere=atmosphere,
+                              gravity=gravity,
+                              temperature=temperature,
+                              day_length=day_length,
+                              year_length=year_length,
+                              water=water,
+                              life_form=life_form))
+  
+}
+
+planet_data$gravity <- as.numeric(planet_data$gravity)
+planet_data$temperature <- as.numeric(planet_data$temperature)
+planet_data$day_length <- as.numeric(planet_data$day_length)
+planet_data$year_length <- as.numeric(planet_data$year_length)
+planet_data$water <- as.numeric(planet_data$water)
+
+planet_data$pressure <- ifelse(planet_data$pressure=="Normal", "Standard", planet_data$pressure)
+planet_data$pressure <- ifelse(planet_data$pressure=="Low", "Thin", planet_data$pressure)
+planet_data$pressure <- factor(planet_data$pressure, 
+                               levels=c("Vacuum","Trace","Thin","Standard","High","Very High"),
+                               ordered=TRUE)
+
+planet_data$life_form <- ifelse(planet_data$life_form=="AMPH", "Amphibians", planet_data$life_form)
+planet_data$life_form <- ifelse(planet_data$life_form=="BIRD", "Birds", planet_data$life_form)
+planet_data$life_form <- ifelse(planet_data$life_form=="FISH", "Fish", planet_data$life_form)
+planet_data$life_form <- ifelse(planet_data$life_form=="INSECT", "Insects", planet_data$life_form)
+planet_data$life_form <- ifelse(planet_data$life_form=="MAMMAL", "Mammals", planet_data$life_form)
+planet_data$life_form <- ifelse(planet_data$life_form=="MICROBE", "Microbes", planet_data$life_form)
+planet_data$life_form <- ifelse(planet_data$life_form=="NONE", "None", planet_data$life_form)
+planet_data$life_form <- ifelse(planet_data$life_form=="PLANT", "Plants", planet_data$life_form)
+planet_data$life_form <- ifelse(planet_data$life_form=="REPTILE", "Reptiles", planet_data$life_form)
+
+planet_data$life_form <- factor(planet_data$life_form,
+                                levels=c("None","Microbes","Plants","Insects","Fish","Amphibians","Reptiles","Birds","Mammals"),
+                                ordered=TRUE)
+
+planet_data$atmosphere <- factor(planet_data$atmosphere,
+                                 levels=c("Breathable","Toxic (Poisonous)", "Toxic (Caustic)", "Tainted (Poisonous)", "Tainted (Caustic)",
+                                          "None"))
+
+```
+
+```{r echo=FALSE}
+ggplot(planet_data, aes(x=pressure, y=..prop.., group=1))+
+  geom_bar()+
+  scale_y_continuous(labels=scales::percent)+
+  labs(x="atmospheric pressure", y="percent",
+       title="Distribution of atmospheric pressure",
+       subtitle="All produced inhabited systems")+
+  theme_bw()
+```
+
+```{r echo=FALSE}
+ggplot(planet_data, aes(x=atmosphere, y=..prop.., group=1))+
+  geom_bar()+
+  scale_y_continuous(labels=scales::percent)+
+  labs(x="atmosphere", y="percent",
+       title="Distribution of atmosphere",
+       subtitle="All produced inhabited systems")+
+  theme_bw()
+```
+
+```{r echo=FALSE}
+ggplot(planet_data, aes(x=gravity))+
+  geom_density(fill="grey")+
+  theme_bw()+
+  labs(x="gravity (relative to earth)",
+       y="statistical density",
+       title="distribution of gravity",
+       subtitle="All produced inhabited systems")
+```
+
+```{r echo=FALSE}
+ggplot(subset(planet_data, temperature<100 & temperature>0), aes(x=temperature))+
+  geom_density(fill="grey")+
+  theme_bw()+
+  labs(x="equitorial temperature",
+       y="statistical density",
+       title="distribution of temperature",
+       subtitle="All produced inhabited systems")
+```
+
+```{r echo=FALSE}
+ggplot(planet_data, aes(x=water))+
+  geom_density(fill="grey")+
+  theme_bw()+
+  labs(x="percent water coverage",
+       y="statistical density",
+       title="distribution of water coverage",
+       subtitle="All produced inhabited systems")
+```
+
+```{r echo=FALSE}
+ggplot(planet_data, aes(x=day_length))+
+  geom_density(fill="grey")+
+  theme_bw()+
+  labs(x="length of a day (hours)",
+       y="statistical density",
+       title="distribution of day length",
+       subtitle="All produced inhabited systems")
+```
+
+```{r population, include=FALSE}
+population <- subset(read_csv(here("output","event_table.csv")), etype=="population")
+
+#get year
+population$year <- as.numeric(substr(population$date,1,4))
+
+#only at ten year intervals
+population <- subset(population, year %in% seq(from=2090,to=3140, by=10))
+
+census_pop <- tapply(as.numeric(population$event), population$year, sum)
+
+census_pop <- data.frame(year=seq(from=2090,to=3140, by=10), pop=census_pop)
+```
+
+```{r echo=FALSE}
+ggplot(census_pop, aes(x=year, y=pop))+
+  geom_line()+
+  labs(x="year", y="total population of all systems")+
+  theme_bw()
+```
+
+```{r echo=FALSE}
+pop_by_system <- as.data.frame.table(tapply(as.numeric(population$event), population[,c("id","year")], sum))
+colnames(pop_by_system)[3] <- "population"
+pop_by_system$year <- as.numeric(as.character(pop_by_system$year))
+ggplot(pop_by_system, aes(x=year, y=population, group=id, color=(id=="Terra")))+
+  geom_line(alpha=0.5)+
+  scale_color_manual(values=c("grey","red"))+
+  theme_bw()
+```
