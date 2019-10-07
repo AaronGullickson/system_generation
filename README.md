@@ -1,7 +1,6 @@
-![faction changes](https://aarongullickson.github.io/assets/images/faction_animated.gif)
+![faction changes](https://github.com/AaronGullickson/system_generation/blob/master/animated_gif/faction_animated.gif)
 
-<img src="https://aarongullickson.github.io/assets/images/faction_animated.gif" width="400">
-
+<img src="/animated_gif/faction_animated.gif?raw=true" width="200px">
 
 # Battletech Planetary System Generation
 
