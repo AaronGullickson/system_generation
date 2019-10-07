@@ -1,3 +1,5 @@
+![faction changes](https://aarongullickson.github.io/assets/images/faction_animated.gif)
+
 # Battletech Planetary System Generation
 
 This repository contains code written primarily in R that generates planetary systems for all canon star systems in the [Battletech universe](https://www.sarna.net/wiki/BattleTech_Universe), generally following the rules outlined in the [Campaign Operations](https://store.catalystgamelabs.com/products/battletech-campaign-operations-book) handbook. The goal is to develop a full set of planetary and social data that can be implemented in [MekHQ](https://megamek.org/). However, many of the functions created can be used by others to easily generate a single inhabited or uninhabited star system.
