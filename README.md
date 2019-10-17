@@ -99,7 +99,7 @@ system <- generate_system_names(add_colonization(system, distance_terra, foundin
 system
 ```
 
-Random name generation pulls from a list of surnames for many different languages, a list of place names by country, and a list of mythological features. It samples from these lists based on estimation of what linguistic group and nationality most likely founded a planet based on reverse geo-coding planet names. It adds a variety of flavor components and some cultural variation. When specified without a specific planetary id, as above, it samples from the languages and nationalities of known planets in the battletech universe. 
+Random name generation pulls from a list of surnames for many different languages, a list of place names by country, and a list of mythological features. It samples from these lists based on estimation of what linguistic group and nationality most likely founded a planet based on reverse geo-coding planet names. It adds a variety of flavor components and some cultural variation. When specified without a specific planetary id, as above, it samples from the languages and nationalities of planets in the Battletech universe where these characteristics are known. 
 
 ## Changes From Campaign Ops System
 
@@ -227,6 +227,14 @@ We follow the table in *Campaign Operations* closely here but found it produced 
 
 ## Generating the Universe
 
-Coming Soon
+The basic functions here for generating a system were used by the [MegaMek](https://megamek.org) team to generate the entire Battletech universe used in the MekHQ program. All of this work is done in the two scripts:
 
-### Projection of Colonization Features
+* `clean_data.R` which cleaned up the existing planets.xml database used by MekHQ in preparation for producing systems.
+* `produce_systems.R` which uses the cleaned up data to generate an entire planetary system for each planet in the existing database.
+
+This code is intended as a bespoke project for a one time use that converts the existing data which just had singular planets into a planetary system dataset and should not be considered safe for general use. Many special conditions had to be considered. 
+
+In addition to generating a physical planetary system, this program generates all of the social characteristics for inhabited planets in those systems including population size, socio-industrial codes, HPGs, and recharge stations. Furthermore, in what is the most difficult part of the entire project, we project those variables in time so that every inhabited planet has valid and dynamic values on these variables from its founding until 3145.
+
+We pay attention to canon data wherever we have it and use that canon data both in the physical and social characteristics of a system. The source of all data points is marked as canon or non-canon in the XML data that is the final output. At some point, we plan on making this information directly viewable from within MekHQ.
+
