@@ -112,3 +112,39 @@ list.files(path = here("animated_gif","faction_figs"), pattern = "*.png", full.n
   image_animate(fps=2) %>% # animates, can opt for number of loops
   image_write(here("animated_gif","faction_animated.gif")) # write to current dir
 
+
+#population
+
+#test out with tech figs
+ggplot(subset(planet_data, year==3100 & !is.na(population)), aes(x=x, y=y, color=population))+
+  geom_point(alpha=0.8)+
+  lims(x=x_range, y=y_range)+
+  facet_wrap(~year, ncol = 1)+
+  scale_color_viridis_d()+
+  labs(x=NULL, y=NULL, color="Technology")+
+  theme_mine()
+
+
+#make the function that saves to file
+plot_tech <- function(yr) {
+  ggplot(subset(planet_data, year==yr & !is.na(tech)), aes(x=x, y=y, color=tech))+
+    geom_point(alpha=0.8)+
+    lims(x=c(-600,650), y=c(-600,650))+
+    facet_wrap(~year, ncol = 1)+
+    scale_color_viridis_d()+
+    labs(x=NULL, y=NULL, color="Technology")+
+    theme_mine()
+  print(paste0("saving plot ", yr))
+  ggsave(filename = paste0(here("animated_gif","tech_figs","tech"), yr,".png"),
+         width = 4, height=4, dpi = 150)
+}
+
+#create images from 2100 to 3145
+years %>% map_df(plot_tech)
+
+#animate with image magic
+list.files(path = here("animated_gif","tech_figs"), pattern = "*.png", full.names = T) %>% 
+  map(image_read) %>% # reads each path file
+  image_join() %>% # joins image
+  image_animate(fps=2) %>% # animates, can opt for number of loops
+  image_write(here("animated_gif","tech_animated.gif")) # write to current dir
