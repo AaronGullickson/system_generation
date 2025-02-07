@@ -6,3 +6,5 @@
 analysis/*
 **/output/*
 .httr-oauth
+*.png
+*.gif
